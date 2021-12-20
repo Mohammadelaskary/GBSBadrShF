@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="styleoftextinappbar" >
+        <item name="android:textSize">@dimen/appbar_text_size</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">#122455</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">sans-serif</item>
+
+
+
+    </style>
+    <style name="styleoftextbold">
+        <item name="android:textColor">#122455</item>
+        <item name="android:textSize">@dimen/black_text_size</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+    <style name="style_of_text_bold">
+        <item name="android:textColor">#122455</item>
+        <item name="android:textSize">@dimen/black_text_size</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+    <style name="styleoftext" >
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">#484848</item>
+        <item name="fontFamily">sans-serif</item>
+
+
+
+    </style>
+    <style name="styleoftextinbtn" >
+    <item name="android:textSize">@dimen/appbar_text_size</item>
+    <item name="textAllCaps">false</item>
+    <item name="android:textColor">#ffffff</item>
+    <item name="android:textStyle">bold</item>
+    <item name="fontFamily">sans-serif</item>
+    </style>
+
+
+    <style name="SpinnerTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/spinner_drop</item>
+    </style>
+
+    <style name="MainTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+
+</resources>

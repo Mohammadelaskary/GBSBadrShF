@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/background"
+    tools:context=".Quality.paint.Adddefectpaint.PaintAddDefectDetailsFragment">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/styleoftextinappbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/add_defects_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <TextView
+                android:id="@+id/parent_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/child_txt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <TextView
+                android:id="@+id/childcode"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:text=""
+                app:layout_constraintStart_toEndOf="@id/parent_txt"
+                app:layout_constraintTop_toTopOf="@id/parent_txt" />
+
+            <TextView
+                android:id="@+id/childesc"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="2dp"
+                android:text=""
+                app:layout_constraintStart_toEndOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/childcode" />
+
+            <TextView
+                android:id="@+id/operation_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/operation"
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/childesc" />
+
+            <TextView
+                android:id="@+id/operation"
+                style="@style/styleoftext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="4"
+                android:text=""
+                app:layout_constraintStart_toEndOf="@id/operation_txt"
+                app:layout_constraintTop_toTopOf="@id/operation_txt" />
+
+            <TextView
+                android:id="@+id/sampleqtn_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/sample_qty"
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/operation_txt" />
+
+            <TextView
+                android:id="@+id/sample_qtn_edt"
+                android:layout_width="155dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/sampleqtn_txt" />
+
+
+            <TextView
+                android:id="@+id/defectedqtn_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/defected_qty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sampleqtn_txt" />
+
+            <TextView
+                android:id="@+id/defected_qtn_edt"
+                android:layout_width="155dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@id/defectedqtn_txt"
+                app:layout_constraintTop_toBottomOf="@id/defectedqtn_txt" />
+
+            <LinearLayout
+                android:id="@+id/defects_list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:animateLayoutChanges="true"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="@id/defectedqtn_txt"
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt">
+
+                <ImageView
+                    android:id="@+id/list_down_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_down_arrow" />
+
+                <TextView
+                    style="@style/style_of_text_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/defects_select_list" />
+            </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/defects_select_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="#ddd"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/defects_list_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

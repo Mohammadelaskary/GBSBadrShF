@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/defectname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="shaseh"
+        android:padding="8dp"
+        android:layout_marginStart="25dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/notes"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/qcnotes"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/defectname"
+        app:layout_constraintTop_toTopOf="@id/defectname"
+        app:layout_constraintEnd_toStartOf="@+id/productionnotes"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="80dp"
+        android:text="defect in motor effective by bad "
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/productionnotes"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/qcnotes"
+        app:layout_constraintTop_toTopOf="@id/qcnotes"
+        android:text="noise sound from motor  "
+        android:layout_marginStart="50dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

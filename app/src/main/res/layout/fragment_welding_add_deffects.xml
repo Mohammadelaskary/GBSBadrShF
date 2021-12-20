@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Quality.welding.adddefectwe.Adddefectwe">
+
+    <TextView
+        android:id="@+id/adddefect_txt"
+        style="@style/styleoftextinappbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/add_defects"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adddefect_txt"
+
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+
+            <TextView
+                android:id="@+id/parent_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/parentcode"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:text="@string/parentcode_txt"
+                app:layout_constraintStart_toEndOf="@id/parent_txt"
+                app:layout_constraintTop_toTopOf="@id/parent_txt" />
+
+            <TextView
+                android:id="@+id/parentdesc"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/parentdes_txt"
+                app:layout_constraintStart_toStartOf="@id/parentcode"
+                app:layout_constraintTop_toBottomOf="@+id/parentcode" />
+
+            <TextView
+                android:id="@+id/operation_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif"
+                android:text="Operation : "
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/parentdesc" />
+
+            <TextView
+                android:id="@+id/operation"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:text="@string/qc_operation_1"
+                app:layout_constraintStart_toEndOf="@id/operation_txt"
+                app:layout_constraintTop_toTopOf="@id/operation_txt" />
+
+            <TextView
+                android:id="@+id/sampleqtn_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="sans-serif"
+                android:text="Sample Qty"
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/operation_txt" />
+
+            <EditText
+                android:id="@+id/sampleqtn_edt"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_bg"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@id/sampleqtn_txt"
+                app:layout_constraintTop_toBottomOf="@id/sampleqtn_txt" />
+
+            <TextView
+                android:id="@+id/defectqtn_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="33dp"
+                android:fontFamily="sans-serif"
+                android:text="Defected Qty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/operation_txt" />
+
+            <TextView
+                android:id="@+id/defectqtn"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:text="25"
+                app:layout_constraintEnd_toEndOf="@id/defectqtn_txt"
+                app:layout_constraintStart_toStartOf="@id/defectqtn_txt"
+                app:layout_constraintTop_toBottomOf="@id/defectqtn_txt" />
+
+            <TextView
+                android:id="@+id/basket_txt"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Basket"
+                app:layout_constraintStart_toStartOf="@id/parent_txt"
+                app:layout_constraintTop_toBottomOf="@id/sampleqtn_edt" />
+
+            <EditText
+                android:id="@+id/basket_edt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="55dp"
+                android:background="@drawable/edt_bg"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/basket_img"
+                app:layout_constraintStart_toStartOf="@id/basket_txt"
+                app:layout_constraintTop_toBottomOf="@id/basket_txt"
+
+                />
+
+            <ImageView
+                android:id="@+id/basket_img"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/barcodel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/basket_edt" />
+
+            <ImageView
+                android:id="@+id/plus_icon"
+                android:layout_width="35dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/plus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/operation" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="170dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                app:cornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/basket_edt"
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

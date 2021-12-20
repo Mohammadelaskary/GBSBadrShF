@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/machinecode_checkBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_marginStart="5dp"
+        style="@style/styleoftext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/jobordername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/machinecode_checkBox"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintEnd_toStartOf="@+id/joborderqty"
+        android:layout_marginStart="50dp"
+        android:text="job order 1"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/joborderqty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/jobordername"
+        app:layout_constraintEnd_toStartOf="@id/loadingqty"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        android:text="250"
+        android:layout_marginStart="45dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/loadingqty"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/joborderqty"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintEnd_toStartOf="@id/childcode"
+
+        android:text="250"
+        android:layout_marginStart="75dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/childcode"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/loadingqty"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintEnd_toStartOf="@+id/childdesc"
+        android:text="250"
+        android:layout_marginStart="0dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        android:layout_marginTop="10dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/childdesc"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintStart_toEndOf="@+id/childcode"
+        app:layout_constraintEnd_toStartOf="@id/operationname"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginTop="10dp"
+        android:text="ok"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/operationname"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintStart_toEndOf="@+id/childdesc"
+        app:layout_constraintEnd_toStartOf="@id/operationntime"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginTop="10dp"
+        android:text="ok"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/operationntime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintStart_toEndOf="@+id/operationname"
+        android:layout_marginStart="10dp"
+        app:layout_constraintEnd_toStartOf="@id/loadingtime"
+
+        android:layout_marginTop="10dp"
+        android:text="ok"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/loadingtime"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintStart_toEndOf="@+id/operationntime"
+        app:layout_constraintEnd_toStartOf="@id/remainingtime"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="10dp"
+        android:text="ok"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/remainingtime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"
+        app:layout_constraintStart_toEndOf="@id/loadingtime"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:text="ok"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

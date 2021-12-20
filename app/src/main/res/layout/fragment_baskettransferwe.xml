@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".welding.BaskettransferweFragment"
+    android:background="@drawable/background"
+    >
+    <TextView
+        android:id="@+id/baskettransfer_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        style="@style/styleoftextinappbar"
+        android:text="@string/basket_transfer"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/baskettransfer_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="15dp"
+
+            >
+            <TextView
+                android:id="@+id/basketfrom_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                style="@style/styleoftextbold"
+                android:text="Basket From"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"        />
+            <EditText
+                android:id="@+id/basketfrom_edt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="55dp"
+                app:layout_constraintStart_toStartOf="@id/basketfrom_txt"
+                app:layout_constraintTop_toBottomOf="@id/basketfrom_txt"
+                android:background="@drawable/edt_bg"
+                android:textColor="@color/black"
+                />
+            <ImageView
+                android:id="@+id/basketbarcode_img"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/basketfrom_edt"
+                android:src="@drawable/barcodel"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/parent_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/parent"
+                style="@style/styleoftextbold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/basketfrom_edt"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+
+                />
+            <TextView
+                android:id="@+id/parentdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/parentdes_txt"
+                android:layout_marginStart="2dp"
+                style="@style/styleoftext"
+                app:layout_constraintStart_toEndOf="@id/parent_txt"
+                app:layout_constraintTop_toTopOf="@id/parent_txt"
+                android:layout_marginTop="2dp"
+                />
+            <TextView
+                android:id="@+id/parentcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/parentcode_txt"
+                android:layout_marginTop="10dp"
+                style="@style/styleoftext"
+                app:layout_constraintStart_toStartOf="@id/parentdesc"
+                app:layout_constraintTop_toBottomOf="@+id/parentdesc"
+                />
+            <TextView
+                android:id="@+id/basketto_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/basket_to"
+                style="@style/styleoftextbold"
+                app:layout_constraintStart_toStartOf="@id/basketfrom_txt"
+                app:layout_constraintTop_toBottomOf="@id/parentcode"
+                android:layout_marginTop="20dp"
+                />
+            <EditText
+                android:id="@+id/basketto_edt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="55dp"
+                app:layout_constraintStart_toStartOf="@id/basketto_txt"
+                app:layout_constraintTop_toBottomOf="@id/basketto_txt"
+                android:background="@drawable/edt_bg"
+                android:textColor="@color/black"
+
+                />
+            <ImageView
+                android:id="@+id/basketto_img"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/basketto_edt"
+                android:src="@drawable/barcodel"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/quantity_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/qty"
+                style="@style/styleoftextbold"
+                app:layout_constraintStart_toStartOf="@id/basketto_txt"
+                app:layout_constraintTop_toBottomOf="@id/basketto_edt"
+                android:layout_marginTop="20dp"
+                />
+            <EditText
+                android:id="@+id/quantity_edt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="55dp"
+                app:layout_constraintStart_toStartOf="@id/quantity_txt"
+                app:layout_constraintTop_toBottomOf="@id/quantity_txt"
+                android:background="@drawable/edt_bg"
+                android:textColor="@color/black"
+
+                />
+            <ImageView
+                android:id="@+id/quantity_img"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/quantity_edt"
+                android:src="@drawable/barcodel"
+                android:layout_marginEnd="10dp"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_btn"
+                android:layout_width="170dp"
+                android:layout_height="55dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quantity_edt"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/appbarcolor"
+                app:cornerRadius="25dp"
+                android:text="@string/save"
+                style="@style/styleoftextinbtn"
+
+
+                />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

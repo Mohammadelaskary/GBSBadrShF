@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/defectname"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="shaseh"
+        android:padding="8dp"
+        android:layout_marginStart="25dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/sampleqty"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/defectname"
+        app:layout_constraintTop_toTopOf="@id/defectname"
+        app:layout_constraintEnd_toStartOf="@+id/defectqty"
+        android:layout_marginStart="70dp"
+        android:text="165"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/defectqty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/sampleqty"
+        app:layout_constraintEnd_toStartOf="@id/repairedqty"
+        app:layout_constraintTop_toTopOf="@id/sampleqty"
+        android:text="155"
+        android:layout_marginStart="50dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+    <TextView
+        android:id="@+id/repairedqty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/sampleqty"
+        app:layout_constraintStart_toEndOf="@+id/defectqty"
+        app:layout_constraintEnd_toStartOf="@id/approvedqty"
+        android:text="120"
+        android:layout_marginStart="120dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+
+    <TextView
+        android:id="@+id/approvedqty"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/sampleqty"
+        app:layout_constraintStart_toEndOf="@+id/repairedqty"
+        android:text="110"
+        android:layout_marginStart="140dp"
+        android:textSize="16sp"
+        style="@style/styleoftext"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/MainTheme"
+    android:background="@drawable/background"
+    tools:context=".ProductionRejectionFragment">
+
+    <TextView
+        android:id="@+id/productionscrap_txt"
+        style="@style/styleoftextinappbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/create_rejection_request"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/productionscrap_txt"
+
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/old_basket_code"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                android:hint="Old Basket Code"
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toStartOf="@+id/basketbarcode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <ImageView
+                android:id="@+id/basketbarcode"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/barcodel"
+                app:layout_constraintBottom_toBottomOf="@+id/old_basket_code"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/old_basket_code" />
+
+
+            <TextView
+                android:id="@+id/parent_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/child"
+                app:layout_constraintStart_toStartOf="@id/old_basket_code"
+                app:layout_constraintTop_toBottomOf="@id/old_basket_code" />
+
+            <TextView
+                android:id="@+id/childdesc"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:text=""
+                app:layout_constraintStart_toEndOf="@id/parent_txt"
+                app:layout_constraintTop_toTopOf="@id/parent_txt" />
+
+            <TextView
+                android:id="@+id/childcode"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=""
+                app:layout_constraintStart_toStartOf="@id/childdesc"
+                app:layout_constraintTop_toBottomOf="@+id/childdesc" />
+
+            <TextView
+                android:id="@+id/jobordername_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/job_order_number_txt"
+                app:layout_constraintStart_toStartOf="@id/old_basket_code"
+                app:layout_constraintTop_toBottomOf="@id/childcode" />
+
+            <TextView
+                android:id="@+id/jobordername"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:text=""
+                app:layout_constraintStart_toEndOf="@id/jobordername_txt"
+                app:layout_constraintTop_toTopOf="@id/jobordername_txt" />
+
+            <TextView
+                android:id="@+id/basketqtn_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/basket_qtn"
+                app:layout_constraintStart_toStartOf="@id/jobordername_txt"
+                app:layout_constraintTop_toBottomOf="@id/jobordername_txt" />
+
+            <TextView
+                android:id="@+id/basketqtn"
+                style="@style/styleoftext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:text=""
+                app:layout_constraintStart_toEndOf="@id/basketqtn_txt"
+                app:layout_constraintTop_toTopOf="@id/basketqtn_txt" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/rejected_qty_edt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="@string/rejected_qty"
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/basketbarcode"
+                app:layout_constraintStart_toStartOf="@id/old_basket_code"
+                app:layout_constraintTop_toBottomOf="@id/basketqtn_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:textColorHint="@color/colorPrimary"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/new_basket_code"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:hint="New Basket Code"
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toStartOf="@+id/basketbarcode_img"
+                app:layout_constraintStart_toStartOf="@id/old_basket_code"
+                app:layout_constraintTop_toBottomOf="@id/rejected_qty_edt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/basketbarcode_img"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/barcodel"
+                app:layout_constraintBottom_toBottomOf="@+id/new_basket_code"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/new_basket_code" />
+
+
+            <TextView
+                android:id="@+id/responsible_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Responsible"
+                app:layout_constraintStart_toStartOf="@+id/old_basket_code"
+                app:layout_constraintTop_toBottomOf="@id/basketbarcode_img" />
+
+
+            <Spinner
+                android:id="@+id/responsibledep_spin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/basketbarcode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/responsible_txt" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="210dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/responsibledep_spin"
+
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/existingdef_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/existing_defects"
+                android:textColor="@color/white"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/save_btn"
+                android:visibility="gone"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/newdef_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="210dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/new_defects"
+                android:textColor="@color/white"
+                app:cornerRadius="25dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/existingdef_btn" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

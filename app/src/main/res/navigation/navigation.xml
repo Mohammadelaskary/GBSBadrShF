@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation.xml"
+    app:startDestination="@id/mainmenuFragment">
+
+
+    <fragment
+        android:id="@+id/mainmenuFragment"
+        android:name="com.example.gbsbadrsf.MainmenuFragment"
+        android:label="fragment_mainmenu"
+        tools:layout="@layout/fragment_mainmenu" >
+        <action
+            android:id="@+id/action_mainmenuFragment_to_productionMenuFragment"
+            app:destination="@id/productionMenuFragment" />
+        <action
+            android:id="@+id/action_mainmenuFragment_to_qualitymainmenuFragment"
+            app:destination="@id/qualitymainmenuFragment" />
+        <action
+            android:id="@+id/action_mainmenuFragment_to_planningMenuFragment"
+            app:destination="@id/planningMenuFragment" />
+        <action android:id="@+id/action_fragment_main_menu_to_fragment_change_base_url"
+            app:destination="@id/changeIpFragment"/>
+    </fragment>
+    <fragment android:id="@+id/changeIpFragment"
+        tools:layout="@layout/fragment_change_base_url"
+        android:label="fragment_change_base_url"
+        android:name="com.example.gbsbadrsf.ChangeBaseUrlFragment"/>
+    <fragment
+        android:id="@+id/productionMenuFragment"
+        android:name="com.example.gbsbadrsf.ProductionMenuFragment"
+        android:label="fragment_production_menu"
+        tools:layout="@layout/fragment_production_menu" >
+        <action
+            android:id="@+id/action_productionMenuFragment_to_manfacturingmenuFragment"
+            app:destination="@id/manfacturingmenuFragment" />
+        <action
+            android:id="@+id/action_productionMenuFragment_to_weldingMenuFragment"
+            app:destination="@id/weldingMenuFragment" />
+        <action
+            android:id="@+id/action_productionMenuFragment_to_paintMenuFragment"
+            app:destination="@id/paintMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manfacturingmenuFragment"
+        android:name="com.example.gbsbadrsf.Manfacturing.ManfacturingmenuFragment"
+        android:label="fragment_manfacturingmenu"
+        tools:layout="@layout/fragment_manfacturingmenu" >
+        <action
+            android:id="@+id/action_manfacturingmenuFragment_to_machineLoadingFragment"
+            app:destination="@id/machineLoadingFragment" />
+
+
+        <action
+            android:id="@+id/action_manfacturingmenuFragment_to_mainmachineloading"
+            app:destination="@id/mainmachineloading" />
+        <action
+            android:id="@+id/action_manfacturingmenuFragment_to_mainmachinesignoff"
+            app:destination="@id/mainmachinesignoff" />
+        <action
+            android:id="@+id/action_manfacturingmenuFragment_to_mainScrapmanagment"
+            app:destination="@id/mainScrapmanagment" />
+        <action
+            android:id="@+id/action_manfacturingmenuFragment_to_machinewip"
+            app:destination="@id/machineWip" />
+
+        <action
+            android:id="@+id/action_manufacturing_menu_fragment_to_production_repair_fragment"
+            app:destination="@id/fragment_production_repair"/>
+
+    </fragment>
+    <fragment android:id="@+id/fragment_display_defect_details"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.DisplayDefectDetailsFragment"
+        android:label="fragment_display_defect_details"
+        tools:layout="@layout/fragment_display_defect_details"/>
+    <fragment
+        android:id="@+id/fragment_production_defect_repair"
+        android:name="com.example.gbsbadrsf.Production.ProductionDefectRepairFragment"
+        android:label="fragment_production_defect_repair"
+        tools:layout="@layout/fragment_production_defect_repair"/>
+    <fragment
+        android:id="@+id/fragment_production_repair"
+        android:name="com.example.gbsbadrsf.Production.ProductionRepairFragment"
+        android:label="fragment_production_repair"
+        tools:layout="@layout/fragment_production_repair" >
+        <action
+            android:id="@+id/action_fragment_production_repair_to_fragment_production_defect_repair"
+            app:destination="@id/fragment_production_defect_repair" />
+    </fragment>
+    <fragment
+        android:id="@+id/weldingMenuFragment"
+        android:name="com.example.gbsbadrsf.welding.WeldingMenuFragment"
+        android:label="fragment_welding_menu"
+        tools:layout="@layout/fragment_welding_menu" >
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_machineloadingweFragment"
+            app:destination="@id/machineloadingweFragment" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_signoffweFragment"
+            app:destination="@id/signoffweFragment" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_scraprequestFragment"
+            app:destination="@id/scraprequestFragment" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_productionrepairweFragment"
+            app:destination="@id/productionrepairweFragment" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_baskettransferweFragment"
+            app:destination="@id/baskettransferweFragment" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_qualityscraplistweFragment"
+            app:destination="@id/qualityscraplistweFragment" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_weldingSequence"
+            app:destination="@id/weldingSequence" />
+        <action
+            android:id="@+id/action_weldingMenuFragment_to_weldingwip"
+            app:destination="@id/weldingwip" />
+    </fragment>
+    <fragment
+        android:id="@+id/paintMenuFragment"
+        android:name="com.example.gbsbadrsf.Paint.PaintMenuFragment"
+        android:label="fragment_paint_menu"
+        tools:layout="@layout/fragment_paint_menu" >
+        <action
+            android:id="@+id/action_paintMenuFragment_to_paintdstation"
+            app:destination="@id/paintdstation" />
+        <action
+            android:id="@+id/action_paintMenuFragment_to_paintsignoffFragment"
+            app:destination="@id/paintsignoffFragment" />
+        <action
+            android:id="@+id/action_paintMenuFragment_to_colorverificationFragment"
+            app:destination="@id/colorverificationFragment" />
+        <action
+            android:id="@+id/action_paintMenuFragment_to_productionrepairpaintFragment"
+            app:destination="@id/productionrepairpaintFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/machineLoadingFragment"
+        android:name="com.example.gbsbadrsf.machineloading.MachineLoadingFragment"
+        android:label="fragment_machine_loading"
+        tools:layout="@layout/fragment_machine_loading" >
+        <action
+            android:id="@+id/action_machineLoadingFragment_to_addworkersFragment"
+            app:destination="@id/addworkersFragment"
+            />
+        <action
+            android:id="@+id/action_machineLoadingFragment_to_productionsequenceFragment"
+            app:destination="@id/productionSequence"
+            />
+
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/qualityScrapFragment"
+        android:name="com.example.gbsbadrsf.QualityScrapFragment"
+        android:label="fragment_qualityscraprequest"
+        tools:layout="@layout/fragment_qualityscraprequest" />
+    <fragment
+        android:id="@+id/productionrepairFragment"
+        android:name="com.example.gbsbadrsf.Production.ProductionRepairFragment"
+        android:label="fragment_productionrepair"
+        tools:layout="@layout/fragment_production_repair" />
+    <fragment
+        android:id="@+id/manufacturing_add_defects_details_fragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectDetailsFragment"
+        android:label="manufacturing_add_defect_details"
+        tools:layout="@layout/fragment_manufacturing_add_defect_details" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/productionscrapFragment"
+        android:name="com.example.gbsbadrsf.ProductionRejectionFragment"
+        android:label="fragment_productionscrap"
+        tools:layout="@layout/fragment_production_rejection" />
+
+            <fragment
+                android:id="@+id/signinFragment"
+                android:name="com.example.gbsbadrsf.signin.SigninFragment"
+                android:label="fragment_signin"
+                tools:layout="@layout/fragment_signin">
+                <action
+                    android:id="@+id/action_signinFragment_to_mainmenuFragment"
+                    app:destination="@id/mainmenuFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_productionpainting"
+                    app:destination="@id/paintMenuFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_productionmanfacturing"
+                    app:destination="@id/manfacturingmenuFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_productionwelding"
+                    app:destination="@id/weldingMenuFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_production"
+                    app:destination="@id/productionMenuFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_Qcpainting"
+                    app:destination="@id/paintqualityFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_Qcmanfacturing"
+                    app:destination="@id/manfacturingqualityFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_Qcwelding"
+                    app:destination="@id/qualityweldingFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_Qc"
+                    app:destination="@id/qualitymainmenuFragment" />
+                //planning
+                <action
+                    android:id="@+id/action_signinFragment_to_planning"
+                    app:destination="@id/planningMenuFragment" />
+
+
+            </fragment>
+    <fragment
+        android:id="@+id/productionSignoffFragment"
+        android:name="com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment"
+        android:label="fragment_production_signoff"
+        tools:layout="@layout/fragment_production_signoff" />
+    <fragment
+        android:id="@+id/qualityscraplistFragment"
+        android:name="com.example.gbsbadrsf.qualityscrap.qualityscraplistFragment"
+        android:label="fragment_qualityscraplist"
+        tools:layout="@layout/fragment_qualityscraplist" >
+        <action
+            android:id="@+id/action_qualityscraplistFragment_to_qualityScrapFragment"
+            app:destination="@id/qualityScrapFragment" />
+    </fragment>
+    <fragment android:id="@+id/fragment_random_quality_inception"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception.RandomQualityInceptionFragment"
+        android:label="fragment_random_quality_inception"
+        tools:layout="@layout/fragment_random_quality_inception"/>
+    <fragment
+        android:id="@+id/baskettransferFragment"
+        android:name="com.example.gbsbadrsf.BaskettransferFragment"
+        android:label="fragment_baskettransfer"
+        tools:layout="@layout/fragment_baskettransfer" />
+    <fragment
+        android:id="@+id/qualitymainmenuFragment"
+        android:name="com.example.gbsbadrsf.Quality.QualitymainmenuFragment"
+        android:label="fragment_qualitymainmenu"
+        tools:layout="@layout/fragment_qualitymainmenu" >
+        <action
+            android:id="@+id/action_qualitymainmenuFragment_to_manfacturingqualityFragment"
+            app:destination="@id/manfacturingqualityFragment" />
+        <action
+            android:id="@+id/action_qualitymainmenuFragment_to_qualityweldingFragment"
+            app:destination="@id/qualityweldingFragment" />
+        <action
+            android:id="@+id/action_qualitymainmenuFragment_to_paintqualityFragment"
+            app:destination="@id/paintqualityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manfacturingqualityFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManfacturingqualityFragment"
+        android:label="fragment_manfacturingquality"
+        tools:layout="@layout/fragment_manfacturingquality" >
+        <action
+            android:id="@+id/action_manfacturingqualityFragment_to_quality_operation_fragment"
+            app:destination="@id/manufacturing_quality_operation_fragment" />
+        <action
+            android:id="@+id/action_manfacturingqualityFragment_to_qualityrepairFragment"
+            app:destination="@id/fragment_quality_repair" />
+
+        <action
+            android:id="@+id/action_manfacturingqualityFragment_to_qualitydesicionFragment"
+            app:destination="@id/quality_desicion_fragment" />
+        <action
+            android:id="@+id/action_manfacturingqualityFragment_to_productionscraplistinqualityFragment"
+            app:destination="@id/productionscraplistinqualityFragment" />
+        <action
+            android:id="@+id/action_manfacturingqualityFragment_to_productionscrapFragment"
+            app:destination="@id/productionscrapFragment" />
+        <action android:id="@+id/action_fragment_manufacturing_quality_to_fragment_random_quality_inception"
+            app:destination="@id/fragment_random_quality_inception"/>
+
+
+    </fragment>
+
+    <fragment android:id="@+id/fragment_quality_repair"
+        android:label="fragment_quality_repair"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment"
+        tools:layout="@layout/fragment_quality_repair">
+        <action android:id="@+id/fragment_quality_repair_to_fragment_quality_defect_repair"
+            app:destination="@id/fragment_quality_defect_repair"/>
+    </fragment>
+    <fragment android:id="@+id/fragment_quality_defect_repair"
+        tools:layout="@layout/fragment_quality_defect_repair"
+        android:label="fragment_quality_defect_repair"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment"/>
+
+    <fragment android:id="@+id/manufacturing_quality_operation_fragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment"
+        android:label="manufacturing_quality_operation"
+        tools:layout="@layout/fragment_manufacturing_quality_operation">
+        <action android:id="@+id/action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment"
+            app:destination="@id/manufacturing_add_defects_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/manufacturing_add_defects_fragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment"
+        android:label="fragment_add_defects"
+        tools:layout="@layout/fragment_manufacturing_add_defects" >
+        <action
+            android:id="@+id/action_manufacturing_add_defects_to_manufacturing_add_defects_details"
+            app:destination="@id/manufacturing_add_defects_details_fragment" />
+        <action
+            android:id="@+id/action_manufacturing_add_defects_fragment_to_display_defect_details_fragment"
+            app:destination="@id/fragment_display_defect_details"/>
+    </fragment>
+    <fragment
+        android:id="@+id/qualityweldingFragment"
+        android:name="com.example.gbsbadrsf.Quality.welding.QualityweldingFragment"
+        android:label="fragment_qualitywelding"
+        tools:layout="@layout/fragment_qualitywelding" >
+
+        <action
+            android:id="@+id/action_quality_welding_fragment_to_welding_quality_operation"
+            app:destination="@id/welding_quality_operation_fragment" />
+        <action
+            android:id="@+id/action_qualityweldingFragment_to_qcdesicionwe"
+            app:destination="@id/qcdesicionwe" />
+        <action
+            android:id="@+id/action_qualityweldingFragment_to_qcrepairwe"
+            app:destination="@id/qcrepairwe" />
+        <action
+            android:id="@+id/action_qualityweldingFragment_to_productionscraplistwe"
+            app:destination="@id/productionscraplistwe" />
+        <action
+            android:id="@+id/action_qualityweldingFragment_to_scraprequestFragment"
+            app:destination="@id/scraprequestFragment" />
+
+    </fragment>
+
+    <fragment android:id="@+id/welding_quality_operation_fragment"
+        android:name="com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment"
+        android:label="welding_quality_operation"
+        tools:layout="@layout/fragment_welding_quality_operation">
+        <action android:id="@+id/action_welding_quality_operation_fragment_to_welding_add_defect_fragment"
+            app:destination="@id/welding_add_deffects"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/welding_add_deffects"
+        android:name="com.example.gbsbadrsf.Quality.welding.adddefectwe.Adddefectwe"
+        android:label="fragment_adddefectwe"
+        tools:layout="@layout/fragment_welding_add_deffects" />
+    <fragment
+        android:id="@+id/paintqualityFragment"
+        android:name="com.example.gbsbadrsf.Quality.paint.PaintqualityFragment"
+        android:label="fragment_paintquality"
+        tools:layout="@layout/fragment_paintquality" >
+        <action
+            android:id="@+id/action_paintqualityFragment_to_adddefectpaint"
+            app:destination="@id/paint_quality_operation_fragment" />
+        <action
+            android:id="@+id/action_paintqualityFragment_to_qualityrepairpaintFragment"
+            app:destination="@id/qualityrepairpaintFragment" />
+        <action
+            android:id="@+id/action_paintqualityFragment_to_qualitydesicionpaintFragment"
+            app:destination="@id/qualitydesicionpaintFragment" />
+    </fragment>
+    <fragment android:id="@+id/paint_quality_operation_fragment"
+        android:name="com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment"
+        android:label="paint_quality_operation"
+        tools:layout="@layout/fragment_paint_quality_operation">
+        <action android:id="@+id/action_paint_quality_operation_fragment_to_paint_add_defect_fragment"
+            app:destination="@id/paint_add_defects"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/paint_add_defects"
+        android:name="com.example.gbsbadrsf.Quality.paint.Adddefectpaint.Adddefectpaint"
+        android:label="fragment_adddefectpaint"
+        tools:layout="@layout/fragment_adddefectpaint" />
+    <fragment
+        android:id="@+id/addDefectsFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment"
+        android:label="fragment_add_defects"
+        tools:layout="@layout/fragment_add_defects" />
+    <fragment
+        android:id="@+id/qualityrepairFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment"
+        android:label="fragment_qualityrepair"
+        tools:layout="@layout/fragment_quality_repair" />
+
+    <fragment
+        android:id="@+id/quality_desicion_fragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.QualityDecisionFragment"
+        android:label="fragment_qualitydesicion"
+        tools:layout="@layout/fragment_quality_desicion" >
+        <action
+            android:id="@+id/action_qualitydesicionFragment_to_scrapFragment"
+            app:destination="@id/scrapFragment" />
+        <action android:id="@+id/action_fragment_quality_decision_to_fragment_display_defect_details"
+            app:destination="@id/fragment_display_defect_details"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/scrapFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.ScrapFragment"
+        android:label="fragment_scrap"
+        tools:layout="@layout/fragment_scrap" />
+    <fragment
+        android:id="@+id/planningMenuFragment"
+        android:name="com.example.gbsbadrsf.Planning.PlanningMenuFragment"
+        android:label="fragment_planning_menu"
+        tools:layout="@layout/fragment_planning_menu" />
+    <fragment
+        android:id="@+id/machineloadingweFragment"
+        android:name="com.example.gbsbadrsf.welding.machineloadingwe.MachineloadingweFragment"
+        android:label="fragment_machineloadingwe"
+        tools:layout="@layout/fragment_machineloadingwe" />
+    <fragment
+        android:id="@+id/signoffweFragment"
+        android:name="com.example.gbsbadrsf.welding.weldingsignoff.SignoffweFragment"
+        android:label="fragment_signoffwe"
+        tools:layout="@layout/fragment_signoffwe" />
+    <fragment
+        android:id="@+id/scraprequestFragment"
+        android:name="com.example.gbsbadrsf.welding.ScraprequestFragment"
+        android:label="fragment_scraprequest"
+        tools:layout="@layout/fragment_scraprequest" />
+    <fragment
+        android:id="@+id/productionrepairweFragment"
+        android:name="com.example.gbsbadrsf.welding.productionrepairwe.ProductionrepairweFragment"
+        android:label="fragment_productionrepairwe"
+        tools:layout="@layout/fragment_productionrepairwe" />
+    <fragment
+        android:id="@+id/baskettransferweFragment"
+        android:name="com.example.gbsbadrsf.welding.BaskettransferweFragment"
+        android:label="fragment_baskettransferwe"
+        tools:layout="@layout/fragment_baskettransferwe" />
+    <fragment
+        android:id="@+id/qualityscraplistweFragment"
+        android:name="com.example.gbsbadrsf.welding.qualityscrapwe.qualityscraplistweFragment"
+        android:label="fragment_qualityscraplistwe"
+        tools:layout="@layout/fragment_qualityscraplistwe" >
+        <action
+            android:id="@+id/action_qualityscraplistweFragment_to_qualityscraprequestweFragment"
+            app:destination="@id/qualityscraprequestweFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qualityscraprequestweFragment"
+        android:name="com.example.gbsbadrsf.welding.qualityscraprequestweFragment"
+        android:label="fragment_qualityscraprequestwe"
+        tools:layout="@layout/fragment_qualityscraprequestwe" />
+    <fragment
+        android:id="@+id/productionscraplistinqualityFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestsListQualityFragment"
+        android:label="fragment_productionscraplistinquality"
+        tools:layout="@layout/fragment_production_rejection_requests_list_quality" >
+        <action
+            android:id="@+id/action_productionscraplistinqualityFragment_to_productionscraprequestqcFragment"
+            app:destination="@id/productionscraprequestqcFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productionscraprequestqcFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestFragment"
+        android:label="fragment_productionscraprequestqc"
+        tools:layout="@layout/fragment_productionscraprequestqc" />
+    <fragment
+        android:id="@+id/addworkersFragment"
+        android:name="com.example.gbsbadrsf.AddworkersFragment"
+        android:label="fragment_addworkers"
+        tools:layout="@layout/fragment_addworkers" />
+    <fragment
+        android:id="@+id/adddefectpaint"
+        android:name="com.example.gbsbadrsf.Quality.paint.Adddefectpaint.Adddefectpaint"
+        android:label="fragment_adddefectpaint"
+        tools:layout="@layout/fragment_adddefectpaint" />
+    <fragment
+        android:id="@+id/qualityrepairpaintFragment"
+        android:name="com.example.gbsbadrsf.Quality.paint.qualityrepairpaint.qualityrepairpaintFragment"
+        android:label="fragment_qualityrepairpaint"
+        tools:layout="@layout/fragment_qualityrepairpaint" />
+    <fragment
+        android:id="@+id/qualitydesicionpaintFragment"
+        android:name="com.example.gbsbadrsf.Quality.paint.qcdesicionpaint.qualitydesicionpaintFragment"
+        android:label="fragment_qualitydesicionpaint"
+        tools:layout="@layout/fragment_qualitydesicionpaint" />
+    <fragment
+        android:id="@+id/adddefectwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.adddefectwe.Adddefectwe"
+        android:label="fragment_adddefectwe"
+        tools:layout="@layout/fragment_adddefectwe" />
+    <fragment
+        android:id="@+id/qcdesicionwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.qcdesicionwe.Qcdesicionwe"
+        android:label="fragment_qcdesicionwe"
+        tools:layout="@layout/fragment_qcdesicionwe" />
+    <fragment
+        android:id="@+id/qcrepairwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.qcrepairwe.Qcrepairwe"
+        android:label="fragment_qcrepairwe"
+        tools:layout="@layout/fragment_qcrepairwe" />
+    <fragment
+        android:id="@+id/productionscraplistwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.productionscraprequestwe.Productionscraplistwe"
+        android:label="fragment_productionscraplistwe"
+        tools:layout="@layout/fragment_productionscraplistwe" >
+        <action
+            android:id="@+id/action_productionscraplistwe_to_productionScraprequestwe"
+            app:destination="@id/productionScraprequestwe" />
+    </fragment>
+    <fragment
+        android:id="@+id/paintdstation"
+        android:name="com.example.gbsbadrsf.Paint.Paintdstation"
+        android:label="fragment_paintdstation"
+        tools:layout="@layout/fragment_paintdstation" />
+    <fragment
+        android:id="@+id/paintsignoffFragment"
+        android:name="com.example.gbsbadrsf.Paint.PaintsignoffFragment"
+        android:label="fragment_paintsignoff"
+        tools:layout="@layout/fragment_paintsignoff" />
+    <fragment
+        android:id="@+id/colorverificationFragment"
+        android:name="com.example.gbsbadrsf.Paint.ColorverificationFragment"
+        android:label="fragment_colorverification"
+        tools:layout="@layout/fragment_colorverification" />
+    <fragment
+        android:id="@+id/productionrepairpaintFragment"
+        android:name="com.example.gbsbadrsf.Paint.productionrepair.ProductionrepairpaintFragment"
+        android:label="fragment_productionrepairpaint"
+        tools:layout="@layout/fragment_productionrepairpaint" />
+    <fragment
+        android:id="@+id/productionScraprequestwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.productionscraprequestwe.ProductionScraprequestwe"
+        android:label="fragment_production_scraprequestwe"
+        tools:layout="@layout/fragment_production_scraprequestwe" />
+    <fragment
+        android:id="@+id/productionSequence"
+        android:name="com.example.gbsbadrsf.productionsequence.ProductionSequence"
+        android:label="fragment_production_sequence"
+        tools:layout="@layout/fragment_production_sequence" >
+        <action
+            android:id="@+id/action_productionSequence_to_machineLoadingFragment"
+            app:destination="@id/machineLoadingFragment"
+            app:popUpTo="@id/machineLoadingFragment"
+
+            />
+        <action
+            android:id="@+id/action_productionSequence_to_mainmachineLoadingFragment"
+            app:destination="@id/mainmachineloading"
+
+            />
+
+    </fragment>
+    <fragment
+        android:id="@+id/weldingSequence"
+        android:name="com.example.gbsbadrsf.weldingsequence.WeldingSequence"
+        android:label="fragment_welding_sequence"
+        tools:layout="@layout/fragment_welding_sequence" >
+        <action
+            android:id="@+id/action_weldingSequence_to_machineloadingweFragment"
+            app:destination="@id/machineloadingweFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainmachineloading"
+        android:name="com.example.gbsbadrsf.Manfacturing.machineloading.Mainmachineloading"
+        android:label="fragment_mainmachineloading"
+        tools:layout="@layout/fragment_mainmachineloading" >
+        <action
+            android:id="@+id/action_mainmachineloading_to_productionSequence"
+            app:destination="@id/productionSequence"
+
+            />
+        <action
+            android:id="@+id/action_mainmachineloading_to_continueLoading"
+            app:destination="@id/continueLoading" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/continueLoading"
+        android:name="com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading"
+        android:label="fragment_continue_loading"
+        tools:layout="@layout/fragment_continue_loading" />
+    <fragment
+        android:id="@+id/mainmachinesignoff"
+        android:name="com.example.gbsbadrsf.Manfacturing.machinesignoff.Mainmachinesignoff"
+        android:label="fragment_mainmachinesignoff"
+        tools:layout="@layout/fragment_mainmachinesignoff" >
+        <action
+            android:id="@+id/action_mainmachinesignoff_to_productionSignoffFragment"
+            app:destination="@id/productionSignoffFragment" />
+        <action
+            android:id="@+id/action_mainmachinesignoff_to_machinehold"
+            app:destination="@id/machinehold" />
+    </fragment>
+    <fragment
+        android:id="@+id/machinehold"
+        android:name="com.example.gbsbadrsf.Manfacturing.machinesignoff.Machinehold"
+        android:label="fragment_machinehold"
+        tools:layout="@layout/fragment_machinehold" />
+    <fragment
+        android:id="@+id/mainScrapmanagment"
+        android:name="com.example.gbsbadrsf.Manfacturing.scrapmanagment.MainScrapmanagment"
+        android:label="fragment_main_scrapmanagment"
+        tools:layout="@layout/fragment_main_scrapmanagment" >
+        <action
+            android:id="@+id/action_mainScrapmanagment_to_productionscrapFragment"
+            app:destination="@id/productionscrapFragment" />
+        <action
+            android:id="@+id/action_mainScrapmanagment_to_scraprequestlist"
+            app:destination="@id/qualityscraplistFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/machineWip"
+        android:name="com.example.gbsbadrsf.machinewip.MachineWip"
+        android:label="fragment_machine_wip"
+        tools:layout="@layout/fragment_machine_wip" />
+    <fragment
+        android:id="@+id/weldingwip"
+        android:name="com.example.gbsbadrsf.welding.weldingwip.Weldingwip"
+        android:label="fragment_weldingwip"
+        tools:layout="@layout/fragment_weldingwip" />
+</navigation>
+
+

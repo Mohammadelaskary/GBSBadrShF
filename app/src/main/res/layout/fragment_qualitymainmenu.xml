@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Quality.QualitymainmenuFragment"
+    android:background="@drawable/background"
+    >
+    <TextView
+        android:id="@+id/qualitymenu_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        style="@style/styleoftextinappbar"
+        android:text="Quality Menu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qualitymenu_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Manfacturing_btn"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+       app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:backgroundTint="@color/appbarcolor"
+        app:cornerRadius="25dp"
+        android:text="@string/manfacturing"
+        style="@style/styleoftextinbtn"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/welding_btn"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:layout_constraintTop_toBottomOf="@id/Manfacturing_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:backgroundTint="@color/appbarcolor"
+        app:cornerRadius="25dp"
+        android:text="@string/welding"
+        style="@style/styleoftextinbtn"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Paint_btn"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:layout_constraintTop_toBottomOf="@id/welding_btn"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:backgroundTint="@color/appbarcolor"
+        app:cornerRadius="25dp"
+        android:text="@string/paint"
+        style="@style/styleoftextinbtn"
+        />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
