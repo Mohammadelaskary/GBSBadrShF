@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Quality.manfacturing;
+package com.example.gbsbadrsf.Quality.welding;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,20 +9,24 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.databinding.FragmentManfacturingqualityBinding;
+import com.example.gbsbadrsf.databinding.FragmentQualityweldingBinding;
 
 
-public class ManfacturingqualityFragment extends Fragment {
-    FragmentManfacturingqualityBinding binding;
+public class QualityWeldingFragment extends Fragment {
+    FragmentQualityweldingBinding binding;
 
 
-    public ManfacturingqualityFragment() {
+
+
+    public QualityWeldingFragment() {
         // Required empty public constructor
     }
 
 
-    public static ManfacturingqualityFragment newInstance() {
-        return new ManfacturingqualityFragment();
+    public static QualityWeldingFragment newInstance(String param1, String param2) {
+        QualityWeldingFragment fragment = new QualityWeldingFragment();
+
+        return fragment;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class ManfacturingqualityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentManfacturingqualityBinding.inflate(inflater,container,false);
+        binding = FragmentQualityweldingBinding.inflate(inflater,container,false);
         attachListeners();
         return binding.getRoot();
 
@@ -42,11 +46,10 @@ public class ManfacturingqualityFragment extends Fragment {
 
     private void attachListeners() {
         binding.qualityOperationBtn.setOnClickListener(v -> {
-
-            Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_quality_operation_fragment);
+            Navigation.findNavController(v).navigate(R.id.action_quality_welding_fragment_to_welding_quality_operation);
 
         });
-        binding.qualityrepairBtn.setOnClickListener(v -> {
+        binding.qualityRepairBtn.setOnClickListener(v -> {
 
             Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_qualityrepairFragment);
 
@@ -74,4 +77,5 @@ public class ManfacturingqualityFragment extends Fragment {
 
 
     }
+
 }

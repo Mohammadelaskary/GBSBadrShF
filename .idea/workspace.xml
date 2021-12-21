@@ -33,7 +33,37 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="merge with waleed" />
+    <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="merge with waleed">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/Model/ApiResponseGetBasketInfoForQuality_Welding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/Model/LastMoveWeldingBasket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingAddDefectsViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingQualityOperationViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectDetailsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_add_defects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/manfacturing/ManfacturingqualityFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/manfacturing/ManfacturingqualityFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityweldingFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityWeldingFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingQualityOperationFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingQualityOperationFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/adddefectwe/Adddefectwe.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/Adddefectwe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/adddefectwe/WeldingAddDefectsDetailsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectsDetailsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/adddefectwe/adddefectweAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/adddefectweAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ViewModelModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ViewModelModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/repository/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/repository/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_defects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_defects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_adddefectwe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_adddefectwe.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_qualitywelding.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_qualitywelding.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_add_defects_details.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_add_defect_details.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_add_deffects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_quality_operation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_quality_operation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,6 +166,10 @@
     </key>
     <key name="android.template.-542502446">
       <recent name="com.example.gbsbadrsf" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.gbsbadrsf.Quality.welding.ViewModel" />
+      <recent name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects" />
     </key>
   </component>
   <component name="RunManager">

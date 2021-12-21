@@ -20,6 +20,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveRandomQualityInception;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSavingOperationSignOffDecision;
 import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
@@ -296,8 +297,27 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("JobOrderId") int JobOrderId,
           @Query("OperationID") int OperationID
   );
+  @GET("GetBasketInfoForQuality_Welding")
+  Single<ApiResponseGetBasketInfoForQuality_Welding> getBasketInfoForQuality_Welding(
+          @Query("UserID") int userId,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("BasketCode") String BasketCode
+  );
 
-
-
+  @GET("GetWeldingDefectedQtyByBasketCode")
+  Single<ApiResponseDefectsManufacturing> getWeldingDefectedQtyByBasketCode(
+          @Query("UserID") int userId,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("BasketCode") String BasketCode
+  );
+  @GET("AddWeldingDefectedParentToBasket")
+  Single<ApiResponseAddManufacturingDefectedChildToBasket> addWeldingDefectedParentToBasket(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("JobOrderId") int JobOrderId,
+          @Query("ParentID") int ParentID,
+          @Query("BasketCode") String BasketCode,
+          @Query("NewBasketCode") String NewBasketCode
+  );
 
 }

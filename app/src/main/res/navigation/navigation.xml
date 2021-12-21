@@ -320,7 +320,7 @@
     </fragment>
     <fragment
         android:id="@+id/qualityweldingFragment"
-        android:name="com.example.gbsbadrsf.Quality.welding.QualityweldingFragment"
+        android:name="com.example.gbsbadrsf.Quality.welding.QualityWeldingFragment"
         android:label="fragment_qualitywelding"
         tools:layout="@layout/fragment_qualitywelding" >
 
@@ -357,9 +357,9 @@
     </fragment>
     <fragment
         android:id="@+id/welding_add_deffects"
-        android:name="com.example.gbsbadrsf.Quality.welding.adddefectwe.Adddefectwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.Adddefectwe"
         android:label="fragment_adddefectwe"
-        tools:layout="@layout/fragment_welding_add_deffects" />
+        tools:layout="@layout/fragment_welding_add_defects" />
     <fragment
         android:id="@+id/paintqualityFragment"
         android:name="com.example.gbsbadrsf.Quality.paint.PaintqualityFragment"
@@ -394,10 +394,17 @@
         android:label="fragment_adddefectpaint"
         tools:layout="@layout/fragment_adddefectpaint" />
     <fragment
-        android:id="@+id/addDefectsFragment"
-        android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment"
-        android:label="fragment_add_defects"
-        tools:layout="@layout/fragment_add_defects" />
+        android:id="@+id/fragment_welding_add_defects"
+        android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectsFragment"
+        android:label="fragment_welding_add_defects"
+        tools:layout="@layout/fragment_welding_add_defects" >
+        <action android:id="@+id/action_fragment_welding_add_defects_to_fragment_welding_add_defects_details"
+            app:destination="@id/fragment_welding_display_defect_details"/>
+    </fragment>
+    <fragment android:id="@+id/fragment_welding_display_defect_details"
+        android:label="fragment_welding_display_defect_details"
+        tools:layout="@layout/fragment_welding_add_defect_details"
+        android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectDetailsFragment"/>
     <fragment
         android:id="@+id/qualityrepairFragment"
         android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment"
@@ -501,7 +508,7 @@
         tools:layout="@layout/fragment_qualitydesicionpaint" />
     <fragment
         android:id="@+id/adddefectwe"
-        android:name="com.example.gbsbadrsf.Quality.welding.adddefectwe.Adddefectwe"
+        android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.Adddefectwe"
         android:label="fragment_adddefectwe"
         tools:layout="@layout/fragment_adddefectwe" />
     <fragment

@@ -17,6 +17,8 @@ import com.example.gbsbadrsf.Quality.Data.RandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.di.ViewModelKey;
 import com.example.gbsbadrsf.machineloading.MachineloadingViewModel;
@@ -142,6 +144,13 @@ public abstract class ViewModelModule {
     @ViewModelKey(ProductionRejectionRequestViewModel.class)
     public abstract ViewModel bindProductionRejectionRequestViewModel (ProductionRejectionRequestViewModel viewModel);
 
-
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingQualityOperationViewModel.class)
+    public abstract ViewModel bindWeldingQualityOperationViewModel (WeldingQualityOperationViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingAddDefectsViewModel.class)
+    public abstract ViewModel bindWeldingAddDefectsViewModel (WeldingAddDefectsViewModel viewModel);
 
 }

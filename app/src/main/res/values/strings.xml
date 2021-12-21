@@ -160,5 +160,7 @@
     <string name="new_sample">New Sample</string>
     <string name="approved_quantity">Approved Quantity</string>
     <string name="check_list">Check List</string>
+    <string name="welding_quality">Welding Quality</string>
+    <string name="welding_quality_operation">Welding Quality Operation</string>
 
 </resources>

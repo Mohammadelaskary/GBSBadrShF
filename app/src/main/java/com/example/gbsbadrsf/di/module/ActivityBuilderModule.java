@@ -14,6 +14,8 @@ import com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.QualityDecisio
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception.RandomQualityInceptionFragment;
+import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectsFragment;
+import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.machineloading.MachineLoadingFragment;
 import com.example.gbsbadrsf.machinewip.MachineWip;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
@@ -72,6 +74,10 @@ public abstract class ActivityBuilderModule {
     abstract ProductionRejectionRequestsListQualityFragment contributeProductionRejectionRequestsListQualityFragment();
     @ContributesAndroidInjector
     abstract ProductionRejectionRequestFragment contributeProductionscraprequestqcFragment();
+    @ContributesAndroidInjector
+    abstract WeldingQualityOperationFragment contributeWeldingQualityOperationFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingAddDefectsFragment contributeWeldingAddDefectsFragment ();
 
 
 

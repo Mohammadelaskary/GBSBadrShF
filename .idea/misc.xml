@@ -6,6 +6,7 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/check_list_item.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/dialog_checklist.xml" value="0.1" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_add_defects.xml" value="0.264" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_change_base_url.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_mainmenu.xml" value="0.10862691960252936" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_manfacturingmenu.xml" value="0.2" />
@@ -18,7 +19,10 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_quality_desicion.xml" value="0.2" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_quality_rejection_requests_list.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_quality_repair.xml" value="0.11574074074074074" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_qualitywelding.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_random_quality_inception.xml" value="0.11574074074074074" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_add_deffects.xml" value="0.22592592592592592" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_quality_operation.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/productionscrap_lst.xml" value="0.11574074074074074" />
         <entry key="..\:/waleed/GBSGhabbour/app/src/main/res/drawable-hdpi/ic_down_arrow.xml" value="0.1" />
         <entry key="..\:/waleed/GBSGhabbour/app/src/main/res/layout/add_defects_details_button.xml" value="0.1361111111111111" />

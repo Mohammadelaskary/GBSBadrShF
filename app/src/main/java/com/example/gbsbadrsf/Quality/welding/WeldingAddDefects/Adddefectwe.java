@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Quality.welding.adddefectwe;
+package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
