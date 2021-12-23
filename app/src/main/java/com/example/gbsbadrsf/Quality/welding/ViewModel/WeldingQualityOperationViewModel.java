@@ -3,8 +3,7 @@ package com.example.gbsbadrsf.Quality.welding.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gbsbadrsf.Model.ApiResponseLastMoveManufacturingBasket;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseGetBasketInfoForQuality_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;

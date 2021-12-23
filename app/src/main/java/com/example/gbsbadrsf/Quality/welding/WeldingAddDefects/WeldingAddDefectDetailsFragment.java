@@ -17,11 +17,15 @@ import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
+import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentManufacturingAddDefectDetailsBinding;
+import com.example.gbsbadrsf.databinding.FragmentWeldingAddDefectDetailsBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +45,8 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
 
 
     public static WeldingAddDefectDetailsFragment newInstance() {
-        WeldingAddDefectDetailsFragment fragment = new WeldingAddDefectDetailsFragment();
 
-        return fragment;
+        return new WeldingAddDefectDetailsFragment();
     }
 
     @Override
@@ -51,9 +54,9 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
         super.onCreate(savedInstanceState);
 
     }
-    FragmentManufacturingAddDefectDetailsBinding binding;
-    LastMoveManufacturingBasket basketData;
-    ManufacturingAddDefectsDetailsViewModel viewModel;
+    FragmentWeldingAddDefectDetailsBinding binding;
+    LastMoveWeldingBasket basketData;
+    WeldingAddDefectsDetailsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -68,7 +71,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentManufacturingAddDefectDetailsBinding.inflate(
+        binding = FragmentWeldingAddDefectDetailsBinding.inflate(
                 inflater,
                 container,
                 false
@@ -116,24 +119,25 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsDetailsViewModel.class);
+        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsDetailsViewModel.class);
     }
 
     private void fillData() {
         binding.sampleQtnEdt.setText(String.valueOf(sampleQty));
-        binding.childcode.setText(childCode);
-        binding.childesc.setText(childDescription);
-        binding.operation.setText(String.valueOf(operationId));
+        binding.parentCode.setText(parentCode);
+        binding.parentDesc.setText(parentDescription);
+        binding.jobOrderName.setText(jobOrderName);
     }
     boolean newSample = false;
     private void getReceivedData() {
         if (getArguments()!=null) {
             basketData = getArguments().getParcelable("basketData");
-            childCode        = basketData.getChildCode();
-            childDescription = basketData.getChildDescription();
-            childId          = basketData.getChildId();
+            parentCode        = basketData.getParentCode();
+            parentDescription = basketData.getParentDescription();
+            parentId          = basketData.getParentId();
             jobOrderId       = basketData.getJobOrderId();
             operationId      = basketData.getOperationId();
+            jobOrderName     = basketData.getJobOrderName();
             sampleQty        = getArguments().getInt("sampleQty");
             newSample        = getArguments().getBoolean("newSample");
         }
@@ -143,12 +147,11 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
         binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String childCode,childDescription,notes = "ghi",deviceSerialNumber="fsd" ;
-    int     childId,
+    String parentCode,parentDescription,notes = "ghi",deviceSerialNumber="S1",jobOrderName;
+    int     parentId,
             defectedQty,
             jobOrderId,
             operationId,
-            parentId=3,
             sampleQty,
             userId=1;
     @Override
@@ -168,21 +171,20 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
                 if (defectsIds.isEmpty()){
                     Toast.makeText(getContext(), "Please Select the found defects!", Toast.LENGTH_SHORT).show();
                 }
-                AddManufacturingDefectData data = new AddManufacturingDefectData();
+                AddWeldingDefectData data = new AddWeldingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
                     defectedQty=Integer.parseInt(binding.defectedQtnEdt.getText().toString().trim());
                     data.setUserId(userId);
                     data.setDeviceSerialNo(deviceSerialNumber);
                     data.setJobOrderId(jobOrderId);
                     data.setParentID(parentId);
-                    data.setChildId(childId);
                     data.setOperationID(operationId);
                     data.setQtyDefected(defectedQty);
                     data.setNotes(notes);
                     data.setSampleQty(sampleQty);
                     data.setDefectList(defectsIds);
                     data.setNewSampleQty(newSample);
-                    viewModel.addManufacturingDefectResponseViewModel(data);
+                    viewModel.addWeldingDefectResponseViewModel(data);
                 }
             } break;
             case R.id.defects_list_layout:{

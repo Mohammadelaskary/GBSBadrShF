@@ -185,7 +185,7 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
                     bundle.putParcelable("basketData", basketData);
                     bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
                     bundle.putBoolean("newSample", newSample);
-                    Navigation.findNavController(v).navigate(R.id.action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment, bundle);
+                    Navigation.findNavController(v).navigate(R.id.action_welding_quality_operation_fragment_to_welding_add_defect_fragment, bundle);
                 }
             } else {
                 binding.basketCode.setError("Please enter a valid basket code!");

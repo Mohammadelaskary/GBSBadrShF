@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChildToBasket;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -16,7 +17,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class WeldingAddDefectsViewModel extends ViewModel {
-    MutableLiveData<ApiResponseDefectsManufacturing> defectsManufacturingListLiveData;
+    MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
     MutableLiveData<Status> defectsWeldingListStatus;
     MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> addWeldingDefectsToNewBasket;
     MutableLiveData<Status> addWeldingDefectsToNewBasketStatus;
@@ -31,7 +32,7 @@ public class WeldingAddDefectsViewModel extends ViewModel {
     public WeldingAddDefectsViewModel(Gson gson) {
         this.gson = gson;
         disposable = new CompositeDisposable();
-        defectsManufacturingListLiveData = new MutableLiveData<>();
+        defectsWeldingListLiveData = new MutableLiveData<>();
         defectsWeldingListStatus = new MutableLiveData<>();
 
         addWeldingDefectsToNewBasket = new MutableLiveData<>();
@@ -45,7 +46,7 @@ public class WeldingAddDefectsViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> defectsWeldingListStatus.postValue(Status.LOADING))
                 .subscribe(
-                        response -> {defectsManufacturingListLiveData.postValue(response);
+                        response -> {defectsWeldingListLiveData.postValue(response);
                             defectsWeldingListStatus.postValue(Status.SUCCESS); },
                         throwable -> {
                             defectsWeldingListStatus.postValue(Status.ERROR);
@@ -73,8 +74,8 @@ public class WeldingAddDefectsViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<ApiResponseDefectsManufacturing> getDefectsWeldingListLiveData() {
-        return defectsManufacturingListLiveData;
+    public MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> getDefectsWeldingListLiveData() {
+        return defectsWeldingListLiveData;
     }
 
     public MutableLiveData<Status> getDefectsWeldingListStatus() {

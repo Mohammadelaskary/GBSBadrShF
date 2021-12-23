@@ -1,22 +1,22 @@
 package com.example.gbsbadrsf.Model;
 
 public class QtyDefectsQtyDefected {
-    private int manufacturingDefectId;
+    private int defectId;
     private int defectedQty;
     private int defectsQty;
 
-    public QtyDefectsQtyDefected(int manufacturingDefectId, int defectedQty, int defectsQty) {
-        this.manufacturingDefectId = manufacturingDefectId;
+    public QtyDefectsQtyDefected(int defectId, int defectedQty, int defectsQty) {
+        this.defectId = defectId;
         this.defectedQty = defectedQty;
         this.defectsQty = defectsQty;
     }
 
-    public int getManufacturingDefectId() {
-        return manufacturingDefectId;
+    public int getDefectId() {
+        return defectId;
     }
 
-    public void setManufacturingDefectId(int manufacturingDefectId) {
-        this.manufacturingDefectId = manufacturingDefectId;
+    public void setDefectId(int defectId) {
+        this.defectId = defectId;
     }
 
     public int getDefectedQty() {

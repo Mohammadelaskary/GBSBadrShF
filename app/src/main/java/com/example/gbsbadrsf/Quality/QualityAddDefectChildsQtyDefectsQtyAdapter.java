@@ -27,7 +27,7 @@ public class QualityAddDefectChildsQtyDefectsQtyAdapter extends RecyclerView.Ada
             holder.binding.defectsQty.setText(String.valueOf(defectsQty));
             holder.binding.defectedQty.setText(String.valueOf(defectedQty));
             holder.itemView.setOnClickListener(v -> {
-                onQtyDefectedQtyDefectsItemClicked.OnQtyDefectedQtyDefectsItemClicked(qtyDefectsQtyDefected.getManufacturingDefectId(),v);
+                onQtyDefectedQtyDefectsItemClicked.OnQtyDefectedQtyDefectsItemClicked(qtyDefectsQtyDefected.getDefectId(),v);
             });
     }
 

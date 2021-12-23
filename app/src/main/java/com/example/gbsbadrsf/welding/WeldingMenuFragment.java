@@ -75,6 +75,11 @@ FragmentWeldingMenuBinding fragmentWeldingMenuBinding;
             Navigation.findNavController(getView()).navigate(R.id.action_weldingMenuFragment_to_qualityscraplistweFragment);
 
         });
+        fragmentWeldingMenuBinding.productionRepairBtn.setOnClickListener(__ -> {
+
+            Navigation.findNavController(getView()).navigate(R.id.action_welding_menu_fragment_to_fragment_welding_production_repair);
+
+        });
 
 
 

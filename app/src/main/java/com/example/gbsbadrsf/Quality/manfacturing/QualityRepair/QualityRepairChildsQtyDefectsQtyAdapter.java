@@ -31,7 +31,7 @@ public class QualityRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapte
     @Override
     public void onBindViewHolder(@NonNull QualityRepairChildsQtyDefectsQtyViewHolder holder, int position) {
         QtyDefectsQtyDefected qtyDefectsQtyDefected = qtyDefectsQtyDefectedList.get(position);
-        int defectManufacturingId = qtyDefectsQtyDefected.getManufacturingDefectId();
+        int defectManufacturingId = qtyDefectsQtyDefected.getDefectId();
         int defectedQty = qtyDefectsQtyDefected.getDefectedQty();
         int defectsQty  = qtyDefectsQtyDefected.getDefectsQty();
         holder.binding.defectsQty.setText(String.valueOf(defectsQty));

@@ -5,6 +5,7 @@ import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Model.ApiResponseLastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Production.Data.ApiResponseSaveRejectionRequest;
+import com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse.ApiResponseWeldingRepair_Production;
 import com.example.gbsbadrsf.Quality.Data.AddManufacturingDefectData;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChildToBasket;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingDefect;
@@ -20,7 +21,11 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveRandomQualityInception;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSavingOperationSignOffDecision;
 import com.example.gbsbadrsf.Quality.Data.Defect;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseGetBasketInfoForQuality_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseWeldingRepair_QC;
 import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
@@ -32,7 +37,6 @@ import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.ApiResponseweldingbyjoborder;
 import com.example.gbsbadrsf.data.response.ApiSavefirstloading;
 import com.example.gbsbadrsf.data.response.Apigetbasketcode;
-import com.example.gbsbadrsf.data.response.Apigetinfoforselectedstation;
 import com.example.gbsbadrsf.data.response.Apigetmachinecode;
 import com.example.gbsbadrsf.data.response.Apiinfoforstationcode;
 import com.example.gbsbadrsf.data.response.LastMoveManufacturingBasketInfo;
@@ -44,7 +48,6 @@ import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
-import com.example.gbsbadrsf.data.response.StationLoading;
 import com.example.gbsbadrsf.data.response.Stationcodeloading;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.UserInfo;
@@ -305,7 +308,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
   );
 
   @GET("GetWeldingDefectedQtyByBasketCode")
-  Single<ApiResponseDefectsManufacturing> getWeldingDefectedQtyByBasketCode(
+  Single<ApiResponseGetWeldingDefectedQtyByBasketCode> getWeldingDefectedQtyByBasketCode(
           @Query("UserID") int userId,
           @Query("DeviceSerialNo") String deviceSerialNumber,
           @Query("BasketCode") String BasketCode
@@ -319,5 +322,26 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("BasketCode") String BasketCode,
           @Query("NewBasketCode") String NewBasketCode
   );
-
+  @POST("AddWeldingDefect")
+  Single<ApiResponseAddWeldingDefect> addWeldingDefect(
+          @Body AddWeldingDefectData data
+  );
+  @GET("WeldingRepair_QC")
+  Single<ApiResponseWeldingRepair_QC> WeldingRepair_QC(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("DefectsWeldingDetailsId") int DefectsWeldingDetailsId,
+          @Query("Notes") String Notes,
+          @Query("DefectStatus") int DefectStatus,
+          @Query("QtyApproved") int QtyApproved
+  );
+  @GET("WeldingRepair_Production")
+  Single<ApiResponseWeldingRepair_Production> WeldingRepair_Production(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("DefectsWeldingDetailsId") int DefectsWeldingDetailsId,
+          @Query("Notes") String Notes,
+          @Query("DefectStatus") int DefectStatus,
+          @Query("QtyRepaired") int QtyRepaired
+  );
 }

@@ -51,7 +51,7 @@ public class QualityWeldingFragment extends Fragment {
         });
         binding.qualityRepairBtn.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_qualityrepairFragment);
+            Navigation.findNavController(v).navigate(R.id.action_quality_welding_to_fragment_fragment_welding_quality_repair);
 
         });
         binding.qualitydesicionBtn.setOnClickListener(v -> {

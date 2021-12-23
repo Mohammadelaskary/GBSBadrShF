@@ -15,19 +15,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
-import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
-import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnQtyDefectedQtyDefectsItemClicked;
+import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.databinding.FragmentManufacturingAddDefectsBinding;
 import com.example.gbsbadrsf.databinding.FragmentWeldingAddDefectsBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -53,7 +50,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     ViewModelProviderFactory provider;
 
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;
-    List<DefectsManufacturing> defectsManufacturingList = new ArrayList<>();
+    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
     SetUpBarCodeReader barCodeReader;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -125,10 +122,10 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     private void getDefectsManufacturingList(int userId,String deviceSerialNo,String basketCode) {
         viewModel.getWeldingDefects(userId,deviceSerialNo,basketCode);
-        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing ->  {
-                defectsManufacturingList.clear();
-                defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
-                qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding ->  {
+                defectsWeldingList.clear();
+                defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
+                qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
                 adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
                 String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
                 binding.defectqtnEdt.setText(defectedQty);
@@ -136,13 +133,13 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
         });
     }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsManufacturing> defectsManufacturingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1 ;
-        for (DefectsManufacturing defectsManufacturing:defectsManufacturingListLocal){
-           if (defectsManufacturing.getManufacturingDefectsId()!=id){
-               int currentId = defectsManufacturing.getManufacturingDefectsId();
-               int defectedQty = defectsManufacturing.getDeffectedQty();
+        for (DefectsWelding defectsWelding:defectsWeldingListLocal){
+           if (defectsWelding.getWeldingDefectsId()!=id){
+               int currentId = defectsWelding.getWeldingDefectsId();
+               int defectedQty = defectsWelding.getQtyDefected();
                QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId,defectedQty,getDefectsQty(currentId));
                qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                id = currentId;
@@ -153,8 +150,8 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsManufacturing defectsManufacturing:defectsManufacturingList){
-            if (defectsManufacturing.getManufacturingDefectsId()==currentId)
+        for (DefectsWelding defectsManufacturing:defectsWeldingList){
+            if (defectsManufacturing.getWeldingDefectsId()==currentId)
                 defectNo++;
         }
         return  defectNo;
@@ -201,7 +198,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
             bundle.putParcelable("basketData",basketData);
             bundle.putInt("sampleQty",sampleQty);
             bundle.putBoolean("newSample",newSample);
-            Navigation.findNavController(v).navigate(R.id.action_fragment_welding_add_defects_to_fragment_welding_add_defects_details,bundle);
+            Navigation.findNavController(v).navigate(R.id.action_fragment_welding_add_defects_to_fragment_welding_add_defect_details,bundle);
         });
         binding.saveBtn.setOnClickListener(v -> {
             String newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
@@ -227,16 +224,16 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
 
     @Override
     public void OnQtyDefectedQtyDefectsItemClicked(int id,View view) {
-            ArrayList<DefectsManufacturing> customDefectsManufacturingList = new ArrayList<>();
-            for (DefectsManufacturing defectsManufacturing : defectsManufacturingList) {
-                if (defectsManufacturing.getManufacturingDefectsId() == id)
-                    customDefectsManufacturingList.add(defectsManufacturing);
+            ArrayList<DefectsWelding> customDefectsWeldingList = new ArrayList<>();
+            for (DefectsWelding defectsWelding : defectsWeldingList) {
+                if (defectsWelding.getWeldingDefectsId() == id)
+                    customDefectsWeldingList.add(defectsWelding);
             }
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("defectsManufacturingList", customDefectsManufacturingList);
+            bundle.putParcelableArrayList("defectsWeldingList", customDefectsWeldingList);
             bundle.putParcelable("basketData", basketData);
             bundle.putInt("sampleQty",sampleQty);
-            Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_add_defects_fragment_to_display_defect_details_fragment, bundle);
+            Navigation.findNavController(getView()).navigate(R.id.action_fragment_welding_add_defects_to_fragment_welding_display_defects, bundle);
 
     }
 

@@ -1,5 +1,6 @@
-package com.example.gbsbadrsf.Quality.welding.Model;
+package com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse;
 
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

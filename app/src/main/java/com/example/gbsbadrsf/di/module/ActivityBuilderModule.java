@@ -4,6 +4,8 @@ import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.ProductionRepairFragment;
+import com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionDefectRepairFragment;
+import com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionRepairFragment;
 import com.example.gbsbadrsf.ProductionRejectionFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectDetailsFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment;
@@ -14,6 +16,9 @@ import com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.QualityDecisio
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception.RandomQualityInceptionFragment;
+import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityDefectRepairFragment;
+import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityRepairFragment;
+import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectDetailsFragment;
 import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectsFragment;
 import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.machineloading.MachineLoadingFragment;
@@ -78,6 +83,16 @@ public abstract class ActivityBuilderModule {
     abstract WeldingQualityOperationFragment contributeWeldingQualityOperationFragment ();
     @ContributesAndroidInjector
     abstract WeldingAddDefectsFragment contributeWeldingAddDefectsFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingAddDefectDetailsFragment contributeWeldingAddDefectDetailsFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingQualityDefectRepairFragment contributeWeldingQualityDefectRepairFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingQualityRepairFragment contributeWeldingQualityRepairFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingProductionDefectRepairFragment contributeWeldingProductionDefectRepairFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingProductionRepairFragment contributeWeldingProductionRepairFragment ();
 
 
 

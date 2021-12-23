@@ -42,50 +42,55 @@
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
-                    android:id="@+id/childcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/childcode_txt"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
+                    android:id="@+id/parent_code"
                     style="@style/styleoftext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:gravity="start"
+                    app:layout_constraintBottom_toBottomOf="@+id/parent_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/defectedqtn_txt"
                     app:layout_constraintStart_toEndOf="@id/parent_txt"
-                    app:layout_constraintTop_toTopOf="@id/parent_txt"/>
+                    app:layout_constraintTop_toTopOf="@id/parent_txt" />
+
                 <TextView
-                    android:id="@+id/childesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/childdesc_txt"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
+                    android:id="@+id/parent_desc"
                     style="@style/styleoftext"
-                    app:layout_constraintStart_toEndOf="@id/parent_txt"
-                    app:layout_constraintTop_toBottomOf="@id/childcode"/>
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="0dp"
+                    android:gravity="start"
+                    android:layout_marginRight="0dp"
+                    app:layout_constraintEnd_toEndOf="@+id/defectedqtn_txt"
+                    app:layout_constraintStart_toEndOf="@+id/parent_txt"
+                    app:layout_constraintTop_toBottomOf="@id/parent_code" />
 
                 <TextView
                     android:id="@+id/jobordername_txt"
+                    style="@style/style_of_text_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jop Order:"
-                    style="@style/style_of_text_bold"
                     android:layout_marginTop="15dp"
-                    app:layout_constraintStart_toStartOf="@id/parent_txt"
-                    app:layout_constraintTop_toBottomOf="@id/childesc"
                     android:fontFamily="sans-serif"
-                    />
+                    android:text="Jop Order:"
+                    app:layout_constraintStart_toStartOf="@id/parent_txt"
+                    app:layout_constraintTop_toBottomOf="@id/parent_desc" />
+
                 <TextView
                     android:id="@+id/job_order_name"
+                    style="@style/styleoftext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="@string/qc_operation_1"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    style="@style/styleoftext"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="start"
+                    app:layout_constraintBottom_toBottomOf="@+id/jobordername_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/defected_qtn_edt"
                     app:layout_constraintStart_toEndOf="@id/jobordername_txt"
-                    app:layout_constraintTop_toTopOf="@id/jobordername_txt"
-                    />
+                    app:layout_constraintTop_toTopOf="@id/jobordername_txt" />
 
                 <TextView
                     android:id="@+id/sampleqtn_txt"
@@ -161,10 +166,10 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:visibility="gone"
-                    android:background="#aaa"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/defects_list_layout"/>
+                    app:layout_constraintTop_toBottomOf="@id/defects_list_layout"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_defect_button"
                     android:layout_width="wrap_content"

@@ -8,6 +8,8 @@ import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel
 import com.example.gbsbadrsf.Production.Data.ProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
+import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionDefectRepairViewModel;
+import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
@@ -17,8 +19,11 @@ import com.example.gbsbadrsf.Quality.Data.RandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.di.ViewModelKey;
 import com.example.gbsbadrsf.machineloading.MachineloadingViewModel;
@@ -152,5 +157,24 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(WeldingAddDefectsViewModel.class)
     public abstract ViewModel bindWeldingAddDefectsViewModel (WeldingAddDefectsViewModel viewModel);
-
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingAddDefectsDetailsViewModel.class)
+    public abstract ViewModel bindWeldingAddDefectsDetailsViewModel (WeldingAddDefectsDetailsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingQualityDefectRepairViewModel.class)
+    public abstract ViewModel bindWeldingQualityDefectRepairViewModel (WeldingQualityDefectRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingQualityRepairViewModel.class)
+    public abstract ViewModel bindWeldingQualityRepairViewModel (WeldingQualityRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingProductionRepairViewModel.class)
+    public abstract ViewModel bindWeldingProductionRepairViewModel (WeldingProductionRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingProductionDefectRepairViewModel.class)
+    public abstract ViewModel bindWeldingProductionDefectRepairViewModel (WeldingProductionDefectRepairViewModel viewModel);
 }

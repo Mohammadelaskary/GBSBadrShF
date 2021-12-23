@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.gbsbadrsf.Quality.manfacturing.qualityrepair.QualityDefectRepairFragment">
+    tools:context="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment">
 
     <TextView
         android:id="@+id/quality_repair_txt"
