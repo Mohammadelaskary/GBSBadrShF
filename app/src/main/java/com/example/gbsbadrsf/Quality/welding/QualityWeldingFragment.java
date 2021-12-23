@@ -66,7 +66,7 @@ public class QualityWeldingFragment extends Fragment {
         });
         binding.rejectionRequestBtn.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_productionscrapFragment);
+            Navigation.findNavController(v).navigate(R.id.action_quality_welding_fragment_to_fragment_welding_rejection_request);
 
         });
         binding.randomQualityInspection.setOnClickListener(v -> {

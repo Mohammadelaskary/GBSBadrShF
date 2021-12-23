@@ -1,7 +1,10 @@
-package com.example.gbsbadrsf;
+package com.example.gbsbadrsf.Quality.welding.RejectionRequest;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+
+import androidx.lifecycle.ViewModelProviders;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,15 +14,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import com.example.gbsbadrsf.Model.Department;
-import com.example.gbsbadrsf.Model.LastMoveManufacturingBasketInfo;
-import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRejectionRequestViewModel;
+import com.example.gbsbadrsf.R;
+import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionRejectionBinding;
+import com.example.gbsbadrsf.databinding.WeldingRejectionRequestFragmentBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -32,19 +36,18 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-
-public class ProductionRejectionFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
-    private static final String GETTING_DATA_SUCCESSFULLY = "Getting data successfully";
-    ProductionRejectionViewModel viewModel;
+public class WeldingRejectionRequestFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+    private static final String GETTING_DATA_SUCCESSFULLY = "Data sent successfully";
+    WeldingRejectionRequestViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
-    public ProductionRejectionFragment() {
+    public WeldingRejectionRequestFragment() {
         // Required empty public constructor
     }
 
 
-    public static ProductionRejectionFragment newInstance() {
-        return new ProductionRejectionFragment();
+    public static WeldingRejectionRequestFragment newInstance() {
+        return new WeldingRejectionRequestFragment();
     }
 
     @Override
@@ -52,12 +55,12 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
         super.onCreate(savedInstanceState);
 
     }
-    FragmentProductionRejectionBinding binding;
+    WeldingRejectionRequestFragmentBinding binding;
     SetUpBarCodeReader barCodeReader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentProductionRejectionBinding.inflate(inflater,container,false);
+        binding = WeldingRejectionRequestFragmentBinding.inflate(inflater,container,false);
         barCodeReader = new SetUpBarCodeReader(this,this);
         binding.oldBasketCode.getEditText().requestFocus();
         initViewModel();
@@ -147,25 +150,25 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String childCode="",childDesc,jobOrderName,deviceSerial="dev1";
+    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1";
     int basketQty;
-    LastMoveManufacturingBasketInfo basketData;
+    LastMoveWeldingBasket basketData;
 
     private void getBasketData(String oldBasketCode) {
         viewModel.getBasketDataViewModel(userId,deviceSerial,oldBasketCode);
-        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
-            basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasketInfo();
-            String statusMessage = apiResponseLastMoveManufacturingBasket.getResponseStatus().getStatusMessage();
+        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWeldingBasket -> {
+            basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
+            String statusMessage = apiResponseLastMoveWeldingBasket.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
-            childCode = basketData.getChildCode();
-            childDesc = basketData.getChildDescription();
-            jobOrderName = basketData.getJobOrderName();
-            basketQty    = basketData.getQty();
-            fillViewsData();
+                parentCode = basketData.getParentCode();
+                parentDesc = basketData.getParentDescription();
+                jobOrderName = basketData.getJobOrderName();
+                basketQty    = basketData.getSignOffQty();
+                fillViewsData();
             } else {
                 binding.oldBasketCode.setError(statusMessage);
-                childCode = "";
-                childDesc = "";
+                parentCode = "";
+                parentDesc = "";
                 jobOrderName = "";
                 binding.basketqtn.setText("");
             }
@@ -173,8 +176,8 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
     }
 
     private void fillViewsData() {
-        binding.childcode.setText(childCode);
-        binding.childdesc.setText(childDesc);
+        binding.parentCode.setText(parentCode);
+        binding.parentDesc.setText(parentDesc);
         binding.jobordername.setText(jobOrderName);
         binding.basketqtn.setText(String.valueOf(basketQty));
     }
@@ -210,7 +213,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
         viewModel.getApiResponseDepartmentsListLiveData().observe(getViewLifecycleOwner(),apiResponseDepartmentsList -> {
             ResponseStatus responseStatus = apiResponseDepartmentsList.getResponseStatus();
             List<Department> departmentList = apiResponseDepartmentsList.getDepartments();
-            if (responseStatus.getStatusMessage().equals(GETTING_DATA_SUCCESSFULLY)){
+            if (responseStatus.getStatusMessage().equals("Getting data successfully")){
                 departments.clear();
                 departments.addAll(departmentList);
                 spinnerAdapter.notifyDataSetChanged();
@@ -221,7 +224,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ProductionRejectionViewModel.class);
+        viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestViewModel.class);
     }
     @Override
     public void onClick(View v) {
@@ -239,7 +242,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
                     if (!validRejectedQty)
                         binding.rejectedQtyEdt.setError("Rejected quantity must be fewer than or equal basket quantity!");
                 }
-                               String newBasketCode = binding.newBasketCode.getEditText().getText().toString().trim();
+                String newBasketCode = binding.newBasketCode.getEditText().getText().toString().trim();
 //                String newBasketCode = "Bskt10";
                 if (newBasketCode.isEmpty())
                     binding.newBasketCode.setError("Please scan or enter new basket code!");
@@ -250,7 +253,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
                 } else {
                     Toast.makeText(getContext(), "Please Select A Responsibility!", Toast.LENGTH_SHORT).show();
                 }
-                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!childCode.isEmpty()){
+                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!parentCode.isEmpty()){
                     saveRejectedRequest(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId);
                 }
             } break;

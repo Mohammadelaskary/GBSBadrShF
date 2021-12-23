@@ -355,10 +355,16 @@
             android:id="@+id/action_qualityweldingFragment_to_productionscraplistwe"
             app:destination="@id/productionscraplistwe" />
         <action
-            android:id="@+id/action_qualityweldingFragment_to_scraprequestFragment"
-            app:destination="@id/scraprequestFragment" />
+            android:id="@+id/action_quality_welding_fragment_to_fragment_welding_rejection_request"
+            app:destination="@id/fragment_welding_rejection_request" />
 
     </fragment>
+    <fragment
+        android:id="@+id/fragment_welding_rejection_request"
+        android:name="com.example.gbsbadrsf.Quality.welding.RejectionRequest.WeldingRejectionRequestFragment"
+        android:label="fragment_welding_rejection_request"
+        tools:layout="@layout/welding_rejection_request_fragment" />
+
     <fragment
         android:id="@+id/fragment_welding_quality_repair"
         android:name="com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityRepairFragment"

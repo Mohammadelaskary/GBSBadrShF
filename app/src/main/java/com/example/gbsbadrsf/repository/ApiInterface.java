@@ -25,6 +25,7 @@ import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseWeldingRepair_QC;
 import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
@@ -343,5 +344,15 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("Notes") String Notes,
           @Query("DefectStatus") int DefectStatus,
           @Query("QtyRepaired") int QtyRepaired
+  );
+
+  @GET("RejectionRequest_Welding")
+  Single<ApiResponseRejectionRequest_Welding> RejectionRequest_Welding(
+          @Query("UserID") int userId,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("OldBasketCode") String oldBasketCode,
+          @Query("NewBasketCode") String newBasketCode,
+          @Query("RejectionQty") int RejectionQty,
+          @Query("DepartmentID") int DepartmentID
   );
 }

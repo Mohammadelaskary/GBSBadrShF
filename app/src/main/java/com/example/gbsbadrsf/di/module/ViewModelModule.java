@@ -24,6 +24,7 @@ import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewMode
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRejectionRequestViewModel;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.di.ViewModelKey;
 import com.example.gbsbadrsf.machineloading.MachineloadingViewModel;
@@ -177,4 +178,8 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(WeldingProductionDefectRepairViewModel.class)
     public abstract ViewModel bindWeldingProductionDefectRepairViewModel (WeldingProductionDefectRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRejectionRequestViewModel.class)
+    public abstract ViewModel bindWeldingRejectionRequestViewModel (WeldingRejectionRequestViewModel viewModel);
 }
