@@ -31,12 +31,16 @@ import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
 import com.example.gbsbadrsf.data.response.ApiContinueloading;
+import com.example.gbsbadrsf.data.response.ApiGetPaintingLoadingSequenceStartLoading;
 import com.example.gbsbadrsf.data.response.ApiGetweldingloadingstartloading;
 import com.example.gbsbadrsf.data.response.ApiMachinesignoff;
+import com.example.gbsbadrsf.data.response.ApiPaintstation;
 import com.example.gbsbadrsf.data.response.ApiResponseMachinewip;
 import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.ApiResponseweldingbyjoborder;
+import com.example.gbsbadrsf.data.response.ApiSavePaintloading;
 import com.example.gbsbadrsf.data.response.ApiSavefirstloading;
+import com.example.gbsbadrsf.data.response.ApiWeldingsignoff;
 import com.example.gbsbadrsf.data.response.Apigetbasketcode;
 import com.example.gbsbadrsf.data.response.Apigetmachinecode;
 import com.example.gbsbadrsf.data.response.Apiinfoforstationcode;
@@ -48,10 +52,13 @@ import com.example.gbsbadrsf.data.response.MachinesWIP;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
+import com.example.gbsbadrsf.data.response.Pprpaint;
+import com.example.gbsbadrsf.data.response.Pprpaintcontainbaskets;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Stationcodeloading;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.UserInfo;
+import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 
 import java.util.List;
 
@@ -69,6 +76,12 @@ public interface ApiInterface {
   Single<ApiResponseweldingbyjoborder<List<PprWelding>>> getweldingsequence(@Query("UserID") String userid,
                                                                             @Query("DeviceSerialNo") String deviceserialnumber,
                                                                             @Query("JobOrderName") String jobordername);
+  //get paint station by job order
+  @GET("GetPaintingLoadingSequenceByJobOrder")
+  Single<ApiPaintstation<List<Pprpaint>>> getpaintsequence(@Query("UserID") String userid,
+                                                             @Query("DeviceSerialNo") String deviceserialnumber,
+                                                             @Query("JobOrderName") String jobordername);
+
 //getinfo for selected station
 //@GET("GetInfoForSelectedStation")
 //Single<Apigetinfoforselectedstation<StationLoading>> getinfoforselectedstation(@Query("UserID") String userid,@Query("DeviceSerialNo") String deviceserialnumber,@Query("ProductionStationEnName")String ProductionStationEnName);//old
@@ -76,6 +89,12 @@ public interface ApiInterface {
 Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingsequence(@Query("UserID") String userid,
                                                                                       @Query("DeviceSerialNo") String deviceserialnumber,
                                                                                       @Query("LoadingSequenceID") String loadingsequenceid);
+//get info for selected paint
+  @GET("GetPaintingLoadingSequenceStartLoading")
+  Single<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>>getpaintloadingsequence(@Query("UserID") String userid,
+                                                                                                      @Query("DeviceSerialNo") String deviceserialnumber,
+                                                                                                      @Query("LoadingSequenceID") String loadingsequenceid);
+
 //saveweldingloadingsequence
   @GET("SaveWeldingLoadingSequence")
   Single<ApiSavefirstloading<ResponseStatus>>saveweldingloadingsequence(@Query("UserID") String  userid,
@@ -86,6 +105,18 @@ Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingseq
                                                                        @Query("JobOrderID")String JoborderId,
                                                                        @Query("ParentID")String ParentId
                                                                         );
+  //savepaintloadingsequence
+  @GET("SavePaintingLoadingSequence")
+  Single<ApiSavePaintloading<ResponseStatus>>savepaintloadingsequence(@Query("UserID") String  userid,
+                                                                        @Query("DeviceSerialNo") String  DeviceSerialNo,
+                                                                        @Query("ProductionStationCode")String ProductionStationCode,
+                                                                        @Query("BasketCode")String BsketCode,
+                                                                        @Query("LoadingQty")String loadinyqty,
+                                                                        @Query("JobOrderID")String JoborderId,
+                                                                        @Query("ParentID")String ParentId
+  );
+
+
   //Getmachinewip
   @GET("GetMachinesWIP")
   Single<ApiResponseMachinewip<List<MachinesWIP>>> getmachinewip(@Query("UserID") String userid,
@@ -127,6 +158,9 @@ Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingseq
 
   @POST("MachineSignOff")
     Single<ApiMachinesignoff<ResponseStatus>> machinesignoff(@Body MachineSignoffBody jsonObject);
+  //welding signoff
+  @POST("StationSignOff")
+  Single<ApiWeldingsignoff<ResponseStatus>> weldingsignoff(@Body WeldingSignoffBody jsonObject);
   //get machine code in signoff
   @GET("GetInfoForSelectedMachine")
   Single<Apigetmachinecode<MachineLoading>> getmachinecodedata(@Query("UserID") String userid,@Query("DeviceSerialNo")String devicenumber,@Query("MachineCode")String machinecode);

@@ -5,26 +5,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background"
-    >
 
+    >
     <TextView
-        android:id="@+id/childdesc_txt"
+        android:id="@+id/parentdesc_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Child description : "
+        android:text="Parent description : "
         style="@style/styleoftextbold"
         />
 
     <TextView
-        android:id="@+id/childdesc"
+        android:id="@+id/parentdesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/childdesc_txt"
-        app:layout_constraintStart_toEndOf="@+id/childdesc_txt"
+        app:layout_constraintTop_toTopOf="@+id/parentdesc_txt"
+        app:layout_constraintStart_toEndOf="@+id/parentdesc_txt"
         android:text="sdsfsd"
         android:layout_marginTop="2dp"
         style="@style/styleoftext"
@@ -34,7 +34,7 @@
         android:id="@+id/signoffqty_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/childdesc_txt"
+        app:layout_constraintTop_toBottomOf="@id/parentdesc_txt"
         android:layout_marginTop="5dp"
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -169,6 +169,8 @@
         style="@style/styleoftextinbtn"
 
         />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

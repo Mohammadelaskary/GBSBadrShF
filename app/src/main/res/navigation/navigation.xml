@@ -562,7 +562,7 @@
     </fragment>
     <fragment
         android:id="@+id/paintdstation"
-        android:name="com.example.gbsbadrsf.Paint.Paintdstation"
+        android:name="com.example.gbsbadrsf.Paint.paintstation.Paintdstation"
         android:label="fragment_paintdstation"
         tools:layout="@layout/fragment_paintdstation" />
     <fragment

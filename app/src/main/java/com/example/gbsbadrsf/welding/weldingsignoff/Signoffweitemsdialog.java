@@ -1,11 +1,11 @@
-package com.example.gbsbadrsf.Manfacturing.machinesignoff;
+package com.example.gbsbadrsf.welding.weldingsignoff;
+
+import static com.example.gbsbadrsf.MainActivity.getBarcodeObject;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +22,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.Manfacturing.machinesignoff.Basketcodelst;
+import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffAdapter;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.Constant;
 import com.example.gbsbadrsf.data.response.Ppr;
@@ -36,16 +38,16 @@ import com.honeywell.aidc.TriggerStateChangeEvent;
 import com.honeywell.aidc.UnsupportedPropertyException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.gbsbadrsf.MainActivity.getBarcodeObject;
+public class Signoffweitemsdialog extends DialogFragment implements BarcodeReader.BarcodeListener,
+        BarcodeReader.TriggerListener, productionsequenceadapter.onCheckedChangedListener{
 
-public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.BarcodeListener,
-        BarcodeReader.TriggerListener, productionsequenceadapter.onCheckedChangedListener {
+
     private static final String TAG = "MyCustomDialog";
+
 
     public interface OnInputSelected{
         // void sendInput(String input);
@@ -53,7 +55,7 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
 
 
     }
-    public OnInputSelected mOnInputSelected;
+    public Signoffweitemsdialog.OnInputSelected mOnInputSelected;
 
     Constant constant = new Constant();
     private RecyclerView recyclerView;
@@ -61,17 +63,19 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
     private com.honeywell.aidc.BarcodeReader barcodeReader;
     EditText editText,totalqtn,basketcode;
     Button save;
-    TextView childdesc,signoffqty,Totalqtn;
+    TextView parentdesc,signoffqty,Totalqtn;
     Bundle mArgs;
     Switch simpleSwitch;
     List<Basketcodelst> basketcodelstList;
     public Integer totalQty = 0;
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.signoffcustomdialog,container,false);
+        View view=inflater.inflate(R.layout.signoffwecustomdialog,container,false);
         simpleSwitch = view.findViewById(R.id.simpleSwitch); // initiate Switch
         recyclerView = view.findViewById(R.id.basketcode_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -80,13 +84,13 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
         save=view.findViewById(R.id.save_btn);
         totalqtn=view.findViewById(R.id.totalqtn_edt);
         basketcode=view.findViewById(R.id.basketcode_edt);
-        childdesc=view.findViewById(R.id.childdesc);
+        parentdesc=view.findViewById(R.id.parentdesc);
         signoffqty=view.findViewById(R.id.signoffqty);
         Totalqtn=view.findViewById(R.id.totalqtn);
 
         //Bundle mArgs = getArguments();
         mArgs=getArguments();
-        childdesc.setText( mArgs.getString("childdesc"));
+        parentdesc.setText( mArgs.getString("parentdesc"));
         signoffqty.setText( mArgs.getString("loadingqty"));
         Totalqtn.setText( mArgs.getString("loadingqty"));
 
@@ -305,10 +309,11 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mOnInputSelected = (OnInputSelected) getTargetFragment();
+            mOnInputSelected = (Signoffweitemsdialog.OnInputSelected) getTargetFragment();
         }catch (ClassCastException e){
             Log.e(TAG, "onAttach: ClassCastException : " + e.getMessage() );
         }
     }
 
 }
+
