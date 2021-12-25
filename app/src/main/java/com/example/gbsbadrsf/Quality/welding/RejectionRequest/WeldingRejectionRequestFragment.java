@@ -118,7 +118,8 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                getBasketData(s.toString());
+                oldBasketCode = s.toString();
+                getBasketData(oldBasketCode);
             }
 
             @Override
@@ -150,7 +151,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1";
+    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1",oldBasketCode,newBasketCode;
     int basketQty;
     LastMoveWeldingBasket basketData;
 

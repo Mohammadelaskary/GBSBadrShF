@@ -4,20 +4,14 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
-import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
-import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
 import com.example.gbsbadrsf.R;
@@ -25,10 +19,8 @@ import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.databinding.FragmentManufacturingQualityOperationBinding;
 import com.example.gbsbadrsf.databinding.FragmentWeldingQualityOperationBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -43,7 +35,7 @@ import dagger.android.support.DaggerFragment;
 public class WeldingQualityOperationFragment extends DaggerFragment implements  BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
     FragmentWeldingQualityOperationBinding binding;
-    WeldingQualityOperationViewModel viewModel;
+    public static WeldingQualityOperationViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
     @Inject
     ViewModelProviderFactory provider;
@@ -69,12 +61,17 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         binding = FragmentWeldingQualityOperationBinding.inflate(inflater,container,false);
         barCodeReader = new SetUpBarCodeReader(this,this);
+        initViewModel();
+        if (viewModel.getBasketData()!=null){
+            basketData = viewModel.getBasketData();
+            fillViews();
+        }
         addTextWatcher();
         attachListener();
-        initViewModel();
+
         observeGettingDataStatus();
         return binding.getRoot();
     }
@@ -88,7 +85,8 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getBasketData(charSequence.toString());
+                basketCode = charSequence.toString();
+                getBasketData(basketCode);
             }
 
             @Override
@@ -117,37 +115,41 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     }
 
     private void dischargeViews() {
-        childCode ="";
-        childDesc = "";
+        parentCode ="";
+        parentDesc = "";
         jobOrderName = "";
-        binding.parentCode.setText(childCode);
-        binding.parentDesc.setText(childDesc);
+        binding.parentCode.setText(parentCode);
+        binding.parentDesc.setText(parentDesc);
         binding.jobOrderName.setText(jobOrderName);
         binding.signoffQtnEdt.setText("");
         binding.operation.setText("");
     }
-    String childCode="",childDesc,jobOrderName;
+    String parentCode ="",parentDesc,jobOrderName,basketCode;
     int qnt,operationId;
     private void fillViews() {
-        childCode = basketData.getParentCode();
-        childDesc = basketData.getParentDescription();
+//        basketCode = basketData.getBasketCode();
+        parentCode = basketData.getParentCode();
+        parentDesc = basketData.getParentDescription();
         jobOrderName = basketData.getJobOrderName();
-        qnt = basketData.getSignOffQty();
-        operationId = basketData.getOperationId();
-        binding.parentCode.setText(childCode);
-        binding.parentDesc.setText(childDesc);
+        if (basketData.getSignOffQty()!=null) {
+            qnt = basketData.getSignOffQty();
+            binding.signoffQtnEdt.setText(String.valueOf(qnt));
+        }else
+            binding.signoffQtnEdt.setText("");
+        if (basketData.getOperationId()!=null) {
+            operationId = basketData.getOperationId();
+            binding.operation.setText(String.valueOf(operationId));
+        }else
+            binding.operation.setText("");
+//        binding.basketCode.getEditText().setText(basketCode);
+        binding.parentCode.setText(parentCode);
+        binding.parentDesc.setText(parentDesc);
         binding.jobOrderName.setText(jobOrderName);
-        binding.signoffQtnEdt.setText(String.valueOf(qnt));
-        binding.operation.setText(String.valueOf(operationId));
     }
 
 
     private void initViewModel() {
-//        viewModel = ViewModelProvider.AndroidViewModelFactory
-//                .getInstance(getActivity().getApplication()).create(ManufacturingQualityViewModel.class);
         viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityOperationViewModel.class);
-
-
     }
 
     private void observeGettingDataStatus() {
@@ -164,7 +166,6 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     }
     String sampleQty;
     boolean newSample;
-    BottomSheetBehavior addDefectSheetBehaviour;
     private void attachListener() {
         binding.addDefectButton.setOnClickListener(v -> {
             sampleQty = binding.sampleQtnEdt.getText().toString().trim();
@@ -180,7 +181,7 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
                     if (Integer.parseInt(sampleQty)>0)
                         Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
                 }
-                if (!sampleQty.isEmpty() && validSampleQty && !childCode.isEmpty()) {
+                if (!sampleQty.isEmpty() && validSampleQty && !parentCode.isEmpty()) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("basketData", basketData);
                     bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
@@ -230,7 +231,8 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        basketData.setBasketCode(basketCode);
+        viewModel.setBasketData(basketData);
     }
 
 

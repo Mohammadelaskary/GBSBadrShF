@@ -25,6 +25,7 @@ import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseQualityOperationSignOff_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseWeldingRepair_QC;
 import com.example.gbsbadrsf.data.response.APIResponse;
@@ -265,9 +266,17 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("DT") String date,
           @Query("FinalQualityDecisionId") int FinalQualityDecisionId
   );
+  @POST("QualityOperationSignOff_Welding")
+  Single<ApiResponseQualityOperationSignOff_Welding> QualityOperationSignOff_Welding(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("DT") String date,
+          @Query("FinalQualityDecisionId") int FinalQualityDecisionId
+  );
   @GET("GetRejectionRequestsList")
   Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList();
-
+  @GET("GetRejectionRequestsList")
+  Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList_Welding();
   @GET("RejectionRequestTakeAction")
   Single<ApiResponseRejectionRequestTakeAction> RejectionRequestTakeAction(
           @Query("UserID") int UserID,
@@ -275,8 +284,20 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("IsApproved") boolean IsApproved
 
   );
+  @GET("RejectionRequestTakeAction")
+  Single<ApiResponseRejectionRequestTakeAction> RejectionRequestTakeAction_Welding(
+          @Query("UserID") int UserID,
+          @Query("RejectionRequestId") int RejectionRequestId,
+          @Query("IsApproved") boolean IsApproved
+
+  );
   @GET("GetCheckList")
   Single<ApiResponseGetCheckList> getCheckList(
+          @Query("UserID") int UserID,
+          @Query("OperationID") int OperationID
+  );
+  @GET("GetCheckList")
+  Single<ApiResponseGetCheckList> getCheckList_Welding(
           @Query("UserID") int UserID,
           @Query("OperationID") int OperationID
   );
@@ -293,8 +314,29 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("OperationId") int OperationId,
           @Query("CheckListElementId") int CheckListElementId
   );
+  @GET("SaveCheckList")
+  Single<ApiResponseSaveCheckList> saveCheckList_Welding(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("LastMoveId") int LastMoveId,
+          @Query("ChildId") int ChildId,
+          @Query("ChildCode") String ChildCode,
+          @Query("JobOrderId") int JobOrderId,
+          @Query("JobOrderName") String JobOrderName,
+          @Query("PprLoadingId") int PprLoadingId,
+          @Query("OperationId") int OperationId,
+          @Query("CheckListElementId") int CheckListElementId
+  );
   @GET("GetSavedCheckList")
   Single<ApiResponseGetSavedCheckList> getSavedCheckList(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("ChildId") int ChildId,
+          @Query("JobOrderId") int JobOrderId,
+          @Query("OperationID") int OperationID
+  );
+  @GET("GetSavedCheckList")
+  Single<ApiResponseGetSavedCheckList> getSavedCheckList_Welding(
           @Query("UserID") int UserID,
           @Query("DeviceSerialNo") String DeviceSerialNo,
           @Query("ChildId") int ChildId,

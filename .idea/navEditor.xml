@@ -277,7 +277,31 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="fragment_welding_re">
+                  <entry key="fragment_welding_rejection_request">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_welding_rejection_request_details">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_welding_rejection_requests_list">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -288,7 +312,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="fragment_welding_quality_repair_to_fragment_welding_quality_defect_repair">
+                            <entry key="action_fragment_welding_rejection_requests_list_to_fragment_welding_rejection_request_details">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -792,18 +816,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="productionScraprequestwe">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="1793" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="productionSequence">
                     <value>
                       <LayoutPositions>
@@ -911,27 +923,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="productionscraplistwe">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="1793" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_productionscraplistwe_to_productionScraprequestwe">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="productionscraprequestqcFragment">
                     <value>
                       <LayoutPositions>
@@ -939,18 +930,6 @@
                           <Point>
                             <option name="x" value="1720" />
                             <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="qcdesicionwe">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="1437" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -980,11 +959,6 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_fragment_quality_decision_to_fragment_display_defect_details">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_qualitydesicionFragment_to_scrapFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -1126,6 +1100,16 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragment_quality_main_to_fragment_welding_rejection_requests_list">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_quality_welding_fragment_to_fragment_welding_rejection_request">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_quality_welding_fragment_to_welding_quality_operation">
                               <value>
                                 <LayoutPositions />
@@ -1136,34 +1120,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_qualityweldingFragment_to_productionscraplistwe">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_qualityweldingFragment_to_qcdesicionwe">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_qualityweldingFragment_to_scraprequestFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="scrapFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="724" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -1269,6 +1226,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_quality_welding_fragment_to_fragment_welding_rejection_request">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_weldingMenuFragment_to_baskettransferweFragment">
                               <value>
                                 <LayoutPositions />

@@ -19,6 +19,9 @@ import com.example.gbsbadrsf.Quality.Data.RandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionViewModel;
+import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsViewModel;
+import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestsListQualityViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
@@ -182,4 +185,17 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(WeldingRejectionRequestViewModel.class)
     public abstract ViewModel bindWeldingRejectionRequestViewModel (WeldingRejectionRequestViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRejectionRequestsListQualityViewModel.class)
+    public abstract ViewModel bindWeldingRejectionRequestsListQualityViewModel (WeldingRejectionRequestsListQualityViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRejectionRequestDetailsViewModel.class)
+    public abstract ViewModel bindWeldingRejectionRequestDetailsViewModel (WeldingRejectionRequestDetailsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingQualityDecisionViewModel.class)
+    public abstract ViewModel bindWeldingQualityDecisionViewModel (WeldingQualityDecisionViewModel viewModel);
+
 }

@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private static BarcodeReader barcodeReader;
     private static BarcodeReader barcodeReaderSequence;
     private AidcManager manager;
-    public static String BASE_URL;
+    public static String IP;
 
 
 
@@ -44,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
     }
     private void getBaseUrlFromSharedPreferences() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        prefs.edit().remove("base_url").apply();
         if (prefs.contains("base_url"))
-            BASE_URL = prefs.getString("base_url", "No name defined");
+            IP = prefs.getString("base_url", "No name defined");
         else
-            BASE_URL = "http://45.241.58.79:97/api/GBSShopFloor/";
+            IP = "45.241.58.79:97";
     }
 
 

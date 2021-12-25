@@ -33,23 +33,50 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="welding production repair">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/Model/ApiResponse/ApiResponseRejectionRequest_Welding.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequest/WeldingRejectionRequestFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestsListFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestsListViewModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingRejectionRequestViewModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/welding_rejection_request_fragment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/welding_rejection_requests_list_fragment.xml" afterDir="false" />
+    <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="welding rejection request">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/Model/ApiResponse/ApiResponseQualityOperationSignOff_Welding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingCheckListAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingCheckListDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingQualityDecisionFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingQualityDecisionViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingSetOnCheckItemChecked.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionListAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestDetailsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestDetailsViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestsListQualityFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestsListQualityViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_rejection_request.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_quality_signoff.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/welding_dialog_checklist.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/ProductionRejectionFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/ProductionRejectionFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/manfacturing/ManfacturingqualityFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/manfacturing/ManfacturingqualityFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/manfacturing/QualityDecision/ScrapFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/Model/LastMoveWeldingBasket.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/Model/LastMoveWeldingBasket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityRepair/WeldingQualityDefectRepairFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityRepair/WeldingQualityDefectRepairFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityRepair/WeldingQualityRepairFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityRepair/WeldingQualityRepairFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityWeldingFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityWeldingFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequest/WeldingRejectionRequestFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequest/WeldingRejectionRequestFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestsListFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/RejectionRequestsList/WeldingRejectionRequestsListViewModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingQualityOperationViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingQualityOperationViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingQualityRepairViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingQualityRepairViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingRejectionRequestViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/ViewModel/WeldingRejectionRequestViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectDetailsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectDetailsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingAddDefects/WeldingAddDefectsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingQualityOperationFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/WeldingQualityOperationFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/productionscraprequestwe/ProductionScraprequestwe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/productionscraprequestwe/ProductionscraplistAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/productionscraprequestwe/Productionscraplistwe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/qcdesicionwe/Qcdesicionwe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/qcdesicionwe/qcdesicionweAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Util/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Util/Constant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ViewModelModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ViewModelModule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/repository/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/repository/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/WeldingMenuFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/WeldingMenuFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_qualitywelding.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_qualitywelding.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/navigation.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +84,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[20253B09E9]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Dell\.android\avd\Pixel_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -96,9 +123,9 @@
       <list>
         <option value="AnnotationType" />
         <option value="Enum" />
-        <option value="layoutResourceFile" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -126,6 +153,7 @@
   <component name="ProjectId" id="1zMdb943jskigh4DnnvYlUX5TfP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -141,17 +169,17 @@
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\ghabbour project\GBSBadrSF_Work-master\app\src\main\java\com\example\gbsbadrsf\Quality\welding\QualitySignOff" />
+      <recent name="F:\ghabbour project\GBSBadrSF_Work-master\app\src\main\java\com\example\gbsbadrsf\Quality\welding\RejectionRequestsList" />
       <recent name="F:\ghabbour project\GBSBadrSF_Work-master\app\src\main\res\layout" />
       <recent name="F:\ghabbour project\GBSBadrSF_Work-master\app\src\main\java\com\example\gbsbadrsf" />
       <recent name="F:\ghabbour project\GBSBadrSF_Work-master\app\src\main\java\com\example\gbsbadrsf\Production\Data" />
-      <recent name="F:\ghabbour project\GBSBadrSF_Work-master\app\src\main\java\com\example\gbsbadrsf\Model" />
-      <recent name="C:\Users\Walid ElMarassy\AndroidStudioProjects\GBSBadrSF_Work\app\src\main\res\drawable" />
     </key>
     <key name="android.template.-542502446">
       <recent name="com.example.gbsbadrsf" />
@@ -160,10 +188,11 @@
       <recent name="com.example.gbsbadrsf.Quality.welding.ViewModel" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.gbsbadrsf.Quality.welding.QualitySignOff" />
+      <recent name="com.example.gbsbadrsf.Quality.manfacturing.QualityDecision" />
       <recent name="com.example.gbsbadrsf.Production.WeldingQuality" />
       <recent name="com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse" />
       <recent name="com.example.gbsbadrsf.Quality.welding.ViewModel" />
-      <recent name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects" />
     </key>
   </component>
   <component name="RunManager">
@@ -292,7 +321,13 @@
       <option name="presentableId" value="LOCAL؜٠٠٠٠٧" />
       <updated>1640086989718</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL؜٠٠٠٠٨" summary="welding rejection request">
+      <created>1640269439684</created>
+      <option name="number" value="LOCAL؜٠٠٠٠٨" />
+      <option name="presentableId" value="LOCAL؜٠٠٠٠٨" />
+      <updated>1640269439684</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -316,7 +351,8 @@
     <MESSAGE value="merging test for the app" />
     <MESSAGE value="merge with waleed" />
     <MESSAGE value="welding quality operation add defects and details" />
-    <option name="LAST_COMMIT_MESSAGE" value="welding quality operation add defects and details" />
+    <MESSAGE value="welding rejection request" />
+    <option name="LAST_COMMIT_MESSAGE" value="welding rejection request" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

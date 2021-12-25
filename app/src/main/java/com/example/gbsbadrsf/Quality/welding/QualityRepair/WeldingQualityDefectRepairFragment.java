@@ -15,6 +15,7 @@ import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
@@ -47,7 +48,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     }
     WeldingQualityDefectRepairFragmentBinding binding;
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
-    WeldingQualityDefectRepairViewModel viewModel;
+    WeldingQualityRepairViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
     WeldingRepairProductionQualityAdapter adapter;
@@ -100,7 +101,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityDefectRepairViewModel.class);
+        viewModel = WeldingQualityRepairFragment.viewModel;
     }
 
     private void attachButtonToListener() {

@@ -60,11 +60,7 @@ FragmentWeldingMenuBinding fragmentWeldingMenuBinding;
 //            Navigation.findNavController(getView()).navigate(R.id.action_weldingMenuFragment_to_baskettransferweFragment);
 //
 //        });
-        fragmentWeldingMenuBinding.scraprequestBtn.setOnClickListener(__ -> {
 
-            Navigation.findNavController(getView()).navigate(R.id.action_weldingMenuFragment_to_scraprequestFragment);
-
-        });
         fragmentWeldingMenuBinding.weldingwipBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_weldingMenuFragment_to_weldingwip);
@@ -80,7 +76,9 @@ FragmentWeldingMenuBinding fragmentWeldingMenuBinding;
             Navigation.findNavController(getView()).navigate(R.id.action_welding_menu_fragment_to_fragment_welding_production_repair);
 
         });
-
+        fragmentWeldingMenuBinding.scraprequestBtn.setOnClickListener(__->{
+            Navigation.findNavController(getView()).navigate(R.id.action_quality_welding_fragment_to_fragment_welding_rejection_request);
+        });
 
 
 

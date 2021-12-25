@@ -48,6 +48,10 @@ public class LastMoveWeldingBasket implements Parcelable {
     @Expose
     private Boolean isBulkQty;
 
+    public LastMoveWeldingBasket() {
+    }
+
+
     protected LastMoveWeldingBasket(Parcel in) {
         if (in.readByte() == 0) {
             basketMoveId = null;

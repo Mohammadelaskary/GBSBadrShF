@@ -20,6 +20,8 @@ import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnM
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
+import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -56,7 +58,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
     FragmentWeldingAddDefectDetailsBinding binding;
     LastMoveWeldingBasket basketData;
-    WeldingAddDefectsDetailsViewModel viewModel;
+    WeldingQualityOperationViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -119,7 +121,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsDetailsViewModel.class);
+        viewModel = WeldingQualityOperationFragment.viewModel;
     }
 
     private void fillData() {
