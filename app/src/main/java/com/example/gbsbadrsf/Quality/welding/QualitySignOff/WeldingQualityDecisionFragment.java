@@ -281,10 +281,8 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         parentDesc = defectsWelding.getParentDescription();
         operation = defectsWelding.getOperationEnName();
         operationId = defectsWelding.getOperationId();
-//        lastMoveId = defectsWelding.getLastMoveId();
-//        pprLoadingId = defectsWelding.getPprLoadingId();
-        lastMoveId = 1;
-        pprLoadingId = 1;
+        lastMoveId = defectsWelding.getLastMoveId();
+        pprLoadingId = defectsWelding.getPprLoadingId();
         defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
         basketData = new LastMoveWeldingBasket();
         basketData.setParentCode(parentCode);

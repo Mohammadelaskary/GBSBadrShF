@@ -2,6 +2,8 @@ package com.example.gbsbadrsf.di.module;
 
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
+import com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionDefectRepairFragment;
+import com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionRepairFragment;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.ProductionRepairFragment;
 import com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionDefectRepairFragment;
@@ -16,6 +18,17 @@ import com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.QualityDecisio
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception.RandomQualityInceptionFragment;
+import com.example.gbsbadrsf.Quality.paint.AddDefects.PaintAddDefectDetailsFragment;
+import com.example.gbsbadrsf.Quality.paint.AddDefects.PaintAddDefectsFragment;
+import com.example.gbsbadrsf.Quality.paint.AddDefects.PaintDisplayDefectDetailsFragment;
+import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
+import com.example.gbsbadrsf.Quality.paint.QualityPaintFragment;
+import com.example.gbsbadrsf.Quality.paint.QualityRepair.PaintQualityDefectRepairFragment;
+import com.example.gbsbadrsf.Quality.paint.QualityRepair.PaintQualityRepairFragment;
+import com.example.gbsbadrsf.Quality.paint.QualitySignOff.PaintQualityDecisionFragment;
+import com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment;
+import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsFragment;
+import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityFragment;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityRepairFragment;
 import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionFragment;
@@ -106,6 +119,32 @@ public abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector
     abstract WeldingQualityDecisionFragment contributeWeldingQualityDecisionFragment ();
+    @ContributesAndroidInjector
+    abstract PaintQualityDefectRepairFragment contributePaintQualityDefectRepairFragment ();
+    @ContributesAndroidInjector
+    abstract PaintQualityRepairFragment contributePaintQualityRepairFragment ();
+    @ContributesAndroidInjector
+    abstract PaintQualityDecisionFragment contributePaintQualityDecisionFragment ();
+    @ContributesAndroidInjector
+    abstract PaintRejectionRequestFragment contributePaintRejectionRequestFragment ();
+    @ContributesAndroidInjector
+    abstract PaintRejectionRequestDetailsFragment contributePaintRejectionRequestDetailsFragment ();
+    @ContributesAndroidInjector
+    abstract PaintRejectionRequestsListQualityFragment contributePaintRejectionRequestsListQualityFragment ();
+    @ContributesAndroidInjector
+    abstract PaintQualityOperationFragment contributePaintQualityOperationFragment ();
+    @ContributesAndroidInjector
+    abstract QualityPaintFragment contributeQualityPaintFragment ();
+    @ContributesAndroidInjector
+    abstract PaintAddDefectsFragment contributePaintAddDefectsFragment ();
+    @ContributesAndroidInjector
+    abstract PaintAddDefectDetailsFragment contributePaintAddDefectDetailsFragment ();
+    @ContributesAndroidInjector
+    abstract PaintDisplayDefectDetailsFragment contributePaintDisplayDefectDetailsFragment ();
+    @ContributesAndroidInjector
+    abstract PaintProductionRepairFragment contributePaintProductionRepairFragment ();
+    @ContributesAndroidInjector
+    abstract PaintProductionDefectRepairFragment contributePaintProductionDefectRepairFragment ();
 
 
 

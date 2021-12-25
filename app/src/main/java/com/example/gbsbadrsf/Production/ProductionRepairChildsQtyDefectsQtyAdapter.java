@@ -40,7 +40,7 @@ public class ProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Ada
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("selectedDefectsManufacturing",selectedDefectsManufacturing);
                 bundle.putParcelable("basketData",basketData);
-                Navigation.findNavController(v).navigate(R.id.action_fragment_production_repair_to_fragment_production_defect_repair,bundle);
+                Navigation.findNavController(v).navigate(R.id.action_manufacturing_production_repair_to_fragment_manufacturing_production_defects_repair,bundle);
             });
 
     }

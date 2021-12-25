@@ -32,8 +32,8 @@ public class WeldingRejectionRequestsListQualityViewModel extends ViewModel {
 
     }
 
-    public void getRejectionRequests(){
-        disposable.add(apiInterface.getRejectionRequestsList_Welding()
+    public void getRejectionRequests(int userId,String deviceSerialNo){
+        disposable.add(apiInterface.getRejectionRequestsList_Welding(userId, deviceSerialNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> getRejectionRequestListStatus.postValue(Status.LOADING))

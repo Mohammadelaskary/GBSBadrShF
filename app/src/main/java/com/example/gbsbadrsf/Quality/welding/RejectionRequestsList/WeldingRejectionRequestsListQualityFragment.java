@@ -64,9 +64,10 @@ public class WeldingRejectionRequestsListQualityFragment extends DaggerFragment 
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestsListQualityViewModel.class);
     }
-
+    int userId = 1;
+    String deviceSerialNo = "S1";
     private void getRejectionRequestsList() {
-        viewModel.getRejectionRequests();
+        viewModel.getRejectionRequests(userId,deviceSerialNo);
         viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseGetRejectionRequestList -> {
             String statusMessage = apiResponseGetRejectionRequestList.getResponseStatus().getStatusMessage();
             List<RejectionRequest> rejectionRequestsList = apiResponseGetRejectionRequestList.getRejectionRequest();

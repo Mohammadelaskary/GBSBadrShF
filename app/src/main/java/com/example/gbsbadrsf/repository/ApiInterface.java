@@ -275,8 +275,12 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
   );
   @GET("GetRejectionRequestsList")
   Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList();
-  @GET("GetRejectionRequestsList")
-  Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList_Welding();
+
+  @GET("GetRejectionRequestsList_Welding")
+  Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList_Welding(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String deviceSerialNumber
+  );
   @GET("RejectionRequestTakeAction")
   Single<ApiResponseRejectionRequestTakeAction> RejectionRequestTakeAction(
           @Query("UserID") int UserID,
@@ -284,7 +288,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("IsApproved") boolean IsApproved
 
   );
-  @GET("RejectionRequestTakeAction")
+  @GET("RejectionRequestTakeAction_Welding")
   Single<ApiResponseRejectionRequestTakeAction> RejectionRequestTakeAction_Welding(
           @Query("UserID") int UserID,
           @Query("RejectionRequestId") int RejectionRequestId,
@@ -314,7 +318,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("OperationId") int OperationId,
           @Query("CheckListElementId") int CheckListElementId
   );
-  @GET("SaveCheckList")
+  @GET("SaveCheckList_Welding")
   Single<ApiResponseSaveCheckList> saveCheckList_Welding(
           @Query("UserID") int UserID,
           @Query("DeviceSerialNo") String DeviceSerialNo,
@@ -350,7 +354,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("BasketCode") String BasketCode
   );
 
-  @GET("GetWeldingDefectedQtyByBasketCode")
+  @GET("GetQualityOperationByBasketCode_Welding")
   Single<ApiResponseGetWeldingDefectedQtyByBasketCode> getWeldingDefectedQtyByBasketCode(
           @Query("UserID") int userId,
           @Query("DeviceSerialNo") String deviceSerialNumber,
@@ -388,7 +392,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("QtyRepaired") int QtyRepaired
   );
 
-  @GET("RejectionRequest_Welding")
+  @GET("SaveRejectionRequest_Welding")
   Single<ApiResponseRejectionRequest_Welding> RejectionRequest_Welding(
           @Query("UserID") int userId,
           @Query("DeviceSerialNo") String deviceSerialNumber,

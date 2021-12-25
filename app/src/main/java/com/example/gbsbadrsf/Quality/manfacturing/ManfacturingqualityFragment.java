@@ -63,7 +63,7 @@ public class ManfacturingqualityFragment extends Fragment {
         });
         binding.rejectionRequestBtn.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_quality_welding_fragment_to_fragment_welding_rejection_request);
+            Navigation.findNavController(v).navigate(R.id.action_fragment_manufacturing_quality_to_fragment_manufacturing_rejection_request);
 
         });
         binding.randomQualityInspection.setOnClickListener(v -> {

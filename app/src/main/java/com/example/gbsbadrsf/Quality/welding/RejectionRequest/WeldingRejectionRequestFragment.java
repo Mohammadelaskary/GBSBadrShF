@@ -266,7 +266,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
-            if (!statusMessage.equals("Saved Successfully"))
+            if (!statusMessage.equals("Saved successfully"))
                 binding.newBasketCode.setError(statusMessage);
             else
                 Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();

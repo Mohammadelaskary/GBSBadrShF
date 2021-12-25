@@ -49,6 +49,15 @@ public class DefectsWelding implements Parcelable {
     @SerializedName("operationEnName")
     @Expose
     private String operationEnName;
+    @SerializedName("sampleQty")
+    @Expose
+    private Integer sampleQty;
+    @SerializedName("pprLoadingId")
+    @Expose
+    private Integer pprLoadingId;
+    @SerializedName("lastMoveId")
+    @Expose
+    private Integer lastMoveId;
     @SerializedName("dateProductionRepair")
     @Expose
     private String dateProductionRepair;
@@ -132,6 +141,21 @@ public class DefectsWelding implements Parcelable {
             operationId = in.readInt();
         }
         operationEnName = in.readString();
+        if (in.readByte() == 0) {
+            sampleQty = null;
+        } else {
+            sampleQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            pprLoadingId = null;
+        } else {
+            pprLoadingId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            lastMoveId = null;
+        } else {
+            lastMoveId = in.readInt();
+        }
         dateProductionRepair = in.readString();
         dateQualityApprove = in.readString();
         dateQualityReject = in.readString();
@@ -181,6 +205,140 @@ public class DefectsWelding implements Parcelable {
         } else {
             defectStatusReject = in.readInt();
         }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (weldingDefectsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(weldingDefectsId);
+        }
+        if (defectsWeldingDetailsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectsWeldingDetailsId);
+        }
+        if (defectId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectId);
+        }
+        dest.writeString(defectCode);
+        dest.writeString(defectDescription);
+        if (parentId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(parentId);
+        }
+        dest.writeString(parentCode);
+        dest.writeString(parentDescription);
+        if (deffectedQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(deffectedQty);
+        }
+        if (jobOrderId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderId);
+        }
+        dest.writeString(jobOrderName);
+        dest.writeString(jobOrderDate);
+        if (operationId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationId);
+        }
+        dest.writeString(operationEnName);
+        if (sampleQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(sampleQty);
+        }
+        if (pprLoadingId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprLoadingId);
+        }
+        if (lastMoveId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(lastMoveId);
+        }
+        dest.writeString(dateProductionRepair);
+        dest.writeString(dateQualityApprove);
+        dest.writeString(dateQualityReject);
+        dest.writeString(dateQualityRepair);
+        if (qtyRepaired == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRepaired);
+        }
+        if (qtyDefected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyDefected);
+        }
+        if (qtyRejected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRejected);
+        }
+        if (qtyApproved == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyApproved);
+        }
+        if (defectStatus == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatus);
+        }
+        if (defectStatusProduction == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusProduction);
+        }
+        if (defectStatusQc == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusQc);
+        }
+        if (defectStatusApprove == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusApprove);
+        }
+        if (defectStatusReject == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusReject);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<DefectsWelding> CREATOR = new Creator<DefectsWelding>() {
@@ -307,6 +465,30 @@ public class DefectsWelding implements Parcelable {
         this.operationEnName = operationEnName;
     }
 
+    public Integer getSampleQty() {
+        return sampleQty;
+    }
+
+    public void setSampleQty(Integer sampleQty) {
+        this.sampleQty = sampleQty;
+    }
+
+    public Integer getPprLoadingId() {
+        return pprLoadingId;
+    }
+
+    public void setPprLoadingId(Integer pprLoadingId) {
+        this.pprLoadingId = pprLoadingId;
+    }
+
+    public Integer getLastMoveId() {
+        return lastMoveId;
+    }
+
+    public void setLastMoveId(Integer lastMoveId) {
+        this.lastMoveId = lastMoveId;
+    }
+
     public String getDateProductionRepair() {
         return dateProductionRepair;
     }
@@ -411,119 +593,4 @@ public class DefectsWelding implements Parcelable {
         this.defectStatusReject = defectStatusReject;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (weldingDefectsId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(weldingDefectsId);
-        }
-        if (defectsWeldingDetailsId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectsWeldingDetailsId);
-        }
-        if (defectId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectId);
-        }
-        dest.writeString(defectCode);
-        dest.writeString(defectDescription);
-        if (parentId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(parentId);
-        }
-        dest.writeString(parentCode);
-        dest.writeString(parentDescription);
-        if (deffectedQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(deffectedQty);
-        }
-        if (jobOrderId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderId);
-        }
-        dest.writeString(jobOrderName);
-        dest.writeString(jobOrderDate);
-        if (operationId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(operationId);
-        }
-        dest.writeString(operationEnName);
-        dest.writeString(dateProductionRepair);
-        dest.writeString(dateQualityApprove);
-        dest.writeString(dateQualityReject);
-        dest.writeString(dateQualityRepair);
-        if (qtyRepaired == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyRepaired);
-        }
-        if (qtyDefected == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyDefected);
-        }
-        if (qtyRejected == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyRejected);
-        }
-        if (qtyApproved == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyApproved);
-        }
-        if (defectStatus == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatus);
-        }
-        if (defectStatusProduction == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusProduction);
-        }
-        if (defectStatusQc == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusQc);
-        }
-        if (defectStatusApprove == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusApprove);
-        }
-        if (defectStatusReject == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusReject);
-        }
-    }
 }
