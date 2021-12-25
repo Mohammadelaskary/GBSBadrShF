@@ -24,9 +24,11 @@ import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetInfoForQualityRandomInpection_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseQualityOperationSignOff_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseSaveQualityRandomInpection_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseWeldingRepair_QC;
 import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
@@ -224,6 +226,12 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("DeviceSerialNo") String deviceSerialNumber,
           @Query("Code") String Code
   );
+  @GET("GetInfoForQualityRandomInpection_Welding")
+  Single<ApiResponseGetInfoForQualityRandomInpection_Welding> GetInfoForQualityRandomInpection_Welding(
+          @Query("UserID") int userId,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("Code") String Code
+  );
   @GET("GetBasketInfo")
   Single<ApiResponseGetBasketInfo> getBasketInfo(
           @Query("UserID") int userId,
@@ -232,6 +240,15 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
   );
   @GET("SaveQualityRandomInpection")
   Single<ApiResponseSaveRandomQualityInception> SaveQualityRandomInspection(
+          @Query("UserID") int userId,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("LastMoveId") int LastMoveId,
+          @Query("QtyDefected") int QtyDefected,
+          @Query("SampleQty") int SampleQty,
+          @Query("Notes") String Notes
+  );
+  @GET("SaveQualityRandomInpection_Welding")
+  Single<ApiResponseSaveQualityRandomInpection_Welding> SaveQualityRandomInpection_Welding(
           @Query("UserID") int userId,
           @Query("DeviceSerialNo") String deviceSerialNumber,
           @Query("LastMoveId") int LastMoveId,

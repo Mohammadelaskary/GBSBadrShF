@@ -14,6 +14,7 @@ import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Production.RepairProductionQualityAdapter;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.QualityDefectRepairViewModel;
+import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
@@ -48,7 +49,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     }
     FragmentQualityDefectRepairBinding binding;
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
-    QualityDefectRepairViewModel viewModel;
+    QualityRepairViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
     RepairProductionQualityAdapter adapter;
@@ -101,7 +102,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(QualityDefectRepairViewModel.class);
+        viewModel = QualityRepairFragment.viewModel;
     }
 
     private void attachButtonToListener() {

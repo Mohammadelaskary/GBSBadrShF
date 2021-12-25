@@ -489,6 +489,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fragment_welding_random_quality_inspection">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_welding_rejection_request">
                     <value>
                       <LayoutPositions>

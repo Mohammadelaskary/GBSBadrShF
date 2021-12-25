@@ -38,7 +38,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     FragmentQualityRepairBinding binding;
     List<DefectsManufacturing> defectsManufacturingList = new ArrayList<>();
     QualityRepairChildsQtyDefectsQtyAdapter adapter;
-    QualityRepairViewModel viewModel;
+    public static QualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
     @Inject
     ViewModelProviderFactory provider;
@@ -51,11 +51,25 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         setUpProgressDialog();
         barCodeReader = new SetUpBarCodeReader(this,this);
         initViewModel();
+        if (viewModel.getBasketData()!=null){
+            basketData = viewModel.getBasketData();
+            fillData(basketData.getChildDescription(),basketData.getChildCode(),basketData.getOperationEnName());
+        }
+        setupRecyclerView();
+        if (viewModel.getDefectsWeldingList()!=null&&viewModel.getBasketData()!=null){
+            adapter.setDefectsManufacturingList(defectsManufacturingList);
+            adapter.setBasketData(basketData);
+            qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+            adapter.notifyDataSetChanged();
+            String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+            binding.defectQtn.setText(defectedQty);
+        }
         addTextWatcher();
         observeGettingBasketData();
         observeGettingDefectsManufacturing();
         initViews();
-        setupRecyclerView();
+
         return binding.getRoot();
 
     }
@@ -69,8 +83,9 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getBasketData(charSequence.toString());
-                getBasketDefectsManufacturing(charSequence.toString());
+                basketCode = charSequence.toString();
+                getBasketData(basketCode);
+                getBasketDefectsManufacturing(basketCode);
             }
 
             @Override
@@ -233,5 +248,17 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     public void onPause() {
         super.onPause();
         barCodeReader.onPause();
+    }
+    String basketCode;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (basketData!=null) {
+            basketData.setBasketCode(basketCode);
+            viewModel.setBasketData(basketData);
+        }
+        if (!defectsManufacturingList.isEmpty()){
+            viewModel.setDefectsWeldingList(defectsManufacturingList);
+        }
     }
 }

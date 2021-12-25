@@ -27,6 +27,7 @@ import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionR
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionViewModel;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsViewModel;
@@ -36,6 +37,7 @@ import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewMode
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRejectionRequestViewModel;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.di.ViewModelKey;
@@ -238,5 +240,13 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PaintProductionRepairViewModel.class)
     public abstract ViewModel bindPaintProductionRepairViewModel (PaintProductionRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintRandomQualityInceptionViewModel.class)
+    public abstract ViewModel bindPaintRandomQualityInceptionViewModel (PaintRandomQualityInceptionViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRandomQualityInceptionViewModel.class)
+    public abstract ViewModel bindWeldingRandomQualityInceptionViewModel (WeldingRandomQualityInceptionViewModel viewModel);
 
 }

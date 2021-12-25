@@ -72,8 +72,8 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         initProgressDialog();
         initRecyclerView();
         if (!viewModel.defectsWeldingList.isEmpty()){
-            setBasketData(viewModel.defectsWeldingList.get(0));
-            qtyDefectsQtyDefectedList = groupDefectsById(viewModel.defectsWeldingList);
+            setBasketData(viewModel.getDefectsWeldingList().get(0));
+            qtyDefectsQtyDefectedList = groupDefectsById(viewModel.getDefectsWeldingList());
             adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();
             fillViews();

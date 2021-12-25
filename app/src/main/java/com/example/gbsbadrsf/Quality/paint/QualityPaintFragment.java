@@ -70,7 +70,7 @@ public class QualityPaintFragment extends Fragment {
         });
         binding.randomQualityInspection.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_fragment_manufacturing_quality_to_fragment_random_quality_inception);
+            Navigation.findNavController(v).navigate(R.id.action_fragment_paint_quality_to_fragment_random_quality_inception);
 
         });
 

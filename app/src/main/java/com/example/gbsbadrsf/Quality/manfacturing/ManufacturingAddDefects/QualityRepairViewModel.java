@@ -5,10 +5,16 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseLastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingRepairQualityProduction;
+import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
+import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,6 +32,10 @@ public class QualityRepairViewModel extends ViewModel {
     MutableLiveData<Status> defectsManufacturingListStatus;
     MutableLiveData<ApiResponseAddingManufacturingRepairQualityProduction> addManufacturingRepairQuality;
     MutableLiveData<Status> addManufacturingRepairQualityStatus;
+    LastMoveManufacturingBasket basketData;
+    List<DefectsManufacturing> defectsWeldingList;
+
+
     @Inject
     Gson gson;
     @Inject
@@ -38,6 +48,8 @@ public class QualityRepairViewModel extends ViewModel {
         defectsManufacturingListStatus = new MutableLiveData<>();
         addManufacturingRepairQuality = new MutableLiveData<>();
         addManufacturingRepairQualityStatus = new MutableLiveData<>();
+        basketData = new LastMoveManufacturingBasket();
+
     }
 
     public void getBasketDataViewModel(String basketCode){
@@ -94,7 +106,35 @@ public class QualityRepairViewModel extends ViewModel {
                         }
                 ));
     }
-
+    public void addManufacturingRepairQuality(
+            int userId,
+            String deviceSerialNumber,
+            int defectsManufacturingDetailsId,
+            String notes,
+            int defectStatus,
+            int qtyApproved
+    ) {
+        disposable.add(apiInterface.addManufacturingRepair_QC(
+                userId,
+                deviceSerialNumber,
+                defectsManufacturingDetailsId,
+                notes,
+                defectStatus,
+                qtyApproved
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> addManufacturingRepairQualityStatus.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            addManufacturingRepairQuality.postValue(response);
+                            addManufacturingRepairQualityStatus.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            addManufacturingRepairQualityStatus.postValue(Status.ERROR);
+                        }
+                ));
+    }
     public MutableLiveData<ApiResponseLastMoveManufacturingBasket> getApiResponseBasketDataLiveData() {
         return apiResponseBasketDataLiveData;
     }
@@ -115,4 +155,23 @@ public class QualityRepairViewModel extends ViewModel {
         return addManufacturingRepairQualityStatus;
     }
 
+    public MutableLiveData<ApiResponseAddingManufacturingRepairQualityProduction> getAddManufacturingRepairQuality() {
+        return addManufacturingRepairQuality;
+    }
+
+    public LastMoveManufacturingBasket getBasketData() {
+        return basketData;
+    }
+
+    public void setBasketData(LastMoveManufacturingBasket basketData) {
+        this.basketData = basketData;
+    }
+
+    public List<DefectsManufacturing> getDefectsWeldingList() {
+        return defectsWeldingList;
+    }
+
+    public void setDefectsWeldingList(List<DefectsManufacturing> defectsWeldingList) {
+        this.defectsWeldingList = defectsWeldingList;
+    }
 }

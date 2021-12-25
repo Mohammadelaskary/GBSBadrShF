@@ -27,6 +27,14 @@
         tools:layout="@layout/fragment_change_base_url"
         android:label="fragment_change_base_url"
         android:name="com.example.gbsbadrsf.ChangeBaseUrlFragment"/>
+    <fragment android:id="@+id/fragment_welding_random_quality_inspection"
+        android:label="fragment_welding_random_quality_inspection"
+        tools:layout="@layout/fragment_welding_random_quality_inspection"
+        android:name="com.example.gbsbadrsf.Quality.welding.RandomQualityInception.WeldingRandomQualityInceptionFragment"/>
+    <fragment android:id="@+id/fragment_paint_random_quality_inspection"
+        android:label="fragment_paint_random_quality_inspection"
+        tools:layout="@layout/fragment_paint_random_quality_inspection"
+        android:name="com.example.gbsbadrsf.Quality.paint.RandomQualityInception.PaintRandomQualityInceptionFragment"/>
     <fragment
         android:id="@+id/productionMenuFragment"
         android:name="com.example.gbsbadrsf.ProductionMenuFragment"
@@ -386,7 +394,8 @@
         <action
             android:id="@+id/action_quality_welding_fragment_to_fragment_welding_quality_sign_off"
             app:destination="@id/fragment_welding_quality_sign_off" />
-
+        <action android:id="@+id/action_fragment_welding_quality_to_fragment_random_quality_inception"
+            app:destination="@id/fragment_welding_random_quality_inspection"/>
 
     </fragment>
     <fragment android:id="@+id/fragment_welding_quality_sign_off"
@@ -449,6 +458,8 @@
         <action
             android:id="@+id/action_fragment_paint_quality_to_fragment_paint_rejection_request"
             app:destination="@id/fragment_paint_rejection_request" />
+        <action android:id="@+id/action_fragment_paint_quality_to_fragment_random_quality_inception"
+            app:destination="@id/fragment_paint_random_quality_inspection"/>
     </fragment>
     <fragment android:id="@+id/paint_quality_operation_fragment"
         android:name="com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment"

@@ -19,7 +19,9 @@ import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
+import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
+import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -47,7 +49,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     int childId,jobOrderId,parentId=3,sampleQty;
     String basketCode;
     boolean newSample = false ;
-    ManufacturingAddDefectsViewModel viewModel;
+    ManufacturingQualityOperationViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -169,7 +171,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsViewModel.class);
+        viewModel = ManufacturingQualityOperationFragment.viewModel;
     }
 
     private void fillData() {

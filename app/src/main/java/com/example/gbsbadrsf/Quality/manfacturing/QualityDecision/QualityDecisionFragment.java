@@ -70,6 +70,13 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         super.onViewCreated(view, savedInstanceState);
         addBasketCodeEditTextWatcher();
         initViewModel();
+        if (!viewModel.getDefectsManufacturingList().isEmpty()){
+            setBasketData(viewModel.getDefectsManufacturingList().get(0));
+            qtyDefectsQtyDefectedList = groupDefectsById(viewModel.getDefectsManufacturingList());
+            adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+            adapter.notifyDataSetChanged();
+            fillViews();
+        }
         initProgressDialog();
         initRecyclerView();
         getFinalQualityDecisionsList(userId);
@@ -454,5 +461,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                 savedCheckList.add(saveCheckListResponse);
             }
         });
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (!defectsManufacturingList.isEmpty()){
+            viewModel.setDefectsManufacturingList(defectsManufacturingList);
+        }
     }
 }

@@ -26,12 +26,14 @@ import com.example.gbsbadrsf.Quality.paint.QualityPaintFragment;
 import com.example.gbsbadrsf.Quality.paint.QualityRepair.PaintQualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.paint.QualityRepair.PaintQualityRepairFragment;
 import com.example.gbsbadrsf.Quality.paint.QualitySignOff.PaintQualityDecisionFragment;
+import com.example.gbsbadrsf.Quality.paint.RandomQualityInception.PaintRandomQualityInceptionFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityFragment;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityRepairFragment;
 import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionFragment;
+import com.example.gbsbadrsf.Quality.welding.RandomQualityInception.WeldingRandomQualityInceptionFragment;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequest.WeldingRejectionRequestFragment;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsFragment;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestsListQualityFragment;
@@ -145,6 +147,10 @@ public abstract class ActivityBuilderModule {
     abstract PaintProductionRepairFragment contributePaintProductionRepairFragment ();
     @ContributesAndroidInjector
     abstract PaintProductionDefectRepairFragment contributePaintProductionDefectRepairFragment ();
+    @ContributesAndroidInjector
+    abstract PaintRandomQualityInceptionFragment contributePaintRandomQualityInceptionFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingRandomQualityInceptionFragment contributeWeldingRandomQualityInceptionFragment ();
 
 
 
