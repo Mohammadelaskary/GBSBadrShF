@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void getBaseUrlFromSharedPreferences() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        prefs.edit().remove("base_url").apply();
         if (prefs.contains("base_url"))
             IP = prefs.getString("base_url", "No name defined");
         else
