@@ -21,6 +21,7 @@ import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.Stationcodeloading;
+import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 import com.example.gbsbadrsf.databinding.FragmentProductionSignoffBinding;
 import com.example.gbsbadrsf.databinding.FragmentSignoffweBinding;
 
@@ -31,14 +32,14 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class SignoffweFragment extends DaggerFragment {
+public class SignoffweFragment extends DaggerFragment implements Signoffweitemsdialog.OnInputSelected  {
     @Inject
     ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentSignoffweBinding fragmentSignoffweBinding;
     private SignoffweViewModel signoffweViewModel;
     Stationcodeloading stationcodeloading;
-    // List<Basketcodelst> passedinput;
-    //String passedtext;
+    List<Basketcodelst> passedinput;
+    //String passedtext;;
 
 
     @Override
@@ -72,9 +73,54 @@ public class SignoffweFragment extends DaggerFragment {
             }
         });
         getdata();
+        initViews();
+
         subscribeRequest();
         return fragmentSignoffweBinding.getRoot();
 
+
+
+    }
+
+    private void initViews() {
+        fragmentSignoffweBinding.signoffitemsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Constant c = new Constant();
+                try {
+                    if (c.getTotalQty().equals(null)){
+                        c.setTotalQty(0);
+                    }
+                }catch (Exception e){
+                    c.setTotalQty(0);
+                }*/
+                Bundle args = new Bundle();
+                args.putString("parentdesc", fragmentSignoffweBinding.parentdesc.getText().toString());
+                args.putString("loadingqty", fragmentSignoffweBinding.loadingqtn.getText().toString());
+
+                Signoffweitemsdialog dialog = new Signoffweitemsdialog();
+                dialog.setArguments(args);
+                dialog.setTargetFragment(SignoffweFragment.this, 1);
+                dialog.show(getFragmentManager(), "MyCustomDialog");
+
+
+            }
+        });
+        fragmentSignoffweBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                WeldingSignoffBody weldingSignoffBody = new WeldingSignoffBody();
+
+                weldingSignoffBody.setProductionStationCode(fragmentSignoffweBinding.stationEdt.getText().toString());
+                //  machineSignoffBody.setSignOutQty(passedtext);
+                weldingSignoffBody.setBasketLst(passedinput);
+                signoffweViewModel.getweldingsignoff(weldingSignoffBody, getContext());
+
+
+            }
+        });
 
 
     }
@@ -103,8 +149,17 @@ public class SignoffweFragment extends DaggerFragment {
             fragmentSignoffweBinding.parentcode.setText(cuisines.getParentCode());
             fragmentSignoffweBinding.parentdesc.setText(cuisines.getParentDescription());
             fragmentSignoffweBinding.loadingqtn.setText(cuisines.getLoadingQty().toString());
-           // fragmentSignoffweBinding.signoffQtn.setText(cuisines.getSignOutQty().toString());
+            fragmentSignoffweBinding.operationname.setText(cuisines.getOperationEnName());
+            fragmentSignoffweBinding.jobordername.setText(cuisines.getJobOrderName());
+
 
         });
+    }
+
+    @Override
+    public void sendlist(List<Basketcodelst> input) {
+        passedinput = input;
+
+
     }
 }

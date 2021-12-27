@@ -27,4 +27,13 @@ public class Constant {
             this.totalQtyVar= this.totalQtyVar + totalQty;
         }
     }
+    public void decrementTotalQty(int totalQty) {
+        try {
+            this.totalQtyVar= this.totalQtyVar -totalQty;
+        }catch (Exception e){
+            this.totalQtyVar = 0;
+            this.totalQtyVar= this.totalQtyVar - totalQty;
+        }
+    }
+
 }

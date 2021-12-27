@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation.xml"
-    app:startDestination="@id/mainmenuFragment">
+    app:startDestination="@id/signinFragment">
 
 
     <fragment
@@ -644,7 +644,7 @@
 
     <fragment
         android:id="@+id/paintdstation"
-        android:name="com.example.gbsbadrsf.Paint.Paintdstation"
+        android:name="com.example.gbsbadrsf.Paint.paintstation.Paintdstation"
         android:label="fragment_paintdstation"
         tools:layout="@layout/fragment_paintdstation" />
     <fragment

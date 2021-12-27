@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoadingViewModel;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel;
+import com.example.gbsbadrsf.Paint.machineloadingpaint.SavepaintViewModel;
+import com.example.gbsbadrsf.Paint.paintstation.InfoForSelectedPaintViewModel;
+import com.example.gbsbadrsf.Paint.paintstation.PaintstationViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
@@ -248,5 +251,20 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(WeldingRandomQualityInceptionViewModel.class)
     public abstract ViewModel bindWeldingRandomQualityInceptionViewModel (WeldingRandomQualityInceptionViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintstationViewModel.class)
+    public abstract ViewModel bindPaintstationViewModel (PaintstationViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(InfoForSelectedPaintViewModel.class)
+    public abstract ViewModel bindinfopaintViewModel (InfoForSelectedPaintViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(SavepaintViewModel.class)
+    public abstract ViewModel bindsaveViewModel (SavepaintViewModel viewModel);
+
+
 
 }

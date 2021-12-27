@@ -4,6 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/drawable/ic_settings.xml" value="0.21574074074074073" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machineloadingpaint.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machineloadingwe.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paint_menu.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paintdstation.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_signoffwe.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_welding_sequence.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/signoffcustomdialog.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/signoffwecustomdialog.xml" value="0.26157407407407407" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/check_list_item.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/defectqtns_lst.xml" value="0.264" />
@@ -84,7 +92,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

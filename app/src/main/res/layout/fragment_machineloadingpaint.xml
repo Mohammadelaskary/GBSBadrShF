@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".welding.machineloadingwe.MachineloadingweFragment"
-    android:background="@drawable/background"
-    >
+    tools:context=".Paint.machineloadingpaint.MachineloadingpaintFragment">
     <TextView
         android:id="@+id/stationloading_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="@string/station_loading"
+        android:text="Paint Loading"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +90,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="15dp"
                 style="@style/styleoftextbold"
-                android:text="@string/station"
+                android:text="Paint Code"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loadingqtn_txt"
                 />
@@ -261,6 +258,8 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
