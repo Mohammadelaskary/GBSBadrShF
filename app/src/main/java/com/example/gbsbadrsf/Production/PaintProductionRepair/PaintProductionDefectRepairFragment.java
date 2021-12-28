@@ -74,7 +74,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
 
     ProgressDialog progressDialog;
     private void observeAddingDefectRepairStatus() {
-        viewModel.getAddWeldingRepairProductionStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getAddPaintingRepairProductionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
             } else {
@@ -84,7 +84,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
     }
 
     private void observeAddingDefectRepairResponse() {
-        viewModel.getAddWeldingRepairProduction().observe(getViewLifecycleOwner(),responseStatus-> {
+        viewModel.getAddPaintingRepairProduction().observe(getViewLifecycleOwner(),responseStatus-> {
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();

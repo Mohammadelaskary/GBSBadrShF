@@ -250,6 +250,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fragment_paint_random_quality_inspection">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_paint_rejection_request">
                     <value>
                       <LayoutPositions>
@@ -988,6 +1000,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_fragment_paint_quality_to_fragment_random_quality_inception">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -1309,6 +1326,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_fragment_quality_main_to_fragment_welding_rejection_requests_list">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_fragment_welding_quality_to_fragment_random_quality_inception">
                               <value>
                                 <LayoutPositions />
                               </value>

@@ -3,7 +3,7 @@ package com.example.gbsbadrsf.Quality.welding.RejectionRequestsList;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRejectionRequestList;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetRejectionRequestList;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -33,7 +33,7 @@ public class WeldingRejectionRequestsListQualityViewModel extends ViewModel {
     }
 
     public void getRejectionRequests(int userId,String deviceSerialNo){
-        disposable.add(apiInterface.getRejectionRequestsList_Painting(userId, deviceSerialNo)
+        disposable.add(apiInterface.getRejectionRequestsList_Welding(userId, deviceSerialNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> getRejectionRequestListStatus.postValue(Status.LOADING))

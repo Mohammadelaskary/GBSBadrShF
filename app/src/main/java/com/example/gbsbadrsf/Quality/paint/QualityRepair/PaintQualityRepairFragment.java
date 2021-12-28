@@ -187,7 +187,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveWeldingBasket -> {
-            basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
+            basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
             adapter.setBasketData(basketData);
             ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();

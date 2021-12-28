@@ -7,6 +7,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChi
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefectedChildToBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
@@ -25,7 +26,7 @@ public class WeldingQualityOperationViewModel extends ViewModel {
     MutableLiveData<Status> basketDataStatus;
     MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
     MutableLiveData<Status> defectsWeldingListStatus;
-    MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> addWeldingDefectsToNewBasket;
+    MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> addWeldingDefectsToNewBasket;
     MutableLiveData<Status> addWeldingDefectsToNewBasketStatus;
     MutableLiveData<ApiResponseDefectsList> defectsListLiveData;
     MutableLiveData<Status> defectsListStatus;
@@ -159,7 +160,7 @@ public class WeldingQualityOperationViewModel extends ViewModel {
         return defectsWeldingListStatus;
     }
 
-    public MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> getAddWeldingDefectsToNewBasket() {
+    public MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> getAddWeldingDefectsToNewBasket() {
         return addWeldingDefectsToNewBasket;
     }
 

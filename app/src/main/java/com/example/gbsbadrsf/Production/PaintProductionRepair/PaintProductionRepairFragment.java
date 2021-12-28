@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionRepairViewModel;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
@@ -21,7 +23,6 @@ import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintProductionRepairBinding;
-import com.example.gbsbadrsf.databinding.WeldingProductionRepairFragmentBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -37,7 +38,7 @@ import dagger.android.support.DaggerFragment;
 public class PaintProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     FragmentPaintProductionRepairBinding binding;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
     PaintProductionRepairChildsQtyDefectsQtyAdapter adapter;
     PaintProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -58,7 +59,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         addTextWatcher();
         observeGettingBasketData();
 
-        observeGettingDefectsManufacturing();
+        observeGettingDefectsPainting();
         initViews();
         setupRecyclerView();
         return binding.getRoot();
@@ -77,7 +78,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 getBasketData(userId, deviceSerialNo, charSequence.toString());
-                getBasketDefectsManufacturing(userId, deviceSerialNo, charSequence.toString());
+                getBasketDefectsPainting(userId, deviceSerialNo, charSequence.toString());
             }
 
             @Override
@@ -87,7 +88,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         });
     }
 
-    private void observeGettingDefectsManufacturing() {
+    private void observeGettingDefectsPainting() {
         viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
@@ -98,18 +99,18 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
 
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
 
-    private void getBasketDefectsManufacturing(int userId, String deviceSerialNo, String basketCode) {
-        viewModel.getDefectsWeldingViewModel(userId, deviceSerialNo, basketCode);
-        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
+    private void getBasketDefectsPainting(int userId, String deviceSerialNo, String basketCode) {
+        viewModel.getDefectsPaintingViewModel(userId, deviceSerialNo, basketCode);
+        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
             ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();
             if (statusMessage.equals(SUCCESS)) {
-                if (apiResponseDefectsWelding.getDefectsWelding() != null) {
-                    defectsWeldingList.clear();
-                    List<DefectsWelding> defectsManufacturingListLocal = apiResponseDefectsWelding.getDefectsWelding();
-                    defectsWeldingList.addAll(defectsManufacturingListLocal);
-                    adapter.setDefectsManufacturingList(defectsWeldingList);
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+                if (apiResponseDefectsWelding.getDefectsPainting() != null) {
+                    defectsPaintingList.clear();
+                    List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsWelding.getDefectsPainting();
+                    defectsPaintingList.addAll(defectsPaintingListLocal);
+                    adapter.setDefectsPaintingList(defectsPaintingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
                     String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
                     binding.defectQtn.setText(defectedQty);
                 }
@@ -122,13 +123,13 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         });
     }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsPainting> defectsPaintingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1;
-        for (DefectsWelding defectsWelding : defectsWeldingListLocal) {
-            if (defectsWelding.getWeldingDefectsId() != id) {
-                int currentId = defectsWelding.getWeldingDefectsId();
-                int defectedQty = defectsWelding.getDeffectedQty();
+        for (DefectsPainting defectsPainting : defectsPaintingListLocal) {
+            if (defectsPainting.getPaintingDefectsId() != id) {
+                int currentId = defectsPainting.getPaintingDefectsId();
+                int defectedQty = defectsPainting.getDeffectedQty();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;
@@ -139,8 +140,8 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsWelding defectsWelding : defectsWeldingList) {
-            if (defectsWelding.getWeldingDefectsId() == currentId)
+        for (DefectsPainting defectsPainting : defectsPaintingList) {
+            if (defectsPainting.getPaintingDefectsId() == currentId)
                 defectNo++;
         }
         return defectNo;
@@ -175,15 +176,15 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         viewModel = ViewModelProviders.of(this, provider).get(PaintProductionRepairViewModel.class);
     }
 
-    LastMoveWeldingBasket basketData;
+    LastMovePaintingBasket basketData;
     String parentDesc, parentCode = "", operationName;
 
     private void getBasketData(int userId, String deviceSerialNo, String basketCode) {
         viewModel.getBasketDataViewModel(userId, deviceSerialNo, basketCode);
-        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveWeldingBasket -> {
-            basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
+        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMovePaintingBasket -> {
+            basketData = apiResponseLastMovePaintingBasket.getLastMovePaintingBasket();
             adapter.setBasketData(basketData);
-            ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
+            ResponseStatus responseStatus = apiResponseLastMovePaintingBasket.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();
             if (statusMessage.equals(EXISTING_BASKET_CODE)) {
                 parentDesc = basketData.getParentDescription();

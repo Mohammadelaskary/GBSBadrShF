@@ -10,7 +10,7 @@ public class ApiResponseGetBasketInfoForQuality_Painting {
     @SerializedName("responseStatus")
     @Expose
     private ResponseStatus responseStatus;
-    @SerializedName("lastMoveWeldingBasket")
+    @SerializedName("lastMovePaintingBasket")
     @Expose
     private LastMovePaintingBasket lastMovePaintingBasket;
 
@@ -22,11 +22,11 @@ public class ApiResponseGetBasketInfoForQuality_Painting {
         this.responseStatus = responseStatus;
     }
 
-    public LastMovePaintingBasket getLastMoveWeldingBasket() {
+    public LastMovePaintingBasket getLastMovePaintingBasket() {
         return lastMovePaintingBasket;
     }
 
-    public void setLastMoveWeldingBasket(LastMovePaintingBasket lastMovePaintingBasket) {
+    public void setLastMovePaintingBasket(LastMovePaintingBasket lastMovePaintingBasket) {
         this.lastMovePaintingBasket = lastMovePaintingBasket;
     }
 }

@@ -102,11 +102,11 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
     LastMovePaintingBasket basketData;
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
-        viewModel.getBasketDataLiveData().observe(getActivity(), apiResponseGetBasketInfoForQuality_welding -> {
-            ResponseStatus responseStatus          = apiResponseGetBasketInfoForQuality_welding.getResponseStatus();
+        viewModel.getBasketDataLiveData().observe(getActivity(), apiResponseGetBasketInfoForQuality_painting -> {
+            ResponseStatus responseStatus          = apiResponseGetBasketInfoForQuality_painting.getResponseStatus();
             String responseMessage = responseStatus.getStatusMessage();
             if (responseMessage.equals(EXISTING_BASKET_CODE)){
-                basketData = apiResponseGetBasketInfoForQuality_welding.getLastMoveWeldingBasket();
+                basketData = apiResponseGetBasketInfoForQuality_painting.getLastMovePaintingBasket();
                 fillViews();
             } else {
                 binding.basketCode.setError(responseMessage);

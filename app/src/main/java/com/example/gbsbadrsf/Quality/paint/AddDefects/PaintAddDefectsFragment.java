@@ -19,6 +19,7 @@ import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnQtyDefectedQtyDefectsItemClicked;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
@@ -43,7 +44,7 @@ import dagger.android.support.DaggerFragment;
 
 public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentWeldingAddDefectsBinding binding;
-    LastMoveWeldingBasket basketData;
+    LastMovePaintingBasket basketData;
     int jobOrderId,parentId=3,sampleQty,userId = 1;
     String basketCode,deviceSerialNo = "S1";
     boolean newSample = false ;
@@ -126,9 +127,9 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getPaintingDefects(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting ->  {
                 String statusMessage = apiResponseDefectsPainting.getResponseStatus().getStatusMessage();
-            if (apiResponseDefectsPainting.getDefectsWelding()!=null) {
+            if (apiResponseDefectsPainting.getDefectsPainting()!=null) {
                     defectsPaintingList.clear();
-                    defectsPaintingList.addAll(apiResponseDefectsPainting.getDefectsWelding());
+                    defectsPaintingList.addAll(apiResponseDefectsPainting.getDefectsPainting());
                     qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
                     adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
                     String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);

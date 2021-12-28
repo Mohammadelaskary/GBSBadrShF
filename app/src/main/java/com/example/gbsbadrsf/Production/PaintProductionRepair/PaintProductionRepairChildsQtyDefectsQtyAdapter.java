@@ -9,6 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
@@ -19,8 +21,8 @@ import java.util.List;
 
 public class PaintProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapter<PaintProductionRepairChildsQtyDefectsQtyAdapter.QtyChildQtyDefectItemViewHolder> {
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList;
-    List<DefectsWelding> defectsWeldingList;
-    LastMoveWeldingBasket basketData;
+    List<DefectsPainting> defectsPaintingList;
+    LastMovePaintingBasket basketData;
 
     @Override
     public void onBindViewHolder(@NonNull QtyChildQtyDefectItemViewHolder holder, int position) {
@@ -31,14 +33,14 @@ public class PaintProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerVie
             holder.binding.defectsQty.setText(String.valueOf(defectsQty));
             holder.binding.defectedQty.setText(String.valueOf(defectedQty));
             holder.itemView.setOnClickListener(v -> {
-                ArrayList<DefectsWelding> selectedDefectsWelding = new ArrayList<>();
-                for (DefectsWelding defectsWelding:defectsWeldingList){
-                    if (defectsWelding.getWeldingDefectsId()==defectId){
-                        selectedDefectsWelding.add(defectsWelding);
+                ArrayList<DefectsPainting> selectedDefectsPainting = new ArrayList<>();
+                for (DefectsPainting defectsPainting: defectsPaintingList){
+                    if (defectsPainting.getPaintingDefectsId()==defectId){
+                        selectedDefectsPainting.add(defectsPainting);
                     }
                 }
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("selectedDefectsWelding",selectedDefectsWelding);
+                bundle.putParcelableArrayList("selectedDefectsPainting",selectedDefectsPainting);
                 bundle.putParcelable("basketData",basketData);
                 Navigation.findNavController(v).navigate(R.id.action_paint_production_repair_to_fragment_paint_production_defects_repair,bundle);
             });
@@ -63,11 +65,11 @@ public class PaintProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerVie
         this.qtyDefectsQtyDefectedList = qtyDefectsQtyDefectedList;
     }
 
-    public void setDefectsManufacturingList(List<DefectsWelding> defectsWeldingList) {
-        this.defectsWeldingList = defectsWeldingList;
+    public void setDefectsPaintingList(List<DefectsPainting> defectsPaintingList) {
+        this.defectsPaintingList = defectsPaintingList;
     }
 
-    public void setBasketData(LastMoveWeldingBasket basketData) {
+    public void setBasketData(LastMovePaintingBasket basketData) {
         this.basketData = basketData;
     }
 

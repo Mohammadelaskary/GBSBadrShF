@@ -14,7 +14,6 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingRepairQu
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRandomQualityInception;
-import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRejectionRequestList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetSavedCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGettingFinalQualityDecision;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseRejectionRequestTakeAction;
@@ -74,7 +73,7 @@ import com.example.gbsbadrsf.data.response.Stationcodeloading;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
-
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetRejectionRequestList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -359,7 +358,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("FinalQualityDecisionId") int FinalQualityDecisionId
   );
   @GET("GetRejectionRequestsList")
-  Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList();
+  Single<com.example.gbsbadrsf.Quality.Data.ApiResponseGetRejectionRequestList> getRejectionRequestsList();
 
   @GET("GetRejectionRequestsList_Welding")
   Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList_Welding(
@@ -367,7 +366,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("DeviceSerialNo") String deviceSerialNumber
   );
   @GET("GetRejectionRequestsList_Painting")
-  Single<ApiResponseGetRejectionRequestList> getRejectionRequestsList_Painting(
+  Single<com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetRejectionRequestList> getRejectionRequestsList_Painting(
           @Query("UserID") int UserID,
           @Query("DeviceSerialNo") String deviceSerialNumber
   );
@@ -459,6 +458,12 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
 
   @GET("GetQualityOperationByBasketCode_Painting")
   Single<ApiResponseGetPaintingDefectedQtyByBasketCode> getPaintingDefectedQtyByBasketCode(
+          @Query("UserID") int userId,
+          @Query("DeviceSerialNo") String deviceSerialNumber,
+          @Query("BasketCode") String BasketCode
+  );
+  @GET("GetQualityOperationByBasketCode_Welding")
+  Single<ApiResponseGetWeldingDefectedQtyByBasketCode> getWeldingDefectedQtyByBasketCode(
           @Query("UserID") int userId,
           @Query("DeviceSerialNo") String deviceSerialNumber,
           @Query("BasketCode") String BasketCode

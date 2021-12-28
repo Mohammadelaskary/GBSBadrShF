@@ -14,6 +14,7 @@ import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
 import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
@@ -52,7 +53,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
 
     }
     FragmentPaintAddDefectDetailsBinding binding;
-    LastMoveWeldingBasket basketData;
+    LastMovePaintingBasket basketData;
     PaintQualityOperationViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;

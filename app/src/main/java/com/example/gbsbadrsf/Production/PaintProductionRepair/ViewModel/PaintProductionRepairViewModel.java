@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ApiReponse.ApiResponsePaintingRepair_Production;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Painting;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetPaintingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
@@ -17,12 +19,12 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintProductionRepairViewModel extends ViewModel {
-    MutableLiveData<ApiResponseGetBasketInfoForQuality_Welding> apiResponseBasketDataLiveData;
+    MutableLiveData<ApiResponseGetBasketInfoForQuality_Painting> apiResponseBasketDataLiveData;
     MutableLiveData<Status> apiResponseBasketDataStatus;
-    MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
-    MutableLiveData<Status> defectsWeldingListStatus;
-    MutableLiveData<ApiResponsePaintingRepair_Production> addWeldingRepairProduction;
-    MutableLiveData<Status> addWeldingRepairProductionStatus;
+    MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> defectsPaintingListLiveData;
+    MutableLiveData<Status> defectsPaintingListStatus;
+    MutableLiveData<ApiResponsePaintingRepair_Production> addPaintingRepairProduction;
+    MutableLiveData<Status> addPaintingRepairProductionStatus;
 
     @Inject
     ApiInterface apiInterface;
@@ -37,14 +39,14 @@ public class PaintProductionRepairViewModel extends ViewModel {
         disposable = new CompositeDisposable();
         apiResponseBasketDataLiveData = new MutableLiveData<>();
         apiResponseBasketDataStatus   = new MutableLiveData<>();
-        defectsWeldingListLiveData = new MutableLiveData<>();
-        defectsWeldingListStatus = new MutableLiveData<>();
-        addWeldingRepairProduction = new MutableLiveData<>();
-        addWeldingRepairProductionStatus = new MutableLiveData<>();
+        defectsPaintingListLiveData = new MutableLiveData<>();
+        defectsPaintingListStatus = new MutableLiveData<>();
+        addPaintingRepairProduction = new MutableLiveData<>();
+        addPaintingRepairProductionStatus = new MutableLiveData<>();
     }
 
     public void getBasketDataViewModel(int userId,String deviceSerialNo,String basketCode){
-        disposable.add(apiInterface.getBasketInfoForQuality_Welding(userId, deviceSerialNo, basketCode)
+        disposable.add(apiInterface.getBasketInfoForQuality_Painting(userId, deviceSerialNo, basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseBasketDataStatus.postValue(Status.LOADING))
@@ -57,21 +59,22 @@ public class PaintProductionRepairViewModel extends ViewModel {
                 ));
     }
 
-    public void getDefectsWeldingViewModel(int userId, String deviceSerialNo, String basketCode){
-        disposable.add(apiInterface.getWeldingDefectedQtyByBasketCode(userId, deviceSerialNo, basketCode)
+    public void getDefectsPaintingViewModel(int userId, String deviceSerialNo, String basketCode){
+        disposable.add(apiInterface.getPaintingDefectedQtyByBasketCode(userId, deviceSerialNo, basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> defectsWeldingListStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> defectsPaintingListStatus.postValue(Status.LOADING))
                 .subscribe(
-                        response -> {defectsWeldingListLiveData.postValue(response);
-                            defectsWeldingListStatus.postValue(Status.SUCCESS); },
+                        response -> {
+                            defectsPaintingListLiveData.postValue(response);
+                            defectsPaintingListStatus.postValue(Status.SUCCESS); },
                         throwable -> {
-                            defectsWeldingListStatus.postValue(Status.ERROR);
+                            defectsPaintingListStatus.postValue(Status.ERROR);
                         }
                 ));
     }
 
-    public MutableLiveData<ApiResponseGetBasketInfoForQuality_Welding> getApiResponseBasketDataLiveData() {
+    public MutableLiveData<ApiResponseGetBasketInfoForQuality_Painting> getApiResponseBasketDataLiveData() {
         return apiResponseBasketDataLiveData;
     }
 
@@ -79,19 +82,19 @@ public class PaintProductionRepairViewModel extends ViewModel {
         return apiResponseBasketDataStatus;
     }
 
-    public MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> getDefectsWeldingListLiveData() {
-        return defectsWeldingListLiveData;
+    public MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> getDefectsPaintingListLiveData() {
+        return defectsPaintingListLiveData;
     }
 
-    public MutableLiveData<Status> getDefectsWeldingListStatus() {
-        return defectsWeldingListStatus;
+    public MutableLiveData<Status> getDefectsPaintingListStatus() {
+        return defectsPaintingListStatus;
     }
 
-    public MutableLiveData<ApiResponsePaintingRepair_Production> getAddWeldingRepairProduction() {
-        return addWeldingRepairProduction;
+    public MutableLiveData<ApiResponsePaintingRepair_Production> getAddPaintingRepairProduction() {
+        return addPaintingRepairProduction;
     }
 
-    public MutableLiveData<Status> getAddWeldingRepairProductionStatus() {
-        return addWeldingRepairProductionStatus;
+    public MutableLiveData<Status> getAddPaintingRepairProductionStatus() {
+        return addPaintingRepairProductionStatus;
     }
 }

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.welding.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
@@ -45,13 +45,13 @@ public class WeldingRejectionRequestDetailsFragment extends DaggerFragment imple
     }
 
     private void fillData() {
-        String childCode        = rejectionRequest.getChildCode();
-        String childDescription = rejectionRequest.getChildDescription();
+        String parentCode        = rejectionRequest.getParentCode();
+        String parentDescription = rejectionRequest.getParentDescription();
         String jobOrderName     = rejectionRequest.getJobOrderName();
         int rejectedQty         = rejectionRequest.getRejectionQty();
         String department       = rejectionRequest.getDepartmentEnName();
-        binding.parentCode.setText(childCode);
-        binding.parentDesc.setText(childDescription);
+        binding.parentCode.setText(parentCode);
+        binding.parentDesc.setText(parentDescription);
         binding.jobordername.setText(jobOrderName);
         binding.rejectedQty.setText(String.valueOf(rejectedQty));
         binding.responspileDep.setText(department);

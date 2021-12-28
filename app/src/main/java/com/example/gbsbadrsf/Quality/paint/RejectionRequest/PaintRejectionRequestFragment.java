@@ -158,7 +158,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     private void getBasketData(String oldBasketCode) {
         viewModel.getBasketDataViewModel(userId,deviceSerial,oldBasketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWeldingBasket -> {
-            basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
+            basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
             String statusMessage = apiResponseLastMoveWeldingBasket.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
                 parentCode = basketData.getParentCode();
