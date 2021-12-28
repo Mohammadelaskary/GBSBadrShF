@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -35,7 +36,7 @@ import dagger.android.support.DaggerFragment;
 
 public class PaintQualityRepairFragment extends DaggerFragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentWeldingQualityRepairBinding binding;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
     PaintQualityRepairQtyDefectsQtyAdapter adapter;
     public static PaintQualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -55,10 +56,10 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             fillData(basketData.getParentDescription(),basketData.getParentCode(),basketData.getOperationEnName());
         }
         setupRecyclerView();
-        if (viewModel.getDefectsWeldingList()!=null&&viewModel.getBasketData()!=null){
-            adapter.setDefectsWeldingList(defectsWeldingList);
+        if (viewModel.getDefectsPaintingList()!=null&&viewModel.getBasketData()!=null){
+            adapter.setDefectsPaintingList(defectsPaintingList);
             adapter.setBasketData(basketData);
-            qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+            qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();
             String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
@@ -83,7 +84,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 basketCode = charSequence.toString();
                 getBasketData(basketCode);
-                getBasketDefectsWelding(basketCode);
+                getBasketDefectsPainting(basketCode);
             }
 
             @Override
@@ -94,7 +95,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     }
 
     private void observeGettingDefectsWelding() {
-        viewModel.getDefectsWeldingListStatus().observe(getViewLifecycleOwner(), status -> {
+        viewModel.getDefectsPaintingListStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
             else
@@ -104,18 +105,18 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     int userId = 1;
     String deviceSerialNo="S1",basketCode;
-    private void getBasketDefectsWelding(String basketCode) {
-        viewModel.getDefectsWeldingViewModel(userId,deviceSerialNo,basketCode);
-        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
-            ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
+    private void getBasketDefectsPainting(String basketCode) {
+        viewModel.getDefectsPaintingViewModel(userId,deviceSerialNo,basketCode);
+        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting -> {
+            ResponseStatus responseStatus = apiResponseDefectsPainting.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();
             if (statusMessage.equals(SUCCESS)){
-                if (apiResponseDefectsWelding.getDefectsWelding()!=null){
-                    defectsWeldingList.clear();
-                    List<DefectsWelding> defectsWeldingListLocal = apiResponseDefectsWelding.getDefectsWelding();
-                    defectsWeldingList.addAll(defectsWeldingListLocal);
-                    adapter.setDefectsWeldingList(defectsWeldingList);
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+                if (apiResponseDefectsPainting.getDefectsPainting()!=null){
+                    defectsPaintingList.clear();
+                    List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsPainting.getDefectsPainting();
+                    defectsPaintingList.addAll(defectsPaintingListLocal);
+                    adapter.setDefectsPaintingList(defectsPaintingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
                     String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
                     binding.defectQtn.setText(defectedQty);
                 }
@@ -128,13 +129,13 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         });
     }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsPainting> defectsPaintingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1;
-        for (DefectsWelding defectsWelding : defectsWeldingListLocal) {
-            if (defectsWelding.getWeldingDefectsId() != id) {
-                int currentId = defectsWelding.getWeldingDefectsId();
-                int defectedQty = defectsWelding.getQtyDefected();
+        for (DefectsPainting defectsPainting : defectsPaintingListLocal) {
+            if (defectsPainting.getPaintingDefectsId() != id) {
+                int currentId = defectsPainting.getPaintingDefectsId();
+                int defectedQty = defectsPainting.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;
@@ -145,8 +146,8 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsWelding defectsWelding : defectsWeldingList) {
-            if (defectsWelding.getWeldingDefectsId() == currentId)
+        for (DefectsPainting defectsPainting : defectsPaintingList) {
+            if (defectsPainting.getDefectsPaintingDetailsId() == currentId)
                 defectNo++;
         }
         return defectNo;
@@ -181,7 +182,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         viewModel = ViewModelProviders.of(this, provider).get(PaintQualityRepairViewModel.class);
     }
 
-    LastMoveWeldingBasket basketData;
+    LastMovePaintingBasket basketData;
     String parentDesc,parentCode = "",operationName;
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
@@ -257,8 +258,8 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             basketData.setBasketCode(basketCode);
             viewModel.setBasketData(basketData);
         }
-        if (!defectsWeldingList.isEmpty()){
-            viewModel.setDefectsWeldingList(defectsWeldingList);
+        if (!defectsPaintingList.isEmpty()){
+            viewModel.setDefectsPaintingList(defectsPaintingList);
         }
     }
 }

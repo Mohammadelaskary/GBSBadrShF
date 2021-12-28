@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.Department;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
@@ -152,7 +153,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
 
     String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1",oldBasketCode,newBasketCode;
     int basketQty;
-    LastMoveWeldingBasket basketData;
+    LastMovePaintingBasket basketData;
 
     private void getBasketData(String oldBasketCode) {
         viewModel.getBasketDataViewModel(userId,deviceSerial,oldBasketCode);

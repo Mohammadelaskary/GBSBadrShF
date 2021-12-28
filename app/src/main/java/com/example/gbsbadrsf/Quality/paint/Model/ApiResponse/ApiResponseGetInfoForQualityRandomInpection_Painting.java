@@ -1,17 +1,17 @@
-package com.example.gbsbadrsf.Quality.welding.Model.ApiResponse;
+package com.example.gbsbadrsf.Quality.paint.Model.ApiResponse;
 
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePainting;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ApiResponseGetInfoForQualityRandomInpection_Welding {
+public class ApiResponseGetInfoForQualityRandomInpection_Painting {
     @SerializedName("responseStatus")
     @Expose
     private ResponseStatus responseStatus;
     @SerializedName("lastMoveWelding")
     @Expose
-    private LastMovePainting lastMoveWelding;
+    private LastMovePainting lastMovePainting;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -22,10 +22,10 @@ public class ApiResponseGetInfoForQualityRandomInpection_Welding {
     }
 
     public LastMovePainting getLastMoveWelding() {
-        return lastMoveWelding;
+        return lastMovePainting;
     }
 
-    public void setLastMoveWelding(LastMovePainting lastMoveWelding) {
-        this.lastMoveWelding = lastMoveWelding;
+    public void setLastMoveWelding(LastMovePainting lastMovePainting) {
+        this.lastMovePainting = lastMovePainting;
     }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
+import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
@@ -82,12 +83,12 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
         observeGettingDefectsListStatus();
         setUpDefectsRecyclerView();
         observeAddingManufacturingDefectsResponse();
-        observeAddingManufacturingDefectsStatus();
+        observeAddingPaintingDefectsStatus();
         return binding.getRoot();
     }
 
     private void observeAddingManufacturingDefectsResponse() {
-        viewModel.getAddManufacturingDefectsResponse().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getAddPaintingDefectsResponse().observe(getViewLifecycleOwner(), response -> {
             String responseMessage = response.getResponseStatus().getStatusMessage();
 //                        if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
             navController.popBackStack();
@@ -167,7 +168,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
                 if (defectsIds.isEmpty()){
                     Toast.makeText(getContext(), "Please Select the found defects!", Toast.LENGTH_SHORT).show();
                 }
-                AddWeldingDefectData data = new AddWeldingDefectData();
+                AddPaintingDefectData data = new AddPaintingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
                     defectedQty=Integer.parseInt(binding.defectedQtnEdt.getText().toString().trim());
                     data.setUserId(userId);
@@ -180,7 +181,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
                     data.setSampleQty(sampleQty);
                     data.setDefectList(defectsIds);
                     data.setNewSampleQty(newSample);
-                    viewModel.addWeldingDefectResponseViewModel(data);
+                    viewModel.addPaintingDefectResponseViewModel(data);
                 }
             } break;
             case R.id.defects_list_layout:{
@@ -195,8 +196,8 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
         }
     }
 
-    private void observeAddingManufacturingDefectsStatus() {
-        viewModel.getAddManufacturingDefectsStatus().observe(getViewLifecycleOwner(),status -> {
+    private void observeAddingPaintingDefectsStatus() {
+        viewModel.getAddPaintingDefectsStatus().observe(getViewLifecycleOwner(),status -> {
             if ((status == Status.LOADING)) {
                 progressDialog.show();
             } else {

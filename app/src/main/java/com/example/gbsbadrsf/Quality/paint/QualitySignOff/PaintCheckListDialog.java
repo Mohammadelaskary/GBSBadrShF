@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.example.gbsbadrsf.Quality.Data.GetCheck;
 import com.example.gbsbadrsf.Quality.Data.SaveCheckListResponse;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.databinding.WeldingDialogChecklistBinding;
 
@@ -16,12 +17,12 @@ import java.util.List;
 
 public class PaintCheckListDialog extends Dialog implements PaintSetOnCheckItemChecked {
    List<GetCheck> checkList;
-   LastMoveWeldingBasket basketData;
+   LastMovePaintingBasket basketData;
    Context context;
    List<SaveCheckListResponse> savedCheckList;
    PaintSetOnCheckItemChecked setOnCheckItemChecked;
 
-    public PaintCheckListDialog(@NonNull Context context, List<GetCheck> checkList, LastMoveWeldingBasket basketData, List<SaveCheckListResponse> savedCheckList, PaintSetOnCheckItemChecked setOnCheckItemChecked) {
+    public PaintCheckListDialog(@NonNull Context context, List<GetCheck> checkList, LastMovePaintingBasket basketData, List<SaveCheckListResponse> savedCheckList, PaintSetOnCheckItemChecked setOnCheckItemChecked) {
         super(context);
         this.context = context;
         this.checkList = checkList;

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRandomQualityInception;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveRandomQualityInception;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetInfoForQualityRandomInpection_Painting;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseSaveQualityRandomInpection_Painting;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetInfoForQualityRandomInpection_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseSaveQualityRandomInpection_Welding;
 import com.example.gbsbadrsf.data.response.Status;
@@ -21,10 +23,10 @@ public class PaintRandomQualityInceptionViewModel extends ViewModel {
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
-    MutableLiveData<com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetInfoForQualityRandomInpection_Welding> infoForQualityRandomInspectionLiveData;
+    MutableLiveData<ApiResponseGetInfoForQualityRandomInpection_Painting> infoForQualityRandomInspectionLiveData;
     MutableLiveData<Status> infoForQualityRandomInspectionStatus;
 
-    MutableLiveData<ApiResponseSaveQualityRandomInpection_Welding> saveRandomQualityInceptionMutableLiveData;
+    MutableLiveData<ApiResponseSaveQualityRandomInpection_Painting> saveRandomQualityInceptionMutableLiveData;
     MutableLiveData<Status> saveRandomQualityInceptionMutableStatus;
 
     @Inject
@@ -44,7 +46,7 @@ public class PaintRandomQualityInceptionViewModel extends ViewModel {
             String deviceSerialNumber,
             String Code
     ){
-        disposable.add(apiInterface.GetInfoForQualityRandomInpection_Welding(
+        disposable.add(apiInterface.GetInfoForQualityRandomInpection_Painting(
                 UserId,
                 deviceSerialNumber,
                 Code
@@ -69,7 +71,7 @@ public class PaintRandomQualityInceptionViewModel extends ViewModel {
             int SampleQty,
             String Notes
     ){
-        disposable.add(apiInterface.SaveQualityRandomInpection_Welding(
+        disposable.add(apiInterface.SaveQualityRandomInpection_Painting(
                 UserId,
                 deviceSerialNumber,
                 LastMoveId,
@@ -90,7 +92,7 @@ public class PaintRandomQualityInceptionViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<ApiResponseGetInfoForQualityRandomInpection_Welding> getInfoForQualityRandomInspectionLiveData() {
+    public MutableLiveData<ApiResponseGetInfoForQualityRandomInpection_Painting> getInfoForQualityRandomInspectionLiveData() {
         return infoForQualityRandomInspectionLiveData;
     }
 
@@ -98,7 +100,7 @@ public class PaintRandomQualityInceptionViewModel extends ViewModel {
         return infoForQualityRandomInspectionStatus;
     }
 
-    public MutableLiveData<ApiResponseSaveQualityRandomInpection_Welding> getSaveRandomQualityInceptionMutableLiveData() {
+    public MutableLiveData<ApiResponseSaveQualityRandomInpection_Painting> getSaveRandomQualityInceptionMutableLiveData() {
         return saveRandomQualityInceptionMutableLiveData;
     }
 

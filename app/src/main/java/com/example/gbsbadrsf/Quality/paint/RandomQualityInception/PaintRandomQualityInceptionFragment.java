@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.gbsbadrsf.Quality.paint.Model.LastMoveWelding;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePainting;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
@@ -19,7 +19,6 @@ import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintRandomQualityInspectionBinding;
-import com.example.gbsbadrsf.databinding.FragmentRandomQualityInceptionBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -165,17 +164,17 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
             ResponseStatus responseStatus = apiResponseLastMoveWelding.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();
             if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)){
-                lastMoveWelding = apiResponseLastMoveWelding.getLastMoveWelding();
-                parentCode = lastMoveWelding.getParentCode().toString();
-                jobOrderName = lastMoveWelding.getJobOrderName().toString();
-                if (notes != lastMoveWelding.getQualityRandomInpectionNotes())
-                    notes = lastMoveWelding.getQualityRandomInpectionNotes().toString();
-                operationName = lastMoveWelding.getOperationEnName().toString();
-                loadingQty = lastMoveWelding.getLoadingQty();
-                parentId = lastMoveWelding.getParentId();
-                sampleQty =  lastMoveWelding.getQualityRandomInpectionSampleQty();
-                defectedQty = lastMoveWelding.getQualityRandomInpectionDefectedQt();
-                jobOrderQty = lastMoveWelding.getJobOrderQty();
+                lastMovePainting = apiResponseLastMoveWelding.getLastMoveWelding();
+                parentCode = lastMovePainting.getParentCode().toString();
+                jobOrderName = lastMovePainting.getJobOrderName().toString();
+                if (notes != lastMovePainting.getQualityRandomInpectionNotes())
+                    notes = lastMovePainting.getQualityRandomInpectionNotes().toString();
+                operationName = lastMovePainting.getOperationEnName().toString();
+                loadingQty = lastMovePainting.getLoadingQty();
+                parentId = lastMovePainting.getParentId();
+                sampleQty =  lastMovePainting.getQualityRandomInpectionSampleQty();
+                defectedQty = lastMovePainting.getQualityRandomInpectionDefectedQt();
+                jobOrderQty = lastMovePainting.getJobOrderQty();
                 Toast.makeText(getContext(), statusMessage,Toast.LENGTH_SHORT).show();
             } else {
                 parentCode = "";
@@ -192,7 +191,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
             fillData();
         });
     }
-    LastMoveWelding lastMoveWelding;
+    LastMovePainting lastMovePainting;
     String parentCode,jobOrderName,notes,operationName;
     int loadingQty, parentId,sampleQty,defectedQty,jobOrderQty;
     private void fillData() {
@@ -238,7 +237,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 sampleQty =Integer.parseInt(binding.sampleQty.getEditText().getText().toString().trim());
                 defectedQty =Integer.parseInt(binding.defectedQty.getEditText().getText().toString().trim());
                 notes = binding.notes.getEditText().getText().toString().trim();
-                int lastMoveId = lastMoveWelding.getLastMoveId();
+                int lastMoveId = lastMovePainting.getLastMoveId();
                 boolean validSampleQty = sampleQty<= loadingQty && sampleQty > 0;
                 boolean validDefectedQty = defectedQty <=sampleQty && defectedQty > 0;
                 boolean emptySampleQty = binding.sampleQty.getEditText().getText().toString().trim().isEmpty();

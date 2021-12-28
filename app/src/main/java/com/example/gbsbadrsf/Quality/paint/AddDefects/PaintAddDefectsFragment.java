@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnQtyDefectedQtyDefectsItemClicked;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
@@ -51,7 +52,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     ViewModelProviderFactory provider;
 
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
     SetUpBarCodeReader barCodeReader;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -73,7 +74,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     }
 
     private void observeSavingDefectsToNewBasket() {
-        viewModel.getAddWeldingDefectsToNewBasketStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getAddPaintingDefectsToNewBasketStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
             else
@@ -105,7 +106,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-        viewModel.getDefectsWeldingListStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getDefectsPaintingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
             } else {
@@ -122,13 +123,13 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     private void getDefectsManufacturingList(int userId,String deviceSerialNo,String basketCode) {
-        viewModel.getWeldingDefects(userId,deviceSerialNo,basketCode);
-        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding ->  {
-                String statusMessage = apiResponseDefectsWelding.getResponseStatus().getStatusMessage();
-            if (apiResponseDefectsWelding.getDefectsWelding()!=null) {
-                    defectsWeldingList.clear();
-                    defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+        viewModel.getPaintingDefects(userId,deviceSerialNo,basketCode);
+        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting ->  {
+                String statusMessage = apiResponseDefectsPainting.getResponseStatus().getStatusMessage();
+            if (apiResponseDefectsPainting.getDefectsWelding()!=null) {
+                    defectsPaintingList.clear();
+                    defectsPaintingList.addAll(apiResponseDefectsPainting.getDefectsWelding());
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
                     adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
                     String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
                     binding.defectqtnEdt.setText(defectedQty);
@@ -149,13 +150,13 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
                 }).create().show();
     }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsPainting> defectsPaintingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1 ;
-        for (DefectsWelding defectsWelding:defectsWeldingListLocal){
-           if (defectsWelding.getWeldingDefectsId()!=id){
-               int currentId = defectsWelding.getWeldingDefectsId();
-               int defectedQty = defectsWelding.getQtyDefected();
+        for (DefectsPainting defectsPainting:defectsPaintingListLocal){
+           if (defectsPainting.getPaintingDefectsId()!=id){
+               int currentId = defectsPainting.getPaintingDefectsId();
+               int defectedQty = defectsPainting.getQtyDefected();
                QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId,defectedQty,getDefectsQty(currentId));
                qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                id = currentId;
@@ -166,8 +167,8 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsWelding defectsManufacturing:defectsWeldingList){
-            if (defectsManufacturing.getWeldingDefectsId()==currentId)
+        for (DefectsPainting defectsPainting: defectsPaintingList){
+            if (defectsPainting.getDefectsPaintingDetailsId()==currentId)
                 defectNo++;
         }
         return  defectNo;
@@ -221,8 +222,8 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
             if (newBasketCode.isEmpty())
                 binding.basketCode.setError("Please scan or enter basket code!");
             else {
-                viewModel.addWeldingDefectsToNewBasketViewModel(userId,deviceSerialNo,jobOrderId, parentId, basketCode, newBasketCode);
-                viewModel.getAddWeldingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
+                viewModel.addPaintingDefectsToNewBasketViewModel(userId,deviceSerialNo,jobOrderId, parentId, basketCode, newBasketCode);
+                viewModel.getAddPaintingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
                     String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
                     if (responseMessage.equals("Added successfully")) {
                         Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
@@ -240,13 +241,13 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
 
     @Override
     public void OnQtyDefectedQtyDefectsItemClicked(int id,View view) {
-            ArrayList<DefectsWelding> customDefectsWeldingList = new ArrayList<>();
-            for (DefectsWelding defectsWelding : defectsWeldingList) {
-                if (defectsWelding.getWeldingDefectsId() == id)
-                    customDefectsWeldingList.add(defectsWelding);
+            ArrayList<DefectsPainting> customDefectsPaintingList = new ArrayList<>();
+            for (DefectsPainting defectsPainting : defectsPaintingList) {
+                if (defectsPainting.getDefectId() == id)
+                    customDefectsPaintingList.add(defectsPainting);
             }
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("defectsWeldingList", customDefectsWeldingList);
+            bundle.putParcelableArrayList("defectsPaintingList", customDefectsPaintingList);
             bundle.putParcelable("basketData", basketData);
             bundle.putInt("sampleQty",sampleQty);
             Navigation.findNavController(getView()).navigate(R.id.action_fragment_paint_add_defects_to_fragment_paint_display_defects, bundle);

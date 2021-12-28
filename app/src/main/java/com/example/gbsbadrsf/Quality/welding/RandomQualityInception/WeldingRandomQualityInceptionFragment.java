@@ -11,15 +11,13 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.gbsbadrsf.Quality.paint.Model.LastMoveWelding;
-import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRandomQualityInceptionViewModel;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePainting;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.databinding.FragmentRandomQualityInceptionBinding;
 import com.example.gbsbadrsf.databinding.FragmentWeldingRandomQualityInspectionBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -193,7 +191,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
             fillData();
         });
     }
-    LastMoveWelding lastMoveWelding;
+    LastMovePainting lastMoveWelding;
     String childCode,jobOrderName,notes,operationName;
     int loadingQty, parentId,sampleQty,defectedQty,jobOrderQty;
     private void fillData() {

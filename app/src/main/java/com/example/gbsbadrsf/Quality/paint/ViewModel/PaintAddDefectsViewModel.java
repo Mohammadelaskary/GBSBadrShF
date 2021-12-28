@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChildToBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseAddPaintingDefectedChildToBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetPaintingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -16,10 +18,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintAddDefectsViewModel extends ViewModel {
-    MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
-    MutableLiveData<Status> defectsWeldingListStatus;
-    MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> addWeldingDefectsToNewBasket;
-    MutableLiveData<Status> addWeldingDefectsToNewBasketStatus;
+    MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> defectsPaintingListLiveData;
+    MutableLiveData<Status> defectsPaintingListStatus;
+    MutableLiveData<ApiResponseAddPaintingDefectedChildToBasket> addPaintingDefectsToNewBasket;
+    MutableLiveData<Status> addPaintingDefectsToNewBasketStatus;
     @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
@@ -31,24 +33,25 @@ public class PaintAddDefectsViewModel extends ViewModel {
     public PaintAddDefectsViewModel(Gson gson) {
         this.gson = gson;
         disposable = new CompositeDisposable();
-        defectsWeldingListLiveData = new MutableLiveData<>();
-        defectsWeldingListStatus = new MutableLiveData<>();
+        defectsPaintingListLiveData = new MutableLiveData<>();
+        defectsPaintingListStatus = new MutableLiveData<>();
 
-        addWeldingDefectsToNewBasket = new MutableLiveData<>();
-        addWeldingDefectsToNewBasketStatus = new MutableLiveData<>();
+        addPaintingDefectsToNewBasket = new MutableLiveData<>();
+        addPaintingDefectsToNewBasketStatus = new MutableLiveData<>();
     }
 
 
     public void getWeldingDefects(int userId,String deviceSerialNo,String basketCode){
-        disposable.add(apiInterface.getWeldingDefectedQtyByBasketCode(userId,deviceSerialNo,basketCode)
+        disposable.add(apiInterface.getPaintingDefectedQtyByBasketCode(userId,deviceSerialNo,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> defectsWeldingListStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> defectsPaintingListStatus.postValue(Status.LOADING))
                 .subscribe(
-                        response -> {defectsWeldingListLiveData.postValue(response);
-                            defectsWeldingListStatus.postValue(Status.SUCCESS); },
+                        response -> {
+                            defectsPaintingListLiveData.postValue(response);
+                            defectsPaintingListStatus.postValue(Status.SUCCESS); },
                         throwable -> {
-                            defectsWeldingListStatus.postValue(Status.ERROR);
+                            defectsPaintingListStatus.postValue(Status.ERROR);
                         }
                 ));
     }
@@ -59,33 +62,33 @@ public class PaintAddDefectsViewModel extends ViewModel {
                                                             String basketCode,
                                                             String newBasketCode){
 
-        disposable.add(apiInterface.addWeldingDefectedParentToBasket(userId,deviceSerialNo,jobOrderId,parentId,basketCode,newBasketCode)
+        disposable.add(apiInterface.addPaintingDefectedParentToBasket(userId,deviceSerialNo,jobOrderId,parentId,basketCode,newBasketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addWeldingDefectsToNewBasketStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> addPaintingDefectsToNewBasketStatus.postValue(Status.LOADING))
                 .subscribe(
                         response -> {
-                            addWeldingDefectsToNewBasket.postValue(response);
-                            addWeldingDefectsToNewBasketStatus.postValue(Status.SUCCESS); },
+                            addPaintingDefectsToNewBasket.postValue(response);
+                            addPaintingDefectsToNewBasketStatus.postValue(Status.SUCCESS); },
                         throwable -> {
-                            addWeldingDefectsToNewBasketStatus.postValue(Status.ERROR);
+                            addPaintingDefectsToNewBasketStatus.postValue(Status.ERROR);
                         }
                 ));
     }
 
-    public MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> getDefectsWeldingListLiveData() {
-        return defectsWeldingListLiveData;
+    public MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> getDefectsPaintingListLiveData() {
+        return defectsPaintingListLiveData;
     }
 
-    public MutableLiveData<Status> getDefectsWeldingListStatus() {
-        return defectsWeldingListStatus;
+    public MutableLiveData<Status> getDefectsPaintingListStatus() {
+        return defectsPaintingListStatus;
     }
 
-    public MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> getAddWeldingDefectsToNewBasket() {
-        return addWeldingDefectsToNewBasket;
+    public MutableLiveData<ApiResponseAddPaintingDefectedChildToBasket> getAddPaintingDefectsToNewBasket() {
+        return addPaintingDefectsToNewBasket;
     }
 
-    public MutableLiveData<Status> getAddWeldingDefectsToNewBasketStatus() {
-        return addWeldingDefectsToNewBasketStatus;
+    public MutableLiveData<Status> getAddPaintingDefectsToNewBasketStatus() {
+        return addPaintingDefectsToNewBasketStatus;
     }
 }

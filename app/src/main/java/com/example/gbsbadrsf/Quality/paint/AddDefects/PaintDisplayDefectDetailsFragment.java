@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.databinding.FragmentPaintDisplayDefectDetailsBinding;
@@ -57,16 +58,16 @@ public class PaintDisplayDefectDetailsFragment extends Fragment {
     private void getReceivedData() {
         if (getArguments()!=null) {
             sampleQty = getArguments().getInt("sampleQty");
-            List<DefectsWelding> defectsWeldingList = getArguments().getParcelableArrayList("defectsWeldingList");
-            for (DefectsWelding defectsWelding :defectsWeldingList){
-                int defectId = defectsWelding.getDefectId();
-                String defectName = defectsWelding.getDefectId()+"";
+            List<DefectsPainting> defectsPaintingList = getArguments().getParcelableArrayList("defectsPaintingList");
+            for (DefectsPainting defectsPainting :defectsPaintingList){
+                int defectId = defectsPainting.getDefectId();
+                String defectName = defectsPainting.getDefectId()+"";
                 Defect defect = new Defect();
                 defect.setId(defectId);
                 defect.setName(defectName);
                 if (!foundDefects.contains(defect)) {
                     foundDefects.add(defect);
-                    defectedQty = defectsWelding.getQtyDefected();
+                    defectedQty = defectsPainting.getQtyDefected();
                 }
                 LastMoveWeldingBasket basketData = getArguments().getParcelable("basketData");
                 fillData(basketData);

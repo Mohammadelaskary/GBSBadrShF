@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
@@ -98,7 +99,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
 
     String deviceSerialNo = "S1";
     int userId = 1;
-    LastMoveWeldingBasket basketData;
+    LastMovePaintingBasket basketData;
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
         viewModel.getBasketDataLiveData().observe(getActivity(), apiResponseGetBasketInfoForQuality_welding -> {

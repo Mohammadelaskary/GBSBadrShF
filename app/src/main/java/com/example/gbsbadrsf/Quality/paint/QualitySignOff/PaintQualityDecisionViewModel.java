@@ -7,6 +7,9 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseGetCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetSavedCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGettingFinalQualityDecision;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveCheckList;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetPaintingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseQualityOperationSignOff_Painting;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseQualityOperationSignOff_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
@@ -24,11 +27,11 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintQualityDecisionViewModel extends ViewModel {
-    MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
-    MutableLiveData<Status> defectsWeldingListStatus;
+    MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> defectsPaintingListLiveData;
+    MutableLiveData<Status> defectsPaintingListStatus;
     MutableLiveData<ApiResponseGettingFinalQualityDecision> apiResponseGettingFinalQualityDecisionMutableLiveData;
     MutableLiveData<Status> apiResponseGettingFinalQualityDecisionStatus;
-    MutableLiveData<ApiResponseQualityOperationSignOff_Welding> saveQualityOperationSignOffLiveData;
+    MutableLiveData<ApiResponseQualityOperationSignOff_Painting> saveQualityOperationSignOffLiveData;
     MutableLiveData<Status> saveQualityOperationSignOffStatus;
     MutableLiveData<ApiResponseGetCheckList> apiResponseGetCheckListLiveData;
     MutableLiveData<Status> apiResponseGetCheckListStatus;
@@ -36,7 +39,7 @@ public class PaintQualityDecisionViewModel extends ViewModel {
     MutableLiveData<Status> apiResponseGetSavedCheckListStatus;
     MutableLiveData<ApiResponseSaveCheckList> apiResponseSaveCheckListLiveData;
     MutableLiveData<Status> apiResponseSaveCheckListStatus;
-    List<DefectsWelding> defectsWeldingList;
+    List<DefectsPainting> defectsPaintingList;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -48,8 +51,8 @@ public class PaintQualityDecisionViewModel extends ViewModel {
     public PaintQualityDecisionViewModel(Gson gson) {
         this.gson = gson;
         disposable = new CompositeDisposable();
-        defectsWeldingListLiveData = new MutableLiveData<>();
-        defectsWeldingListStatus = new MutableLiveData<>();
+        defectsPaintingListLiveData = new MutableLiveData<>();
+        defectsPaintingListStatus = new MutableLiveData<>();
         apiResponseGettingFinalQualityDecisionMutableLiveData = new MutableLiveData<>();
         apiResponseGettingFinalQualityDecisionStatus = new MutableLiveData<>();
         saveQualityOperationSignOffLiveData = new MutableLiveData<>();
@@ -60,20 +63,20 @@ public class PaintQualityDecisionViewModel extends ViewModel {
         apiResponseGetSavedCheckListStatus = new MutableLiveData<>();
         apiResponseSaveCheckListLiveData = new MutableLiveData<>();
         apiResponseSaveCheckListStatus = new MutableLiveData<>();
-        defectsWeldingList = new ArrayList<>();
+        defectsPaintingList = new ArrayList<>();
     }
 
     public void getQualityOperationByBasketCode(int userId,String deviceSerialNumber,String basketCode){
-        disposable.add(apiInterface.getWeldingDefectedQtyByBasketCode(userId,deviceSerialNumber,basketCode)
+        disposable.add(apiInterface.getPaintingDefectedQtyByBasketCode(userId,deviceSerialNumber,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> defectsWeldingListStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> defectsPaintingListStatus.postValue(Status.LOADING))
                 .subscribe(
                         response -> {
-                            defectsWeldingListLiveData.postValue(response);
-                            defectsWeldingListStatus.postValue(Status.SUCCESS); },
+                            defectsPaintingListLiveData.postValue(response);
+                            defectsPaintingListStatus.postValue(Status.SUCCESS); },
                         throwable -> {
-                            defectsWeldingListStatus.postValue(Status.ERROR);
+                            defectsPaintingListStatus.postValue(Status.ERROR);
                         }
                 ));
     }
@@ -143,12 +146,12 @@ public class PaintQualityDecisionViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> getDefectsWeldingListLiveData() {
-        return defectsWeldingListLiveData;
+    public MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> getDefectsPaintingListLiveData() {
+        return defectsPaintingListLiveData;
     }
 
-    public MutableLiveData<Status> getDefectsWeldingListStatus() {
-        return defectsWeldingListStatus;
+    public MutableLiveData<Status> getDefectsPaintingListStatus() {
+        return defectsPaintingListStatus;
     }
 
     public MutableLiveData<ApiResponseGettingFinalQualityDecision> getApiResponseGettingFinalQualityDecisionMutableLiveData() {
@@ -159,7 +162,7 @@ public class PaintQualityDecisionViewModel extends ViewModel {
         return apiResponseGettingFinalQualityDecisionStatus;
     }
 
-    public MutableLiveData<ApiResponseQualityOperationSignOff_Welding> getSaveQualityOperationSignOffLiveData() {
+    public MutableLiveData<ApiResponseQualityOperationSignOff_Painting> getSaveQualityOperationSignOffLiveData() {
         return saveQualityOperationSignOffLiveData;
     }
 
@@ -191,11 +194,11 @@ public class PaintQualityDecisionViewModel extends ViewModel {
         return apiResponseSaveCheckListStatus;
     }
 
-    public List<DefectsWelding> getDefectsWeldingList() {
-        return defectsWeldingList;
+    public List<DefectsPainting> getDefectsPaintingList() {
+        return defectsPaintingList;
     }
 
-    public void setDefectsWeldingList(List<DefectsWelding> defectsWeldingList) {
-        this.defectsWeldingList = defectsWeldingList;
+    public void setDefectsPaintingList(List<DefectsPainting> defectsPaintingList) {
+        this.defectsPaintingList = defectsPaintingList;
     }
 }

@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Quality.paint.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponsePaintingRepair_QC;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseWeldingRepair_QC;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -15,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintQualityDefectRepairViewModel extends ViewModel {
-    MutableLiveData<ApiResponseWeldingRepair_QC> addWeldingRepairQuality;
+    MutableLiveData<ApiResponsePaintingRepair_QC> addPaintingRepairQuality;
     MutableLiveData<Status> addWeldingRepairQualityStatus;
     @Inject
     ApiInterface apiInterface;
@@ -29,11 +30,11 @@ public class PaintQualityDefectRepairViewModel extends ViewModel {
     public PaintQualityDefectRepairViewModel(Gson gson) {
         this.gson = gson;
         disposable = new CompositeDisposable();
-        addWeldingRepairQuality = new MutableLiveData<>();
+        addPaintingRepairQuality = new MutableLiveData<>();
         addWeldingRepairQualityStatus = new MutableLiveData<>();
     }
 
-    public void addWeldingRepairQuality(
+    public void addPaintingRepairQuality(
             int userId,
             String deviceSerialNumber,
             int defectsManufacturingDetailsId,
@@ -41,7 +42,7 @@ public class PaintQualityDefectRepairViewModel extends ViewModel {
             int defectStatus,
             int qtyApproved
     ) {
-        disposable.add(apiInterface.WeldingRepair_QC(
+        disposable.add(apiInterface.PaintingRepair_QC(
                 userId,
                 deviceSerialNumber,
                 defectsManufacturingDetailsId,
@@ -54,7 +55,7 @@ public class PaintQualityDefectRepairViewModel extends ViewModel {
                 .doOnSubscribe(__ -> addWeldingRepairQualityStatus.postValue(Status.LOADING))
                 .subscribe(
                         response -> {
-                            addWeldingRepairQuality.postValue(response);
+                            addPaintingRepairQuality.postValue(response);
                             addWeldingRepairQualityStatus.postValue(Status.SUCCESS);
                         },
                         throwable -> {
@@ -63,8 +64,8 @@ public class PaintQualityDefectRepairViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<ApiResponseWeldingRepair_QC> getAddWeldingRepairQuality() {
-        return addWeldingRepairQuality;
+    public MutableLiveData<ApiResponsePaintingRepair_QC> getAddPaintingRepairQuality() {
+        return addPaintingRepairQuality;
     }
 
     public MutableLiveData<Status> getAddWeldingRepairQualityStatus() {

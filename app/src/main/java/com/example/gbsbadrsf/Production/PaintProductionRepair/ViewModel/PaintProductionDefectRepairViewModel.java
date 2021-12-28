@@ -3,7 +3,7 @@ package com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse.ApiResponseWeldingRepair_Production;
+import com.example.gbsbadrsf.Production.PaintProductionRepair.ApiReponse.ApiResponsePaintingRepair_Production;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -15,8 +15,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintProductionDefectRepairViewModel extends ViewModel {
-    MutableLiveData<com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse.ApiResponseWeldingRepair_Production> addWeldingRepairProduction;
-    MutableLiveData<Status> addWeldingRepairProductionStatus;
+    MutableLiveData<ApiResponsePaintingRepair_Production> addPaintingRepairProduction;
+    MutableLiveData<Status> addPaintingRepairProductionStatus;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -28,8 +28,8 @@ public class PaintProductionDefectRepairViewModel extends ViewModel {
     public PaintProductionDefectRepairViewModel(Gson gson) {
         this.gson = gson;
         disposable = new CompositeDisposable();
-        addWeldingRepairProduction = new MutableLiveData<>();
-        addWeldingRepairProductionStatus = new MutableLiveData<>();
+        addPaintingRepairProduction = new MutableLiveData<>();
+        addPaintingRepairProductionStatus = new MutableLiveData<>();
     }
 
     public void addWeldingRepairProduction(
@@ -40,7 +40,7 @@ public class PaintProductionDefectRepairViewModel extends ViewModel {
             int defectStatus,
             int qtyRepaired
     ){
-        disposable.add(apiInterface.WeldingRepair_Production(
+        disposable.add(apiInterface.PaintingRepair_Production(
                 userId,
                 deviceSerialNumber,
                 defectsManufacturingDetailsId,
@@ -50,22 +50,22 @@ public class PaintProductionDefectRepairViewModel extends ViewModel {
         )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addWeldingRepairProductionStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> addPaintingRepairProductionStatus.postValue(Status.LOADING))
                 .subscribe(
                         response -> {
-                            addWeldingRepairProduction.postValue(response);
-                            addWeldingRepairProductionStatus.postValue(Status.SUCCESS); },
+                            addPaintingRepairProduction.postValue(response);
+                            addPaintingRepairProductionStatus.postValue(Status.SUCCESS); },
                         throwable -> {
-                            addWeldingRepairProductionStatus.postValue(Status.ERROR);
+                            addPaintingRepairProductionStatus.postValue(Status.ERROR);
                         }
                 ));
     }
 
-    public MutableLiveData<ApiResponseWeldingRepair_Production> getAddWeldingRepairProduction() {
-        return addWeldingRepairProduction;
+    public MutableLiveData<ApiResponsePaintingRepair_Production> getAddPaintingRepairProduction() {
+        return addPaintingRepairProduction;
     }
 
-    public MutableLiveData<Status> getAddWeldingRepairProductionStatus() {
-        return addWeldingRepairProductionStatus;
+    public MutableLiveData<Status> getAddPaintingRepairProductionStatus() {
+        return addPaintingRepairProductionStatus;
     }
 }

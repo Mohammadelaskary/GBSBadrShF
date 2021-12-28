@@ -3,7 +3,7 @@ package com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gbsbadrsf.Production.PaintProductionRepair.ApiReponse.ApiResponseWeldingRepair_Production;
+import com.example.gbsbadrsf.Production.PaintProductionRepair.ApiReponse.ApiResponsePaintingRepair_Production;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
@@ -21,7 +21,7 @@ public class PaintProductionRepairViewModel extends ViewModel {
     MutableLiveData<Status> apiResponseBasketDataStatus;
     MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
     MutableLiveData<Status> defectsWeldingListStatus;
-    MutableLiveData<ApiResponseWeldingRepair_Production> addWeldingRepairProduction;
+    MutableLiveData<ApiResponsePaintingRepair_Production> addWeldingRepairProduction;
     MutableLiveData<Status> addWeldingRepairProductionStatus;
 
     @Inject
@@ -87,7 +87,7 @@ public class PaintProductionRepairViewModel extends ViewModel {
         return defectsWeldingListStatus;
     }
 
-    public MutableLiveData<ApiResponseWeldingRepair_Production> getAddWeldingRepairProduction() {
+    public MutableLiveData<ApiResponsePaintingRepair_Production> getAddWeldingRepairProduction() {
         return addWeldingRepairProduction;
     }
 

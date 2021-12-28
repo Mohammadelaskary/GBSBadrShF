@@ -34,7 +34,7 @@ public class PaintRejectionRequestDetailsViewModel extends ViewModel {
     public void saveRejectionRequestTakeAction(int userId,
                                      int rejectionRequestId,
                                      boolean isApproved){
-        disposable.add(apiInterface.RejectionRequestTakeAction_Welding(userId,rejectionRequestId,isApproved)
+        disposable.add(apiInterface.RejectionRequestTakeAction_Painting(userId,rejectionRequestId,isApproved)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> rejectionRequestTakeActionStatus.postValue(Status.LOADING))

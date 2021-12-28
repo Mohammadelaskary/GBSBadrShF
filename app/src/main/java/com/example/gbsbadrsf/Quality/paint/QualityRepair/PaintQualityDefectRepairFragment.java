@@ -7,19 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintQualityDefectRepairBinding;
-import com.example.gbsbadrsf.databinding.WeldingQualityDefectRepairFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
@@ -69,7 +66,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
 
     ProgressDialog progressDialog;
     private void observeAddingDefectRepairStatus() {
-        viewModel.getAddWeldingRepairQualityStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getAddPaintingRepairQualityStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
             } else {
@@ -79,12 +76,12 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     }
 
     private void observeAddingDefectRepairResponse() {
-        viewModel.getAddWeldingRepairQuality().observe(getViewLifecycleOwner(),response-> {
+        viewModel.getAddPaintingRepairQuality().observe(getViewLifecycleOwner(), response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
-                for (DefectsWelding defectsWelding: defectsWeldingList){
-                    if (defectsWelding.getWeldingDefectsId()== defectsWeldingDetailsId){
-                        defectsWelding.setQtyApproved(Integer.parseInt(approvedQty));
+                for (DefectsPainting defectsPainting: defectsPaintingList){
+                    if (defectsPainting.getDefectsPaintingDetailsId()== defectsWeldingDetailsId){
+                        defectsPainting.setQtyApproved(Integer.parseInt(approvedQty));
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -109,7 +106,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        String defectedQty   = String.valueOf(defectsWeldingList.get(0).getDeffectedQty());
+        String defectedQty   = String.valueOf(defectsPaintingList.get(0).getDeffectedQty());
 
         binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
@@ -117,13 +114,13 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         binding.defectQtn.setText(defectedQty);
     }
 
-    LastMoveWeldingBasket basketData;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    LastMovePaintingBasket basketData;
+    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
     private void getReceivedData() {
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
-            defectsWeldingList = getArguments().getParcelableArrayList("selectedDefectsWelding");
-            adapter.setDefectsManufacturingList(defectsWeldingList);
+            defectsPaintingList = getArguments().getParcelableArrayList("selectedDefectsPainting");
+            adapter.setDefectsPaintingList(defectsPaintingList);
             adapter.notifyDataSetChanged();
         }
     }
@@ -140,7 +137,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
                 if (defectsWeldingDetailsId !=-1){
                     approvedQty = binding.approvedQty.getEditText().getText().toString().trim();
                     if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()){
-                        viewModel.addWeldingRepairQuality(
+                        viewModel.addPaintingRepairQuality(
                                 userId,
                                 deviceSerialNumber,
                                 defectsWeldingDetailsId,
@@ -163,12 +160,12 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     }
 
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding) {
-        int repairedQty = defectsWelding.getQtyRepaired();
-        defectsWeldingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
+    public void onPaintingRepairItemClicked(DefectsPainting defectsPainting) {
+        int repairedQty = defectsPainting.getQtyRepaired();
+        defectsWeldingDetailsId = defectsPainting.getDefectsPaintingDetailsId();
         if (repairedQty!=0) {
             binding.approvedQty.getEditText().setText(String.valueOf(repairedQty));
-            defectStatus = defectsWelding.getDefectStatus();
+            defectStatus = defectsPainting.getDefectStatus();
         } else
             binding.approvedQty.getEditText().setText("Defect isn't repaired yet!");
     }
