@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseLastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingRepairQualityProduction;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
@@ -24,7 +25,7 @@ public class ProductionRepairViewModel extends ViewModel {
     MutableLiveData<Status> defectsManufacturingListStatus;
     MutableLiveData<ApiResponseAddingManufacturingRepairQualityProduction> addManufacturingRepairProduction;
     MutableLiveData<Status> addManufacturingRepairProductionStatus;
-
+    LastMoveManufacturingBasket basketData;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -122,5 +123,13 @@ public class ProductionRepairViewModel extends ViewModel {
 
     public MutableLiveData<Status> getAddManufacturingRepairProductionStatus() {
         return addManufacturingRepairProductionStatus;
+    }
+
+    public LastMoveManufacturingBasket getBasketData() {
+        return basketData;
+    }
+
+    public void setBasketData(LastMoveManufacturingBasket basketData) {
+        this.basketData = basketData;
     }
 }

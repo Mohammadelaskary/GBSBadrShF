@@ -87,8 +87,16 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                updateRecyclerView();
             }
         });
+    }
+
+    private void updateRecyclerView() {
+        defectsManufacturing.setQtyRepaired(Integer.parseInt(repairedQty));
+        defectsManufacturingList.remove(position);
+        defectsManufacturingList.add(position,defectsManufacturing);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -125,12 +133,15 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
             adapter.notifyDataSetChanged();
         }
     }
-
+    int position;
+    DefectsManufacturing defectsManufacturing;
     @Override
-    public void onRepairItemClicked(DefectsManufacturing defectsManufacturing) {
+    public void onRepairItemClicked(DefectsManufacturing defectsManufacturing,int position) {
         binding.repairedQty.getEditText().setText(String.valueOf(defectsManufacturing.getDeffectedQty()));
         defectsManufacturingDetailsId = defectsManufacturing.getDefectsManufacturingDetailsId();
         defectStatus = defectsManufacturing.getDefectStatus();
+        this.defectsManufacturing = defectsManufacturing;
+        this.position = position;
     }
     int userId = 1,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",repairedQty;

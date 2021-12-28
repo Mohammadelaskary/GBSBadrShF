@@ -62,7 +62,7 @@ public class WeldingRepairProductionQualityAdapter extends RecyclerView.Adapter<
         }
         holder.itemView.setOnClickListener(v -> {
             currentPosition = holder.getAdapterPosition();
-            onWeldingRepairItemClicked.onWeldingRepairItemClicked(defectsWelding);
+            onWeldingRepairItemClicked.onWeldingRepairItemClicked(defectsWelding,position);
             notifyDataSetChanged();
         });
     }

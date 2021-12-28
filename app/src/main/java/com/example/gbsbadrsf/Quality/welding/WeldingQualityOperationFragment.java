@@ -35,7 +35,7 @@ import dagger.android.support.DaggerFragment;
 public class WeldingQualityOperationFragment extends DaggerFragment implements  BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
     FragmentWeldingQualityOperationBinding binding;
-    public static WeldingQualityOperationViewModel viewModel;
+    public WeldingQualityOperationViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
     @Inject
     ViewModelProviderFactory provider;

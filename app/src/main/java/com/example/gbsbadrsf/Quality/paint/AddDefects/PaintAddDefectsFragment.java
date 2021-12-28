@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -20,6 +21,7 @@ import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnQtyDefectedQtyDefectsItemClicked;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
@@ -48,7 +50,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     int jobOrderId,parentId=3,sampleQty,userId = 1;
     String basketCode,deviceSerialNo = "S1";
     boolean newSample = false ;
-    PaintQualityOperationViewModel viewModel;
+    PaintAddDefectsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -185,7 +187,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     }
 
     private void initViewModel() {
-        viewModel = PaintQualityOperationFragment.viewModel;
+        viewModel = ViewModelProviders.of(this,provider).get(PaintAddDefectsViewModel.class);
     }
 
     private void fillData() {

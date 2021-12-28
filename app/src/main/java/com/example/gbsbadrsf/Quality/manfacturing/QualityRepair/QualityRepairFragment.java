@@ -51,19 +51,12 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         setUpProgressDialog();
         barCodeReader = new SetUpBarCodeReader(this,this);
         initViewModel();
-        if (viewModel.getBasketData()!=null){
-            basketData = viewModel.getBasketData();
-            fillData(basketData.getChildDescription(),basketData.getChildCode(),basketData.getOperationEnName());
-        }
         setupRecyclerView();
-        if (viewModel.getDefectsWeldingList()!=null&&viewModel.getBasketData()!=null){
-            adapter.setDefectsManufacturingList(defectsManufacturingList);
+        if (viewModel.getBasketData()!=null){
+            LastMoveManufacturingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
-            qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-            String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-            binding.defectQtn.setText(defectedQty);
+            fillData(basketData.getChildDescription(),basketData.getChildCode(), basketData.getOperationEnName());
+            getBasketDefectsManufacturing(basketData.getBasketCode());
         }
         addTextWatcher();
         observeGettingBasketData();
@@ -254,11 +247,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     public void onDestroyView() {
         super.onDestroyView();
         if (basketData!=null) {
-            basketData.setBasketCode(basketCode);
             viewModel.setBasketData(basketData);
-        }
-        if (!defectsManufacturingList.isEmpty()){
-            viewModel.setDefectsWeldingList(defectsManufacturingList);
         }
     }
 }

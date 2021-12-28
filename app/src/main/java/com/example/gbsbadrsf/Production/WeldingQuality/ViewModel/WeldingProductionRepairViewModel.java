@@ -9,6 +9,7 @@ import com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse.ApiRespon
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingRepairQualityProduction;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -26,7 +27,7 @@ public class WeldingProductionRepairViewModel extends ViewModel {
     MutableLiveData<Status> defectsWeldingListStatus;
     MutableLiveData<ApiResponseWeldingRepair_Production> addWeldingRepairProduction;
     MutableLiveData<Status> addWeldingRepairProductionStatus;
-
+    LastMoveWeldingBasket basketData;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -96,5 +97,13 @@ public class WeldingProductionRepairViewModel extends ViewModel {
 
     public MutableLiveData<Status> getAddWeldingRepairProductionStatus() {
         return addWeldingRepairProductionStatus;
+    }
+
+    public LastMoveWeldingBasket getBasketData() {
+        return basketData;
+    }
+
+    public void setBasketData(LastMoveWeldingBasket basketData) {
+        this.basketData = basketData;
     }
 }

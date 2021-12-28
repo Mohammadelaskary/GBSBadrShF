@@ -15,9 +15,9 @@ import java.util.List;
 
 public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<PaintRepairProductionQualityAdapter.WeldingRepairProductionQualityViewHolder> {
     List<DefectsPainting> defectsPaintingList;
-    SetOnPaintRepairItemClicked onPaintingRepairItemClicked;
+    SetOnPaintingRepairItemClicked onPaintingRepairItemClicked;
 
-    public PaintRepairProductionQualityAdapter(SetOnPaintRepairItemClicked onPaintingRepairItemClicked) {
+    public PaintRepairProductionQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
         this.onPaintingRepairItemClicked = onPaintingRepairItemClicked;
     }
 
@@ -62,7 +62,7 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
         }
         holder.itemView.setOnClickListener(v -> {
             currentPosition = holder.getAdapterPosition();
-            onPaintingRepairItemClicked.onPaintingRepairItemClicked(defectsPainting);
+            onPaintingRepairItemClicked.onPaintingRepairItemClicked(defectsPainting,position);
             notifyDataSetChanged();
         });
     }

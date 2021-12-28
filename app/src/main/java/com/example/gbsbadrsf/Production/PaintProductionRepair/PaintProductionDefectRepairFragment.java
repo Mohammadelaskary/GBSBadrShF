@@ -12,14 +12,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.QualityRepair.SetOnPaintingRepairItemClicked;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
-import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintProductionDefectRepairBinding;
-import com.example.gbsbadrsf.databinding.WeldingProductionDefectRepairFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class PaintProductionDefectRepairFragment extends DaggerFragment implements SetOnWeldingRepairItemClicked, View.OnClickListener {
+public class PaintProductionDefectRepairFragment extends DaggerFragment implements SetOnPaintingRepairItemClicked, View.OnClickListener {
 
 
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
@@ -88,8 +88,16 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                updateRecyclerView();
             }
         });
+    }
+
+    private void updateRecyclerView() {
+        defectsPainting.setQtyRepaired(Integer.parseInt(repairedQty));
+        defectsPaintingList.remove(position);
+        defectsPaintingList.add(position,defectsPainting);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -108,7 +116,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        String defectedQty   = defectsWeldingList.get(0).getDeffectedQty().toString();
+        String defectedQty   = defectsPaintingList.get(0).getDeffectedQty().toString();
 
         binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
@@ -116,22 +124,25 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         binding.defectQtn.setText(defectedQty);
     }
 
-    LastMoveWeldingBasket basketData;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    LastMovePaintingBasket basketData;
+    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
     private void getReceivedData() {
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
-            defectsWeldingList = getArguments().getParcelableArrayList("selectedDefectsWelding");
-            adapter.setDefectsWeldingList(defectsWeldingList);
+            defectsPaintingList = getArguments().getParcelableArrayList("selectedDefectsPainting");
+            adapter.setDefectsPaintingList(defectsPaintingList);
             adapter.notifyDataSetChanged();
         }
     }
-
+    int position;
+    DefectsPainting defectsPainting;
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding) {
-        binding.repairedQty.getEditText().setText(String.valueOf(defectsWelding.getDeffectedQty()));
-        defectsManufacturingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
-        defectStatus = defectsWelding.getDefectStatus();
+    public void onPaintingRepairItemClicked(DefectsPainting defectsPainting,int position) {
+        this.defectsPainting = defectsPainting;
+        this.position = position;
+        binding.repairedQty.getEditText().setText(String.valueOf(defectsPainting.getDeffectedQty()));
+        defectsManufacturingDetailsId = defectsPainting.getDefectsPaintingDetailsId();
+        defectStatus = defectsPainting.getDefectStatus();
     }
     int userId = 1,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",repairedQty;

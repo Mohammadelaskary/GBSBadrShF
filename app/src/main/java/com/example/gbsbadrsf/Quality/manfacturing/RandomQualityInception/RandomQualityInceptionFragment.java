@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Quality.Data.LastMoveManufacturing;
 import com.example.gbsbadrsf.Quality.Data.RandomQualityInceptionViewModel;
@@ -129,12 +131,14 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
     }
 
     private void observeSavingRandomQualityInception() {
+        NavController navController = NavHostFragment.findNavController(this);
         viewModel.getSaveRandomQualityInceptionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRandomQualityInception -> {
             String statusMessage = apiResponseSaveRandomQualityInception.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), SAVED_SUCCESSFULLY, Toast.LENGTH_SHORT).show();
+                navController.popBackStack();
             } else {
-                Toast.makeText(getContext(), "Something Went Wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

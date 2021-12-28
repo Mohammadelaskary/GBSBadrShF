@@ -49,7 +49,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     int childId,jobOrderId,parentId=3,sampleQty;
     String basketCode;
     boolean newSample = false ;
-    ManufacturingQualityOperationViewModel viewModel;
+    ManufacturingAddDefectsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -127,13 +127,15 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     private void getDefectsManufacturingList(String basketCode) {
         viewModel.getDefectsManufacturingViewModel(basketCode);
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing ->  {
-                defectsManufacturingList.clear();
-                defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
-                qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
-                adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                binding.defectqtnEdt.setText(defectedQty);
-                adapter.notifyDataSetChanged();
+                if (apiResponseDefectsManufacturing.getData()!=null) {
+                    defectsManufacturingList.clear();
+                    defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectqtnEdt.setText(defectedQty);
+                    adapter.notifyDataSetChanged();
+                }
         });
     }
 
@@ -171,7 +173,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     }
 
     private void initViewModel() {
-        viewModel = ManufacturingQualityOperationFragment.viewModel;
+        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsViewModel.class);
     }
 
     private void fillData() {

@@ -34,7 +34,7 @@ import dagger.android.support.DaggerFragment;
 public class ManufacturingQualityOperationFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
     FragmentManufacturingQualityOperationBinding binding;
-    public static ManufacturingQualityOperationViewModel viewModel;
+    public ManufacturingQualityOperationViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
     @Inject
     ViewModelProviderFactory provider;
@@ -179,7 +179,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
                     if (!validSampleQty)
                         Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
-                    if (Integer.parseInt(sampleQty)>0)
+                    if (Integer.parseInt(sampleQty)<=0)
                         Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
                 }
                 if (!sampleQty.isEmpty() && validSampleQty && !childCode.isEmpty()) {

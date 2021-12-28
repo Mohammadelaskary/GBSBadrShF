@@ -61,7 +61,7 @@ public class RepairProductionQualityAdapter extends RecyclerView.Adapter<RepairP
         }
         holder.itemView.setOnClickListener(v -> {
             currentPosition = holder.getAdapterPosition();
-            onRepairItemClicked.onRepairItemClicked(defectsManufacturing);
+            onRepairItemClicked.onRepairItemClicked(defectsManufacturing,currentPosition);
             notifyDataSetChanged();
         });
     }

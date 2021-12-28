@@ -89,15 +89,17 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
         viewModel.getAddWeldingRepairQuality().observe(getViewLifecycleOwner(),response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
-                for (DefectsWelding defectsWelding: defectsWeldingList){
-                    if (defectsWelding.getWeldingDefectsId()== defectsWeldingDetailsId){
-                        defectsWelding.setQtyApproved(Integer.parseInt(approvedQty));
-                        adapter.notifyDataSetChanged();
-                    }
-                }
+               updateRecyclerView();
             }
             Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateRecyclerView() {
+        defectsWelding.setQtyApproved(Integer.parseInt(approvedQty));
+        defectsWeldingList.remove(position);
+        defectsWeldingList.add(position,defectsWelding);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -168,9 +170,12 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     private boolean containsOnlyDigits(String s) {
         return s.matches("\\d+");
     }
-
+    DefectsWelding defectsWelding;
+    int position;
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding) {
+    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
+        this.defectsWelding = defectsWelding;
+        this.position = position;
         int repairedQty = defectsWelding.getQtyRepaired();
         defectsWeldingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
         if (repairedQty!=0) {

@@ -41,7 +41,8 @@ public class PaintAddDefectsViewModel extends ViewModel {
     }
 
 
-    public void getWeldingDefects(int userId,String deviceSerialNo,String basketCode){
+
+    public void getPaintingDefects(int userId, String deviceSerialNo, String basketCode){
         disposable.add(apiInterface.getPaintingDefectedQtyByBasketCode(userId,deviceSerialNo,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,12 +56,12 @@ public class PaintAddDefectsViewModel extends ViewModel {
                         }
                 ));
     }
-    public void addWeldingDefectsToNewBasketViewModel(int userId,
-                                                            String deviceSerialNo,
-                                                            int jobOrderId,
-                                                            int parentId,
-                                                            String basketCode,
-                                                            String newBasketCode){
+    public void addPaintingDefectsToNewBasketViewModel(int userId,
+                                                       String deviceSerialNo,
+                                                       int jobOrderId,
+                                                       int parentId,
+                                                       String basketCode,
+                                                       String newBasketCode){
 
         disposable.add(apiInterface.addPaintingDefectedParentToBasket(userId,deviceSerialNo,jobOrderId,parentId,basketCode,newBasketCode)
                 .subscribeOn(Schedulers.io())
@@ -75,6 +76,7 @@ public class PaintAddDefectsViewModel extends ViewModel {
                         }
                 ));
     }
+
 
     public MutableLiveData<ApiResponseGetPaintingDefectedQtyByBasketCode> getDefectsPaintingListLiveData() {
         return defectsPaintingListLiveData;

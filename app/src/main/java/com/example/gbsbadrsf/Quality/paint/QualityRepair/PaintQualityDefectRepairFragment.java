@@ -20,7 +20,7 @@ import java.util.List;
 
 import dagger.android.support.DaggerFragment;
 
-public class PaintQualityDefectRepairFragment extends DaggerFragment implements SetOnPaintRepairItemClicked, View.OnClickListener {
+public class PaintQualityDefectRepairFragment extends DaggerFragment implements SetOnPaintingRepairItemClicked, View.OnClickListener {
 
 
 
@@ -79,15 +79,17 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         viewModel.getAddPaintingRepairQuality().observe(getViewLifecycleOwner(), response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
-                for (DefectsPainting defectsPainting: defectsPaintingList){
-                    if (defectsPainting.getDefectsPaintingDetailsId()== defectsWeldingDetailsId){
-                        defectsPainting.setQtyApproved(Integer.parseInt(approvedQty));
-                        adapter.notifyDataSetChanged();
-                    }
-                }
+                updateRecyclerView();
             }
             Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateRecyclerView() {
+        defectsPainting.setQtyApproved(Integer.parseInt(approvedQty));
+        defectsPaintingList.remove(position);
+        defectsPaintingList.add(position,defectsPainting);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -158,9 +160,12 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     private boolean containsOnlyDigits(String s) {
         return s.matches("\\d+");
     }
-
+    int position;
+    DefectsPainting defectsPainting;
     @Override
-    public void onPaintingRepairItemClicked(DefectsPainting defectsPainting) {
+    public void onPaintingRepairItemClicked(DefectsPainting defectsPainting,int position) {
+        this.position = position;
+        this.defectsPainting = defectsPainting;
         int repairedQty = defectsPainting.getQtyRepaired();
         defectsWeldingDetailsId = defectsPainting.getDefectsPaintingDetailsId();
         if (repairedQty!=0) {

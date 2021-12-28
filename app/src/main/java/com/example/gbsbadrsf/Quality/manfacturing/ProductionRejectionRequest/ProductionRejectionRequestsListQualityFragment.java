@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
 import com.example.gbsbadrsf.R;

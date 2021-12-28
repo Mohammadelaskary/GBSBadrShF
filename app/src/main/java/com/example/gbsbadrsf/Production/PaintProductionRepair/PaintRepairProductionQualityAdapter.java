@@ -8,18 +8,19 @@ import android.view.animation.AlphaAnimation;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.QualityRepair.SetOnPaintingRepairItemClicked;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
-import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
 public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<PaintRepairProductionQualityAdapter.RepairProductionQualityViewHolder> {
-    List<DefectsWelding> defectsWeldingList;
-    SetOnWeldingRepairItemClicked onWeldingRepairItemClicked;
+    List<DefectsPainting> defectsPaintingList;
+    SetOnPaintingRepairItemClicked onPaintingRepairItemClicked;
 
-    public PaintRepairProductionQualityAdapter(SetOnWeldingRepairItemClicked onWeldingRepairItemClicked) {
-        this.onWeldingRepairItemClicked = onWeldingRepairItemClicked;
+    public PaintRepairProductionQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
+        this.onPaintingRepairItemClicked = onPaintingRepairItemClicked;
     }
 
     @NonNull
@@ -31,11 +32,11 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
     int currentPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull RepairProductionQualityViewHolder holder, int position) {
-        DefectsWelding defectsWelding = defectsWeldingList.get(position);
-        String defectName = defectsWelding.getDefectDescription();
-        int defectedQty   = defectsWelding.getDeffectedQty();
-        int repairedQty   = defectsWelding.getQtyRepaired();
-        int approvedQty   = defectsWelding.getQtyApproved();
+        DefectsPainting defectsPainting = defectsPaintingList.get(position);
+        String defectName = defectsPainting.getDefectDescription();
+        int defectedQty   = defectsPainting.getDeffectedQty();
+        int repairedQty   = defectsPainting.getQtyRepaired();
+        int approvedQty   = defectsPainting.getQtyApproved();
         boolean isRepaired = repairedQty!=0;
         boolean isApproved = approvedQty!=0;
         holder.binding.defectName.setText(defectName);
@@ -61,13 +62,13 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
         }
         holder.itemView.setOnClickListener(v -> {
             currentPosition = holder.getAdapterPosition();
-            onWeldingRepairItemClicked.onWeldingRepairItemClicked(defectsWelding);
+            onPaintingRepairItemClicked.onPaintingRepairItemClicked(defectsPainting,position);
             notifyDataSetChanged();
         });
     }
 
-    public void setDefectsWeldingList(List<DefectsWelding> defectsWeldingList) {
-        this.defectsWeldingList = defectsWeldingList;
+    public void setDefectsPaintingList(List<DefectsPainting> defectsPaintingList) {
+        this.defectsPaintingList = defectsPaintingList;
     }
 
     private void activateItem(View itemView) {
@@ -87,7 +88,7 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
 
     @Override
     public int getItemCount() {
-        return defectsWeldingList ==null?0: defectsWeldingList.size();
+        return defectsPaintingList ==null?0: defectsPaintingList.size();
     }
 
     static class RepairProductionQualityViewHolder extends RecyclerView.ViewHolder{

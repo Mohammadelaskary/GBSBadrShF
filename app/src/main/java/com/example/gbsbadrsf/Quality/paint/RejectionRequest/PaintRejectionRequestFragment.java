@@ -12,18 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRejectionRequestViewModel;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintRejectionRequestBinding;
-import com.example.gbsbadrsf.databinding.WeldingRejectionRequestFragmentBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -263,13 +263,17 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     }
 
     private void saveRejectedRequest(int userId, String deviceSerial,String oldBasketCode, String newBasketCode, int rejectedQty, int departmentId) {
+        NavController navController = NavHostFragment.findNavController(this);
+        binding.newBasketCode.setError(null);
         viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
-            if (!statusMessage.equals("Saved successfully"))
-                binding.newBasketCode.setError(statusMessage);
-            else
+            if (statusMessage.equals("Saved successfully")) {
                 Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                navController.popBackStack();
+            } else {
+                binding.newBasketCode.setError(statusMessage);
+            }
         });
     }
 

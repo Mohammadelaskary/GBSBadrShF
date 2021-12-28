@@ -7,14 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
 import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
@@ -54,7 +57,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     }
     FragmentPaintAddDefectDetailsBinding binding;
     LastMovePaintingBasket basketData;
-    PaintQualityOperationViewModel viewModel;
+    PaintAddDefectsDetailsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -117,7 +120,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     }
 
     private void initViewModel() {
-        viewModel = PaintQualityOperationFragment.viewModel;
+        viewModel = ViewModelProviders.of(this,provider).get(PaintAddDefectsDetailsViewModel.class);
     }
 
     private void fillData() {
@@ -208,7 +211,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     }
 
     private void getAllDefectsList() {
-        viewModel.getDefectsListViewModel();
+        viewModel.getDefectsListViewModel(operationId);
         viewModel.getDefectsListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsList -> {
             ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();

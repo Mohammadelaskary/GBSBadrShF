@@ -93,8 +93,16 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                upDateRecyclerView();
             }
         });
+    }
+
+    private void upDateRecyclerView() {
+        defectsWelding.setQtyRepaired(Integer.parseInt(repairedQty));
+        defectsWeldingList.remove(position);
+        defectsWeldingList.add(position,defectsWelding);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -131,9 +139,12 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             adapter.notifyDataSetChanged();
         }
     }
-
+    DefectsWelding defectsWelding;
+    int position;
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding) {
+    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
+        this.defectsWelding =defectsWelding;
+        this.position = position;
         binding.repairedQty.getEditText().setText(String.valueOf(defectsWelding.getDeffectedQty()));
         defectsManufacturingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
         defectStatus = defectsWelding.getDefectStatus();

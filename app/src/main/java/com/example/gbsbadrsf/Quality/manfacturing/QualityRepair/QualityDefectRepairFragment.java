@@ -49,7 +49,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     }
     FragmentQualityDefectRepairBinding binding;
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
-    QualityRepairViewModel viewModel;
+    QualityDefectRepairViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
     RepairProductionQualityAdapter adapter;
@@ -90,19 +90,22 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         viewModel.getAddManufacturingRepairQuality().observe(getViewLifecycleOwner(),response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
-                for (DefectsManufacturing defectsManufacturing:defectsManufacturingList){
-                    if (defectsManufacturing.getManufacturingDefectsId()==defectsManufacturingDetailsId){
-                        defectsManufacturing.setQtyApproved(Integer.parseInt(approvedQty));
-                        adapter.notifyDataSetChanged();
-                    }
-                }
+                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                updateRecyclerView();
             }
             Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
         });
     }
 
+    private void updateRecyclerView() {
+            defectsManufacturing.setQtyApproved(Integer.parseInt(approvedQty));
+            defectsManufacturingList.remove(position);
+            defectsManufacturingList.add(position,defectsManufacturing);
+            adapter.notifyDataSetChanged();
+    }
+
     private void initViewModel() {
-        viewModel = QualityRepairFragment.viewModel;
+        viewModel = ViewModelProviders.of(this, provider).get(QualityDefectRepairViewModel.class);
     }
 
     private void attachButtonToListener() {
@@ -135,9 +138,12 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
             adapter.notifyDataSetChanged();
         }
     }
-
+    DefectsManufacturing defectsManufacturing;
+    int position;
     @Override
-    public void onRepairItemClicked(DefectsManufacturing defectsManufacturing) {
+    public void onRepairItemClicked(DefectsManufacturing defectsManufacturing,int position) {
+        this.position = position;
+        this.defectsManufacturing = defectsManufacturing;
         int repairedQty = defectsManufacturing.getQtyRepaired();
         defectsManufacturingDetailsId = defectsManufacturing.getDefectsManufacturingDetailsId();
         if (repairedQty!=0) {

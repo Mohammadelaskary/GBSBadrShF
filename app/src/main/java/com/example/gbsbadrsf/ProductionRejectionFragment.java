@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasketInfo;
@@ -259,13 +261,17 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
     }
 
     private void saveRejectedRequest(int userId, String deviceSerial,String oldBasketCode, String newBasketCode, int rejectedQty, int departmentId) {
+        NavController navController = NavHostFragment.findNavController(this);
         viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
-            String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
-            if (!statusMessage.equals("Saved Successfully"))
-                binding.newBasketCode.setError(statusMessage);
-            else
+            String statusMessage = "";
+            statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
+            if (statusMessage.equals("Saved successfully")) {
                 Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                navController.popBackStack();
+            } else {
+                binding.newBasketCode.setError(statusMessage);
+            }
         });
     }
 

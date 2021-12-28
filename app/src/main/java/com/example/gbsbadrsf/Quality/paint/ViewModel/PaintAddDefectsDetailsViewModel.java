@@ -40,8 +40,8 @@ public class PaintAddDefectsDetailsViewModel extends ViewModel {
         addPaintingDefectsStatus = new MutableLiveData<>();
     }
 
-    public void getDefectsListViewModel(){
-        disposable.add(apiInterface.getDefectsList()
+    public void getDefectsListViewModel(int operationId){
+        disposable.add(apiInterface.getDefectsListPerOperation(operationId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ ->defectsListStatus.postValue(Status.LOADING))
@@ -55,6 +55,20 @@ public class PaintAddDefectsDetailsViewModel extends ViewModel {
                 ));
     }
     public void addWeldingDefectResponseViewModel(AddPaintingDefectData addPaintingDefectData){
+        disposable.add(apiInterface.addPaintingDefect(addPaintingDefectData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> addPaintingDefectsStatus.postValue(Status.LOADING))
+                .subscribe(apiResponseAddingDefectsPainting -> {
+                            addPaintingDefectsStatus.postValue(Status.SUCCESS);
+                            addPaintingDefectsResponse.postValue(apiResponseAddingDefectsPainting);
+                        },
+                        throwable ->
+                                addPaintingDefectsStatus.postValue(Status.ERROR)
+
+                ));
+    }
+    public void addPaintingDefectResponseViewModel(AddPaintingDefectData addPaintingDefectData){
         disposable.add(apiInterface.addPaintingDefect(addPaintingDefectData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

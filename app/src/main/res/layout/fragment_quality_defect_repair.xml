@@ -163,7 +163,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/repair_qty"
+        android:hint="@string/approved_quantity"
         android:textColorHint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/save_btn"
         app:layout_constraintEnd_toEndOf="parent"

@@ -49,7 +49,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     int jobOrderId,parentId=3,sampleQty,userId = 1;
     String basketCode,deviceSerialNo = "S1";
     boolean newSample = false ;
-    WeldingQualityOperationViewModel viewModel;
+    WeldingAddDefectsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -186,7 +186,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     }
 
     private void initViewModel() {
-        viewModel = WeldingQualityOperationFragment.viewModel;
+        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsViewModel.class);
     }
 
     private void fillData() {

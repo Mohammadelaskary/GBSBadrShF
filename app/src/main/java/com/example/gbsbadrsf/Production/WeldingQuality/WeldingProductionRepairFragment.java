@@ -61,6 +61,12 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
         observeGettingDefectsManufacturing();
         initViews();
         setupRecyclerView();
+        if (viewModel.getBasketData()!=null){
+            LastMoveWeldingBasket basketData = viewModel.getBasketData();
+            adapter.setBasketData(basketData);
+            fillData(basketData.getParentDescription(),basketData.getParentCode(), basketData.getOperationEnName());
+            getBasketDefectsWelding(userId,deviceSerialNo,basketData.getBasketCode());
+        }
         return binding.getRoot();
     }
 
@@ -77,7 +83,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 getBasketData(userId, deviceSerialNo, charSequence.toString());
-                getBasketDefectsManufacturing(userId, deviceSerialNo, charSequence.toString());
+                getBasketDefectsWelding(userId, deviceSerialNo, charSequence.toString());
             }
 
             @Override
@@ -98,7 +104,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
 
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
 
-    private void getBasketDefectsManufacturing(int userId, String deviceSerialNo, String basketCode) {
+    private void getBasketDefectsWelding(int userId, String deviceSerialNo, String basketCode) {
         viewModel.getDefectsWeldingViewModel(userId, deviceSerialNo, basketCode);
         viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
             ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
@@ -244,5 +250,13 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
     public void onPause() {
         super.onPause();
         barCodeReader.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (basketData!=null){
+            viewModel.setBasketData(basketData);
+        }
     }
 }

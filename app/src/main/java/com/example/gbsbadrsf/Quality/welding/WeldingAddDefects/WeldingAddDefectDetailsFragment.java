@@ -58,7 +58,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
     FragmentWeldingAddDefectDetailsBinding binding;
     LastMoveWeldingBasket basketData;
-    WeldingQualityOperationViewModel viewModel;
+    WeldingAddDefectsDetailsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
 
@@ -121,7 +121,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
 
     private void initViewModel() {
-        viewModel = WeldingQualityOperationFragment.viewModel;
+        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsDetailsViewModel.class);
     }
 
     private void fillData() {
@@ -212,7 +212,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
 
     private void getAllDefectsList() {
-        viewModel.getDefectsListViewModel();
+        viewModel.getDefectsListViewModel(operationId);
         viewModel.getDefectsListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsList -> {
             ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();
