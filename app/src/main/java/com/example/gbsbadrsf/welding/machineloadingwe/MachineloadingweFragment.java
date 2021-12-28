@@ -53,7 +53,7 @@ public class MachineloadingweFragment extends DaggerFragment {
         fragmentMachineloadingweBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveweldingViewModel.saveweldingloading("1","S123",fragmentMachineloadingweBinding.stationcodeEdt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeEdt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),"1",getArguments().getString("parentid"));
+                saveweldingViewModel.saveweldingloading("1","S123",fragmentMachineloadingweBinding.stationcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),"1",getArguments().getString("parentid"));
 
             }
         });

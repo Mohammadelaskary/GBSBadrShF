@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/jobordername"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/machinecode_checkBox"
         app:layout_constraintTop_toTopOf="@id/machinecode_checkBox"

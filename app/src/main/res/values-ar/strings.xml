@@ -155,4 +155,7 @@
     <string name="check_list">Check List</string>
     <string name="welding_quality">Welding Quality</string>
     <string name="welding_quality_operation">Welding Quality Operation</string>
+    <string name="counting">Counting</string>
+    <string name="barcode">Barcode</string>
+    <string name="paint_qty">Paint Qty</string>
 </resources>

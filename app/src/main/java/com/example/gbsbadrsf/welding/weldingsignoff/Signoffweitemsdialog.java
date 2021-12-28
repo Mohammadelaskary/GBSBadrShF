@@ -83,7 +83,7 @@ public class Signoffweitemsdialog extends DialogFragment implements BarcodeReade
         setUpRecyclerView();
         save=view.findViewById(R.id.save_btn);
         totalqtn=view.findViewById(R.id.totalqtn_edt);
-        basketcode=view.findViewById(R.id.basketcode_edt);
+        basketcode=view.findViewById(R.id.newbasketcode_edt);
         parentdesc=view.findViewById(R.id.parentdesc);
         signoffqty=view.findViewById(R.id.signoffqty);
         Totalqtn=view.findViewById(R.id.totalqtn);
@@ -165,7 +165,7 @@ public class Signoffweitemsdialog extends DialogFragment implements BarcodeReade
             properties.put(BarcodeReader.PROPERTY_EAN_13_CHECK_DIGIT_TRANSMIT_ENABLED, true);
             barcodeReader.setProperties(properties);
         }
-        editText=view.findViewById(R.id.basketcode_edt);
+        editText=view.findViewById(R.id.newbasketcode_edt);
 
 
         return view;

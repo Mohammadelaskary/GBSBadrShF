@@ -41,6 +41,10 @@
         <action
             android:id="@+id/action_productionMenuFragment_to_paintMenuFragment"
             app:destination="@id/paintMenuFragment" />
+        <action
+            android:id="@+id/action_productionMenuFragment_to_mainwarehousefragment"
+            app:destination="@id/warehousesMain" />
+
     </fragment>
     <fragment
         android:id="@+id/manfacturingmenuFragment"
@@ -153,6 +157,10 @@
         <action
             android:id="@+id/action_paintMenuFragment_to_productionrepairpaintFragment"
             app:destination="@id/productionrepairpaintFragment" />
+        <action
+            android:id="@+id/action_paintMenuFragment_to_paintwipFragment"
+            app:destination="@id/paintWip" />
+
     </fragment>
     <fragment
         android:id="@+id/machineLoadingFragment"
@@ -672,6 +680,34 @@
         android:name="com.example.gbsbadrsf.welding.weldingwip.Weldingwip"
         android:label="fragment_weldingwip"
         tools:layout="@layout/fragment_weldingwip" />
+    <fragment
+        android:id="@+id/warehousesMain"
+        android:name="com.example.gbsbadrsf.warhouse.WarehousesMain"
+        android:label="fragment_warehouses_main"
+        tools:layout="@layout/fragment_warehouses_main" >
+        <action
+            android:id="@+id/action_warehousesMain_to_countingFragment"
+            app:destination="@id/countingFragment" />
+        <action
+            android:id="@+id/action_warehousesMain_to_warehouseFragment"
+            app:destination="@id/warehouseFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/countingFragment"
+        android:name="com.example.gbsbadrsf.warhouse.counting.CountingFragment"
+        android:label="fragment_counting"
+        tools:layout="@layout/fragment_counting" />
+    <fragment
+        android:id="@+id/warehouseFragment"
+        android:name="com.example.gbsbadrsf.warhouse.warehouse.WarehouseFragment"
+        android:label="fragment_warehouse"
+        tools:layout="@layout/fragment_warehouse" />
+    <fragment
+        android:id="@+id/paintWip"
+        android:name="com.example.gbsbadrsf.Paint.paintwip.PaintWip"
+        android:label="fragment_paint_wip"
+        tools:layout="@layout/fragment_paint_wip" />
 </navigation>
 
 

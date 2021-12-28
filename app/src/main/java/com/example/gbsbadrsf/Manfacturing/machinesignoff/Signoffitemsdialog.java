@@ -79,7 +79,8 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
         setUpRecyclerView();
         save=view.findViewById(R.id.save_btn);
         totalqtn=view.findViewById(R.id.totalqtn_edt);
-        basketcode=view.findViewById(R.id.basketcode_edt);
+        basketcode=view.findViewById(R.id.newbasketcode_edt);
+       // basketcode=view.findViewById(R.id.newbasketcode_edt);
         childdesc=view.findViewById(R.id.childdesc);
         signoffqty=view.findViewById(R.id.signoffqty);
         Totalqtn=view.findViewById(R.id.totalqtn);
@@ -161,7 +162,7 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
             properties.put(BarcodeReader.PROPERTY_EAN_13_CHECK_DIGIT_TRANSMIT_ENABLED, true);
             barcodeReader.setProperties(properties);
         }
-        editText=view.findViewById(R.id.basketcode_edt);
+        editText=view.findViewById(R.id.newbasketcode_edt);
 
 
         return view;

@@ -8,6 +8,7 @@ public enum Machinsignoffcases {
     servererror,
     datagettingsuccesfully,
     wrongmachinecode,
-    noloadingquantityonthemachine
+    noloadingquantityonthemachine,
+    Updatedsuccessfully
 
 }

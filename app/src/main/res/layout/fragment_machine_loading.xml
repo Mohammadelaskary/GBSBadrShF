@@ -19,10 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
         />
-
-
-
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -115,28 +111,50 @@
                 app:layout_constraintTop_toTopOf="@id/Joborderqtn_txt"
                 app:layout_constraintStart_toEndOf="@id/Joborderqtn_txt"
                 />
-            <TextView
-                android:id="@+id/machinecode_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/machine_code"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/Joborderqtn_txt"
-                app:layout_constraintTop_toBottomOf="@id/Joborderqtn_txt"
-                android:layout_marginTop="20dp"
-                />
-            <EditText
+<!--            <TextView-->
+<!--                android:id="@+id/machinecode_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/machine_code"-->
+<!--                style="@style/styleoftextbold"-->
+<!--                app:layout_constraintStart_toStartOf="@id/Joborderqtn_txt"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/Joborderqtn_txt"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                />-->
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/machinecode_edt"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="55dp"
-                app:layout_constraintStart_toStartOf="@id/machinecode_txt"
-                app:layout_constraintTop_toBottomOf="@id/machinecode_txt"
-                android:background="@drawable/edt_bg"
-                android:textColor="@color/black"
-                />
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/machinecodebarcode_img"
+                app:layout_constraintTop_toBottomOf="@+id/Joborderqtn_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/machinecode_newedttxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/machine_code"
+                    android:textColor="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            <EditText-->
+<!--                android:id="@+id/machinecode_edt"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                android:layout_marginEnd="55dp"-->
+<!--                app:layout_constraintStart_toStartOf="@id/machinecode_txt"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/machinecode_txt"-->
+<!--                android:background="@drawable/edt_bg"-->
+<!--                android:textColor="@color/black"-->
+<!--                />-->
             <ImageView
                 android:id="@+id/machinecodebarcode_img"
                 android:layout_width="35dp"
@@ -145,30 +163,31 @@
                 app:layout_constraintTop_toTopOf="@id/machinecode_edt"
                 android:src="@drawable/barcodel"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 />
-            <TextView
-                android:id="@+id/diecode_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/die_code"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/Joborderqtn_txt"
-                app:layout_constraintTop_toBottomOf="@id/machinecode_edt"
-                android:layout_marginTop="15dp"
-                />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/diecode_edt"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/edt_bg"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="@id/diecode_txt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/machinecodebarcode_img"
+                app:layout_constraintTop_toBottomOf="@+id/machinecode_edt">
 
-                app:layout_constraintTop_toBottomOf="@id/diecode_txt" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newdiecode_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/die_code"
+                    android:textColor="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <ImageView
                 android:id="@+id/diecodebarcode_img"
@@ -178,32 +197,29 @@
                 app:layout_constraintTop_toTopOf="@id/diecode_edt"
                 android:src="@drawable/barcodel"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 />
-            <TextView
-                android:id="@+id/loadingqtn_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loadingqtn"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/Joborderqtn_txt"
-                app:layout_constraintTop_toBottomOf="@id/diecode_edt"
-                android:layout_marginTop="15dp"
-                />
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/loadingqtn_edt"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="55dp"
-                app:layout_constraintStart_toStartOf="@id/loadingqtn_txt"
-                app:layout_constraintTop_toBottomOf="@id/loadingqtn_txt"
-                android:background="@drawable/edt_bg"
-                android:textColor="@color/black"
-                android:inputType="number"
-                 android:maxLength="5"
-                />
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/machinecodebarcode_img"
+                app:layout_constraintTop_toBottomOf="@+id/diecode_edt">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/newloadingqtn_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/loading_qtn"
+                    android:textColor="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.button.MaterialButton

@@ -48,9 +48,9 @@ FragmentPaintMenuBinding fragmentPaintMenuBinding;
             Navigation.findNavController(getView()).navigate(R.id.action_paintMenuFragment_to_paintdstation);
 
         });
-        fragmentPaintMenuBinding.machinesignoffBtn.setOnClickListener(__ -> {
+        fragmentPaintMenuBinding.paintwipBtn.setOnClickListener(__ -> {
 
-            Navigation.findNavController(getView()).navigate(R.id.action_paintMenuFragment_to_paintsignoffFragment);
+            Navigation.findNavController(getView()).navigate(R.id.action_paintMenuFragment_to_paintwipFragment);
 
         });
         fragmentPaintMenuBinding.colorverificationBtn.setOnClickListener(__ -> {

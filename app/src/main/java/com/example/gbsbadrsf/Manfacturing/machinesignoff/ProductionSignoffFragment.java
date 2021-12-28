@@ -57,7 +57,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
             StrictMode.setThreadPolicy(policy);
         }
         machinesignoffViewModel = ViewModelProviders.of(this, providerFactory).get(MachinesignoffViewModel.class);
-        fragmentProductionSignoffBinding.machinecodeEdt.addTextChangedListener(new TextWatcher() {
+        fragmentProductionSignoffBinding.machinecodeNewedttxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -66,7 +66,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                machinesignoffViewModel.getmachinecodedata("1", "S123", fragmentProductionSignoffBinding.machinecodeEdt.getText().toString());
+                machinesignoffViewModel.getmachinecodedata("1", "S123", fragmentProductionSignoffBinding.machinecodeNewedttxt.getText().toString());
 
             }
 
@@ -131,7 +131,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
 
                 MachineSignoffBody machineSignoffBody = new MachineSignoffBody();
                
-                machineSignoffBody.setMachineCode(fragmentProductionSignoffBinding.machinecodeEdt.getText().toString());
+                machineSignoffBody.setMachineCode(fragmentProductionSignoffBinding.machinecodeNewedttxt.getText().toString());
               //  machineSignoffBody.setSignOutQty(passedtext);
                 machineSignoffBody.setBasketLst(passedinput);
                 machinesignoffViewModel.getmachinesignoff(machineSignoffBody, getContext());

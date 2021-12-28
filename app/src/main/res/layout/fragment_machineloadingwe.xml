@@ -86,29 +86,50 @@
                 app:layout_constraintTop_toTopOf="@id/loadingqtn_txt"
                 app:layout_constraintStart_toEndOf="@id/loadingqtn_txt"
                 />
-            <TextView
-                android:id="@+id/stationcode_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                style="@style/styleoftextbold"
-                android:text="@string/station"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loadingqtn_txt"
-                />
-            <EditText
+<!--            <TextView-->
+<!--                android:id="@+id/stationcode_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                style="@style/styleoftextbold"-->
+<!--                android:text="@string/station"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/loadingqtn_txt"-->
+<!--                />-->
+<!--            <EditText-->
+<!--                android:id="@+id/stationcode_edt"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                android:layout_marginEnd="55dp"-->
+<!--                app:layout_constraintStart_toStartOf="@id/stationcode_txt"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/stationcode_txt"-->
+<!--                android:background="@drawable/edt_bg"-->
+<!--                android:textColor="@color/black"-->
+<!--                />-->
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/stationcode_edt"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="55dp"
-                app:layout_constraintStart_toStartOf="@id/stationcode_txt"
-                app:layout_constraintTop_toBottomOf="@id/stationcode_txt"
-                android:background="@drawable/edt_bg"
-                android:textColor="@color/black"
-                />
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/stationcode_img"
+                app:layout_constraintTop_toBottomOf="@+id/loadingqtn_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stationcode_newedttxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Station code"
+                    android:textColor="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
             <ImageView
                 android:id="@+id/stationcode_img"
                 android:layout_width="35dp"
@@ -117,6 +138,7 @@
                 app:layout_constraintTop_toTopOf="@id/stationcode_edt"
                 android:src="@drawable/barcodel"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 />
             <TextView
                 android:id="@+id/operation_txt"
@@ -124,7 +146,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/stationcode_edt"
                 app:layout_constraintStart_toStartOf="@id/parent_txt"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/operation_txt"
                 style="@style/styleoftextbold"
                 />
@@ -139,28 +161,51 @@
                 app:layout_constraintTop_toTopOf="@id/operation_txt"
                 app:layout_constraintStart_toEndOf="@id/operation_txt"
                 />
-            <TextView
-                android:id="@+id/childbasketcode_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                style="@style/styleoftextbold"
-                android:text="Child Basket Code"
-                app:layout_constraintStart_toStartOf="@id/operation_txt"
-                app:layout_constraintTop_toBottomOf="@id/operation_txt"
-                />
-            <EditText
+
+<!--            <TextView-->
+<!--                android:id="@+id/childbasketcode_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                style="@style/styleoftextbold"-->
+<!--                android:text="Child Basket Code"-->
+<!--                app:layout_constraintStart_toStartOf="@id/operation_txt"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/operation_txt"-->
+<!--                />-->
+<!--            <EditText-->
+<!--                android:id="@+id/childbasketcode_edt"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                android:layout_marginEnd="55dp"-->
+<!--                app:layout_constraintStart_toStartOf="@id/childbasketcode_txt"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/childbasketcode_txt"-->
+<!--                android:background="@drawable/edt_bg"-->
+<!--                android:textColor="@color/black"-->
+<!--                />-->
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/childbasketcode_edt"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="55dp"
-                app:layout_constraintStart_toStartOf="@id/childbasketcode_txt"
-                app:layout_constraintTop_toBottomOf="@id/childbasketcode_txt"
-                android:background="@drawable/edt_bg"
-                android:textColor="@color/black"
-                />
+                app:errorEnabled="true"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/childbasketcode_img"
+                app:layout_constraintTop_toBottomOf="@+id/operation_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/childbasketcode_newedttxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Child Basket Code"
+                    android:textColor="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <ImageView
                 android:id="@+id/childbasketcode_img"
                 android:layout_width="35dp"
@@ -169,6 +214,7 @@
                 app:layout_constraintTop_toTopOf="@id/childbasketcode_edt"
                 android:src="@drawable/barcodel"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 />
             <TextView
                 android:id="@+id/childqtn_txt"

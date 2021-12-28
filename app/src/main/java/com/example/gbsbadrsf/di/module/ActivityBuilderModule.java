@@ -2,6 +2,8 @@ package com.example.gbsbadrsf.di.module;
 
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
+import com.example.gbsbadrsf.Paint.paintstation.Paintdstation;
+import com.example.gbsbadrsf.Paint.paintwip.PaintWip;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.ProductionRepairFragment;
 import com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionDefectRepairFragment;
@@ -26,6 +28,8 @@ import com.example.gbsbadrsf.machineloading.MachineLoadingFragment;
 import com.example.gbsbadrsf.machinewip.MachineWip;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
 import com.example.gbsbadrsf.signin.SigninFragment;
+import com.example.gbsbadrsf.warhouse.counting.CountingFragment;
+import com.example.gbsbadrsf.warhouse.warehouse.WarehouseFragment;
 import com.example.gbsbadrsf.welding.machineloadingwe.MachineloadingweFragment;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweFragment;
 import com.example.gbsbadrsf.welding.weldingwip.Weldingwip;
@@ -96,6 +100,16 @@ public abstract class ActivityBuilderModule {
     abstract WeldingProductionRepairFragment contributeWeldingProductionRepairFragment ();
     @ContributesAndroidInjector
     abstract WeldingRejectionRequestFragment contributeWeldingRejectionRequestFragment ();
+    @ContributesAndroidInjector
+    abstract CountingFragment contributecountingFragment ();
+    @ContributesAndroidInjector
+    abstract WarehouseFragment  contributewarehouseFragment ();
+    @ContributesAndroidInjector
+    abstract Paintdstation  contributepaintstationFragment ();
+    @ContributesAndroidInjector
+    abstract PaintWip contributepaintwipFragment ();
+
+
 
 
 

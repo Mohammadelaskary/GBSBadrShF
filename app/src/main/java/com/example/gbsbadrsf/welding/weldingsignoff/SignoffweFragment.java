@@ -52,7 +52,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             StrictMode.setThreadPolicy(policy);
         }
         signoffweViewModel = ViewModelProviders.of(this, providerFactory).get(SignoffweViewModel.class);
-        fragmentSignoffweBinding.stationEdt.addTextChangedListener(new TextWatcher() {
+        fragmentSignoffweBinding.stationNewedt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -61,7 +61,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                signoffweViewModel.getstationcodedata("1", "S123", fragmentSignoffweBinding.stationEdt.getText().toString());
+                signoffweViewModel.getstationcodedata("1", "S123", fragmentSignoffweBinding.stationNewedt.getText().toString());
 
             }
 
@@ -113,7 +113,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
                 WeldingSignoffBody weldingSignoffBody = new WeldingSignoffBody();
 
-                weldingSignoffBody.setProductionStationCode(fragmentSignoffweBinding.stationEdt.getText().toString());
+                weldingSignoffBody.setProductionStationCode(fragmentSignoffweBinding.stationNewedt.getText().toString());
                 //  machineSignoffBody.setSignOutQty(passedtext);
                 weldingSignoffBody.setBasketLst(passedinput);
                 signoffweViewModel.getweldingsignoff(weldingSignoffBody, getContext());
@@ -135,6 +135,21 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                         break;
                     case Wrongproductionstatname:
                         Toast.makeText(getContext(), "Wrong production station name", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        break;
+                    case Donesuccessfully:
+                        Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        break;
+                    case machinefree:
+
+                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();
+                        break;
+                    case  wrongmachine:
+                    Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();
+                    break;
+                    case servererror: Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
+
+
+
 
 
                 }

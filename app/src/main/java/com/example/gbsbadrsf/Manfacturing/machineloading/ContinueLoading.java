@@ -67,7 +67,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
 
-        fragmentContinueLoadingBinding.basketcodeEdt.addTextChangedListener(new TextWatcher() {
+        fragmentContinueLoadingBinding.newbasketcodeEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -76,7 +76,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.basketcodeEdt.getText().toString());
+                continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
 
             }
 
@@ -95,7 +95,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         fragmentContinueLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                continueLoadingViewModel.savecontinueloading("1","S123",fragmentContinueLoadingBinding.basketcodeEdt.getText().toString(),fragmentContinueLoadingBinding.machinecodeEdt.getText().toString(),fragmentContinueLoadingBinding.diecodeEdt.getText().toString(),"12");
+                continueLoadingViewModel.savecontinueloading("1","S123",fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString(),fragmentContinueLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentContinueLoadingBinding.newdiecodeEdt.getText().toString(),"12");
 
             }
         });
@@ -208,15 +208,15 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (fragmentContinueLoadingBinding.machinecodeEdt.isFocused()) {
+                if (fragmentContinueLoadingBinding.machinecodeNewedttxt.isFocused()) {
 
-                    fragmentContinueLoadingBinding.machinecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    fragmentContinueLoadingBinding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
                 }
-                else if (fragmentContinueLoadingBinding.diecodeEdt.isFocused()){
-                    fragmentContinueLoadingBinding.diecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                else if (fragmentContinueLoadingBinding.newdiecodeEdt.isFocused()){
+                    fragmentContinueLoadingBinding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
                 }
-                else if (fragmentContinueLoadingBinding.basketcodeEdt.isFocused()){
-                    fragmentContinueLoadingBinding.basketcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                else if (fragmentContinueLoadingBinding.newbasketcodeEdt.isFocused()){
+                    fragmentContinueLoadingBinding.newbasketcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
                 }
 
             }
