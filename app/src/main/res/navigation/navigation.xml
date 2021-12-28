@@ -244,6 +244,9 @@
                     android:id="@+id/action_signinFragment_to_productionpainting"
                     app:destination="@id/paintMenuFragment" />
                 <action
+                    android:id="@+id/action_signinFragment_to_change_ip"
+                    app:destination="@id/changeIpFragment" />
+                <action
                     android:id="@+id/action_signinFragment_to_productionmanfacturing"
                     app:destination="@id/manfacturingmenuFragment" />
                 <action
