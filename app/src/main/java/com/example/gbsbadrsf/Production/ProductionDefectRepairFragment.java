@@ -87,8 +87,16 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                updateRecyclerView();
             }
         });
+    }
+
+    private void updateRecyclerView() {
+        defectsManufacturing.setQtyRepaired(Integer.parseInt(repairedQty));
+        defectsManufacturingList.remove(position);
+        defectsManufacturingList.add(position,defectsManufacturing);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -125,12 +133,16 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
             adapter.notifyDataSetChanged();
         }
     }
-
+    int position,defectedQty;
+    DefectsManufacturing defectsManufacturing;
     @Override
-    public void onRepairItemClicked(DefectsManufacturing defectsManufacturing) {
+    public void onRepairItemClicked(DefectsManufacturing defectsManufacturing,int position) {
         binding.repairedQty.getEditText().setText(String.valueOf(defectsManufacturing.getDeffectedQty()));
         defectsManufacturingDetailsId = defectsManufacturing.getDefectsManufacturingDetailsId();
         defectStatus = defectsManufacturing.getDefectStatus();
+        defectedQty = defectsManufacturing.getQtyDefected();
+        this.defectsManufacturing = defectsManufacturing;
+        this.position = position;
     }
     int userId = 1,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",repairedQty;
@@ -142,7 +154,8 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
             case R.id.save_btn:{
                 if (defectsManufacturingDetailsId!=-1){
                     repairedQty =binding.repairedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(repairedQty)){
+
+                    if (containsOnlyDigits(repairedQty)&&Integer.parseInt(repairedQty)<=defectedQty){
                         viewModel.addManufacturingRepairProduction(
                                 userId,
                                 deviceSerialNumber,
@@ -151,6 +164,8 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
                                 defectStatus,
                                 Integer.parseInt(repairedQty)
                         );
+                    } else {
+                        binding.repairedQty.setError("Please enter a valid repaired quantity!");
                     }
                 } else {
                     Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();

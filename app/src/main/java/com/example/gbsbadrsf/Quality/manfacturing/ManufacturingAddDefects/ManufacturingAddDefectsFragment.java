@@ -19,7 +19,9 @@ import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
+import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
+import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -125,13 +127,15 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     private void getDefectsManufacturingList(String basketCode) {
         viewModel.getDefectsManufacturingViewModel(basketCode);
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing ->  {
-                defectsManufacturingList.clear();
-                defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
-                qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
-                adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                binding.defectqtnEdt.setText(defectedQty);
-                adapter.notifyDataSetChanged();
+                if (apiResponseDefectsManufacturing.getData()!=null) {
+                    defectsManufacturingList.clear();
+                    defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectqtnEdt.setText(defectedQty);
+                    adapter.notifyDataSetChanged();
+                }
         });
     }
 

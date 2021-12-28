@@ -93,8 +93,16 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                upDateRecyclerView();
             }
         });
+    }
+
+    private void upDateRecyclerView() {
+        defectsWelding.setQtyRepaired(Integer.parseInt(repairedQty));
+        defectsWeldingList.remove(position);
+        defectsWeldingList.add(position,defectsWelding);
+        adapter.notifyDataSetChanged();
     }
 
     private void initViewModel() {
@@ -131,9 +139,12 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             adapter.notifyDataSetChanged();
         }
     }
-
+    DefectsWelding defectsWelding;
+    int position,defectedQty;
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding) {
+    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
+        this.defectsWelding =defectsWelding;
+        this.position = position;
         binding.repairedQty.getEditText().setText(String.valueOf(defectsWelding.getDeffectedQty()));
         defectsManufacturingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
         defectStatus = defectsWelding.getDefectStatus();
@@ -148,7 +159,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             case R.id.save_btn:{
                 if (defectsManufacturingDetailsId!=-1){
                     repairedQty =binding.repairedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(repairedQty)){
+                    if (containsOnlyDigits(repairedQty)&&Integer.parseInt(repairedQty)<=defectedQty){
                         viewModel.addWeldingRepairProduction(
                                 userId,
                                 deviceSerialNumber,
@@ -157,6 +168,8 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
                                 defectStatus,
                                 Integer.parseInt(repairedQty)
                         );
+                    } else {
+                        binding.repairedQty.setError("Please enter a valid repaired quantity!");
                     }
                 } else {
                     Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();

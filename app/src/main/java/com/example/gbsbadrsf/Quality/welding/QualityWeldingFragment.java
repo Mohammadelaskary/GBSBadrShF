@@ -54,14 +54,14 @@ public class QualityWeldingFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_quality_welding_to_fragment_fragment_welding_quality_repair);
 
         });
-        binding.qualitydesicionBtn.setOnClickListener(v -> {
+        binding.qualityDecisionBtn.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_qualitydesicionFragment);
+            Navigation.findNavController(v).navigate(R.id.action_quality_welding_fragment_to_fragment_welding_quality_sign_off);
 
         });
-        binding.productionscraprequestBtn.setOnClickListener(v -> {
+        binding.rejectionRequestsListBtn.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_productionscraplistinqualityFragment);
+            Navigation.findNavController(v).navigate(R.id.action_fragment_quality_main_to_fragment_welding_rejection_requests_list);
 
         });
         binding.rejectionRequestBtn.setOnClickListener(v -> {
@@ -71,7 +71,7 @@ public class QualityWeldingFragment extends Fragment {
         });
         binding.randomQualityInspection.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_fragment_manufacturing_quality_to_fragment_random_quality_inception);
+            Navigation.findNavController(v).navigate(R.id.action_fragment_welding_quality_to_fragment_random_quality_inception);
 
         });
 

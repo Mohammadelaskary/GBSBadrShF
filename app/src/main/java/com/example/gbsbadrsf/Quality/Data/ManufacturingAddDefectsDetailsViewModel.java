@@ -35,8 +35,8 @@ public class ManufacturingAddDefectsDetailsViewModel extends ViewModel {
         addManufacturingDefectsStatus = new MutableLiveData<>();
     }
 
-    public void getDefectsListViewModel(){
-        disposable.add(apiInterface.getDefectsList()
+    public void getDefectsListViewModel(int operationId){
+        disposable.add(apiInterface.getDefectsListPerOperation(operationId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ ->defectsListStatus.postValue(Status.LOADING))

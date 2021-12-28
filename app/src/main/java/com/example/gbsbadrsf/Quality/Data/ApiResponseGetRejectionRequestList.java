@@ -3,7 +3,7 @@ package com.example.gbsbadrsf.Quality.Data;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
+import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
 import java.util.List;
 
 public class ApiResponseGetRejectionRequestList {

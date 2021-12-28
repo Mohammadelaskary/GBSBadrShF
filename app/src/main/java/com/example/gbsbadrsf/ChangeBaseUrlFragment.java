@@ -55,7 +55,7 @@ public class ChangeBaseUrlFragment extends Fragment {
             String newBaseUrl = binding.newIp.getEditText().getText().toString().trim();
             if (newBaseUrl.isEmpty())
                 binding.newIp.setError("Please enter new valid ip!");
-            if (!newBaseUrl.equals(MainActivity.BASE_URL)&&!newBaseUrl.isEmpty()){
+            if (!newBaseUrl.equals(MainActivity.IP)&&!newBaseUrl.isEmpty()){
                 saveBaseUrl(newBaseUrl);
             }
 

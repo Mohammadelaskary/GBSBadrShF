@@ -1,6 +1,8 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +23,8 @@ import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnQ
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
+import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -123,14 +127,29 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     private void getDefectsManufacturingList(int userId,String deviceSerialNo,String basketCode) {
         viewModel.getWeldingDefects(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding ->  {
-                defectsWeldingList.clear();
-                defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
-                qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
-                adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                binding.defectqtnEdt.setText(defectedQty);
-                adapter.notifyDataSetChanged();
+                String statusMessage = apiResponseDefectsWelding.getResponseStatus().getStatusMessage();
+            if (apiResponseDefectsWelding.getDefectsWelding()!=null) {
+                    defectsWeldingList.clear();
+                    defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectqtnEdt.setText(defectedQty);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    showAlertDialog(statusMessage);
+                }
         });
+    }
+
+    private void showAlertDialog(String statusMessage) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Error!")
+                .setMessage(statusMessage)
+                .setNeutralButton("Back", (dialog, which) -> {
+                    NavController navController = NavHostFragment.findNavController(this);
+                    navController.popBackStack();
+                }).create().show();
     }
 
     public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {

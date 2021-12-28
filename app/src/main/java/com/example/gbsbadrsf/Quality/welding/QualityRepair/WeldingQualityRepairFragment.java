@@ -36,7 +36,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
     FragmentWeldingQualityRepairBinding binding;
     List<DefectsWelding> defectsWeldingList = new ArrayList<>();
     WeldingQualityRepairQtyDefectsQtyAdapter adapter;
-    WeldingQualityRepairViewModel viewModel;
+    public static WeldingQualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
     @Inject
     ViewModelProviderFactory provider;
@@ -49,11 +49,24 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
         setUpProgressDialog();
         barCodeReader = new SetUpBarCodeReader(this,this);
         initViewModel();
+        if (viewModel.getBasketData()!=null){
+            basketData = viewModel.getBasketData();
+            fillData(basketData.getParentDescription(),basketData.getParentCode(),basketData.getOperationEnName());
+        }
+        setupRecyclerView();
+        if (viewModel.getDefectsWeldingList()!=null&&viewModel.getBasketData()!=null){
+            adapter.setDefectsWeldingList(defectsWeldingList);
+            adapter.setBasketData(basketData);
+            qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+            adapter.notifyDataSetChanged();
+            String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+            binding.defectQtn.setText(defectedQty);
+        }
         addTextWatcher();
         observeGettingBasketData();
         observeGettingDefectsWelding();
         initViews();
-        setupRecyclerView();
         return binding.getRoot();
 
     }
@@ -67,8 +80,9 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getBasketData(charSequence.toString());
-                getBasketDefectsWelding(charSequence.toString());
+                basketCode = charSequence.toString();
+                getBasketData(basketCode);
+                getBasketDefectsWelding(basketCode);
             }
 
             @Override
@@ -88,7 +102,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     int userId = 1;
-    String deviceSerialNo="S1";
+    String deviceSerialNo="S1",basketCode;
     private void getBasketDefectsWelding(String basketCode) {
         viewModel.getDefectsWeldingViewModel(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
@@ -189,9 +203,9 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
         });
     }
 
-    private void fillData(String childDesc, String childCode, String operationName) {
-        binding.parentCode.setText(childCode);
-        binding.parentDesc.setText(childDesc);
+    private void fillData(String parentDesc, String parentCode, String operationName) {
+        binding.parentCode.setText(parentCode);
+        binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
     }
 
@@ -233,5 +247,17 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
     public void onPause() {
         super.onPause();
         barCodeReader.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (basketData!=null) {
+            basketData.setBasketCode(basketCode);
+            viewModel.setBasketData(basketData);
+        }
+        if (!defectsWeldingList.isEmpty()){
+            viewModel.setDefectsWeldingList(defectsWeldingList);
+        }
     }
 }

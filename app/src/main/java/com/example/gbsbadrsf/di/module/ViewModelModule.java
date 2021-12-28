@@ -12,6 +12,8 @@ import com.example.gbsbadrsf.Paint.paintwip.PaintViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
+import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionDefectRepairViewModel;
+import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionRepairViewModel;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
@@ -23,11 +25,23 @@ import com.example.gbsbadrsf.Quality.Data.RandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.paint.QualitySignOff.PaintQualityDecisionViewModel;
+import com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment;
+import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsViewModel;
+import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRandomQualityInceptionViewModel;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRejectionRequestViewModel;
+import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionViewModel;
+import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsViewModel;
+import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestsListQualityViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRejectionRequestViewModel;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.di.ViewModelKey;
@@ -188,6 +202,59 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(WeldingRejectionRequestViewModel.class)
     public abstract ViewModel bindWeldingRejectionRequestViewModel (WeldingRejectionRequestViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRejectionRequestsListQualityViewModel.class)
+    public abstract ViewModel bindWeldingRejectionRequestsListQualityViewModel (WeldingRejectionRequestsListQualityViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRejectionRequestDetailsViewModel.class)
+    public abstract ViewModel bindWeldingRejectionRequestDetailsViewModel (WeldingRejectionRequestDetailsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingQualityDecisionViewModel.class)
+    public abstract ViewModel bindWeldingQualityDecisionViewModel (WeldingQualityDecisionViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintQualityDecisionViewModel.class)
+    public abstract ViewModel bindPaintQualityDecisionViewModel (PaintQualityDecisionViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintRejectionRequestDetailsViewModel.class)
+    public abstract ViewModel bindPaintRejectionRequestFragment (PaintRejectionRequestDetailsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintRejectionRequestsListQualityViewModel.class)
+    public abstract ViewModel bindPaintRejectionRequestsListQualityViewModel (PaintRejectionRequestsListQualityViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintQualityOperationViewModel.class)
+    public abstract ViewModel bindPaintQualityOperationViewModel (PaintQualityOperationViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintRejectionRequestViewModel.class)
+    public abstract ViewModel bindPaintRejectionRequestViewModel (PaintRejectionRequestViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintQualityRepairViewModel.class)
+    public abstract ViewModel bindPaintQualityRepairViewModel (PaintQualityRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintProductionDefectRepairViewModel.class)
+    public abstract ViewModel bindPaintProductionDefectRepairViewModel (PaintProductionDefectRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintProductionRepairViewModel.class)
+    public abstract ViewModel bindPaintProductionRepairViewModel (PaintProductionRepairViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintRandomQualityInceptionViewModel.class)
+    public abstract ViewModel bindPaintRandomQualityInceptionViewModel (PaintRandomQualityInceptionViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingRandomQualityInceptionViewModel.class)
+    public abstract ViewModel bindWeldingRandomQualityInceptionViewModel (WeldingRandomQualityInceptionViewModel viewModel);
+
     @Binds
     @IntoMap
     @ViewModelKey(PaintstationViewModel.class)

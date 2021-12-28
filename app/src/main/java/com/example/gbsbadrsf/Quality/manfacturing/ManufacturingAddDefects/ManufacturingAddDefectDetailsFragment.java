@@ -15,7 +15,10 @@ import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Quality.Data.AddManufacturingDefectData;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
+import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
+import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
+import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -115,7 +118,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsDetailsViewModel.class);
+        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsDetailsViewModel.class);;
     }
 
     private void fillData() {
@@ -207,7 +210,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     }
 
     private void getAllDefectsList() {
-        viewModel.getDefectsListViewModel();
+        viewModel.getDefectsListViewModel(operationId);
         viewModel.getDefectsListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsList -> {
             ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();

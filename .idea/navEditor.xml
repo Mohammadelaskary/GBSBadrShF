@@ -8,18 +8,6 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="adddefectpaint">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="2861" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="addworkersFragment">
                     <value>
                       <LayoutPositions>
@@ -116,19 +104,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="fragment_production_defect_repair">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="240" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="fragment_production_repair">
+                  <entry key="fragment_manufacturing_production_repair">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -139,12 +115,218 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_fragment_production_repair_to_fragment_production_defect_repair">
+                            <entry key="action_manufacturing_production_repair_to_fragment_manufacturing_production_defects_repair">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_add_defect_details">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_add_defects">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fragment_paint_add_defects_to_fragment_paint_add_defect_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_fragment_paint_add_defects_to_fragment_paint_display_defects">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_display_defect_details">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_production_defect_repair">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_production_repair">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_paint_production_repair_to_fragment_paint_production_defects_repair">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_quality_defect_repair">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_quality_repair">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1476" />
+                            <option name="y" value="3929" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="fragment_paint_quality_repair_to_fragment_paint_quality_defect_repair">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_quality_sign_off">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fragment_paint_quality_sign_off_to_fragment_paint_display_defect_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_random_quality_inspection">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_rejection_request">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_rejection_request_details">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_rejection_requests_list">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fragment_paint_rejection_requests_list_to_fragment_paint_rejection_request_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_production_defect_repair">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="240" />
+                            <option name="y" value="12" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -199,8 +381,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-258" />
-                            <option name="y" value="-71" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -256,6 +438,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fragment_welding_production_repair">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fragment_welding_production_repair_to_fragment_welding_production_defect_repair">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_welding_quality_defect_repair">
                     <value>
                       <LayoutPositions>
@@ -289,6 +492,39 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fragment_welding_quality_sign_off">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fragment_welding_quality_sign_off_to_fragment_welding_display_defect_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_welding_random_quality_inspection">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_welding_rejection_request">
                     <value>
                       <LayoutPositions>
@@ -297,6 +533,39 @@
                             <option name="x" value="12" />
                             <option name="y" value="12" />
                           </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_welding_rejection_request_details">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_welding_rejection_requests_list">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fragment_welding_rejection_requests_list_to_fragment_welding_rejection_request_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -534,12 +803,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_fragment_manufacturing_quality_to_fragment_random_quality_inception">
+                            <entry key="action_fragment_manufacturing_quality_to_fragment_manufacturing_rejection_request">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_manfacturingqualityFragment_to_productionscrapFragment">
+                            <entry key="action_fragment_manufacturing_quality_to_fragment_random_quality_inception">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -684,6 +953,17 @@
                             <option name="x" value="12" />
                             <option name="y" value="12" />
                           </Point>
+                            <entry key="action_paint_menu_fragment_to_fragment_paint_production_repair">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_paint_menu_fragment_to_fragment_paint_rejection_request">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -732,17 +1012,32 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_paintqualityFragment_to_adddefectpaint">
+                            <entry key="action_fragment_paint_quality_to_fragment_paint_quality_operation_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_paintqualityFragment_to_qualitydesicionpaintFragment">
+                            <entry key="action_fragment_paint_quality_to_fragment_paint_quality_repair">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_paintqualityFragment_to_qualityrepairpaintFragment">
+                            <entry key="action_fragment_paint_quality_to_fragment_paint_quality_sign_off">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_fragment_paint_quality_to_fragment_paint_rejection_request">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_fragment_paint_quality_to_fragment_paint_rejection_requests_list">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_fragment_paint_quality_to_fragment_random_quality_inception">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -808,18 +1103,6 @@
                               </value>
                             </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="productionScraprequestwe">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="1793" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -931,27 +1214,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="productionscraplistwe">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="1793" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_productionscraplistwe_to_productionScraprequestwe">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="productionscraprequestqcFragment">
                     <value>
                       <LayoutPositions>
@@ -959,18 +1221,6 @@
                           <Point>
                             <option name="x" value="1720" />
                             <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="qcdesicionwe">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="1437" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -1004,24 +1254,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_qualitydesicionFragment_to_scrapFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="qualitydesicionpaintFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="3217" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -1064,18 +1297,6 @@
                           <Point>
                             <option name="x" value="12" />
                             <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="qualityrepairpaintFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="3929" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -1146,6 +1367,21 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragment_quality_main_to_fragment_welding_rejection_requests_list">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_fragment_welding_quality_to_fragment_random_quality_inception">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_quality_welding_fragment_to_fragment_welding_quality_sign_off">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_quality_welding_fragment_to_fragment_welding_rejection_request">
                               <value>
                                 <LayoutPositions />
@@ -1161,29 +1397,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_qualityweldingFragment_to_productionscraplistwe">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_qualityweldingFragment_to_qcdesicionwe">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="scrapFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="724" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -1327,6 +1541,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_quality_welding_fragment_to_fragment_welding_rejection_request">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_weldingMenuFragment_to_baskettransferweFragment">
                               <value>
                                 <LayoutPositions />

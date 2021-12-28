@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -118,7 +120,8 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                getBasketData(s.toString());
+                oldBasketCode = s.toString();
+                getBasketData(oldBasketCode);
             }
 
             @Override
@@ -150,7 +153,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1";
+    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1",oldBasketCode,newBasketCode;
     int basketQty;
     LastMoveWeldingBasket basketData;
 
@@ -262,13 +265,17 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
     }
 
     private void saveRejectedRequest(int userId, String deviceSerial,String oldBasketCode, String newBasketCode, int rejectedQty, int departmentId) {
+        NavController navController = NavHostFragment.findNavController(this);
+        binding.newBasketCode.setError(null);
         viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
-            if (!statusMessage.equals("Saved Successfully"))
-                binding.newBasketCode.setError(statusMessage);
-            else
+            if (statusMessage.equals("Saved successfully")) {
                 Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                navController.popBackStack();
+            } else {
+                binding.newBasketCode.setError(statusMessage);
+            }
         });
     }
 

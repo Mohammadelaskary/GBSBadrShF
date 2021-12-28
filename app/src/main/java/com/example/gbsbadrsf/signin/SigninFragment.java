@@ -60,17 +60,21 @@ public class SigninFragment extends DaggerFragment {
         signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
         subscribeRequest();
 
-
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
+
             if (fragmentSigninBinding.usrEdt.getText().toString().trim().equals("")) {
                 fragmentSigninBinding.usrEdt.setError(getString(R.string.uservalidationerror));
             } else if (fragmentSigninBinding.passwordedittext.getText().toString().trim().equals("")) {
                 fragmentSigninBinding.passwordedittext.setError(getString(R.string.passwordvalidationerror));
             } else {
 //
-                signinviewmodel.login(fragmentSigninBinding.usrEdt.getText().toString(),
-                        fragmentSigninBinding.passwordedittext.getText().toString());
-
+                if (fragmentSigninBinding.usrEdt.getText().toString().equals("admin")
+                        && fragmentSigninBinding.usrEdt.getText().toString().equals("admin")){
+                    Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_change_ip);
+                } else {
+                    signinviewmodel.login(fragmentSigninBinding.usrEdt.getText().toString(),
+                            fragmentSigninBinding.passwordedittext.getText().toString());
+                }
             }
 
         });
@@ -93,12 +97,12 @@ public class SigninFragment extends DaggerFragment {
                         break;
                     case wrongusernameorpassword:
                         Toast.makeText(getContext(), "Wrong username or password!", Toast.LENGTH_SHORT).show();
-//                    case ProductionUser:
-//
-//                        break;
-//                    case PlanningUser:
-//
-//                        break;
+                    case ProductionUser:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
+                        break;
+                    case QualityControlUser:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qc);
+                        break;
 
                 }
             }

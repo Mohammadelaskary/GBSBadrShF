@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChildToBasket;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefectedChildToBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -19,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 public class WeldingAddDefectsViewModel extends ViewModel {
     MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
     MutableLiveData<Status> defectsWeldingListStatus;
-    MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> addWeldingDefectsToNewBasket;
+    MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> addWeldingDefectsToNewBasket;
     MutableLiveData<Status> addWeldingDefectsToNewBasketStatus;
     @Inject
     ApiInterface apiInterface;
@@ -82,7 +83,7 @@ public class WeldingAddDefectsViewModel extends ViewModel {
         return defectsWeldingListStatus;
     }
 
-    public MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> getAddWeldingDefectsToNewBasket() {
+    public MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> getAddWeldingDefectsToNewBasket() {
         return addWeldingDefectsToNewBasket;
     }
 

@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ApiResponseSaveRejectionRequest;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;

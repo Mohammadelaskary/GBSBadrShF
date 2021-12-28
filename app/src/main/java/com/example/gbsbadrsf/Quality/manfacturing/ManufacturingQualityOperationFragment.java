@@ -34,7 +34,7 @@ import dagger.android.support.DaggerFragment;
 public class ManufacturingQualityOperationFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
     FragmentManufacturingQualityOperationBinding binding;
-    ManufacturingQualityOperationViewModel viewModel;
+    public ManufacturingQualityOperationViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
     @Inject
     ViewModelProviderFactory provider;
@@ -64,13 +64,17 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 //        super.onCreate(savedInstanceState);
         binding = FragmentManufacturingQualityOperationBinding.inflate(inflater,container,false);
         barCodeReader = new SetUpBarCodeReader(this,this);
+        initViewModel();
+        if (viewModel.getBasketData()!=null){
+            basketData = viewModel.getBasketData();
+            fillViews();
+        }
         addTextWatcher();
         attachListener();
-        initViewModel();
         observeGettingDataStatus();
         return binding.getRoot();
     }
-
+    String basketCode;
     private void addTextWatcher() {
         binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,7 +84,8 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getBasketData(charSequence.toString());
+                basketCode = charSequence.toString();
+                getBasketData(basketCode);
             }
 
             @Override
@@ -123,13 +128,20 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         childCode = basketData.getChildCode();
         childDesc = basketData.getChildDescription();
         jobOrderName = basketData.getJobOrderName();
-        qnt = basketData.getSignOffQty();
-        operationId = basketData.getOperationId();
+        if (basketData.getSignOffQty()!=null) {
+            qnt = basketData.getSignOffQty();
+            binding.signoffQtnEdt.setText(String.valueOf(qnt));
+        }else
+            binding.signoffQtnEdt.setText("");
+        if (basketData.getOperationId()!=null) {
+            operationId = basketData.getOperationId();
+            binding.operation.setText(String.valueOf(operationId));
+        }else
+            binding.operation.setText("");
         binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
         binding.jobOrderName.setText(jobOrderName);
-        binding.signoffQtnEdt.setText(String.valueOf(qnt));
-        binding.operation.setText(String.valueOf(operationId));
+
     }
 
 
@@ -167,7 +179,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
                     if (!validSampleQty)
                         Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
-                    if (Integer.parseInt(sampleQty)>0)
+                    if (Integer.parseInt(sampleQty)<=0)
                         Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
                 }
                 if (!sampleQty.isEmpty() && validSampleQty && !childCode.isEmpty()) {
@@ -219,6 +231,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        basketData.setBasketCode(basketCode);
+        viewModel.setBasketData(basketData);
     }
 }

@@ -42,7 +42,7 @@ public class WeldingProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerV
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("selectedDefectsManufacturing",selectedDefectsWelding);
                 bundle.putParcelable("basketData",basketData);
-                Navigation.findNavController(v).navigate(R.id.action_fragment_production_repair_to_fragment_production_defect_repair,bundle);
+                Navigation.findNavController(v).navigate(R.id.action_fragment_welding_production_repair_to_fragment_welding_production_defect_repair,bundle);
             });
 
     }

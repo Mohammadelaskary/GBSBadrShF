@@ -20,6 +20,8 @@ import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnM
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
+import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
+import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -210,7 +212,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
 
     private void getAllDefectsList() {
-        viewModel.getDefectsListViewModel();
+        viewModel.getDefectsListViewModel(operationId);
         viewModel.getDefectsListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsList -> {
             ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
             String statusMessage = responseStatus.getStatusMessage();

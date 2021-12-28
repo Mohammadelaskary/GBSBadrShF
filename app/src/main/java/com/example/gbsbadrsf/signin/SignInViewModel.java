@@ -41,32 +41,22 @@ public class SignInViewModel extends ViewModel {
         disposable.add(repository.Login(Username,pass).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<APIResponseSignin<UserInfo>, Throwable>() {
             @Override
             public void accept(APIResponseSignin<UserInfo> userInfoAPIResponseSignin, Throwable throwable) throws Exception {
-             if (userInfoAPIResponseSignin.getData().getIsPlanningUser()== true &&
-                     userInfoAPIResponseSignin.getData().getIsProductionUser()==true&&
-                     userInfoAPIResponseSignin.getData().getIsQualityControlUser()==true
-//                     userInfoAPIResponseSignin.getData().getIsProductionManufaturing()==true
-//                     &&userInfoAPIResponseSignin.getData().getIsProductionWelding()==true&&
-//                     userInfoAPIResponseSignin.getData().getIsProductionPainting()==true&&
-//                     userInfoAPIResponseSignin.getData().getIsQcmanufaturing()==true && userInfoAPIResponseSignin.getData().getIsQcpainting()==true
+             if (userInfoAPIResponseSignin.getData().getIsPlanningUser() &&
+                     userInfoAPIResponseSignin.getData().getIsProductionUser() &&
+                     userInfoAPIResponseSignin.getData().getIsQualityControlUser()&&
+                     userInfoAPIResponseSignin.getData().getIsProductionManufaturing()
+                     && userInfoAPIResponseSignin.getData().getIsProductionWelding() &&
+                     userInfoAPIResponseSignin.getData().getIsProductionPainting()&&
+                     userInfoAPIResponseSignin.getData().getIsQcmanufaturing() && userInfoAPIResponseSignin.getData().getIsQcpainting()
              )
              {
                  usertype.postValue(Usertype.All);
-
-
              }
-             else if (userInfoAPIResponseSignin.getData().getIsPlanningUser()==true){
+             else if (userInfoAPIResponseSignin.getData().getIsPlanningUser()){
                  usertype.postValue(Usertype.PlanningUser);
 
-             } 
-             else if(userInfoAPIResponseSignin.getData().getIsProductionUser()==true&&userInfoAPIResponseSignin.getData().getIsProductionPainting()==true)
-             {
-                 //direct me to paint menu in production
-                 //sample admin6 and pass 123
-                 usertype.postValue(Usertype.ProductionPainting);
-
-
              }
-             else if(userInfoAPIResponseSignin.getData().getIsProductionUser().equals("true")&&userInfoAPIResponseSignin.getData().getIsProductionManufaturing().equals("true")&&userInfoAPIResponseSignin.getData().getIsProductionWelding().equals("true"))
+             else if(userInfoAPIResponseSignin.getData().getIsProductionUser()&&userInfoAPIResponseSignin.getData().getIsProductionManufaturing()&&userInfoAPIResponseSignin.getData().getIsProductionWelding()&&userInfoAPIResponseSignin.getData().getIsProductionPainting())
              {
                  //admin10 pass 123
                  //direct to main production
@@ -76,6 +66,13 @@ public class SignInViewModel extends ViewModel {
              }
              else if ((userInfoAPIResponseSignin.getResponseStatus().getStatusMessage().equals("Wrong username or password!"))){
                  usertype.postValue(Usertype.wrongusernameorpassword);
+
+             }else if(userInfoAPIResponseSignin.getData().getIsQualityControlUser()&&userInfoAPIResponseSignin.getData().getIsQcmanufaturing()&&userInfoAPIResponseSignin.getData().getIsQcwelding()&&userInfoAPIResponseSignin.getData().getIsQcpainting())
+             {
+                 //admin10 pass 123
+                 //direct to main production
+                 usertype.postValue(Usertype.QualityControlUser);
+
 
              }
             }

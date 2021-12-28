@@ -60,7 +60,12 @@ FragmentPaintMenuBinding fragmentPaintMenuBinding;
         });
         fragmentPaintMenuBinding.productionrepairBtn.setOnClickListener(__ -> {
 
-            Navigation.findNavController(getView()).navigate(R.id.action_paintMenuFragment_to_productionrepairpaintFragment);
+            Navigation.findNavController(getView()).navigate(R.id.action_paint_menu_fragment_to_fragment_paint_production_repair);
+
+        });
+        fragmentPaintMenuBinding.rejectionRequestBtn.setOnClickListener(__ -> {
+
+            Navigation.findNavController(getView()).navigate(R.id.action_paint_menu_fragment_to_fragment_paint_rejection_request);
 
         });
 

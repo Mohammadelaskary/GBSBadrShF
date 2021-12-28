@@ -5,9 +5,15 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseWeldingRepair_QC;
+import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
+import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,7 +27,10 @@ public class WeldingQualityRepairViewModel extends ViewModel {
     MutableLiveData<Status> apiResponseBasketDataStatus;
     MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
     MutableLiveData<Status> defectsWeldingListStatus;
-
+    MutableLiveData<ApiResponseWeldingRepair_QC> addWeldingRepairQuality;
+    MutableLiveData<Status> addWeldingRepairQualityStatus;
+    LastMoveWeldingBasket basketData;
+    List<DefectsWelding> defectsWeldingList;
     @Inject
     Gson gson;
     @Inject
@@ -32,7 +41,9 @@ public class WeldingQualityRepairViewModel extends ViewModel {
         apiResponseBasketDataStatus   = new MutableLiveData<>();
         defectsWeldingListLiveData = new MutableLiveData<>();
         defectsWeldingListStatus = new MutableLiveData<>();
-
+        addWeldingRepairQuality = new MutableLiveData<>();
+        addWeldingRepairQualityStatus = new MutableLiveData<>();
+        basketData = new LastMoveWeldingBasket();
     }
 
     public void getBasketData(int userId,String deviceSerialNo,String basketCode){
@@ -61,7 +72,43 @@ public class WeldingQualityRepairViewModel extends ViewModel {
                         }
                 ));
     }
+    public void addWeldingRepairQuality(
+            int userId,
+            String deviceSerialNumber,
+            int defectsManufacturingDetailsId,
+            String notes,
+            int defectStatus,
+            int qtyApproved
+    ) {
+        disposable.add(apiInterface.WeldingRepair_QC(
+                userId,
+                deviceSerialNumber,
+                defectsManufacturingDetailsId,
+                notes,
+                defectStatus,
+                qtyApproved
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(__ -> addWeldingRepairQualityStatus.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            addWeldingRepairQuality.postValue(response);
+                            addWeldingRepairQualityStatus.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            addWeldingRepairQualityStatus.postValue(Status.ERROR);
+                        }
+                ));
+    }
 
+    public MutableLiveData<ApiResponseWeldingRepair_QC> getAddWeldingRepairQuality() {
+        return addWeldingRepairQuality;
+    }
+
+    public MutableLiveData<Status> getAddWeldingRepairQualityStatus() {
+        return addWeldingRepairQualityStatus;
+    }
 
     public MutableLiveData<ApiResponseGetBasketInfoForQuality_Welding> getApiResponseBasketDataLiveData() {
         return apiResponseBasketDataLiveData;
@@ -77,5 +124,21 @@ public class WeldingQualityRepairViewModel extends ViewModel {
 
     public MutableLiveData<Status> getDefectsWeldingListStatus() {
         return defectsWeldingListStatus;
+    }
+
+    public LastMoveWeldingBasket getBasketData() {
+        return basketData;
+    }
+
+    public void setBasketData(LastMoveWeldingBasket basketData) {
+        this.basketData = basketData;
+    }
+
+    public List<DefectsWelding> getDefectsWeldingList() {
+        return defectsWeldingList;
+    }
+
+    public void setDefectsWeldingList(List<DefectsWelding> defectsWeldingList) {
+        this.defectsWeldingList = defectsWeldingList;
     }
 }

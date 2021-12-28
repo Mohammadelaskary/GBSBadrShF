@@ -4,9 +4,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
+import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,7 +31,7 @@ public class QualityDecisionViewModel extends ViewModel {
     MutableLiveData<Status> apiResponseGetSavedCheckListStatus;
     MutableLiveData<ApiResponseSaveCheckList> apiResponseSaveCheckListLiveData;
     MutableLiveData<Status> apiResponseSaveCheckListStatus;
-
+    List<DefectsManufacturing> defectsManufacturingList;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -51,7 +55,7 @@ public class QualityDecisionViewModel extends ViewModel {
         apiResponseGetSavedCheckListStatus = new MutableLiveData<>();
         apiResponseSaveCheckListLiveData = new MutableLiveData<>();
         apiResponseSaveCheckListStatus = new MutableLiveData<>();
-
+        defectsManufacturingList = new ArrayList<>();
     }
 
     public void getQualityOperationByBasketCode(int userId,String deviceSerialNumber,String basketCode){
@@ -179,5 +183,13 @@ public class QualityDecisionViewModel extends ViewModel {
 
     public MutableLiveData<Status> getApiResponseSaveCheckListStatus() {
         return apiResponseSaveCheckListStatus;
+    }
+
+    public List<DefectsManufacturing> getDefectsManufacturingList() {
+        return defectsManufacturingList;
+    }
+
+    public void setDefectsManufacturingList(List<DefectsManufacturing> defectsManufacturingList) {
+        this.defectsManufacturingList = defectsManufacturingList;
     }
 }

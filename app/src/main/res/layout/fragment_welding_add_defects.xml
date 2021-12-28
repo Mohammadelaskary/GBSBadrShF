@@ -165,33 +165,34 @@
                     android:layout_marginTop="15dp"
                     app:layout_constraintTop_toBottomOf="@id/defected_details_txt">
                     <LinearLayout
+                        android:id="@+id/constraint"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/defected_details_txt">
 
                         <TextView
-                            android:id="@+id/defected_qty"
+                            android:id="@+id/defectname_txt"
+                            style="@style/styleoftextbold"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:text="Defected Qty"
-                            style="@style/style_of_text_bold"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"/>
+                            android:gravity="center"
+                            android:text="Child Quantity"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/defects_qty"
+                            android:id="@+id/sampleqty_txt"
+                            style="@style/styleoftextbold"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:text="Defects Qty"
-                            style="@style/style_of_text_bold"
-                            app:layout_constraintBottom_toBottomOf="@id/defected_qty"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/defected_qty"
-                            app:layout_constraintTop_toTopOf="@id/defected_qty" />
-
+                            android:gravity="center"
+                            android:text="Defects Quantity"
+                            app:layout_constraintStart_toEndOf="@+id/defectname_txt"
+                            app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"

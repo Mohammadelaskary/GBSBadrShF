@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +53,18 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         setUpProgressDialog();
         initViewModel();
         barCodeReader = new SetUpBarCodeReader(this,this);
-
+        setupRecyclerView();
+        if (viewModel.getBasketData()!=null){
+            LastMoveManufacturingBasket basketData = viewModel.getBasketData();
+            adapter.setBasketData(basketData);
+            fillData(basketData.getChildDescription(),basketData.getChildCode(), basketData.getOperationEnName());
+            getBasketDefectsManufacturing(basketData.getBasketCode());
+        }
         addTextWatcher();
         observeGettingBasketData();
-
         observeGettingDefectsManufacturing();
         initViews();
-        setupRecyclerView();
+
         return binding.getRoot();
     }
 
@@ -165,7 +171,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(ProductionRepairViewModel.class);
     }
-    LastMoveManufacturingBasket basketData;
+    LastMoveManufacturingBasket basketData = new LastMoveManufacturingBasket();
     String childDesc,childCode = "",operationName;
     private void getBasketData(String basketCode) {
         viewModel.getBasketDataViewModel(basketCode);
@@ -233,5 +239,13 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     public void onPause() {
         super.onPause();
         barCodeReader.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (basketData!=null){
+            viewModel.setBasketData(basketData);
+        }
     }
 }

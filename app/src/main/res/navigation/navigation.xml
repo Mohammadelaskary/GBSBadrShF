@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation.xml"
-    app:startDestination="@id/mainmenuFragment">
+    app:startDestination="@id/signinFragment">
 
 
     <fragment
@@ -27,6 +27,14 @@
         tools:layout="@layout/fragment_change_base_url"
         android:label="fragment_change_base_url"
         android:name="com.example.gbsbadrsf.ChangeBaseUrlFragment"/>
+    <fragment android:id="@+id/fragment_welding_random_quality_inspection"
+        android:label="fragment_welding_random_quality_inspection"
+        tools:layout="@layout/fragment_welding_random_quality_inspection"
+        android:name="com.example.gbsbadrsf.Quality.welding.RandomQualityInception.WeldingRandomQualityInceptionFragment"/>
+    <fragment android:id="@+id/fragment_paint_random_quality_inspection"
+        android:label="fragment_paint_random_quality_inspection"
+        tools:layout="@layout/fragment_paint_random_quality_inspection"
+        android:name="com.example.gbsbadrsf.Quality.paint.RandomQualityInception.PaintRandomQualityInceptionFragment"/>
     <fragment
         android:id="@+id/productionMenuFragment"
         android:name="com.example.gbsbadrsf.ProductionMenuFragment"
@@ -71,9 +79,27 @@
 
         <action
             android:id="@+id/action_manufacturing_menu_fragment_to_production_repair_fragment"
-            app:destination="@id/fragment_production_repair"/>
+            app:destination="@id/fragment_manufacturing_production_repair"/>
 
     </fragment>
+    <fragment android:id="@+id/fragment_manufacturing_production_repair"
+        android:name="com.example.gbsbadrsf.Production.ProductionRepairFragment"
+        android:label="fragment_manufacturing_production_repair"
+        tools:layout="@layout/fragment_production_repair">
+        <action app:destination="@id/fragment_production_defect_repair"
+            android:id="@+id/action_manufacturing_production_repair_to_fragment_manufacturing_production_defects_repair"/>
+    </fragment>
+    <fragment android:id="@+id/fragment_paint_production_repair"
+        android:name="com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionRepairFragment"
+        android:label="fragment_paint_production_repair"
+        tools:layout="@layout/fragment_paint_production_repair">
+        <action app:destination="@id/fragment_paint_production_defect_repair"
+            android:id="@+id/action_paint_production_repair_to_fragment_paint_production_defects_repair"/>
+    </fragment>
+    <fragment android:id="@+id/fragment_paint_production_defect_repair"
+        android:name="com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionDefectRepairFragment"
+        android:label="fragment_paint_production_defect_repair"
+        tools:layout="@layout/fragment_paint_production_defect_repair"/>
     <fragment android:id="@+id/fragment_display_defect_details"
         android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.DisplayDefectDetailsFragment"
         android:label="fragment_display_defect_details"
@@ -82,19 +108,23 @@
         android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingDisplayDefectDetailsFragment"
         android:label="fragment_welding_display_defect_details"
         tools:layout="@layout/fragment_welding_display_defect_details"/>
+    <fragment android:id="@+id/fragment_paint_display_defect_details"
+        android:name="com.example.gbsbadrsf.Quality.paint.AddDefects.PaintDisplayDefectDetailsFragment"
+        android:label="fragment_paint_display_defect_details"
+        tools:layout="@layout/fragment_paint_display_defect_details"/>
     <fragment
         android:id="@+id/fragment_production_defect_repair"
         android:name="com.example.gbsbadrsf.Production.ProductionDefectRepairFragment"
         android:label="fragment_production_defect_repair"
         tools:layout="@layout/fragment_production_defect_repair"/>
     <fragment
-        android:id="@+id/fragment_production_repair"
-        android:name="com.example.gbsbadrsf.Production.ProductionRepairFragment"
-        android:label="fragment_production_repair"
-        tools:layout="@layout/fragment_production_repair" >
+        android:id="@+id/fragment_welding_production_repair"
+        android:name="com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionRepairFragment"
+        android:label="fragment_welding_production_repair"
+        tools:layout="@layout/welding_production_repair_fragment" >
         <action
-            android:id="@+id/action_fragment_production_repair_to_fragment_production_defect_repair"
-            app:destination="@id/fragment_production_defect_repair" />
+            android:id="@+id/action_fragment_welding_production_repair_to_fragment_welding_production_defect_repair"
+            app:destination="@id/fragment_welding_production_defect_repair" />
     </fragment>
     <fragment
         android:id="@+id/weldingMenuFragment"
@@ -127,7 +157,10 @@
             app:destination="@id/weldingwip" />
         <action
             android:id="@+id/action_welding_menu_fragment_to_fragment_welding_production_repair"
-            app:destination="@id/fragment_production_repair" />
+            app:destination="@id/fragment_welding_production_repair" />
+        <action
+            android:id="@+id/action_quality_welding_fragment_to_fragment_welding_rejection_request"
+            app:destination="@id/fragment_welding_rejection_request" />
     </fragment>
     <fragment android:id="@+id/welding_production_repair_fragment"
         tools:layout="@layout/welding_production_repair_fragment"
@@ -157,6 +190,10 @@
         <action
             android:id="@+id/action_paintMenuFragment_to_productionrepairpaintFragment"
             app:destination="@id/productionrepairpaintFragment" />
+        <action app:destination="@id/fragment_paint_rejection_request"
+            android:id="@+id/action_paint_menu_fragment_to_fragment_paint_rejection_request"/>
+        <action app:destination="@id/fragment_paint_production_repair"
+            android:id="@+id/action_paint_menu_fragment_to_fragment_paint_production_repair"/>
         <action
             android:id="@+id/action_paintMenuFragment_to_paintwipFragment"
             app:destination="@id/paintWip" />
@@ -210,9 +247,13 @@
                 <action
                     android:id="@+id/action_signinFragment_to_mainmenuFragment"
                     app:destination="@id/mainmenuFragment" />
+
                 <action
                     android:id="@+id/action_signinFragment_to_productionpainting"
                     app:destination="@id/paintMenuFragment" />
+                <action
+                    android:id="@+id/action_signinFragment_to_change_ip"
+                    app:destination="@id/changeIpFragment" />
                 <action
                     android:id="@+id/action_signinFragment_to_productionmanfacturing"
                     app:destination="@id/manfacturingmenuFragment" />
@@ -234,7 +275,6 @@
                 <action
                     android:id="@+id/action_signinFragment_to_Qc"
                     app:destination="@id/qualitymainmenuFragment" />
-                //planning
                 <action
                     android:id="@+id/action_signinFragment_to_planning"
                     app:destination="@id/planningMenuFragment" />
@@ -297,11 +337,11 @@
         <action
             android:id="@+id/action_manfacturingqualityFragment_to_productionscraplistinqualityFragment"
             app:destination="@id/productionscraplistinqualityFragment" />
-        <action
-            android:id="@+id/action_manfacturingqualityFragment_to_productionscrapFragment"
-            app:destination="@id/productionscrapFragment" />
+
         <action android:id="@+id/action_fragment_manufacturing_quality_to_fragment_random_quality_inception"
             app:destination="@id/fragment_random_quality_inception"/>
+        <action app:destination="@id/productionscrapFragment"
+            android:id="@+id/action_fragment_manufacturing_quality_to_fragment_manufacturing_rejection_request"/>
 
 
     </fragment>
@@ -353,19 +393,29 @@
         <action
             android:id="@+id/action_quality_welding_fragment_to_welding_quality_operation"
             app:destination="@id/welding_quality_operation_fragment" />
-        <action
-            android:id="@+id/action_qualityweldingFragment_to_qcdesicionwe"
-            app:destination="@id/qcdesicionwe" />
+
         <action
             android:id="@+id/action_quality_welding_to_fragment_fragment_welding_quality_repair"
             app:destination="@id/fragment_welding_quality_repair" />
         <action
-            android:id="@+id/action_qualityweldingFragment_to_productionscraplistwe"
-            app:destination="@id/productionscraplistwe" />
+            android:id="@+id/action_fragment_quality_main_to_fragment_welding_rejection_requests_list"
+            app:destination="@id/fragment_welding_rejection_requests_list" />
         <action
             android:id="@+id/action_quality_welding_fragment_to_fragment_welding_rejection_request"
             app:destination="@id/fragment_welding_rejection_request" />
+        <action
+            android:id="@+id/action_quality_welding_fragment_to_fragment_welding_quality_sign_off"
+            app:destination="@id/fragment_welding_quality_sign_off" />
+        <action android:id="@+id/action_fragment_welding_quality_to_fragment_random_quality_inception"
+            app:destination="@id/fragment_welding_random_quality_inspection"/>
 
+    </fragment>
+    <fragment android:id="@+id/fragment_welding_quality_sign_off"
+        android:label="fragment_welding_quality_sign_off"
+        tools:layout="@layout/fragment_welding_quality_signoff"
+        android:name="com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionFragment">
+        <action app:destination="@id/fragment_welding_display_defect_details"
+            android:id="@+id/action_fragment_welding_quality_sign_off_to_fragment_welding_display_defect_details"/>
     </fragment>
     <fragment
         android:id="@+id/fragment_welding_rejection_request"
@@ -402,25 +452,33 @@
 
     <fragment
         android:id="@+id/paintqualityFragment"
-        android:name="com.example.gbsbadrsf.Quality.paint.PaintqualityFragment"
+        android:name="com.example.gbsbadrsf.Quality.paint.QualityPaintFragment"
         android:label="fragment_paintquality"
         tools:layout="@layout/fragment_paintquality" >
         <action
-            android:id="@+id/action_paintqualityFragment_to_adddefectpaint"
+            android:id="@+id/action_fragment_paint_quality_to_fragment_paint_quality_operation_fragment"
             app:destination="@id/paint_quality_operation_fragment" />
         <action
-            android:id="@+id/action_paintqualityFragment_to_qualityrepairpaintFragment"
-            app:destination="@id/qualityrepairpaintFragment" />
+            android:id="@+id/action_fragment_paint_quality_to_fragment_paint_quality_repair"
+            app:destination="@id/fragment_paint_quality_repair" />
         <action
-            android:id="@+id/action_paintqualityFragment_to_qualitydesicionpaintFragment"
-            app:destination="@id/qualitydesicionpaintFragment" />
+            android:id="@+id/action_fragment_paint_quality_to_fragment_paint_quality_sign_off"
+            app:destination="@id/fragment_paint_quality_sign_off" />
+        <action
+            android:id="@+id/action_fragment_paint_quality_to_fragment_paint_rejection_requests_list"
+            app:destination="@id/fragment_paint_rejection_requests_list" />
+        <action
+            android:id="@+id/action_fragment_paint_quality_to_fragment_paint_rejection_request"
+            app:destination="@id/fragment_paint_rejection_request" />
+        <action android:id="@+id/action_fragment_paint_quality_to_fragment_random_quality_inception"
+            app:destination="@id/fragment_paint_random_quality_inspection"/>
     </fragment>
     <fragment android:id="@+id/paint_quality_operation_fragment"
         android:name="com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment"
         android:label="paint_quality_operation"
         tools:layout="@layout/fragment_paint_quality_operation">
         <action android:id="@+id/action_paint_quality_operation_fragment_to_paint_add_defect_fragment"
-            app:destination="@id/paint_add_defects"
+            app:destination="@id/fragment_paint_add_defects"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -429,10 +487,37 @@
 
     </fragment>
     <fragment
-        android:id="@+id/paint_add_defects"
-        android:name="com.example.gbsbadrsf.Quality.paint.Adddefectpaint.Adddefectpaint"
-        android:label="fragment_adddefectpaint"
-        tools:layout="@layout/fragment_adddefectpaint" />
+        android:id="@+id/fragment_paint_rejection_request"
+        android:name="com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment"
+        android:label="fragment_paint_rejection_request"
+        tools:layout="@layout/fragment_paint_rejection_request" />
+    <fragment
+        android:id="@+id/fragment_paint_rejection_requests_list"
+        android:name="com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityFragment"
+        android:label="fragment_paint_rejection_requests_list"
+        tools:layout="@layout/fragment_paint_rejection_requests_list" >
+        <action
+            android:id="@+id/action_fragment_paint_rejection_requests_list_to_fragment_paint_rejection_request_details"
+            app:destination="@id/fragment_paint_rejection_request_details" />
+    </fragment>
+    <fragment android:id="@+id/fragment_paint_rejection_request_details"
+        android:label="fragment_paint_rejection_request_details"
+        tools:layout="@layout/fragment_paint_rejection_request_details"
+        android:name="com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsFragment"/>
+    <fragment
+        android:id="@+id/fragment_paint_add_defects"
+        android:name="com.example.gbsbadrsf.Quality.paint.AddDefects.PaintAddDefectsFragment"
+        android:label="fragment_paint_add_defects"
+        tools:layout="@layout/fragment_paint_add_defects" >
+        <action android:id="@+id/action_fragment_paint_add_defects_to_fragment_paint_add_defect_details"
+            app:destination="@id/fragment_paint_add_defect_details"/>
+        <action android:id="@+id/action_fragment_paint_add_defects_to_fragment_paint_display_defects"
+            app:destination="@id/fragment_paint_display_defect_details"/>
+    </fragment>
+    <fragment android:id="@+id/fragment_paint_add_defect_details"
+        android:label="fragment_paint_add_defect_details"
+        tools:layout="@layout/fragment_paint_add_defect_details"
+        android:name="com.example.gbsbadrsf.Quality.paint.AddDefects.PaintAddDefectDetailsFragment"/>
     <fragment
         android:id="@+id/fragment_welding_add_defects"
         android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectsFragment"
@@ -458,18 +543,12 @@
         android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.QualityDecisionFragment"
         android:label="fragment_qualitydesicion"
         tools:layout="@layout/fragment_quality_desicion" >
-        <action
-            android:id="@+id/action_qualitydesicionFragment_to_scrapFragment"
-            app:destination="@id/scrapFragment" />
+
         <action android:id="@+id/action_fragment_quality_decision_to_fragment_display_defect_details"
             app:destination="@id/fragment_display_defect_details"/>
 
     </fragment>
-    <fragment
-        android:id="@+id/scrapFragment"
-        android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.ScrapFragment"
-        android:label="fragment_scrap"
-        tools:layout="@layout/fragment_scrap" />
+
     <fragment
         android:id="@+id/planningMenuFragment"
         android:name="com.example.gbsbadrsf.Planning.PlanningMenuFragment"
@@ -524,50 +603,57 @@
             app:destination="@id/productionscraprequestqcFragment" />
     </fragment>
     <fragment
+        android:id="@+id/fragment_welding_rejection_requests_list"
+        android:name="com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestsListQualityFragment"
+        android:label="fragment_welding_rejection_requests_list"
+        tools:layout="@layout/fragment_production_rejection_requests_list_quality" >
+        <action
+            android:id="@+id/action_fragment_welding_rejection_requests_list_to_fragment_welding_rejection_request_details"
+            app:destination="@id/fragment_welding_rejection_request_details" />
+    </fragment>
+    <fragment
         android:id="@+id/productionscraprequestqcFragment"
         android:name="com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestFragment"
         android:label="fragment_productionscraprequestqc"
         tools:layout="@layout/fragment_productionscraprequestqc" />
     <fragment
+        android:id="@+id/fragment_welding_rejection_request_details"
+        android:name="com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsFragment"
+        android:label="fragment_welding_rejection_request_details"
+        tools:layout="@layout/fragment_rejection_request"/>
+    <fragment
         android:id="@+id/addworkersFragment"
         android:name="com.example.gbsbadrsf.AddworkersFragment"
         android:label="fragment_addworkers"
         tools:layout="@layout/fragment_addworkers" />
+
     <fragment
-        android:id="@+id/adddefectpaint"
-        android:name="com.example.gbsbadrsf.Quality.paint.Adddefectpaint.Adddefectpaint"
-        android:label="fragment_adddefectpaint"
-        tools:layout="@layout/fragment_adddefectpaint" />
+        android:id="@+id/fragment_paint_quality_repair"
+        android:name="com.example.gbsbadrsf.Quality.paint.QualityRepair.PaintQualityRepairFragment"
+        android:label="fragment_paint_quality_repair"
+        tools:layout="@layout/fragment_paint_quality_repair" >
+        <action android:id="@+id/fragment_paint_quality_repair_to_fragment_paint_quality_defect_repair"
+            app:destination="@id/fragment_paint_quality_defect_repair"/>
+    </fragment>
     <fragment
-        android:id="@+id/qualityrepairpaintFragment"
-        android:name="com.example.gbsbadrsf.Quality.paint.qualityrepairpaint.qualityrepairpaintFragment"
-        android:label="fragment_qualityrepairpaint"
-        tools:layout="@layout/fragment_qualityrepairpaint" />
+        android:id="@+id/fragment_paint_quality_defect_repair"
+        android:name="com.example.gbsbadrsf.Quality.paint.QualityRepair.PaintQualityDefectRepairFragment"
+        android:label="fragment_paint_quality_defect_repair"
+        tools:layout="@layout/fragment_paint_quality_defect_repair" />
     <fragment
-        android:id="@+id/qualitydesicionpaintFragment"
-        android:name="com.example.gbsbadrsf.Quality.paint.qcdesicionpaint.qualitydesicionpaintFragment"
-        android:label="fragment_qualitydesicionpaint"
-        tools:layout="@layout/fragment_qualitydesicionpaint" />
+        android:id="@+id/fragment_paint_quality_sign_off"
+        android:name="com.example.gbsbadrsf.Quality.paint.QualitySignOff.PaintQualityDecisionFragment"
+        android:label="fragment_paint_quality_sign_off"
+        tools:layout="@layout/fragment_paint_quality_sign_off" >
+        <action android:id="@+id/action_fragment_paint_quality_sign_off_to_fragment_paint_display_defect_details"
+            app:destination="@id/fragment_paint_display_defect_details"/>
+    </fragment>
 <!--    <fragment-->
 <!--        android:id="@+id/adddefectwe"-->
 <!--        android:name="com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.Adddefectwe"-->
 <!--        android:label="fragment_adddefectwe"-->
 <!--        tools:layout="@layout/fragment_adddefectwe" />-->
-    <fragment
-        android:id="@+id/qcdesicionwe"
-        android:name="com.example.gbsbadrsf.Quality.welding.qcdesicionwe.Qcdesicionwe"
-        android:label="fragment_qcdesicionwe"
-        tools:layout="@layout/fragment_qcdesicionwe" />
 
-    <fragment
-        android:id="@+id/productionscraplistwe"
-        android:name="com.example.gbsbadrsf.Quality.welding.productionscraprequestwe.Productionscraplistwe"
-        android:label="fragment_productionscraplistwe"
-        tools:layout="@layout/fragment_productionscraplistwe" >
-        <action
-            android:id="@+id/action_productionscraplistwe_to_productionScraprequestwe"
-            app:destination="@id/productionScraprequestwe" />
-    </fragment>
     <fragment
         android:id="@+id/paintdstation"
         android:name="com.example.gbsbadrsf.Paint.paintstation.Paintdstation"
@@ -588,11 +674,7 @@
         android:name="com.example.gbsbadrsf.Paint.productionrepair.ProductionrepairpaintFragment"
         android:label="fragment_productionrepairpaint"
         tools:layout="@layout/fragment_productionrepairpaint" />
-    <fragment
-        android:id="@+id/productionScraprequestwe"
-        android:name="com.example.gbsbadrsf.Quality.welding.productionscraprequestwe.ProductionScraprequestwe"
-        android:label="fragment_production_scraprequestwe"
-        tools:layout="@layout/fragment_production_scraprequestwe" />
+
     <fragment
         android:id="@+id/productionSequence"
         android:name="com.example.gbsbadrsf.productionsequence.ProductionSequence"
