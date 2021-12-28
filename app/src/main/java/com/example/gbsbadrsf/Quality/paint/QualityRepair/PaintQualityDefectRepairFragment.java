@@ -138,7 +138,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
             case R.id.save_btn:{
                 if (defectsWeldingDetailsId !=-1){
                     approvedQty = binding.approvedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()){
+                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()&&Integer.parseInt(approvedQty)<=repairedQty){
                         viewModel.addPaintingRepairQuality(
                                 userId,
                                 deviceSerialNumber,
@@ -160,13 +160,13 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     private boolean containsOnlyDigits(String s) {
         return s.matches("\\d+");
     }
-    int position;
+    int position,repairedQty;
     DefectsPainting defectsPainting;
     @Override
     public void onPaintingRepairItemClicked(DefectsPainting defectsPainting,int position) {
         this.position = position;
         this.defectsPainting = defectsPainting;
-        int repairedQty = defectsPainting.getQtyRepaired();
+        repairedQty = defectsPainting.getQtyRepaired();
         defectsWeldingDetailsId = defectsPainting.getDefectsPaintingDetailsId();
         if (repairedQty!=0) {
             binding.approvedQty.getEditText().setText(String.valueOf(repairedQty));

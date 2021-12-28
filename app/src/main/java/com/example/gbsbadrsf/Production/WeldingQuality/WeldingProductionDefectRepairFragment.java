@@ -140,7 +140,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         }
     }
     DefectsWelding defectsWelding;
-    int position;
+    int position,defectedQty;
     @Override
     public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
         this.defectsWelding =defectsWelding;
@@ -159,7 +159,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             case R.id.save_btn:{
                 if (defectsManufacturingDetailsId!=-1){
                     repairedQty =binding.repairedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(repairedQty)){
+                    if (containsOnlyDigits(repairedQty)&&Integer.parseInt(repairedQty)<=defectedQty){
                         viewModel.addWeldingRepairProduction(
                                 userId,
                                 deviceSerialNumber,
@@ -168,6 +168,8 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
                                 defectStatus,
                                 Integer.parseInt(repairedQty)
                         );
+                    } else {
+                        binding.repairedQty.setError("Please enter a valid repaired quantity!");
                     }
                 } else {
                     Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();

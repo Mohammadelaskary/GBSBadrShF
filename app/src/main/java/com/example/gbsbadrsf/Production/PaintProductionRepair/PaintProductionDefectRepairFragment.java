@@ -134,7 +134,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
             adapter.notifyDataSetChanged();
         }
     }
-    int position;
+    int position,defectedQty;
     DefectsPainting defectsPainting;
     @Override
     public void onPaintingRepairItemClicked(DefectsPainting defectsPainting,int position) {
@@ -143,6 +143,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         binding.repairedQty.getEditText().setText(String.valueOf(defectsPainting.getDeffectedQty()));
         defectsManufacturingDetailsId = defectsPainting.getDefectsPaintingDetailsId();
         defectStatus = defectsPainting.getDefectStatus();
+        defectedQty = defectsPainting.getQtyDefected();
     }
     int userId = 1,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",repairedQty;
@@ -154,7 +155,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
             case R.id.save_btn:{
                 if (defectsManufacturingDetailsId!=-1){
                     repairedQty =binding.repairedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(repairedQty)){
+                    if (containsOnlyDigits(repairedQty)&&Integer.parseInt(repairedQty)<=defectedQty){
                         viewModel.addWeldingRepairProduction(
                                 userId,
                                 deviceSerialNumber,
@@ -163,6 +164,8 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
                                 defectStatus,
                                 Integer.parseInt(repairedQty)
                         );
+                    } else {
+                        binding.repairedQty.setError("Please enter a valid repaired quantity!");
                     }
                 } else {
                     Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();

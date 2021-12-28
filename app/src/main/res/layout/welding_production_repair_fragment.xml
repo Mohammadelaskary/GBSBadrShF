@@ -173,7 +173,36 @@
                     style="@style/style_of_text_bold"
                     app:layout_constraintStart_toStartOf="@+id/basket_code"
                     app:layout_constraintTop_toBottomOf="@+id/defect_qtn_txt" />
+                <LinearLayout
+                    android:id="@+id/constraint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/defects_list">
 
+                    <TextView
+                        android:id="@+id/defectname_txt"
+                        style="@style/styleoftextbold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Child Quantity"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/sampleqty_txt"
+                        style="@style/styleoftextbold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Defects Quantity"
+                        app:layout_constraintStart_toEndOf="@+id/defectname_txt"
+                        app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
+                </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/defects_details_list"
                     android:layout_width="match_parent"
@@ -184,7 +213,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/defects_list" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraint" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

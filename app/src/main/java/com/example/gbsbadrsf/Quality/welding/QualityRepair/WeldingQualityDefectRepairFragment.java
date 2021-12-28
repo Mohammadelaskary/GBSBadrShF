@@ -148,7 +148,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
             case R.id.save_btn:{
                 if (defectsWeldingDetailsId !=-1){
                     approvedQty = binding.approvedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()){
+                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()&&Integer.parseInt(approvedQty)<=repairedQty){
                         viewModel.addWeldingRepairQuality(
                                 userId,
                                 deviceSerialNumber,
@@ -171,12 +171,12 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
         return s.matches("\\d+");
     }
     DefectsWelding defectsWelding;
-    int position;
+    int position,repairedQty;
     @Override
     public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
         this.defectsWelding = defectsWelding;
         this.position = position;
-        int repairedQty = defectsWelding.getQtyRepaired();
+        repairedQty = defectsWelding.getQtyRepaired();
         defectsWeldingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
         if (repairedQty!=0) {
             binding.approvedQty.getEditText().setText(String.valueOf(repairedQty));

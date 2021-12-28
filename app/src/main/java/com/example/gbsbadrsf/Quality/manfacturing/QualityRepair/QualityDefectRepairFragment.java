@@ -139,12 +139,12 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         }
     }
     DefectsManufacturing defectsManufacturing;
-    int position;
+    int position,repairedQty;
     @Override
     public void onRepairItemClicked(DefectsManufacturing defectsManufacturing,int position) {
         this.position = position;
         this.defectsManufacturing = defectsManufacturing;
-        int repairedQty = defectsManufacturing.getQtyRepaired();
+        repairedQty = defectsManufacturing.getQtyRepaired();
         defectsManufacturingDetailsId = defectsManufacturing.getDefectsManufacturingDetailsId();
         if (repairedQty!=0) {
             binding.approvedQty.getEditText().setText(String.valueOf(repairedQty));
@@ -162,7 +162,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
             case R.id.save_btn:{
                 if (defectsManufacturingDetailsId!=-1){
                     approvedQty = binding.approvedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()){
+                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()&&Integer.parseInt(approvedQty)<=repairedQty){
                         viewModel.addManufacturingRepairQuality(
                                 userId,
                                 deviceSerialNumber,

@@ -147,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/defect_name"
+                    android:text="Child Quantity"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/sample_qty"
+                    android:text="Defects Quantity"
                     app:layout_constraintStart_toEndOf="@+id/defectname_txt"
                     app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
             </LinearLayout>
