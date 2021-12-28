@@ -93,12 +93,12 @@ public class SigninFragment extends DaggerFragment {
                         break;
                     case wrongusernameorpassword:
                         Toast.makeText(getContext(), "Wrong username or password!", Toast.LENGTH_SHORT).show();
-//                    case ProductionUser:
-//
-//                        break;
-//                    case PlanningUser:
-//
-//                        break;
+                    case ProductionUser:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
+                        break;
+                    case QualityControlUser:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qc);
+                        break;
 
                 }
             }

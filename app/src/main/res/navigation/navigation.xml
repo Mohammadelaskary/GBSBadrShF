@@ -239,6 +239,7 @@
                 <action
                     android:id="@+id/action_signinFragment_to_mainmenuFragment"
                     app:destination="@id/mainmenuFragment" />
+
                 <action
                     android:id="@+id/action_signinFragment_to_productionpainting"
                     app:destination="@id/paintMenuFragment" />
