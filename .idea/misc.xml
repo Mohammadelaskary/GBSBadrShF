@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/add_defects_details_button.xml" value="0.22146739130434784" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_continue_loading.xml" value="0.15462962962962962" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_counting.xml" value="0.2490740740740741" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machine_loading.xml" value="0.2536231884057971" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machine_wip.xml" value="0.1439814814814815" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machinehold.xml" value="0.2109375" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machineloadingpaint.xml" value="0.26157407407407407" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machineloadingwe.xml" value="0.26157407407407407" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_mainmachinesignoff.xml" value="0.25905797101449274" />
@@ -114,7 +116,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

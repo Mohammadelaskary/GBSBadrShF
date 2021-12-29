@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.warhouse.warehouse;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -99,48 +101,7 @@ public class WarehouseFragment extends DaggerFragment {
         });
     }
 
-//    private void initViews() {
-//        fragmentProductionSignoffBinding.signoffitemsBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                /*Constant c = new Constant();
-//                try {
-//                    if (c.getTotalQty().equals(null)){
-//                        c.setTotalQty(0);
-//                    }
-//                }catch (Exception e){
-//                    c.setTotalQty(0);
-//                }*/
-//                Bundle args = new Bundle();
-//                args.putString("childdesc", fragmentProductionSignoffBinding.childesc.getText().toString());
-//                args.putString("loadingqty", fragmentProductionSignoffBinding.loadingqtn.getText().toString());
-//
-//                Signoffitemsdialog dialog = new Signoffitemsdialog();
-//                dialog.setArguments(args);
-//                dialog.setTargetFragment(ProductionSignoffFragment.this, 1);
-//                dialog.show(getFragmentManager(), "MyCustomDialog");
-//
-//
-//            }
-//        });
-//        fragmentProductionSignoffBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                MachineSignoffBody machineSignoffBody = new MachineSignoffBody();
-//
-//                machineSignoffBody.setMachineCode(fragmentProductionSignoffBinding.machinecodeEdt.getText().toString());
-//                //  machineSignoffBody.setSignOutQty(passedtext);
-//                machineSignoffBody.setBasketLst(passedinput);
-//                machinesignoffViewModel.getmachinesignoff(machineSignoffBody, getContext());
-//
-//
-//            }
-//        });
-//
-//
-//    }
+
 
     private void subscribeRequest() {
         warehouseViewModel.getMachinesignoffcases().observe(getViewLifecycleOwner(), new Observer<Machinsignoffcases>() {
@@ -169,6 +130,7 @@ public class WarehouseFragment extends DaggerFragment {
         });
 
     }
+
 
 
 }
