@@ -58,21 +58,22 @@ public class SigninFragment extends DaggerFragment {
 
         //attachListeners();
         signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
+
         subscribeRequest();
 
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
 
-            if (fragmentSigninBinding.usrEdt.getText().toString().trim().equals("")) {
+            if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().trim().equals("")) {
                 fragmentSigninBinding.usrEdt.setError(getString(R.string.uservalidationerror));
             } else if (fragmentSigninBinding.passwordedittext.getText().toString().trim().equals("")) {
                 fragmentSigninBinding.passwordedittext.setError(getString(R.string.passwordvalidationerror));
             } else {
 //
-                if (fragmentSigninBinding.usrEdt.getText().toString().equals("admin")
-                        && fragmentSigninBinding.usrEdt.getText().toString().equals("admin")){
+                if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().equals("admin")
+                        && fragmentSigninBinding.UsernameNewedttxt.getText().toString().equals("admin")){
                     Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_change_ip);
                 } else {
-                    signinviewmodel.login(fragmentSigninBinding.usrEdt.getText().toString(),
+                    signinviewmodel.login(fragmentSigninBinding.UsernameNewedttxt.getText().toString(),
                             fragmentSigninBinding.passwordedittext.getText().toString());
                 }
             }
@@ -97,6 +98,7 @@ public class SigninFragment extends DaggerFragment {
                         break;
                     case wrongusernameorpassword:
                         Toast.makeText(getContext(), "Wrong username or password!", Toast.LENGTH_SHORT).show();
+                        break;
                     case ProductionUser:
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
                         break;
