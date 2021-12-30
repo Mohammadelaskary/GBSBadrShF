@@ -3,12 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_continue_loading.xml" value="0.15462962962962962" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_counting.xml" value="0.2490740740740741" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machine_loading.xml" value="0.2536231884057971" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machine_wip.xml" value="0.1439814814814815" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machineloadingpaint.xml" value="0.26157407407407407" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_machineloadingwe.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_mainmachinesignoff.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_mainmenu.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_mainschedulellist.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_manufacturing_add_defect_details.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_manufacturing_add_defects.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_manufacturing_quality_operation.xml" value="0.2536231884057971" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paint_menu.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paint_wip.xml" value="0.1439814814814815" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paintdstation.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paintsignoff.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_production_defect_repair.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_production_menu.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_production_signoff.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_qualitymainmenu.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_signin.xml" value="0.2536231884057971" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_signoffwe.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_warehouse.xml" value="0.17777777777777778" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_warehouses_main.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_welding_menu.xml" value="0.1439814814814815" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_welding_sequence.xml" value="0.26157407407407407" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_weldingwip.xml" value="0.1439814814814815" />
+        <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/machinewip_lst.xml" value="0.1597222222222222" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/signoffcustomdialog.xml" value="0.26157407407407407" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/signoffwecustomdialog.xml" value="0.26157407407407407" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/drawable/ic_settings.xml" value="0.21574074074074073" />

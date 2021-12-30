@@ -75,7 +75,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         fragmentMachineLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              machineloadingViewModel.savefirstloading("1","S123",getArguments().getString("loadingsequenceid"),fragmentMachineLoadingBinding.machinecodeEdt.getText().toString(),fragmentMachineLoadingBinding.diecodeEdt.getText().toString(),fragmentMachineLoadingBinding.loadingqtnEdt.getText().toString());
+              machineloadingViewModel.savefirstloading("1","S123",getArguments().getString("loadingsequenceid"),fragmentMachineLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentMachineLoadingBinding.newdiecodeEdt.getText().toString(),fragmentMachineLoadingBinding.newloadingqtnEdt.getText().toString());
 
             }
         });
@@ -194,12 +194,12 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
     handler.post(new Runnable() {
         @Override
         public void run() {
-            if (fragmentMachineLoadingBinding.machinecodeEdt.isFocused()) {
+            if (fragmentMachineLoadingBinding.machinecodeNewedttxt.isFocused()) {
 
-                fragmentMachineLoadingBinding.machinecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                fragmentMachineLoadingBinding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
             }
-            else if (fragmentMachineLoadingBinding.diecodeEdt.isFocused()){
-                fragmentMachineLoadingBinding.diecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+            else if (fragmentMachineLoadingBinding.newdiecodeEdt.isFocused()){
+                fragmentMachineLoadingBinding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
             }
 
         }

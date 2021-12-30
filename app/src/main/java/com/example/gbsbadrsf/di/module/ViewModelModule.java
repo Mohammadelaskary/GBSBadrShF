@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel
 import com.example.gbsbadrsf.Paint.machineloadingpaint.SavepaintViewModel;
 import com.example.gbsbadrsf.Paint.paintstation.InfoForSelectedPaintViewModel;
 import com.example.gbsbadrsf.Paint.paintstation.PaintstationViewModel;
+import com.example.gbsbadrsf.Paint.paintwip.PaintViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
@@ -49,6 +50,8 @@ import com.example.gbsbadrsf.machinewip.MachinewipViewModel;
 import com.example.gbsbadrsf.productionsequence.ProductionsequenceViewModel;
 import com.example.gbsbadrsf.productionsequence.SelectedLoadinsequenceinfoViewModel;
 import com.example.gbsbadrsf.signin.SignInViewModel;
+import com.example.gbsbadrsf.warhouse.counting.CountingViewModel;
+import com.example.gbsbadrsf.warhouse.warehouse.WarehouseViewModel;
 import com.example.gbsbadrsf.welding.machineloadingwe.SaveweldingViewModel;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweViewModel;
 import com.example.gbsbadrsf.welding.weldingwip.WeldingvieModel;
@@ -264,6 +267,29 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SavepaintViewModel.class)
     public abstract ViewModel bindsaveViewModel (SavepaintViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(CountingViewModel.class)
+    public abstract ViewModel bindcountingViewModel (CountingViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WarehouseViewModel.class)
+
+    public abstract ViewModel bindwarehouseViewModel (WarehouseViewModel viewModel);
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(PaintstationViewModel.class)
+//    public abstract ViewModel bindpaintViewModel (PaintstationViewModel viewModel);
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(InfoForSelectedPaintViewModel.class)
+//    public abstract ViewModel bindpaintinfoViewModel (InfoForSelectedPaintViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintViewModel.class)
+    public abstract ViewModel bindpaintwipVieWModel (PaintViewModel viewModel);
+
+
 
 
 

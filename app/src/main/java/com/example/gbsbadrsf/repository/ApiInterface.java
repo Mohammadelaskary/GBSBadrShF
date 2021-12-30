@@ -45,11 +45,14 @@ import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
 import com.example.gbsbadrsf.data.response.ApiContinueloading;
+import com.example.gbsbadrsf.data.response.ApiGetCountingData;
 import com.example.gbsbadrsf.data.response.ApiGetPaintingLoadingSequenceStartLoading;
+import com.example.gbsbadrsf.data.response.ApiGetRecivingData;
 import com.example.gbsbadrsf.data.response.ApiGetweldingloadingstartloading;
 import com.example.gbsbadrsf.data.response.ApiMachinesignoff;
 import com.example.gbsbadrsf.data.response.ApiPaintstation;
 import com.example.gbsbadrsf.data.response.ApiResponseMachinewip;
+import com.example.gbsbadrsf.data.response.ApiResponsePaintwip;
 import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.ApiResponseweldingbyjoborder;
 import com.example.gbsbadrsf.data.response.ApiSavePaintloading;
@@ -58,6 +61,8 @@ import com.example.gbsbadrsf.data.response.ApiWeldingsignoff;
 import com.example.gbsbadrsf.data.response.Apigetbasketcode;
 import com.example.gbsbadrsf.data.response.Apigetmachinecode;
 import com.example.gbsbadrsf.data.response.Apiinfoforstationcode;
+import com.example.gbsbadrsf.data.response.CountingData;
+import com.example.gbsbadrsf.data.response.CountingDataRecivingdata;
 import com.example.gbsbadrsf.data.response.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.data.response.LoadingSequenceInfo;
 import com.example.gbsbadrsf.data.response.MachineLoading;
@@ -129,6 +134,35 @@ Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingseq
                                                                         @Query("JobOrderID")String JoborderId,
                                                                         @Query("ParentID")String ParentId
   );
+  //GetCountingdata
+  @GET("GetCountingData")
+  Single<ApiGetCountingData<CountingData>>getcountingdata(@Query("UserID") String  userid,
+                                                                   @Query("DeviceSerialNo") String  DeviceSerialNo,
+                                                                   @Query("Barcode")String barcode);
+  //SetCountingData
+  @GET("SetCountingData")
+  Single<ApiGetCountingData<ResponseStatus>>seetcountingdata(@Query("UserID") String  userid,
+                                                          @Query("DeviceSerialNo") String  DeviceSerialNo,
+                                                          @Query("Barcode")String barcode,
+                                                          @Query("CountingQty")String contingqty
+                                                             );
+  //Get Recivingdata
+  @GET("GetReceivingData")
+  Single<ApiGetRecivingData<CountingDataRecivingdata>>getrecivingcountingdata(@Query("UserID") String  userid,
+                                                                      @Query("DeviceSerialNo") String  DeviceSerialNo,
+                                                                      @Query("Barcode")String barcode);
+  //setRecivingData
+  @GET("SetReceivingData")
+  Single<ApiGetRecivingData<ResponseStatus>>setRecivinggdata(@Query("UserID") String  userid,
+                                                             @Query("DeviceSerialNo") String  DeviceSerialNo,
+                                                             @Query("Barcode")String barcode,
+                                                             @Query("ReceivingQty")String recivingqty);
+
+
+
+
+
+
 
 
   //Getmachinewip
@@ -139,6 +173,11 @@ Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingseq
   @GET("GetStationsWIP")
   Single<ApiResponseStationwip<List<StationsWIP>>> getstationwip(@Query("UserID") String userid,
                                                                  @Query("DeviceSerialNo") String deviceserialnumber);
+  //Getpaintwip
+  @GET("GetStationsWIP_Painting")
+  Single<ApiResponsePaintwip<List<StationsWIP>>> getpaintwip(@Query("UserID") String userid,
+                                                               @Query("DeviceSerialNo") String deviceserialnumber);
+
 
 
 

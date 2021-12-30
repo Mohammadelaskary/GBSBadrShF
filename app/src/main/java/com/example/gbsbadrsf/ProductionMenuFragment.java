@@ -57,6 +57,12 @@ public class ProductionMenuFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(R.id.action_productionMenuFragment_to_paintMenuFragment);
 
         });
+        fragmentProductionMenuBinding.WarehouseBtn.setOnClickListener(__ -> {
+
+            Navigation.findNavController(getView()).navigate(R.id.action_productionMenuFragment_to_mainwarehousefragment);
+
+        });
+
 
 
     }

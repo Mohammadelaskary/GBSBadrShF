@@ -93,6 +93,9 @@ public class SignoffweViewModel extends ViewModel {
                                     weldingsignoffcases.postValue(Weldingsignoffcases.wrongmachine);
 
                                 }
+                                else if (Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong production station name")){
+                                    weldingsignoffcases.postValue(Weldingsignoffcases.Wrongproductionstatname);
+                                }
 
                                 else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction") )
                                 {

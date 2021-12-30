@@ -33,6 +33,24 @@
     <select />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="finished paint">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/paintwip/PaintViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/paintwip/PaintWip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/paintwip/PaintWipAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/data/response/ApiGetCountingData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/data/response/ApiGetRecivingData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/data/response/ApiResponsePaintwip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/data/response/CountingData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/data/response/CountingDataRecivingdata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/warhouse/WarehousesMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/warhouse/counting/CountingFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/warhouse/counting/CountingViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/warhouse/warehouse/WarehouseFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/warhouse/warehouse/WarehouseViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_counting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_paint_wip.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_warehouse.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_warehouses_main.xml" afterDir="false" />
     <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="random inspection" />
     <list default="true" id="a3d7305a-3692-43d7-970a-753ef14b6e9e" name="Default Changelist" comment="random inspection">
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
@@ -71,7 +89,6 @@
       <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_machineloadingpaint.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/signoffwecustomdialog.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/GBSBadrSF.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/GBSBadrSF.app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/Data/ManufacturingQualityOperationViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/Data/ManufacturingQualityOperationViewModel.java" afterDir="false" />
@@ -87,29 +104,44 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingQualityDecisionFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualitySignOff/WeldingQualityDecisionFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityWeldingFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Quality/welding/QualityWeldingFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machineloading/ContinueLoading.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machineloading/ContinueLoading.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machinesignoff/Machinsignoffcases.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machinesignoff/Machinsignoffcases.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machinesignoff/ProductionSignoffFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machinesignoff/ProductionSignoffFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machinesignoff/Signoffitemsdialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Manfacturing/machinesignoff/Signoffitemsdialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/Paintdstation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/paintstation/Paintdstation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Util/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Util/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/PaintMenuFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/Paint/PaintMenuFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/ProductionMenuFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/ProductionMenuFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ActivityBuilderModule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ViewModelModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/di/module/ViewModelModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/machineloading/MachineLoadingFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/machineloading/MachineLoadingFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/repository/ApiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/repository/ApiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/machineloadingwe/MachineloadingweFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/machineloadingwe/MachineloadingweFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/machineloadingwe/Typesofsavewelding.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/machineloadingwe/Typesofsavewelding.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/SignoffweFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/SignoffweFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/SignoffweViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/SignoffweViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/Weldingsignoffcases.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/Weldingsignoffcases.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/Signoffweitemsdialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/gbsbadrsf/welding/weldingsignoff/Signoffweitemsdialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_continue_loading.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_continue_loading.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_machine_loading.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_machine_loading.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_machineloadingwe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_machineloadingwe.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_paint_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_paint_menu.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_paintdstation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_paintdstation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_production_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_production_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_production_signoff.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_production_signoff.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_signoffwe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_signoffwe.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_welding_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_weldingwip.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_weldingwip.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/machinewip_lst.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/machinewip_lst.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/signoffcustomdialog.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/signoffcustomdialog.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/signoffwecustomdialog.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/signoffwecustomdialog.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[19313B2974]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -358,6 +390,14 @@
       <updated>1640457842060</updated>
     </task>
     <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00008" summary="finished paint">
+      <created>1640464859582</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1640464859582</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -393,6 +433,8 @@
     <MESSAGE value="merging test for the app" />
     <MESSAGE value="merge with waleed" />
     <MESSAGE value="welding quality operation add defects and details" />
+    <MESSAGE value="finished paint" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished paint" />
     <MESSAGE value="welding rejection request" />
     <MESSAGE value="paint quality finish" />
     <option name="LAST_COMMIT_MESSAGE" value="paint quality finish" />
