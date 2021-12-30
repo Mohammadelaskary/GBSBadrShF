@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.signin;
 
+import android.widget.Toast;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -41,40 +43,39 @@ public class SignInViewModel extends ViewModel {
         disposable.add(repository.Login(Username,pass).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<APIResponseSignin<UserInfo>, Throwable>() {
             @Override
             public void accept(APIResponseSignin<UserInfo> userInfoAPIResponseSignin, Throwable throwable) throws Exception {
-             if (userInfoAPIResponseSignin.getData().getIsPlanningUser() &&
-                     userInfoAPIResponseSignin.getData().getIsProductionUser() &&
-                     userInfoAPIResponseSignin.getData().getIsQualityControlUser()&&
-                     userInfoAPIResponseSignin.getData().getIsProductionManufaturing()
-                     && userInfoAPIResponseSignin.getData().getIsProductionWelding() &&
-                     userInfoAPIResponseSignin.getData().getIsProductionPainting()&&
-                     userInfoAPIResponseSignin.getData().getIsQcmanufaturing() && userInfoAPIResponseSignin.getData().getIsQcpainting()
-             )
-             {
-                 usertype.postValue(Usertype.All);
-             }
-             else if (userInfoAPIResponseSignin.getData().getIsPlanningUser()){
-                 usertype.postValue(Usertype.PlanningUser);
+                if (userInfoAPIResponseSignin != null) {
+                    if (userInfoAPIResponseSignin.getData().getIsPlanningUser() &&
+                            userInfoAPIResponseSignin.getData().getIsProductionUser() &&
+                            userInfoAPIResponseSignin.getData().getIsQualityControlUser() &&
+                            userInfoAPIResponseSignin.getData().getIsProductionManufaturing() &&
+                            userInfoAPIResponseSignin.getData().getIsProductionWelding() &&
+                            userInfoAPIResponseSignin.getData().getIsProductionPainting() &&
+                            userInfoAPIResponseSignin.getData().getIsQcmanufaturing() &&
+                            userInfoAPIResponseSignin.getData().getIsQcpainting()
+                    ) {
+                        usertype.postValue(Usertype.All);
+                    } else if (userInfoAPIResponseSignin.getData().getIsPlanningUser()) {
+                        usertype.postValue(Usertype.PlanningUser);
 
-             }
-             else if(userInfoAPIResponseSignin.getData().getIsProductionUser()&&userInfoAPIResponseSignin.getData().getIsProductionManufaturing()&&userInfoAPIResponseSignin.getData().getIsProductionWelding()&&userInfoAPIResponseSignin.getData().getIsProductionPainting())
-             {
-                 //admin10 pass 123
-                 //direct to main production
-                 usertype.postValue(Usertype.ProductionUser);
+                    } else if (userInfoAPIResponseSignin.getData().getIsProductionUser() && userInfoAPIResponseSignin.getData().getIsProductionManufaturing() && userInfoAPIResponseSignin.getData().getIsProductionWelding() && userInfoAPIResponseSignin.getData().getIsProductionPainting()) {
+                        //admin10 pass 123
+                        //direct to main production
+                        usertype.postValue(Usertype.ProductionUser);
 
 
-             }
-             else if ((userInfoAPIResponseSignin.getResponseStatus().getStatusMessage().equals("Wrong username or password!"))){
-                 usertype.postValue(Usertype.wrongusernameorpassword);
+                    } else if ((userInfoAPIResponseSignin.getResponseStatus().getStatusMessage().equals("Wrong username or password!"))) {
+                        usertype.postValue(Usertype.wrongusernameorpassword);
 
-             }else if(userInfoAPIResponseSignin.getData().getIsQualityControlUser()&&userInfoAPIResponseSignin.getData().getIsQcmanufaturing()&&userInfoAPIResponseSignin.getData().getIsQcwelding()&&userInfoAPIResponseSignin.getData().getIsQcpainting())
-             {
-                 //admin10 pass 123
-                 //direct to main production
-                 usertype.postValue(Usertype.QualityControlUser);
+                    } else if (userInfoAPIResponseSignin.getData().getIsQualityControlUser() && userInfoAPIResponseSignin.getData().getIsQcmanufaturing() && userInfoAPIResponseSignin.getData().getIsQcwelding() && userInfoAPIResponseSignin.getData().getIsQcpainting()) {
+                        //admin10 pass 123
+                        //direct to main production
+                        usertype.postValue(Usertype.QualityControlUser);
 
 
-             }
+                    }
+                } else {
+                    usertype.postValue(Usertype.CONNECTION_ERROR);
+                }
             }
         }));
 

@@ -51,6 +51,7 @@ public class ChangeBaseUrlFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.newIp.getEditText().setText(MainActivity.IP);
         binding.save.setOnClickListener(v->{
             String newBaseUrl = binding.newIp.getEditText().getText().toString().trim();
             if (newBaseUrl.isEmpty())
@@ -71,6 +72,8 @@ public class ChangeBaseUrlFragment extends Fragment {
 
     private void showAlertDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("Saved Successfully");
+        alertDialog.setIcon(R.drawable.ic_done);
         alertDialog.setMessage("Application should restart to perform ip change");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 (dialog, which) -> restartApp());

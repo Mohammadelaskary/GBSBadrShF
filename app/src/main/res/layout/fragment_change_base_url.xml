@@ -11,7 +11,7 @@
         android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Ip"
+        android:text="Settings"
         android:layout_marginTop="25dp"
         style="@style/styleoftextbold"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,6 +25,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="15dp"
         android:hint="New Ip"
+        app:helperTextEnabled="true"
+        app:helperText="Please enter only ip without http:// or folder name"
         app:layout_constraintTop_toBottomOf="@id/text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

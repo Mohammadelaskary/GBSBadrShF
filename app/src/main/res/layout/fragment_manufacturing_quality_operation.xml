@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,14 +21,37 @@
         android:layout_marginTop="15dp"
         />
 
+    <TextView
+        android:id="@+id/no_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Connection"
+        android:textSize="40sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:progressBarStyleLarge"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adddefect_txt"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:fillViewport="true"
-        >
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adddefect_txt">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -38,9 +62,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toStartOf="@+id/itemcardbarcode_img"
@@ -99,59 +123,58 @@
 
             <TextView
                 android:id="@+id/jop_order_name_txt"
+                style="@style/style_of_text_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jop Order:"
-                style="@style/style_of_text_bold"
-                app:layout_constraintStart_toStartOf="@id/basket_code"
-                app:layout_constraintTop_toBottomOf="@id/child_desc"
-                android:fontFamily="sans-serif"
                 android:layout_marginTop="15dp"
-                />
+                android:fontFamily="sans-serif"
+                android:text="Jop Order:"
+                app:layout_constraintStart_toStartOf="@id/basket_code"
+                app:layout_constraintTop_toBottomOf="@id/child_desc" />
+
             <TextView
                 android:id="@+id/job_order_name"
+                style="@style/styleoftext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text=""
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                style="@style/styleoftext"
+                android:layout_weight="4"
+                android:text=""
                 app:layout_constraintStart_toEndOf="@id/jop_order_name_txt"
-                app:layout_constraintTop_toTopOf="@id/jop_order_name_txt"
-                />
+                app:layout_constraintTop_toTopOf="@id/jop_order_name_txt" />
+
             <TextView
                 android:id="@+id/operation_txt"
+                style="@style/style_of_text_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Operation :"
-                style="@style/style_of_text_bold"
-                app:layout_constraintStart_toStartOf="@id/basket_code"
-                app:layout_constraintTop_toBottomOf="@id/jop_order_name_txt"
-                android:fontFamily="sans-serif"
                 android:layout_marginTop="15dp"
-                />
+                android:fontFamily="sans-serif"
+                android:text="Operation :"
+                app:layout_constraintStart_toStartOf="@id/basket_code"
+                app:layout_constraintTop_toBottomOf="@id/jop_order_name_txt" />
+
             <TextView
                 android:id="@+id/operation"
+                style="@style/styleoftext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text=""
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                style="@style/styleoftext"
+                android:layout_weight="4"
+                android:text=""
                 app:layout_constraintStart_toEndOf="@id/operation_txt"
-                app:layout_constraintTop_toTopOf="@id/operation_txt"
-                />
+                app:layout_constraintTop_toTopOf="@id/operation_txt" />
 
             <TextView
                 android:id="@+id/signoff_qtn_txt"
                 style="@style/style_of_text_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/sign_off_qty"
-                android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/child_txt"
                 app:layout_constraintTop_toBottomOf="@id/operation_txt" />
 
@@ -159,8 +182,8 @@
                 android:id="@+id/signoff_qtn_edt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/signoff_qtn_txt"
                 app:layout_constraintStart_toEndOf="@id/signoff_qtn_txt"
@@ -182,10 +205,10 @@
                 android:id="@+id/sample_qtn_edt"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:background="@drawable/edt_bg"
-                android:inputType="number"
-                android:digits="0123456789"
                 android:layout_marginStart="15dp"
+                android:background="@drawable/edt_bg"
+                android:digits="0123456789"
+                android:inputType="number"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/sampleqtn_txt"
                 app:layout_constraintStart_toEndOf="@+id/sampleqtn_txt"
@@ -197,40 +220,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:text="@string/new_sample"
                 android:checked="true"
+                android:text="@string/new_sample"
                 app:layout_constraintBottom_toBottomOf="@+id/sample_qtn_edt"
                 app:layout_constraintStart_toEndOf="@+id/sample_qtn_edt"
                 app:layout_constraintTop_toTopOf="@+id/sample_qtn_edt" />
 
 
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_defect_button"
+                style="@style/styleoftextinbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt"
-                android:backgroundTint="@color/appbarcolor"
-                android:textColor="@color/white"
                 android:layout_marginTop="15dp"
-                app:cornerRadius="25dp"
+                android:backgroundTint="@color/appbarcolor"
                 android:text="@string/add_defects"
-                style="@style/styleoftextinbtn"/>
+                android:textColor="@color/white"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/without_defect_button"
+                style="@style/styleoftextinbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_defect_button"
-                android:backgroundTint="@color/appbarcolor"
-                android:textColor="@color/white"
                 android:layout_marginTop="5dp"
-                app:cornerRadius="25dp"
+                android:backgroundTint="@color/appbarcolor"
                 android:text="@string/without_defect"
-                style="@style/styleoftextinbtn"/>
+                android:textColor="@color/white"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_defect_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
