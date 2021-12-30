@@ -2,8 +2,10 @@ package com.example.gbsbadrsf.Quality.manfacturing;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
 import com.example.gbsbadrsf.R;
@@ -64,6 +67,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 //        super.onCreate(savedInstanceState);
         binding = FragmentManufacturingQualityOperationBinding.inflate(inflater,container,false);
         barCodeReader = new SetUpBarCodeReader(this,this);
+//        checkConnectivity();
         initViewModel();
         if (viewModel.getBasketData()!=null){
             basketData = viewModel.getBasketData();
@@ -74,6 +78,14 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         observeGettingDataStatus();
         return binding.getRoot();
     }
+
+//    private void checkConnectivity() {
+//       MainActivity.isConnectedToServer();
+//       MainActivity.isConnected.observe(getViewLifecycleOwner(),aBoolean -> {
+//           Log.d("isConnected",aBoolean+"");
+//       });
+//    }
+
     String basketCode;
     private void addTextWatcher() {
         binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {
