@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,14 +77,26 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                basketCode = charSequence.toString();
-                getBasketData(basketCode);
-                getBasketDefectsManufacturing(basketCode);
+                binding.basketCode.setError(null);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
+            }
+        });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
+                    getBasketData(basketCode);
+                    getBasketDefectsManufacturing(basketCode);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -217,7 +230,8 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
-            binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(scannedText);
+            getBasketDefectsManufacturing(scannedText);
         });
     }
 

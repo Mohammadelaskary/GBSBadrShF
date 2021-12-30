@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,12 +150,24 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getBasketData(charSequence.toString().trim());
+                binding.basketCode.setError(null);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
+            }
+        });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    getBasketData(binding.basketCode.getEditText().getText().toString().trim());
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -426,7 +439,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
             // update UI to reflect the data
             String scannedText = setUpBarCodeReader.scannedData(barcodeReadEvent);
             Log.d("===scannedText",scannedText);
-            binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(scannedText);
         });
     }
 

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,18 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
+            }
+        });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    getDefectsManufacturingList(binding.basketCode.getEditText().getText().toString().trim());
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -248,7 +261,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
-            binding.basketCode.getEditText().setText(scannedText);
+            getDefectsManufacturingList(scannedText);
         });
     }
 

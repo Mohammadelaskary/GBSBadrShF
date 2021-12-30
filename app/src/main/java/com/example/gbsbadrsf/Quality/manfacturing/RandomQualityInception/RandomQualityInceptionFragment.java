@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getMachineDieInfo(charSequence.toString());
+                binding.machineDieCode.setError(null);
             }
 
             @Override
@@ -83,6 +84,19 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                 binding.machineDieCode.setError(null);
             }
         });
+        binding.machineDieCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    getMachineDieInfo(binding.machineDieCode.getEditText().getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });
+
         binding.sampleQty.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -265,7 +279,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
-            binding.machineDieCode.getEditText().setText(scannedText);
+            getMachineDieInfo(scannedText);
         });
     }
 

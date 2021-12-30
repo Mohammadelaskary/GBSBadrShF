@@ -30,8 +30,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="848684" />
-                            <entry key="outputName" value="ic_password" />
-                            <entry key="sourceFile" value="C:\Users\Dell\Downloads\ic_password.svg" />
+                            <entry key="outputName" value="ic_barcode_icon" />
+                            <entry key="sourceFile" value="C:\Users\Dell\Downloads\barcode_icon.svg" />
                           </map>
                         </option>
                       </PersistentState>

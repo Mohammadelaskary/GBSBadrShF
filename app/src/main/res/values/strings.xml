@@ -165,5 +165,6 @@
     <string name="counting">Counting</string>
     <string name="barcode">Barcode</string>
     <string name="paint_qty">Paint Qty</string>
+    <string name="parent_quantity">Parent Quantity</string>
 
 </resources>

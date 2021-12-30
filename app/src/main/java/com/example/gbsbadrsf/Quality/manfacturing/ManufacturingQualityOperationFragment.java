@@ -89,6 +89,22 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 
     String basketCode;
     private void addTextWatcher() {
+        binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.basketCode.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.basketCode.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.basketCode.setError(null);
+            }
+        });
         binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {

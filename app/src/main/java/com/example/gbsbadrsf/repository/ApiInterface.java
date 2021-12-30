@@ -597,4 +597,8 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("RejectionQty") int RejectionQty,
           @Query("DepartmentID") int DepartmentID
   );
+  @GET("test")
+  Single<String> Test_Connectivity(
+          @Query("text") String text
+  );
 }

@@ -25,6 +25,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="15dp"
         android:hint="New Ip"
+        app:errorEnabled="true"
+        app:errorTextColor="#ff0000"
         app:helperTextEnabled="true"
         app:helperText="Please enter only ip without http:// or folder name"
         app:layout_constraintTop_toBottomOf="@id/text_view"

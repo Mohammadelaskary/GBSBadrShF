@@ -44,10 +44,11 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="15dp"
                 android:hint="Old Basket Code"
+                app:startIconDrawable="@drawable/ic_barcode_icon"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toStartOf="@+id/basketbarcode"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -57,17 +58,6 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <ImageView
-                android:id="@+id/basketbarcode"
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/barcodel"
-                app:layout_constraintBottom_toBottomOf="@+id/old_basket_code"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/old_basket_code" />
 
 
             <TextView
@@ -154,7 +144,7 @@
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="@+id/basketbarcode"
+                app:layout_constraintEnd_toEndOf="@id/old_basket_code"
                 app:layout_constraintStart_toStartOf="@id/old_basket_code"
                 app:layout_constraintTop_toBottomOf="@id/basketqtn_txt">
 
@@ -163,10 +153,9 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:inputType="number"
-                    android:textColorHint="@color/colorPrimary"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -175,12 +164,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
                 android:hint="New Basket Code"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toStartOf="@+id/basketbarcode_img"
+                app:startIconDrawable="@drawable/ic_barcode_icon"
+                app:layout_constraintEnd_toEndOf="@id/old_basket_code"
                 app:layout_constraintStart_toStartOf="@id/old_basket_code"
                 app:layout_constraintTop_toBottomOf="@id/rejected_qty_edt">
 
@@ -188,18 +177,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/colorPrimary" />
+                    android:textColorHint="@color/colorPrimary"
+                    android:imeOptions="actionGo"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/basketbarcode_img"
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/barcodel"
-                app:layout_constraintBottom_toBottomOf="@+id/new_basket_code"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/new_basket_code" />
 
 
             <TextView
@@ -207,22 +190,19 @@
                 style="@style/styleoftextbold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="Responsible"
+                app:layout_constraintTop_toBottomOf="@id/new_basket_code"
                 app:layout_constraintStart_toStartOf="@+id/old_basket_code"
-                app:layout_constraintTop_toBottomOf="@id/basketbarcode_img" />
+                tools:layout_editor_absoluteY="٤٦٦dp" />
 
 
             <Spinner
                 android:id="@+id/responsibledep_spin"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                app:layout_constraintEnd_toEndOf="@+id/basketbarcode"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/old_basket_code"
+                app:layout_constraintStart_toStartOf="@id/old_basket_code"
                 app:layout_constraintTop_toBottomOf="@id/responsible_txt" />
 
             <com.google.android.material.button.MaterialButton
