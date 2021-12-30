@@ -91,11 +91,14 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
 
     private void observeAddingManufacturingDefectsResponse() {
         viewModel.getAddManufacturingDefectsResponse().observe(getViewLifecycleOwner(), response -> {
-            String responseMessage = response.getResponseStatus().getStatusMessage();
-//                        if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
-            navController.popBackStack();
-//                        }
-            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+            if (response!=null) {
+                String responseMessage = response.getResponseStatus().getStatusMessage();
+                if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
+                    navController.popBackStack();
+                }
+                Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -212,13 +215,17 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     private void getAllDefectsList() {
         viewModel.getDefectsListViewModel(operationId);
         viewModel.getDefectsListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsList -> {
-            ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals("Data sent successfully")){
-                allDefectsList.clear();
-                allDefectsList.addAll(apiResponseDefectsList.getDefectsList());
-                adapter.setDefectList(allDefectsList);
-                adapter.notifyDataSetChanged();
+            if (apiResponseDefectsList!=null) {
+                ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals("Data sent successfully")) {
+                    allDefectsList.clear();
+                    allDefectsList.addAll(apiResponseDefectsList.getDefectsList());
+                    adapter.setDefectList(allDefectsList);
+                    adapter.notifyDataSetChanged();
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
             }
         });
     }

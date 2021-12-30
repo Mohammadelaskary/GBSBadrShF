@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,21 +89,16 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 
     String basketCode;
     private void addTextWatcher() {
-        binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                binding.basketCode.setError(null);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                basketCode = charSequence.toString();
-                getBasketData(basketCode);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                binding.basketCode.setError(null);
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    getBasketData(binding.basketCode.getEditText().getText().toString().trim());
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -112,13 +108,19 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     private void getBasketData(String basketCode) {
         viewModel.getBasketDataViewModel(basketCode);
         viewModel.getBasketDataResponse().observe(getActivity(), apiResponseLastMoveManufacturingBasket -> {
-            ResponseStatus responseStatus          = apiResponseLastMoveManufacturingBasket.getResponseStatus();
-            String responseMessage = responseStatus.getStatusMessage();
-            if (responseMessage.equals(EXISTING_BASKET_CODE)){
-                basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
-                fillViews();
+            if (apiResponseLastMoveManufacturingBasket!=null) {
+                ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
+                String responseMessage = responseStatus.getStatusMessage();
+                if (responseMessage.equals(EXISTING_BASKET_CODE)) {
+                    basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
+                    fillViews();
+                } else {
+                    binding.basketCode.setError(responseMessage);
+                    dischargeViews();
+                }
             } else {
-                binding.basketCode.setError(responseMessage);
+                Toast.makeText(getContext(), "Error in Getting Data!", Toast.LENGTH_SHORT).show();
+                basketData = null;
                 dischargeViews();
             }
         });
@@ -153,7 +155,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
         binding.jobOrderName.setText(jobOrderName);
-
+        binding.basketCode.setError(null);
     }
 
 
@@ -212,6 +214,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         getActivity().runOnUiThread(() -> {
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(scannedText);
         });
 
     }
