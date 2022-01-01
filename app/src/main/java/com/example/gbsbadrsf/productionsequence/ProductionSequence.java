@@ -71,25 +71,39 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         selectedLoadinsequenceinfoViewModel=ViewModelProviders.of(this,provider).get(SelectedLoadinsequenceinfoViewModel.class);
 
 
-        fragmentProductionSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
+//        fragmentProductionSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//              viewModel.getProductionsequence(fragmentProductionSequenceBinding.barcodeEdt.getText().toString());
+//
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//
+//            }
+//        });
+        fragmentProductionSequenceBinding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                 viewModel.getProductionsequence(fragmentProductionSequenceBinding.barcodeEdt.getText().toString());
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-              viewModel.getProductionsequence(fragmentProductionSequenceBinding.barcodeEdt.getText().toString());
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
+                    return true;
+                }
+                return false;
             }
         });
+
         setUpRecyclerView();
 
 

@@ -140,6 +140,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/machine_code"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,6 +187,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/die_code"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 

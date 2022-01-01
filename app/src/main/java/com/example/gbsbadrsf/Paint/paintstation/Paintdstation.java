@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,25 +88,39 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
 
         barcodeReader = MainActivity.getBarcodeObject();
-        fragmentPaintdstationBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
+        fragmentPaintdstationBinding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+             viewModel.getpaintsequence("1","S123",fragmentPaintdstationBinding.barcodeEdt.getText().toString());
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                viewModel.getpaintsequence("1","S123",fragmentPaintdstationBinding.barcodeEdt.getText().toString());
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
+                    return true;
+                }
+                return false;
             }
         });
+
+//        fragmentPaintdstationBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                viewModel.getpaintsequence("1","S123",fragmentPaintdstationBinding.barcodeEdt.getText().toString());
+//
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//
+//            }
+//        });
         setUpRecyclerView();
 
 
@@ -175,11 +190,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                         //bundle.putString("basketcode",clickedPprwelding.getBaskets().getBasketCode());
                         // bundle.putString("ddd",baskets.getBasketCode());
                         // bundle.putString("slslsl",infoForSelectedStationViewModel.getBaskets().getValue().getJobOrderId().toString());
-
-
-
-
-                        Navigation.findNavController(getView()).navigate(R.id.action_weldingSequence_to_machineloadingweFragment, bundle);
+                        Navigation.findNavController(getView()).navigate(R.id.action_paintdstation_to_machineLoadingpaintFragment, bundle);
 
                         break;
 

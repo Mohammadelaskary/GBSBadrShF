@@ -74,6 +74,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Station code"
+                    android:imeOptions="actionGo"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +104,7 @@
                 android:id="@+id/parentcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/parentcode_txt"
+                android:text=""
                 android:layout_marginStart="2dp"
                 style="@style/styleoftext"
                 app:layout_constraintStart_toEndOf="@id/parent_txt"
@@ -111,7 +115,7 @@
                 android:id="@+id/parentdesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/parentdes_txt"
+                android:text=""
                 android:layout_marginTop="10dp"
                 style="@style/styleoftext"
                 app:layout_constraintStart_toStartOf="@id/parentcode"
@@ -130,7 +134,7 @@
                 />
             <TextView
                 android:id="@+id/jobordername"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_marginStart="2dp"
@@ -182,7 +186,7 @@
                 app:layout_constraintStart_toStartOf="@id/loadingqtn_txt"
                 app:layout_constraintEnd_toEndOf="@id/loadingqtn_txt"
                 android:layout_marginTop="15dp"
-                android:text="255"
+                android:text=""
                 style="@style/styleoftext"
                 />
 
