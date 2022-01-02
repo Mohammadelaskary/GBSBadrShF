@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.di.module;
 import com.example.gbsbadrsf.ChangeBaseUrlFragment;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
+import com.example.gbsbadrsf.Paint.machineloadingpaint.MachineloadingpaintFragment;
 import com.example.gbsbadrsf.Paint.paintstation.Paintdstation;
 import com.example.gbsbadrsf.Paint.paintwip.PaintWip;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionDefectRepairFragment;
@@ -166,6 +167,9 @@ public abstract class ActivityBuilderModule {
     abstract PaintRandomQualityInceptionFragment contributePaintRandomQualityInceptionFragment ();
     @ContributesAndroidInjector
     abstract WeldingRandomQualityInceptionFragment contributeWeldingRandomQualityInceptionFragment ();
+    @ContributesAndroidInjector
+    abstract MachineloadingpaintFragment contributeMachineloadingpaintFragment ();
+
     @ContributesAndroidInjector
     abstract ChangeBaseUrlFragment contributeChangeBaseUrlFragment ();
 

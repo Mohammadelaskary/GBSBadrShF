@@ -658,7 +658,16 @@
         android:id="@+id/paintdstation"
         android:name="com.example.gbsbadrsf.Paint.paintstation.Paintdstation"
         android:label="fragment_paintdstation"
-        tools:layout="@layout/fragment_paintdstation" />
+        tools:layout="@layout/fragment_paintdstation">
+        <action
+            android:id="@+id/action_paintdstation_to_machineLoadingpaintFragment"
+            app:destination="@id/machineloadingpaintFragment"/>
+    </fragment>
+
+
+
+
+
     <fragment
         android:id="@+id/paintsignoffFragment"
         android:name="com.example.gbsbadrsf.Paint.PaintsignoffFragment"
@@ -790,6 +799,11 @@
         android:name="com.example.gbsbadrsf.Paint.paintwip.PaintWip"
         android:label="fragment_paint_wip"
         tools:layout="@layout/fragment_paint_wip" />
+    <fragment
+        android:id="@+id/machineloadingpaintFragment"
+        android:name="com.example.gbsbadrsf.Paint.machineloadingpaint.MachineloadingpaintFragment"
+        android:label="fragment_machineloadingpaint"
+        tools:layout="@layout/fragment_machineloadingpaint" />
 </navigation>
 
 

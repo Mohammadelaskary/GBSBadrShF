@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,13 +47,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
     ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentContinueLoadingBinding fragmentContinueLoadingBinding;
     private BarcodeReader barcodeReader;
-
     private ContinueLoadingViewModel continueLoadingViewModel;
-
-
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,26 +62,38 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
 
-        fragmentContinueLoadingBinding.newbasketcodeEdt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
-
-            }
-
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
-            }
-        });
+       fragmentContinueLoadingBinding.newbasketcodeEdt.setOnKeyListener(new View.OnKeyListener() {
+           @Override
+           public boolean onKey(View view, int i, KeyEvent keyEvent) {
+               if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                       && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+               {
+               continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
+                   return true;
+               }
+               return false;
+           }
+       }); //{
+////            @Override
+////            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+////
+////            }
+////
+////            @Override
+////            public void onTextChanged(CharSequence s, int start, int before, int count) {
+////
+////                continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
+////
+////            }
+////
+////
+////            @Override
+////            public void afterTextChanged(Editable s) {
+////
+////
+////            }
+//
+//        });
 
         getdata();
        // initViews();
@@ -211,12 +218,15 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 if (fragmentContinueLoadingBinding.machinecodeNewedttxt.isFocused()) {
 
                     fragmentContinueLoadingBinding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+
                 }
                 else if (fragmentContinueLoadingBinding.newdiecodeEdt.isFocused()){
                     fragmentContinueLoadingBinding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+
                 }
                 else if (fragmentContinueLoadingBinding.newbasketcodeEdt.isFocused()){
                     fragmentContinueLoadingBinding.newbasketcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
                 }
 
             }

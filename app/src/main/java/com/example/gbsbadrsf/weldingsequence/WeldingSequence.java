@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,25 +89,39 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 
 
         barcodeReader = MainActivity.getBarcodeObject();
-        fragmentWeldingSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
+        fragmentWeldingSequenceBinding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+            viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getText().toString());
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getText().toString());
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
+                    return true;
+                }
+                return false;
             }
         });
+
+//        fragmentWeldingSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getText().toString());
+//
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//
+//            }
+//        });
         setUpRecyclerView();
 
 

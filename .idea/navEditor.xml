@@ -620,6 +620,20 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="machineloadingpaintFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="20" />
+                            <option name="y" value="4160" />
+                            <option name="x" value="2298" />
+                            <option name="y" value="7887" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="machineloadingweFragment">
                     <value>
                       <LayoutPositions>
@@ -944,6 +958,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="paintWip">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="2054" />
+                            <option name="y" value="11092" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
