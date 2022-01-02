@@ -12,7 +12,7 @@ import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.ProductionRepairFragment;
 import com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.WeldingQuality.WeldingProductionRepairFragment;
-import com.example.gbsbadrsf.ProductionRejectionFragment;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.ProductionRejectionFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectDetailsFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment;

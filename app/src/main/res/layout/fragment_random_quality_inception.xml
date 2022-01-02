@@ -54,8 +54,6 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="0123456789"
-                    android:inputType="number"
                     android:textColor="@color/black"
                     android:imeOptions="actionGo"
                     android:maxLines="1"

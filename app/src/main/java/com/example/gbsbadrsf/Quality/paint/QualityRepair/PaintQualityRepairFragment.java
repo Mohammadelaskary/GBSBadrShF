@@ -6,9 +6,11 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -82,14 +84,26 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                basketCode = charSequence.toString();
-                getBasketData(basketCode);
-                getBasketDefectsPainting(basketCode);
+                binding.basketCode.setError(null);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
+            }
+        });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
+                    getBasketData(basketCode);
+                    getBasketDefectsPainting(basketCode);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -108,21 +122,27 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     private void getBasketDefectsPainting(String basketCode) {
         viewModel.getDefectsPaintingViewModel(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting -> {
-            ResponseStatus responseStatus = apiResponseDefectsPainting.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(SUCCESS)){
-                if (apiResponseDefectsPainting.getDefectsPainting()!=null){
-                    defectsPaintingList.clear();
-                    List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsPainting.getDefectsPainting();
-                    defectsPaintingList.addAll(defectsPaintingListLocal);
-                    adapter.setDefectsPaintingList(defectsPaintingList);
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
-                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectQtn.setText(defectedQty);
+            if (apiResponseDefectsPainting!=null) {
+                ResponseStatus responseStatus = apiResponseDefectsPainting.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(SUCCESS)) {
+                    if (apiResponseDefectsPainting.getDefectsPainting() != null) {
+                        defectsPaintingList.clear();
+                        List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsPainting.getDefectsPainting();
+                        defectsPaintingList.addAll(defectsPaintingListLocal);
+                        adapter.setDefectsPaintingList(defectsPaintingList);
+                        qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
+                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                        binding.defectQtn.setText(defectedQty);
+                    }
+                } else {
+                    binding.defectQtn.setText("");
+                    qtyDefectsQtyDefectedList.clear();
                 }
             } else {
                 binding.defectQtn.setText("");
                 qtyDefectsQtyDefectedList.clear();
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();
@@ -226,6 +246,8 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(scannedText);
+            getBasketDefectsPainting(scannedText);
         });
     }
 

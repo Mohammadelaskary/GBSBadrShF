@@ -72,6 +72,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         initViewModel();
         if (viewModel.getBasketData()!=null){
             basketData = viewModel.getBasketData();
+            binding.basketCode.getEditText().setText(basketData.getBasketCode());
             fillViews();
         }
         addTextWatcher();
@@ -97,7 +98,9 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.basketCode.setError(null);
+                basketData = null;
+                viewModel.setBasketData(null);
+                dischargeViews();
             }
 
             @Override
@@ -111,7 +114,8 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 if (event.getAction() == KeyEvent.ACTION_DOWN
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    getBasketData(binding.basketCode.getEditText().getText().toString().trim());
+                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
+                    getBasketData(basketCode);
                     return true;
                 }
                 return false;
@@ -123,6 +127,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     LastMoveManufacturingBasket basketData;
     private void getBasketData(String basketCode) {
         viewModel.getBasketDataViewModel(basketCode);
+        binding.basketCode.setError(null);
         viewModel.getBasketDataResponse().observe(getActivity(), apiResponseLastMoveManufacturingBasket -> {
             if (apiResponseLastMoveManufacturingBasket!=null) {
                 ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
@@ -212,7 +217,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     if (Integer.parseInt(sampleQty)<=0)
                         Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
                 }
-                if (!sampleQty.isEmpty() && validSampleQty && !childCode.isEmpty()) {
+                if (!sampleQty.isEmpty() && validSampleQty) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("basketData", basketData);
                     bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
@@ -220,7 +225,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     Navigation.findNavController(v).navigate(R.id.action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment, bundle);
                 }
             } else {
-                binding.basketCode.setError("Please enter a valid basket code!");
+                binding.basketCode.setError("Please enter a valid basket code and press enter!");
             }
         });
     }
@@ -262,7 +267,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        basketData.setBasketCode(basketCode);
-        viewModel.setBasketData(basketData);
+        if (basketData!=null)
+            viewModel.setBasketData(basketData);
     }
 }

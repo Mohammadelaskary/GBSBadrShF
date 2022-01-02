@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -42,6 +43,7 @@ import dagger.android.support.DaggerFragment;
 
 
 public class ManufacturingAddDefectsFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked , BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+    public static final String REMAINING_QTY = "remainingQty";
     FragmentManufacturingAddDefectsBinding binding;
 
 
@@ -102,18 +104,19 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
                 binding.basketCode.setError(null);
             }
         });
-        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN
-                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                {
-                    getDefectsManufacturingList(binding.basketCode.getEditText().getText().toString().trim());
-                    return true;
-                }
-                return false;
-            }
-        });
+//        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.ACTION_DOWN
+//                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+//                {
+//                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
+//                    getDefectsManufacturingList(basketCode);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     ProgressDialog progressDialog;
@@ -137,6 +140,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
 
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
+    int defectedQty;
     private void getDefectsManufacturingList(String basketCode) {
         viewModel.getDefectsManufacturingViewModel(basketCode);
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing ->  {
@@ -145,13 +149,22 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
                     defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
                     qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
                     adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectqtnEdt.setText(defectedQty);
+                    defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectqtnEdt.setText(String.valueOf(defectedQty));
                     adapter.notifyDataSetChanged();
-                }
+                } else
+                    showAlertDialog("Error in getting data!");
         });
     }
-
+    private void showAlertDialog(String statusMessage) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Error!")
+                .setMessage(statusMessage)
+                .setNeutralButton("Back", (dialog, which) -> {
+                    NavController navController = NavHostFragment.findNavController(this);
+                    navController.popBackStack();
+                }).create().show();
+    }
     public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsManufacturing> defectsManufacturingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1 ;
@@ -177,13 +190,15 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     }
 
 
-    private String calculateDefectedQty(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
+    private int calculateDefectedQty(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
         int sum = 0;
         for (QtyDefectsQtyDefected qtyDefectsQtyDefected : qtyDefectsQtyDefectedList){
             sum +=qtyDefectsQtyDefected.getDefectedQty();
         }
-        return String.valueOf(sum);
+        return sum;
     }
+
+
 
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsViewModel.class);
@@ -213,12 +228,18 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     private void initViews() {
         NavController navController = NavHostFragment.findNavController(this);
         binding.plusIcon.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("basketData",basketData);
-            bundle.putInt("sampleQty",sampleQty);
-            bundle.putBoolean("newSample",newSample);
-            Navigation.findNavController(v).navigate(R.id.action_manufacturing_add_defects_to_manufacturing_add_defects_details,bundle);
-        });
+            int remainingQty = sampleQty - defectedQty;
+            if (remainingQty>0) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("basketData", basketData);
+                bundle.putInt("sampleQty", sampleQty);
+                bundle.putBoolean("newSample", newSample);
+                bundle.putInt(REMAINING_QTY, remainingQty);
+                Navigation.findNavController(v).navigate(R.id.action_manufacturing_add_defects_to_manufacturing_add_defects_details, bundle);
+            } else {
+                Toast.makeText(getContext(), "There is no more childs in sample!", Toast.LENGTH_SHORT).show();
+            }
+            });
         binding.saveBtn.setOnClickListener(v -> {
             String newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
             if (newBasketCode.isEmpty())

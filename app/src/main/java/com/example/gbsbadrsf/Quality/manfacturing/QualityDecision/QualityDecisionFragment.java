@@ -124,9 +124,13 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     private void getCheckList() {
         viewModel.getCheckList(userId, operationId);
         viewModel.getApiResponseGetCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetCheckList -> {
-            String statusMessage = apiResponseGetCheckList.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Getting data successfully")){
-                checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
+            if (apiResponseGetCheckList!=null) {
+                String statusMessage = apiResponseGetCheckList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")) {
+                    checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -245,20 +249,25 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     private void getBasketData(String basketCode) {
         viewModel.getQualityOperationByBasketCode(userId,deviceSerialNumber,basketCode);
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {
-            String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Data sent successfully")){
-                defectsManufacturingList.clear();
-                List<DefectsManufacturing> defectsManufacturings = apiResponseDefectsManufacturing.getData();
-                defectsManufacturingList.addAll(defectsManufacturings);
-                qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturings);
-                adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                adapter.notifyDataSetChanged();
-                setBasketData(defectsManufacturings.get(0));
-                getCheckList();
-                getSavedCheckedItems();
-                fillViews();
+            if (apiResponseDefectsManufacturing!=null) {
+                String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Data sent successfully")) {
+                    defectsManufacturingList.clear();
+                    List<DefectsManufacturing> defectsManufacturings = apiResponseDefectsManufacturing.getData();
+                    defectsManufacturingList.addAll(defectsManufacturings);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturings);
+                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                    adapter.notifyDataSetChanged();
+                    setBasketData(defectsManufacturings.get(0));
+                    getCheckList();
+                    getSavedCheckedItems();
+                    fillViews();
+                } else {
+                    binding.basketCode.setError(statusMessage);
+                    dischargeViews();
+                }
             } else {
-                binding.basketCode.setError(statusMessage);
+                binding.basketCode.setError("Error in getting data!");
                 dischargeViews();
             }
         });
@@ -267,11 +276,15 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     private void getSavedCheckedItems() {
         viewModel.getSavedCheckList(userId,deviceSerialNumber,childId,jobOrderId,operationId);
         viewModel.getApiResponseGetSavedCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetSavedCheckList -> {
-            String statusMessage = apiResponseGetSavedCheckList.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Getting data successfully")) {
-                savedCheckList = apiResponseGetSavedCheckList.getGetSavedCheckList();
-                binding.checkListBtn.setEnabled(true);
-                binding.saveBtn.setEnabled(true);
+            if (apiResponseGetSavedCheckList!=null) {
+                String statusMessage = apiResponseGetSavedCheckList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")) {
+                    savedCheckList = apiResponseGetSavedCheckList.getGetSavedCheckList();
+                    binding.checkListBtn.setEnabled(true);
+                    binding.saveBtn.setEnabled(true);
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }

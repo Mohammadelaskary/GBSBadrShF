@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -113,21 +114,27 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     private void getBasketDefectsManufacturing(String basketCode) {
         viewModel.getDefectsManufacturingViewModel(basketCode);
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing -> {
-            ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(SUCCESS)){
-                if (apiResponseDefectsManufacturing.getData()!=null){
-                    defectsManufacturingList.clear();
-                    List<DefectsManufacturing> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();
-                    defectsManufacturingList.addAll(defectsManufacturingListLocal);
-                    adapter.setDefectsManufacturingList(defectsManufacturingList);
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
-                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectQtn.setText(defectedQty);
+            if (apiResponseDefectsManufacturing!=null) {
+                ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(SUCCESS)) {
+                    if (apiResponseDefectsManufacturing.getData() != null) {
+                        defectsManufacturingList.clear();
+                        List<DefectsManufacturing> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();
+                        defectsManufacturingList.addAll(defectsManufacturingListLocal);
+                        adapter.setDefectsManufacturingList(defectsManufacturingList);
+                        qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                        binding.defectQtn.setText(defectedQty);
+                    }
+                } else {
+                    binding.defectQtn.setText("");
+                    qtyDefectsQtyDefectedList.clear();
                 }
             } else {
                 binding.defectQtn.setText("");
                 qtyDefectsQtyDefectedList.clear();
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();

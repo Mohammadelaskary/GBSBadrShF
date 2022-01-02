@@ -90,7 +90,8 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                 if (event.getAction() == KeyEvent.ACTION_DOWN
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    getMachineDieInfo(binding.machineDieCode.getEditText().getText().toString().trim());
+                    machineDieCode = binding.machineDieCode.getEditText().getText().toString().trim();
+                    getMachineDieInfo(machineDieCode);
                     return true;
                 }
                 return false;
@@ -179,32 +180,46 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
     private void getMachineDieInfo(String machineDieCode) {
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);
         viewModel.getInfoForQualityRandomInspectionLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturing -> {
-            ResponseStatus responseStatus = apiResponseLastMoveManufacturing.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)){
-                lastMoveManufacturing = apiResponseLastMoveManufacturing.getLastMoveManufacturing();
-                childCode = lastMoveManufacturing.getChildCode();
-                jobOrderName = lastMoveManufacturing.getJobOrderName();
-                if (notes != lastMoveManufacturing.getQualityRandomInpectionNotes())
-                    notes = lastMoveManufacturing.getQualityRandomInpectionNotes().toString();
-                operationName = lastMoveManufacturing.getOperationEnName();
-                loadingQty = lastMoveManufacturing.getLoadingQty();
-                childId = lastMoveManufacturing.getChildId();
-                sampleQty =  lastMoveManufacturing.getQualityRandomInpectionSampleQty();
-                defectedQty = lastMoveManufacturing.getQualityRandomInpectionDefectedQty();
-                jobOrderQty = lastMoveManufacturing.getJobOrderQty();
-                Toast.makeText(getContext(), statusMessage,Toast.LENGTH_SHORT).show();
+            if (apiResponseLastMoveManufacturing!=null) {
+                ResponseStatus responseStatus = apiResponseLastMoveManufacturing.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                    lastMoveManufacturing = apiResponseLastMoveManufacturing.getLastMoveManufacturing();
+                    childCode = lastMoveManufacturing.getChildCode();
+                    jobOrderName = lastMoveManufacturing.getJobOrderName();
+                    if (notes != lastMoveManufacturing.getQualityRandomInpectionNotes())
+                        notes = lastMoveManufacturing.getQualityRandomInpectionNotes().toString();
+                    operationName = lastMoveManufacturing.getOperationEnName();
+                    loadingQty = lastMoveManufacturing.getLoadingQty();
+                    childId = lastMoveManufacturing.getChildId();
+                    sampleQty = lastMoveManufacturing.getQualityRandomInpectionSampleQty();
+                    defectedQty = lastMoveManufacturing.getQualityRandomInpectionDefectedQty();
+                    jobOrderQty = lastMoveManufacturing.getJobOrderQty();
+                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    childCode = "";
+                    jobOrderName = "";
+                    notes = "";
+                    operationName = "";
+                    loadingQty = 0;
+                    childId = 0;
+                    sampleQty = 0;
+                    defectedQty = 0;
+                    jobOrderQty = 0;
+                    binding.machineDieCode.setError(statusMessage);
+                }
             } else {
                 childCode = "";
-                jobOrderName  ="";
-                notes= "";
+                jobOrderName = "";
+                notes = "";
                 operationName = "";
                 loadingQty = 0;
                 childId = 0;
                 sampleQty = 0;
                 defectedQty = 0;
                 jobOrderQty = 0;
-                binding.machineDieCode.setError(statusMessage);
+                binding.machineDieCode.setError("Error in getting data!");
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             fillData();
         });

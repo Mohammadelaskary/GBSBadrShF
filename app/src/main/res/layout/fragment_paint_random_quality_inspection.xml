@@ -36,37 +36,30 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/machine_die_code"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Machine/Die code"
-                app:hintTextColor="@color/colorPrimary"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintEnd_toStartOf="@+id/machinecodebarcode_img"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"
+                android:hint="Machine/Die code"
                 app:errorEnabled="true"
-                app:errorTextColor="@android:color/holo_red_dark">
+                app:startIconDrawable="@drawable/ic_barcode_icon"
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:inputType="number"
-                    android:digits="0123456789"/>
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/machinecodebarcode_img"
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/barcodel"
-                app:layout_constraintBottom_toBottomOf="@+id/machine_die_code"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/machine_die_code" />
             <TextView
                 android:id="@+id/parent_code_txt"
                 android:layout_width="wrap_content"
@@ -189,64 +182,67 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/sample_qty"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/sample_qty"
-                app:hintTextColor="@color/colorPrimary"
                 android:layout_marginTop="15dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintEnd_toEndOf="@+id/machinecodebarcode_img"
-                app:layout_constraintStart_toStartOf="@id/machine_die_code"
-                app:layout_constraintTop_toBottomOf="@id/operation_txt"
+                android:hint="@string/sample_qty"
                 app:errorEnabled="true"
-                app:errorTextColor="@android:color/holo_red_dark">
+                app:errorTextColor="@android:color/holo_red_dark"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@id/machine_die_code"
+                app:layout_constraintStart_toStartOf="@id/machine_die_code"
+                app:layout_constraintTop_toBottomOf="@id/operation_txt">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:digits="0123456789"
                     android:inputType="number"
-                    android:digits="0123456789"/>
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/defected_qty"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/defected_qty"
-                app:hintTextColor="@color/colorPrimary"
                 android:layout_marginTop="15dp"
+                android:hint="@string/defected_qty"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintEnd_toEndOf="@+id/machinecodebarcode_img"
+                app:hintTextColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@id/machine_die_code"
                 app:layout_constraintStart_toStartOf="@id/machine_die_code"
                 app:layout_constraintTop_toBottomOf="@+id/sample_qty">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:digits="0123456789"
                     android:inputType="number"
-                    android:digits="0123456789"/>
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/notes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:hint="Notes"
                 app:hintTextColor="@color/colorPrimary"
-                android:layout_marginTop="15dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:layout_constraintEnd_toEndOf="@+id/machinecodebarcode_img"
+                app:layout_constraintEnd_toEndOf="@id/machine_die_code"
                 app:layout_constraintStart_toStartOf="@id/machine_die_code"
                 app:layout_constraintTop_toBottomOf="@+id/defected_qty">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:inputType="textMultiLine"
                     android:lines="3"
-                    android:gravity="start"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

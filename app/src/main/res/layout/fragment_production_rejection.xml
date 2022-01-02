@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:theme="@style/MainTheme"
     android:background="@drawable/background"
-    tools:context=".ProductionRejectionFragment">
+    tools:context=".Quality.manfacturing.RejectionRequest.ProductionRejectionFragment">
 
     <TextView
         android:id="@+id/productionscrap_txt"
@@ -56,6 +56,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:imeOptions="actionGo"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:textColorHint="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 

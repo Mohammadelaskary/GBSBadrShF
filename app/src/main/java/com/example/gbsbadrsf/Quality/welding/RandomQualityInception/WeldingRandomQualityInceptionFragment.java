@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getMachineDieInfo(charSequence.toString());
+                binding.machineDieCode.setError(null);
             }
 
             @Override
@@ -113,6 +114,19 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
             @Override
             public void afterTextChanged(Editable s) {
                 binding.defectedQty.setError(null);
+            }
+        });
+        binding.machineDieCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    machineDieCode = binding.machineDieCode.getEditText().getText().toString().trim();
+                    getMachineDieInfo(machineDieCode);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -165,43 +179,57 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
     private void getMachineDieInfo(String machineDieCode) {
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);
         viewModel.getInfoForQualityRandomInspectionLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWelding -> {
-            ResponseStatus responseStatus = apiResponseLastMoveWelding.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)){
-                lastMoveWelding = apiResponseLastMoveWelding.getLastMoveWelding();
-                childCode = lastMoveWelding.getParentCode().toString();
-                jobOrderName = lastMoveWelding.getJobOrderName().toString();
-                if (notes != lastMoveWelding.getQualityRandomInpectionNotes())
-                    notes = lastMoveWelding.getQualityRandomInpectionNotes().toString();
-                operationName = lastMoveWelding.getOperationEnName().toString();
-                loadingQty = lastMoveWelding.getLoadingQty();
-                parentId = lastMoveWelding.getParentId();
-                sampleQty =  lastMoveWelding.getQualityRandomInpectionSampleQty();
-                defectedQty = lastMoveWelding.getQualityRandomInpectionDefectedQt();
-                jobOrderQty = lastMoveWelding.getJobOrderQty();
-                Toast.makeText(getContext(), statusMessage,Toast.LENGTH_SHORT).show();
+            if (apiResponseLastMoveWelding!=null) {
+                ResponseStatus responseStatus = apiResponseLastMoveWelding.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                    lastMoveWelding = apiResponseLastMoveWelding.getLastMoveWelding();
+                    parentCode = lastMoveWelding.getParentCode().toString();
+                    jobOrderName = lastMoveWelding.getJobOrderName().toString();
+                    if (notes != lastMoveWelding.getQualityRandomInpectionNotes())
+                        notes = lastMoveWelding.getQualityRandomInpectionNotes().toString();
+                    operationName = lastMoveWelding.getOperationEnName().toString();
+                    loadingQty = lastMoveWelding.getLoadingQty();
+                    parentId = lastMoveWelding.getParentId();
+                    sampleQty = lastMoveWelding.getQualityRandomInpectionSampleQty();
+                    defectedQty = lastMoveWelding.getQualityRandomInpectionDefectedQt();
+                    jobOrderQty = lastMoveWelding.getJobOrderQty();
+                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    parentCode = "";
+                    jobOrderName = "";
+                    notes = "";
+                    operationName = "";
+                    loadingQty = 0;
+                    parentId = 0;
+                    sampleQty = 0;
+                    defectedQty = 0;
+                    jobOrderQty = 0;
+                    binding.machineDieCode.setError(statusMessage);
+                }
             } else {
-                childCode = "";
-                jobOrderName  ="";
-                notes= "";
+                parentCode = "";
+                jobOrderName = "";
+                notes = "";
                 operationName = "";
                 loadingQty = 0;
                 parentId = 0;
                 sampleQty = 0;
                 defectedQty = 0;
                 jobOrderQty = 0;
-                binding.machineDieCode.setError(statusMessage);
+                binding.machineDieCode.setError("Error in getting data!");
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             fillData();
         });
     }
     LastMovePainting lastMoveWelding;
-    String childCode,jobOrderName,notes,operationName;
+    String parentCode,jobOrderName,notes,operationName;
     int loadingQty, parentId,sampleQty,defectedQty,jobOrderQty;
     private void fillData() {
 
         binding.parentId.setText(String.valueOf(parentId));
-        binding.parentDesc.setText(childCode);
+        binding.parentDesc.setText(parentCode);
         binding.jobOrderName.setText(jobOrderName);
         binding.jobOrderQty.setText(String.valueOf(jobOrderQty));
         binding.loadingQty.setText(String.valueOf(loadingQty));
@@ -266,6 +294,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.machineDieCode.getEditText().setText(scannedText);
+            getMachineDieInfo(scannedText);
         });
     }
 

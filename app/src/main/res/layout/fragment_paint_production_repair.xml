@@ -47,11 +47,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
+                    android:layout_marginTop="15dp"
                     app:errorEnabled="true"
                     app:errorTextColor="@android:color/holo_red_dark"
-                    app:layout_constraintEnd_toStartOf="@+id/basket_barcode_img"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -59,18 +59,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/basket_code"
+                        android:imeOptions="actionGo"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textColor="@color/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:id="@+id/basket_barcode_img"
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/barcodel"
-                    app:layout_constraintBottom_toBottomOf="@+id/basket_code"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/basket_code" />
                 <TextView
                     android:id="@+id/parent_txt"
                     android:layout_width="wrap_content"

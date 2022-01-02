@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,9 +124,13 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
     private void getCheckList() {
         viewModel.getCheckList(userId, operationId);
         viewModel.getApiResponseGetCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetCheckList -> {
-            String statusMessage = apiResponseGetCheckList.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Getting data successfully")){
-                checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
+            if (apiResponseGetCheckList!=null) {
+                String statusMessage = apiResponseGetCheckList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")) {
+                    checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -139,7 +144,7 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
         });
     }
 
-
+    String basketCode;
     private void addBasketCodeEditTextWatcher() {
         binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -149,14 +154,27 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getBasketData(charSequence.toString().trim());
+                binding.basketCode.setError(null);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
             }
+        });binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
+                    getBasketData(basketCode);
+                    return true;
+                }
+                return false;
+            }
         });
+
     }
 
     private void observeSavingOperationSignOffStatus() {
@@ -232,20 +250,25 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
     private void getBasketData(String basketCode) {
         viewModel.getQualityOperationByBasketCode(userId,deviceSerialNumber,basketCode);
         viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing -> {
-            String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Data sent successfully")){
-                defectsPaintingList.clear();
-                List<DefectsPainting> defectsPaintings = apiResponseDefectsManufacturing.getDefectsPainting();
-                defectsPaintingList.addAll(defectsPaintings);
-                qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintings);
-                adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                adapter.notifyDataSetChanged();
-                setBasketData(defectsPaintings.get(0));
-                getCheckList();
-                getSavedCheckedItems();
-                fillViews();
+            if (apiResponseDefectsManufacturing!= null) {
+                String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Data sent successfully")) {
+                    defectsPaintingList.clear();
+                    List<DefectsPainting> defectsPaintings = apiResponseDefectsManufacturing.getDefectsPainting();
+                    defectsPaintingList.addAll(defectsPaintings);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintings);
+                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                    adapter.notifyDataSetChanged();
+                    setBasketData(defectsPaintings.get(0));
+                    getCheckList();
+                    getSavedCheckedItems();
+                    fillViews();
+                } else {
+                    binding.basketCode.setError(statusMessage);
+                    dischargeViews();
+                }
             } else {
-                binding.basketCode.setError(statusMessage);
+                binding.basketCode.setError("Error in getting data!");
                 dischargeViews();
             }
         });
@@ -254,11 +277,15 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
     private void getSavedCheckedItems() {
         viewModel.getSavedCheckList(userId,deviceSerialNumber, parentId,jobOrderId,operationId);
         viewModel.getApiResponseGetSavedCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetSavedCheckList -> {
-            String statusMessage = apiResponseGetSavedCheckList.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Getting data successfully")) {
-                savedCheckList = apiResponseGetSavedCheckList.getGetSavedCheckList();
-                binding.checkListBtn.setEnabled(true);
-                binding.saveBtn.setEnabled(true);
+            if (apiResponseGetSavedCheckList!=null) {
+                String statusMessage = apiResponseGetSavedCheckList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")) {
+                    savedCheckList = apiResponseGetSavedCheckList.getGetSavedCheckList();
+                    binding.checkListBtn.setEnabled(true);
+                    binding.saveBtn.setEnabled(true);
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -427,6 +454,7 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
             String scannedText = setUpBarCodeReader.scannedData(barcodeReadEvent);
             Log.d("===scannedText",scannedText);
             binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(basketCode);
         });
     }
 
@@ -456,10 +484,14 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
     public void onCheckedItemChecked(int checkListElementId) {
         viewModel.saveCheckList(userId,deviceSerialNumber,lastMoveId, parentId, parentCode,jobOrderId,jobOrderName,pprLoadingId,operationId,checkListElementId);
         viewModel.getApiResponseSaveCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseSaveCheckList -> {
-            String statusMessage = apiResponseSaveCheckList.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Saved successfully")){
-                SaveCheckListResponse saveCheckListResponse = apiResponseSaveCheckList.getSaveCheckListResponse();
-                savedCheckList.add(saveCheckListResponse);
+            if (apiResponseSaveCheckList!=null) {
+                String statusMessage = apiResponseSaveCheckList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Saved successfully")) {
+                    SaveCheckListResponse saveCheckListResponse = apiResponseSaveCheckList.getSaveCheckListResponse();
+                    savedCheckList.add(saveCheckListResponse);
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting checklist!", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
+import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -131,6 +133,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
         binding.jobOrderName.setText(jobOrderName);
     }
     boolean newSample = false;
+    int remainingQty;
     private void getReceivedData() {
         if (getArguments()!=null) {
             basketData = getArguments().getParcelable("basketData");
@@ -142,6 +145,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
             jobOrderName     = basketData.getJobOrderName();
             sampleQty        = getArguments().getInt("sampleQty");
             newSample        = getArguments().getBoolean("newSample");
+            remainingQty     = getArguments().getInt(REMAINING_QTY);
         }
     }
 
@@ -166,10 +170,10 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
                 if (defectedQtyString.isEmpty())
                     Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
                 else {
-                    validDefectedQty = Integer.parseInt(defectedQtyString)<=sampleQty;
+                    validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    Toast.makeText(getContext(), "Defected Quantity must be less than or equal sample quantity!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Total defected Quantity must be less than or equal sample quantity!", Toast.LENGTH_SHORT).show();
                 if (defectsIds.isEmpty()){
                     Toast.makeText(getContext(), "Please Select the found defects!", Toast.LENGTH_SHORT).show();
                 }

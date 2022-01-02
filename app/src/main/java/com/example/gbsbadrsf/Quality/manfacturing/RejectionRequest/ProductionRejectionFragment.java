@@ -1,10 +1,11 @@
-package com.example.gbsbadrsf;
+package com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
+import com.example.gbsbadrsf.R;
+import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
@@ -117,7 +120,9 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                getBasketData(s.toString());
+                basketData = null;
+                fillViewsData();
+                binding.oldBasketCode.setError(null);
             }
 
             @Override
@@ -141,6 +146,19 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
                 binding.newBasketCode.setError(null);
             }
         });
+        binding.oldBasketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    oldBasketCode = binding.oldBasketCode.getEditText().getText().toString().trim();
+                    getBasketData(oldBasketCode);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void attachButtonsToListener() {
@@ -149,36 +167,47 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String childCode="",childDesc,jobOrderName,deviceSerial="dev1";
+    String childCode="",childDesc,jobOrderName,deviceSerial="dev1",oldBasketCode;
     int basketQty;
     LastMoveManufacturingBasketInfo basketData;
 
     private void getBasketData(String oldBasketCode) {
+        binding.oldBasketCode.setError(null);
         viewModel.getBasketDataViewModel(userId,deviceSerial,oldBasketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
-            basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasketInfo();
-            String statusMessage = apiResponseLastMoveManufacturingBasket.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
-            childCode = basketData.getChildCode();
-            childDesc = basketData.getChildDescription();
-            jobOrderName = basketData.getJobOrderName();
-            basketQty    = basketData.getQty();
-            fillViewsData();
-            } else {
-                binding.oldBasketCode.setError(statusMessage);
-                childCode = "";
-                childDesc = "";
-                jobOrderName = "";
-                binding.basketqtn.setText("");
+            if (apiResponseLastMoveManufacturingBasket!=null) {
+                String statusMessage = apiResponseLastMoveManufacturingBasket.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)) {
+                    basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasketInfo();
+                    binding.oldBasketCode.setError(null);
+                } else {
+                   basketData = null;
+                   binding.oldBasketCode.setError(statusMessage);
+                }
+                fillViewsData();
             }
         });
     }
 
     private void fillViewsData() {
-        binding.childcode.setText(childCode);
-        binding.childdesc.setText(childDesc);
-        binding.jobordername.setText(jobOrderName);
-        binding.basketqtn.setText(String.valueOf(basketQty));
+        if (basketData!=null) {
+            childCode = basketData.getChildCode();
+            childDesc = basketData.getChildDescription();
+            jobOrderName = basketData.getJobOrderName();
+            basketQty = basketData.getQty();
+            binding.childcode.setText(childCode);
+            binding.childdesc.setText(childDesc);
+            binding.jobordername.setText(jobOrderName);
+            if (basketQty != 0)
+                binding.basketqtn.setText(String.valueOf(basketQty));
+            else
+                binding.basketqtn.setText("");
+        } else {
+            binding.childcode.setText("");
+            binding.childdesc.setText("");
+            binding.jobordername.setText("");
+            binding.basketqtn.setText("");
+        }
     }
 
     private void observeGettingDepartments() {
@@ -210,15 +239,18 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
     private void getDepartmentsList() {
         viewModel.getDepartmentsList(userId);
         viewModel.getApiResponseDepartmentsListLiveData().observe(getViewLifecycleOwner(),apiResponseDepartmentsList -> {
-            ResponseStatus responseStatus = apiResponseDepartmentsList.getResponseStatus();
-            List<Department> departmentList = apiResponseDepartmentsList.getDepartments();
-            if (responseStatus.getStatusMessage().equals(GETTING_DATA_SUCCESSFULLY)){
-                departments.clear();
-                departments.addAll(departmentList);
-                spinnerAdapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(getContext(), "Failed to get Departments", Toast.LENGTH_SHORT).show();
-            }
+            if (apiResponseDepartmentsList!=null) {
+                ResponseStatus responseStatus = apiResponseDepartmentsList.getResponseStatus();
+                List<Department> departmentList = apiResponseDepartmentsList.getDepartments();
+                if (responseStatus.getStatusMessage().equals(GETTING_DATA_SUCCESSFULLY)) {
+                    departments.clear();
+                    departments.addAll(departmentList);
+                    spinnerAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), responseStatus.getStatusMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } else
+                Toast.makeText(getContext(), "Error in getting departments!", Toast.LENGTH_SHORT).show();
         });
     }
 

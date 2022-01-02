@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
         initViewModel();
         if (viewModel.getBasketData()!=null){
             basketData = viewModel.getBasketData();
+            binding.basketCode.getEditText().setText(basketData.getBasketCode());
             fillViews();
         }
         addTextWatcher();
@@ -86,13 +88,24 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                basketCode = charSequence.toString();
-                getBasketData(basketCode);
+                binding.basketCode.setError(null);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
+            }
+        });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    getBasketData(binding.basketCode.getEditText().getText().toString().trim());
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -146,6 +159,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
         binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
         binding.jobOrderName.setText(jobOrderName);
+        binding.basketCode.setError(null);
     }
 
 
@@ -179,10 +193,10 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
                     validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
                     if (!validSampleQty)
                         Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
-                    if (Integer.parseInt(sampleQty)>0)
+                    if (Integer.parseInt(sampleQty)<=0)
                         Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
                 }
-                if (!sampleQty.isEmpty() && validSampleQty && !parentCode.isEmpty()) {
+                if (!sampleQty.isEmpty() && validSampleQty) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("basketData", basketData);
                     bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
@@ -201,6 +215,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
         getActivity().runOnUiThread(() -> {
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(scannedText);
         });
 
     }
@@ -232,8 +247,8 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        basketData.setBasketCode(basketCode);
-        viewModel.setBasketData(basketData);
+        if (basketData!=null)
+            viewModel.setBasketData(basketData);
     }
 
 

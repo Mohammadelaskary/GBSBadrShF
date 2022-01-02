@@ -235,7 +235,7 @@
     </fragment>
     <fragment
         android:id="@+id/productionscrapFragment"
-        android:name="com.example.gbsbadrsf.ProductionRejectionFragment"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.ProductionRejectionFragment"
         android:label="fragment_productionscrap"
         tools:layout="@layout/fragment_production_rejection" />
 

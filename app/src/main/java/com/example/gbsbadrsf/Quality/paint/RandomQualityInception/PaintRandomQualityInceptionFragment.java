@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                getMachineDieInfo(charSequence.toString());
+                binding.machineDieCode.setError(null);
             }
 
             @Override
@@ -113,6 +114,19 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
             @Override
             public void afterTextChanged(Editable s) {
                 binding.defectedQty.setError(null);
+            }
+        });
+        binding.machineDieCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    machineDieCode = binding.machineDieCode.getEditText().getText().toString().trim();
+                    getMachineDieInfo(machineDieCode);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -163,34 +177,49 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
     int userId = 1 ;
     String deviceSerialNumber = "S12";
     private void getMachineDieInfo(String machineDieCode) {
+        binding.machineDieCode.setError(null);
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);
-        viewModel.getInfoForQualityRandomInspectionLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWelding -> {
-            ResponseStatus responseStatus = apiResponseLastMoveWelding.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)){
-                lastMovePainting = apiResponseLastMoveWelding.getLastMoveWelding();
-                parentCode = lastMovePainting.getParentCode().toString();
-                jobOrderName = lastMovePainting.getJobOrderName().toString();
-                if (notes != lastMovePainting.getQualityRandomInpectionNotes())
-                    notes = lastMovePainting.getQualityRandomInpectionNotes().toString();
-                operationName = lastMovePainting.getOperationEnName().toString();
-                loadingQty = lastMovePainting.getLoadingQty();
-                parentId = lastMovePainting.getParentId();
-                sampleQty =  lastMovePainting.getQualityRandomInpectionSampleQty();
-                defectedQty = lastMovePainting.getQualityRandomInpectionDefectedQt();
-                jobOrderQty = lastMovePainting.getJobOrderQty();
-                Toast.makeText(getContext(), statusMessage,Toast.LENGTH_SHORT).show();
+        viewModel.getInfoForQualityRandomInspectionLiveData().observe(getViewLifecycleOwner(),apiResponseLastMovePainting -> {
+            if (apiResponseLastMovePainting!=null) {
+                ResponseStatus responseStatus = apiResponseLastMovePainting.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                    lastMovePainting = apiResponseLastMovePainting.getLastMoveWelding();
+                    parentCode = lastMovePainting.getParentCode().toString();
+                    jobOrderName = lastMovePainting.getJobOrderName().toString();
+                    if (notes != lastMovePainting.getQualityRandomInpectionNotes())
+                        notes = lastMovePainting.getQualityRandomInpectionNotes().toString();
+                    operationName = lastMovePainting.getOperationEnName().toString();
+                    loadingQty = lastMovePainting.getLoadingQty();
+                    parentId = lastMovePainting.getParentId();
+                    sampleQty = lastMovePainting.getQualityRandomInpectionSampleQty();
+                    defectedQty = lastMovePainting.getQualityRandomInpectionDefectedQt();
+                    jobOrderQty = lastMovePainting.getJobOrderQty();
+                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    parentCode = "";
+                    jobOrderName = "";
+                    notes = "";
+                    operationName = "";
+                    loadingQty = 0;
+                    parentId = 0;
+                    sampleQty = 0;
+                    defectedQty = 0;
+                    jobOrderQty = 0;
+                    binding.machineDieCode.setError(statusMessage);
+                }
             } else {
                 parentCode = "";
-                jobOrderName  ="";
-                notes= "";
+                jobOrderName = "";
+                notes = "";
                 operationName = "";
                 loadingQty = 0;
                 parentId = 0;
                 sampleQty = 0;
                 defectedQty = 0;
                 jobOrderQty = 0;
-                binding.machineDieCode.setError(statusMessage);
+                binding.machineDieCode.setError("Error in getting data!");
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             fillData();
         });
@@ -266,6 +295,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.machineDieCode.getEditText().setText(scannedText);
+            getMachineDieInfo(scannedText);
         });
     }
 

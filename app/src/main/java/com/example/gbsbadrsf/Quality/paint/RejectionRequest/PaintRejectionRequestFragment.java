@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,8 +119,9 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                oldBasketCode = s.toString();
-                getBasketData(oldBasketCode);
+                basketData = null;
+                fillViewsData();
+                binding.oldBasketCode.setError(null);
             }
 
             @Override
@@ -143,6 +145,19 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                 binding.newBasketCode.setError(null);
             }
         });
+        binding.oldBasketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    oldBasketCode = binding.oldBasketCode.getEditText().getText().toString().trim();
+                    getBasketData(oldBasketCode);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void attachButtonsToListener() {
@@ -156,31 +171,40 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     LastMovePaintingBasket basketData;
 
     private void getBasketData(String oldBasketCode) {
+        binding.oldBasketCode.setError(null);
         viewModel.getBasketDataViewModel(userId,deviceSerial,oldBasketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWeldingBasket -> {
-            basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
             String statusMessage = apiResponseLastMoveWeldingBasket.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
-                parentCode = basketData.getParentCode();
-                parentDesc = basketData.getParentDescription();
-                jobOrderName = basketData.getJobOrderName();
-                basketQty    = basketData.getSignOffQty();
-                fillViewsData();
+                basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
+                binding.oldBasketCode.setError(null);
             } else {
                 binding.oldBasketCode.setError(statusMessage);
-                parentCode = "";
-                parentDesc = "";
-                jobOrderName = "";
-                binding.basketqtn.setText("");
+                basketData = null;
             }
+            fillViewsData();
         });
     }
 
     private void fillViewsData() {
-        binding.parentCode.setText(parentCode);
-        binding.parentDesc.setText(parentDesc);
-        binding.jobordername.setText(jobOrderName);
-        binding.basketqtn.setText(String.valueOf(basketQty));
+        if (basketData!=null) {
+            parentCode = basketData.getParentCode();
+            parentDesc = basketData.getParentDescription();
+            jobOrderName = basketData.getJobOrderName();
+            basketQty = basketData.getSignOffQty();
+            binding.parentCode.setText(parentCode);
+            binding.parentDesc.setText(parentDesc);
+            binding.jobordername.setText(jobOrderName);
+            if (basketQty != 0)
+                binding.basketqtn.setText(String.valueOf(basketQty));
+            else
+                binding.basketqtn.setText("");
+        } else {
+            binding.parentCode.setText("");
+            binding.parentDesc.setText("");
+            binding.jobordername.setText("");
+            binding.basketqtn.setText("");
+        }
     }
 
     private void observeGettingDepartments() {
@@ -212,15 +236,18 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     private void getDepartmentsList() {
         viewModel.getDepartmentsList(userId);
         viewModel.getApiResponseDepartmentsListLiveData().observe(getViewLifecycleOwner(),apiResponseDepartmentsList -> {
-            ResponseStatus responseStatus = apiResponseDepartmentsList.getResponseStatus();
-            List<Department> departmentList = apiResponseDepartmentsList.getDepartments();
-            if (responseStatus.getStatusMessage().equals("Getting data successfully")){
-                departments.clear();
-                departments.addAll(departmentList);
-                spinnerAdapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(getContext(), "Failed to get Departments", Toast.LENGTH_SHORT).show();
-            }
+            if (apiResponseDepartmentsList!=null) {
+                ResponseStatus responseStatus = apiResponseDepartmentsList.getResponseStatus();
+                List<Department> departmentList = apiResponseDepartmentsList.getDepartments();
+                if (responseStatus.getStatusMessage().equals("Getting data successfully")) {
+                    departments.clear();
+                    departments.addAll(departmentList);
+                    spinnerAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Failed to get Departments", Toast.LENGTH_SHORT).show();
+                }
+            } else
+                Toast.makeText(getContext(), "Error in getting departments!", Toast.LENGTH_SHORT).show();
         });
     }
 

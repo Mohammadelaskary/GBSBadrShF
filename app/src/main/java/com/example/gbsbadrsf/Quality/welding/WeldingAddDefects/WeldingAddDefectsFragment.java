@@ -44,6 +44,7 @@ import dagger.android.support.DaggerFragment;
 
 
 public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+    public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMoveWeldingBasket basketData;
     int jobOrderId,parentId=3,sampleQty,userId = 1;
@@ -124,20 +125,21 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
 
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
+    int defectedQty;
     private void getDefectsManufacturingList(int userId,String deviceSerialNo,String basketCode) {
         viewModel.getWeldingDefects(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding ->  {
-                String statusMessage = apiResponseDefectsWelding.getResponseStatus().getStatusMessage();
             if (apiResponseDefectsWelding.getDefectsWelding()!=null) {
+                    String statusMessage = apiResponseDefectsWelding.getResponseStatus().getStatusMessage();
                     defectsWeldingList.clear();
                     defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
                     qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
                     adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectqtnEdt.setText(defectedQty);
+                    defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectqtnEdt.setText(String.valueOf(defectedQty));
                     adapter.notifyDataSetChanged();
                 } else {
-                    showAlertDialog(statusMessage);
+                    showAlertDialog("Error in getting data!");
                 }
         });
     }
@@ -177,12 +179,12 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     }
 
 
-    private String calculateDefectedQty(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
+    private int calculateDefectedQty(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
         int sum = 0;
         for (QtyDefectsQtyDefected qtyDefectsQtyDefected : qtyDefectsQtyDefectedList){
             sum +=qtyDefectsQtyDefected.getDefectedQty();
         }
-        return String.valueOf(sum);
+        return sum;
     }
 
     private void initViewModel() {
@@ -213,11 +215,15 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     private void initViews() {
         NavController navController = NavHostFragment.findNavController(this);
         binding.plusIcon.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("basketData",basketData);
-            bundle.putInt("sampleQty",sampleQty);
-            bundle.putBoolean("newSample",newSample);
-            Navigation.findNavController(v).navigate(R.id.action_fragment_welding_add_defects_to_fragment_welding_add_defect_details,bundle);
+            int remainingQty = sampleQty - defectedQty;
+            if (remainingQty>0) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("basketData", basketData);
+                bundle.putInt(REMAINING_QTY, remainingQty);
+                bundle.putInt("sampleQty", sampleQty);
+                bundle.putBoolean("newSample", newSample);
+                Navigation.findNavController(v).navigate(R.id.action_fragment_welding_add_defects_to_fragment_welding_add_defect_details, bundle);
+            }
         });
         binding.saveBtn.setOnClickListener(v -> {
             String newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
