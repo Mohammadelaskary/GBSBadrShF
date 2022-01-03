@@ -214,6 +214,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
+                    binding.basketCode.setError(null);
                 } else {
                     parentDesc = "";
                     parentCode = "";

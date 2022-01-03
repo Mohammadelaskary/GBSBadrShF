@@ -101,10 +101,14 @@ public class PaintRejectionRequestDetailsFragment extends DaggerFragment impleme
     private void observeRejectionRequestTakeAction() {
         NavController navController = NavHostFragment.findNavController(this);
         viewModel.rejectionRequestTakeActionLiveData.observe(getViewLifecycleOwner(),apiResponseRejectionRequestTakeAction -> {
-            String statusMessage = apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Saved successfully")){
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-                navController.popBackStack();
+            if (apiResponseRejectionRequestTakeAction!=null) {
+                String statusMessage = apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Saved successfully")) {
+                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                    navController.popBackStack();
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }

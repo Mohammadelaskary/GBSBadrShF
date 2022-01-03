@@ -123,6 +123,7 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
                 String responseMessage = responseStatus.getStatusMessage();
                 if (responseMessage.equals(EXISTING_BASKET_CODE)) {
                     basketData = apiResponseGetBasketInfoForQuality_welding.getLastMoveWeldingBasket();
+                    binding.basketCode.setError(null);
                     fillViews();
                 } else {
                     binding.basketCode.setError(responseMessage);

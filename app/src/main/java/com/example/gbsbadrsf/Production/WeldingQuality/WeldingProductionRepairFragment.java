@@ -217,6 +217,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
+                    binding.basketCode.setError(null);
                 } else {
                     parentDesc = "";
                     parentCode = "";

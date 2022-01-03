@@ -294,12 +294,16 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         binding.newBasketCode.setError(null);
         viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
-            String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Saved successfully")) {
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-                navController.popBackStack();
+            if (apiResponseSaveRejectionRequest!=null) {
+                String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Saved successfully")) {
+                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                    navController.popBackStack();
+                } else {
+                    binding.newBasketCode.setError(statusMessage);
+                }
             } else {
-                binding.newBasketCode.setError(statusMessage);
+                Toast.makeText(getContext(), "Error in saving data!", Toast.LENGTH_SHORT).show();
             }
         });
     }

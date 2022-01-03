@@ -199,19 +199,27 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     private void getBasketData(String basketCode) {
         viewModel.getBasketDataViewModel(basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveManufacturingBasket -> {
-            basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
-            adapter.setBasketData(basketData);
-            ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(EXISTING_BASKET_CODE)){
-                childDesc = basketData.getChildDescription();
-                childCode = basketData.getChildCode();
-                operationName = basketData.getOperationEnName();
+            if (apiResponseLastMoveManufacturingBasket!=null) {
+                basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
+                adapter.setBasketData(basketData);
+                ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    childDesc = basketData.getChildDescription();
+                    childCode = basketData.getChildCode();
+                    operationName = basketData.getOperationEnName();
+                    binding.basketCode.setError(null);
+                } else {
+                    childDesc = "";
+                    childCode = "";
+                    operationName = "";
+                    binding.basketCode.setError(statusMessage);
+                }
             } else {
                 childDesc = "";
                 childCode = "";
                 operationName = "";
-                binding.basketCode.setError(statusMessage);
+                binding.basketCode.setError("Error in getting data!");
             }
             fillData(childDesc,childCode,operationName);
         });
@@ -237,6 +245,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
+            binding.basketCode.getEditText().setText(scannedText);
             getBasketData(scannedText);
             getBasketDefectsManufacturing(scannedText);
         });

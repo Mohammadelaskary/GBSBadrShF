@@ -233,12 +233,16 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
             else {
                 viewModel.addPaintingDefectsToNewBasketViewModel(userId,deviceSerialNo,jobOrderId, parentId, basketCode, newBasketCode);
                 viewModel.getAddPaintingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
-                    String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
-                    if (responseMessage.equals("Added successfully")) {
-                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
-                        navController.popBackStack();
+                    if (apiResponseAddManufacturingDefectedChildToBasket!=null) {
+                        String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
+                        if (responseMessage.equals("Added successfully")) {
+                            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+                            navController.popBackStack();
+                        } else {
+                            binding.basketCode.setError(responseMessage);
+                        }
                     } else {
-                        binding.basketCode.setError(responseMessage);
+                        Toast.makeText(getContext(), "Error in saving data!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

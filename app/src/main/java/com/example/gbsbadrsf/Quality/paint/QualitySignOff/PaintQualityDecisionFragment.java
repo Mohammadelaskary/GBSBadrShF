@@ -161,7 +161,8 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
             public void afterTextChanged(Editable editable) {
                 binding.basketCode.setError(null);
             }
-        });binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+        });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN
@@ -189,23 +190,29 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
     private void observeSavingOperationSignOff() {
         NavController navController = NavHostFragment.findNavController(PaintQualityDecisionFragment.this);
         viewModel.getSaveQualityOperationSignOffLiveData().observe(getViewLifecycleOwner(),apiResponseSavingOperationSignOffDecision -> {
-            String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
-            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-            if (statusMessage.equals("Done successfully"))
-                navController.popBackStack();
-            else
+            if (apiResponseSavingOperationSignOffDecision!=null) {
+                String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
                 Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                if (statusMessage.equals("Done successfully"))
+                    navController.popBackStack();
+                else
+                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Error in saving data!", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     private void getFinalQualityDecisionsList(int userId) {
         viewModel.getFinalQualityDecision(userId);
         viewModel.getApiResponseGettingFinalQualityDecisionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseGettingFinalQualityDecision -> {
-            String statusMessage = apiResponseGettingFinalQualityDecision.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Getting data successfully")){
-                finalQualityDecisions.clear();
-                finalQualityDecisions.addAll(apiResponseGettingFinalQualityDecision.getFinalQualityDecision());
-                spinnerAdapter.notifyDataSetChanged();
+            if (apiResponseGettingFinalQualityDecision!=null) {
+                String statusMessage = apiResponseGettingFinalQualityDecision.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")) {
+                    finalQualityDecisions.clear();
+                    finalQualityDecisions.addAll(apiResponseGettingFinalQualityDecision.getFinalQualityDecision());
+                    spinnerAdapter.notifyDataSetChanged();
+                }
             }
         });
     }

@@ -134,6 +134,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 String responseMessage = responseStatus.getStatusMessage();
                 if (responseMessage.equals(EXISTING_BASKET_CODE)) {
                     basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
+                    binding.basketCode.setError(null);
                     fillViews();
                 } else {
                     binding.basketCode.setError(responseMessage);

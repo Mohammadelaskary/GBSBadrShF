@@ -195,6 +195,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                     sampleQty = lastMovePainting.getQualityRandomInpectionSampleQty();
                     defectedQty = lastMovePainting.getQualityRandomInpectionDefectedQt();
                     jobOrderQty = lastMovePainting.getJobOrderQty();
+                    binding.machineDieCode.setError(null);
                     Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                 } else {
                     parentCode = "";

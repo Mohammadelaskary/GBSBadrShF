@@ -482,10 +482,14 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     public void onCheckedItemChecked(int checkListElementId) {
         viewModel.saveCheckList(userId,deviceSerialNumber,lastMoveId,childId,childCode,jobOrderId,jobOrderName,pprLoadingId,operationId,checkListElementId);
         viewModel.getApiResponseSaveCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseSaveCheckList -> {
-            String statusMessage = apiResponseSaveCheckList.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Saved successfully")){
-                SaveCheckListResponse saveCheckListResponse = apiResponseSaveCheckList.getSaveCheckListResponse();
-                savedCheckList.add(saveCheckListResponse);
+            if (apiResponseSaveCheckList!=null) {
+                String statusMessage = apiResponseSaveCheckList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Saved successfully")) {
+                    SaveCheckListResponse saveCheckListResponse = apiResponseSaveCheckList.getSaveCheckListResponse();
+                    savedCheckList.add(saveCheckListResponse);
+                }
+            } else {
+                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }

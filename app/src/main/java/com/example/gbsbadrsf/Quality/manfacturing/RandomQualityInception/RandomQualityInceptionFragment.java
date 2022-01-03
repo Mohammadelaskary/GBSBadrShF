@@ -195,6 +195,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                     sampleQty = lastMoveManufacturing.getQualityRandomInpectionSampleQty();
                     defectedQty = lastMoveManufacturing.getQualityRandomInpectionDefectedQty();
                     jobOrderQty = lastMoveManufacturing.getJobOrderQty();
+                    binding.machineDieCode.setError(null);
                     Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                 } else {
                     childCode = "";
@@ -219,7 +220,6 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                 defectedQty = 0;
                 jobOrderQty = 0;
                 binding.machineDieCode.setError("Error in getting data!");
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             fillData();
         });
@@ -294,6 +294,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
+            binding.machineDieCode.getEditText().setText(scannedText);
             getMachineDieInfo(scannedText);
         });
     }

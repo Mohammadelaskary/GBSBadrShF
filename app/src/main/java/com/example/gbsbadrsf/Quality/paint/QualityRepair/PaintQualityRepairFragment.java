@@ -207,19 +207,27 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveWeldingBasket -> {
-            basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
-            adapter.setBasketData(basketData);
-            ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
-            String statusMessage = responseStatus.getStatusMessage();
-            if (statusMessage.equals(EXISTING_BASKET_CODE)){
-                parentDesc = basketData.getParentDescription();
-                parentCode = basketData.getParentCode();
-                operationName = basketData.getOperationEnName();
+            if (apiResponseLastMoveWeldingBasket!=null) {
+                basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
+                adapter.setBasketData(basketData);
+                ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
+                String statusMessage = responseStatus.getStatusMessage();
+                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    parentDesc = basketData.getParentDescription();
+                    parentCode = basketData.getParentCode();
+                    operationName = basketData.getOperationEnName();
+                    binding.basketCode.setError(null);
+                } else {
+                    parentDesc = "";
+                    parentCode = "";
+                    operationName = "";
+                    binding.basketCode.setError(statusMessage);
+                }
             } else {
                 parentDesc = "";
                 parentCode = "";
                 operationName = "";
-                binding.basketCode.setError(statusMessage);
+                binding.basketCode.setError("Error in getting data1");
             }
             fillData(parentDesc,parentCode,operationName);
         });

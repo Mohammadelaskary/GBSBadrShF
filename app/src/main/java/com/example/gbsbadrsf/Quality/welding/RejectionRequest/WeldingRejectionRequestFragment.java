@@ -315,6 +315,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             if (oldBasketCodeFocused){
                 binding.oldBasketCode.getEditText().setText(scannedText);
+                getBasketData(scannedText);
             } else if (newBasketCodeFocused){
                 binding.newBasketCode.getEditText().setText(scannedText);
             }

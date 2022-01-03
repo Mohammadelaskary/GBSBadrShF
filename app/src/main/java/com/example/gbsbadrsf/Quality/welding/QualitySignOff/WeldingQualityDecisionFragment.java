@@ -265,6 +265,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     getCheckList();
                     getSavedCheckedItems();
                     fillViews();
+                    binding.basketCode.setError(null);
                 } else {
                     binding.basketCode.setError(statusMessage);
                     dischargeViews();
