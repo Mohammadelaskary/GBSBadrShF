@@ -13,5 +13,4 @@ public enum Usertype {
     All,
     wrongusernameorpassword,
     CONNECTION_ERROR
-
 }

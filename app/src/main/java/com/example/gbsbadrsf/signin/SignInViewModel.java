@@ -57,21 +57,52 @@ public class SignInViewModel extends ViewModel {
                     } else if (userInfoAPIResponseSignin.getData().getIsPlanningUser()) {
                         usertype.postValue(Usertype.PlanningUser);
 
-                    } else if (userInfoAPIResponseSignin.getData().getIsProductionUser() && userInfoAPIResponseSignin.getData().getIsProductionManufaturing() && userInfoAPIResponseSignin.getData().getIsProductionWelding() && userInfoAPIResponseSignin.getData().getIsProductionPainting()) {
+                    } else if (userInfoAPIResponseSignin.getData().getIsProductionUser()
+                            && userInfoAPIResponseSignin.getData().getIsProductionManufaturing()
+                            && userInfoAPIResponseSignin.getData().getIsProductionWelding()
+                            && userInfoAPIResponseSignin.getData().getIsProductionPainting()) {
                         //admin10 pass 123
                         //direct to main production
                         usertype.postValue(Usertype.ProductionUser);
-
-
-                    } else if ((userInfoAPIResponseSignin.getResponseStatus().getStatusMessage().equals("Wrong username or password!"))) {
+                    }
+                    else if ((userInfoAPIResponseSignin.getResponseStatus().getStatusMessage().equals("Wrong username or password!"))) {
                         usertype.postValue(Usertype.wrongusernameorpassword);
-
-                    } else if (userInfoAPIResponseSignin.getData().getIsQualityControlUser() && userInfoAPIResponseSignin.getData().getIsQcmanufaturing() && userInfoAPIResponseSignin.getData().getIsQcwelding() && userInfoAPIResponseSignin.getData().getIsQcpainting()) {
-                        //admin10 pass 123
-                        //direct to main production
+                    } else if (userInfoAPIResponseSignin.getData().getIsQualityControlUser()
+                            && userInfoAPIResponseSignin.getData().getIsQcmanufaturing()
+                            && userInfoAPIResponseSignin.getData().getIsQcwelding()
+                            && userInfoAPIResponseSignin.getData().getIsQcpainting()) {
                         usertype.postValue(Usertype.QualityControlUser);
-
-
+                    }else if (userInfoAPIResponseSignin.getData().getIsProductionUser()
+                            && userInfoAPIResponseSignin.getData().getIsProductionManufaturing()
+                            && !userInfoAPIResponseSignin.getData().getIsProductionWelding()
+                            && !userInfoAPIResponseSignin.getData().getIsProductionPainting()) {
+                        usertype.postValue(Usertype.ProductionManufaturing);
+                    }
+                    else if (userInfoAPIResponseSignin.getData().getIsProductionUser()
+                            && !userInfoAPIResponseSignin.getData().getIsProductionManufaturing()
+                            && userInfoAPIResponseSignin.getData().getIsProductionWelding()
+                            && !userInfoAPIResponseSignin.getData().getIsProductionPainting()) {
+                        usertype.postValue(Usertype.ProductionWelding);
+                    }else if (userInfoAPIResponseSignin.getData().getIsProductionUser()
+                            && !userInfoAPIResponseSignin.getData().getIsProductionManufaturing()
+                            && !userInfoAPIResponseSignin.getData().getIsProductionWelding()
+                            && userInfoAPIResponseSignin.getData().getIsProductionPainting()) {
+                        usertype.postValue(Usertype.ProductionPainting);
+                    }else if (userInfoAPIResponseSignin.getData().getIsQualityControlUser()
+                            && userInfoAPIResponseSignin.getData().getIsQcmanufaturing()
+                            && !userInfoAPIResponseSignin.getData().getIsQcwelding()
+                            && !userInfoAPIResponseSignin.getData().getIsQcpainting()) {
+                        usertype.postValue(Usertype.Qcmanufaturing);
+                    }else if (userInfoAPIResponseSignin.getData().getIsQualityControlUser()
+                            && !userInfoAPIResponseSignin.getData().getIsQcmanufaturing()
+                            && userInfoAPIResponseSignin.getData().getIsQcwelding()
+                            && !userInfoAPIResponseSignin.getData().getIsQcpainting()) {
+                        usertype.postValue(Usertype.Qcwelding);
+                    } else if (userInfoAPIResponseSignin.getData().getIsQualityControlUser()
+                            && !userInfoAPIResponseSignin.getData().getIsQcmanufaturing()
+                            && !userInfoAPIResponseSignin.getData().getIsQcwelding()
+                            && userInfoAPIResponseSignin.getData().getIsQcpainting()) {
+                        usertype.postValue(Usertype.Qcpainting);
                     }
                 } else {
                     usertype.postValue(Usertype.CONNECTION_ERROR);

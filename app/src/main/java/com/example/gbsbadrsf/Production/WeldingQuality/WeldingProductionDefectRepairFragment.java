@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Production.WeldingQuality;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -178,7 +180,4 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         }
     }
 
-    private boolean containsOnlyDigits(String s) {
-        return s.matches("\\d+");
-    }
 }

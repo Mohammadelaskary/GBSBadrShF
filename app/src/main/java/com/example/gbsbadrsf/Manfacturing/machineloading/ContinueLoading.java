@@ -62,13 +62,13 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
 
-       fragmentContinueLoadingBinding.newbasketcodeEdt.setOnKeyListener(new View.OnKeyListener() {
+       fragmentContinueLoadingBinding.basketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
            @Override
            public boolean onKey(View view, int i, KeyEvent keyEvent) {
                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                {
-               continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
+               continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
                    return true;
                }
                return false;
@@ -102,7 +102,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         fragmentContinueLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                continueLoadingViewModel.savecontinueloading("1","S123",fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString(),fragmentContinueLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentContinueLoadingBinding.newdiecodeEdt.getText().toString(),"12");
+                continueLoadingViewModel.savecontinueloading("1","S123",fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString(),fragmentContinueLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentContinueLoadingBinding.newdiecodeEdt.getText().toString(),"12");
 
             }
         });
@@ -224,9 +224,9 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                     fragmentContinueLoadingBinding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
 
                 }
-                else if (fragmentContinueLoadingBinding.newbasketcodeEdt.isFocused()){
-                    fragmentContinueLoadingBinding.newbasketcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                    continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.newbasketcodeEdt.getText().toString());
+                else if (fragmentContinueLoadingBinding.basketcodeEdt.getEditText().isFocused()){
+                    fragmentContinueLoadingBinding.basketcodeEdt.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
                 }
 
             }

@@ -2,7 +2,6 @@ package com.example.gbsbadrsf.Paint.paintstation;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -10,8 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.StrictMode;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,20 +16,14 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import com.example.gbsbadrsf.AdddefectcustomDialog;
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Baskets;
-import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprpaint;
 import com.example.gbsbadrsf.databinding.FragmentPaintdstationBinding;
-import com.example.gbsbadrsf.databinding.FragmentWeldingSequenceBinding;
 import com.example.gbsbadrsf.productionsequence.SimpleDividerItemDecoration;
-import com.example.gbsbadrsf.weldingsequence.InfoForSelectedStationViewModel;
 import com.example.gbsbadrsf.weldingsequence.Staustype;
-import com.example.gbsbadrsf.weldingsequence.WeldingsequenceAdapter;
-import com.example.gbsbadrsf.weldingsequence.WeldingsequenceViewModel;
 import com.google.gson.Gson;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;

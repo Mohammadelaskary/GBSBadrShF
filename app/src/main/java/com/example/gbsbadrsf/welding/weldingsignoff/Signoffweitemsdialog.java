@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,44 @@ public class Signoffweitemsdialog extends DialogFragment implements BarcodeReade
         parentdesc.setText( mArgs.getString("parentdesc"));
         signoffqty.setText( mArgs.getString("loadingqty"));
         Totalqtn.setText( mArgs.getString("loadingqty"));
+        basketcode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    String basketCode = basketcode.getText().toString().trim();
+                    if (Totalqtn.getVisibility() == View.VISIBLE){
+                        editText.setText(basketCode);
+                        Basketcodelst nwItem = new Basketcodelst(basketCode, Integer.valueOf(signoffqty.getText().toString()));
+                        if (!productionSignoffadapter.getproductionsequencelist().contains(nwItem)) {
+                            basketcodelstList.add(nwItem);
+                            productionSignoffadapter.notifyDataSetChanged();
+                        }
 
+                    }
+
+
+                    else {
+
+                        if (totalqtn.getText().toString().trim().isEmpty()) {
+                            Toast.makeText(getContext(), "please enter quantity ", Toast.LENGTH_SHORT).show();
+                        } else {
+                            editText.setText(basketCode);
+
+                            Basketcodelst nwItem = new Basketcodelst(basketCode, Integer.valueOf(totalqtn.getText().toString()));
+                            //Basketcodelst nwItem = new Basketcodelst(String.valueOf(barcodeReadEvent.getBarcodeData()), (constant.getTotalQtyVar()));
+                            if (!productionSignoffadapter.getproductionsequencelist().contains(nwItem)) {
+                                basketcodelstList.add(nwItem);
+                                productionSignoffadapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
 

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.repository;
 
+import com.example.gbsbadrsf.ApiResponseTestConnectivity;
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
@@ -598,7 +599,7 @@ Single<ApiContinueloading<ResponseStatus>>savecontinueloading(@Query("UserID") S
           @Query("DepartmentID") int DepartmentID
   );
   @GET("test")
-  Single<String> Test_Connectivity(
+  Single<ApiResponseTestConnectivity> Test_Connectivity(
           @Query("text") String text
   );
 }

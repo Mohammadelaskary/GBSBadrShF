@@ -20,36 +20,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
         />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/basketcode_edt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        app:startIconDrawable="@drawable/ic_barcode_icon"
+        android:hint="@string/job_order_name"
+        app:errorEnabled="true"
+        app:errorTextColor="@android:color/holo_red_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weldingseq_txt">
+
     <EditText
         android:id="@+id/barcode_edt"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="55dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weldingseq_txt"
-        android:background="@drawable/edt_bg"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:imeOptions="actionGo"
         android:maxLines="1"
         android:lines="1"
         android:singleLine="true"
         />
-    <ImageView
-        android:id="@+id/barcode_img"
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/barcode_edt"
-        android:src="@drawable/barcodel"
-        android:layout_marginEnd="10dp"
-        />
+    </com.google.android.material.textfield.TextInputLayout>
     <HorizontalScrollView
         android:id="@+id/hsv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/barcode_edt"
+        app:layout_constraintTop_toBottomOf="@+id/basketcode_edt"
         app:layout_constraintStart_toStartOf="parent"
 
         >

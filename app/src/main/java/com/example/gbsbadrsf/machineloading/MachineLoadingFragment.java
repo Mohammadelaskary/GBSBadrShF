@@ -1,13 +1,9 @@
 package com.example.gbsbadrsf.machineloading;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
@@ -23,9 +19,6 @@ import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.databinding.FragmentMachineLoadingBinding;
-import com.example.gbsbadrsf.databinding.FragmentProductionSequenceBinding;
-import com.example.gbsbadrsf.productionsequence.ProductionSequence;
-import com.google.android.material.navigation.NavigationView;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -46,7 +39,7 @@ import dagger.android.support.DaggerFragment;
 public class MachineLoadingFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
 
-    FragmentMachineLoadingBinding fragmentMachineLoadingBinding;
+    FragmentMachineLoadingBinding binding;
      private BarcodeReader barcodeReader;
 
     @Inject
@@ -61,7 +54,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        fragmentMachineLoadingBinding = FragmentMachineLoadingBinding.inflate(inflater, container, false);
+        binding = FragmentMachineLoadingBinding.inflate(inflater, container, false);
 
         machineloadingViewModel = ViewModelProviders.of(this, providerFactory).get(MachineloadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
@@ -72,10 +65,10 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         //attachListeners();
         subscribeRequest();
 
-        fragmentMachineLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
+        binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              machineloadingViewModel.savefirstloading("1","S123",getArguments().getString("loadingsequenceid"),fragmentMachineLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentMachineLoadingBinding.newdiecodeEdt.getText().toString(),fragmentMachineLoadingBinding.newloadingqtnEdt.getText().toString());
+              machineloadingViewModel.savefirstloading("1","S123",getArguments().getString("loadingsequenceid"), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(), binding.newloadingqtnEdt.getText().toString());
 
             }
         });
@@ -119,25 +112,25 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
 
 
-        return fragmentMachineLoadingBinding.getRoot();
+        return binding.getRoot();
 
 
     }
 
     private void initObjects() {
         if (getArguments().getString("enabledie").equals("1")){
-            fragmentMachineLoadingBinding.diecodeEdt.setEnabled(true);
-            fragmentMachineLoadingBinding.diecodeEdt.setClickable(true);
+            binding.diecodeEdt.setEnabled(true);
+            binding.diecodeEdt.setClickable(true);
         }
         else {
-            fragmentMachineLoadingBinding.diecodeEdt.setEnabled(false);
-            fragmentMachineLoadingBinding.diecodeEdt.setClickable(false);
+            binding.diecodeEdt.setEnabled(false);
+            binding.diecodeEdt.setClickable(false);
         }
-        fragmentMachineLoadingBinding.jobordernum.setText(getArguments().getString("jobordername"));
-        fragmentMachineLoadingBinding.Joborderqtn.setText(getArguments().getString("joborderqty"));
-        fragmentMachineLoadingBinding.childesc.setText(getArguments().getString("childdesc"));
-        fragmentMachineLoadingBinding.childcode.setText(getArguments().getString("childcode"));
-        fragmentMachineLoadingBinding.loadingsequenceid.setText(getArguments().getString("loadingsequenceid"));
+        binding.jobordernum.setText(getArguments().getString("jobordername"));
+        binding.Joborderqtn.setText(getArguments().getString("joborderqty"));
+        binding.childesc.setText(getArguments().getString("childdesc"));
+        binding.childcode.setText(getArguments().getString("childcode"));
+        binding.loadingsequenceid.setText(getArguments().getString("loadingsequenceid"));
 
 
 
@@ -194,12 +187,12 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
     handler.post(new Runnable() {
         @Override
         public void run() {
-            if (fragmentMachineLoadingBinding.machinecodeNewedttxt.isFocused()) {
+            if (binding.machinecodeNewedttxt.isFocused()) {
 
-                fragmentMachineLoadingBinding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                binding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
             }
-            else if (fragmentMachineLoadingBinding.newdiecodeEdt.isFocused()){
-                fragmentMachineLoadingBinding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+            else if (binding.newdiecodeEdt.isFocused()){
+                binding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
             }
 
         }

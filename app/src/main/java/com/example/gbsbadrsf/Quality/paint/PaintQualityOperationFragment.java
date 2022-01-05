@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -102,7 +104,13 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
                 if (event.getAction() == KeyEvent.ACTION_DOWN
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    getBasketData(binding.basketCode.getEditText().getText().toString().trim());
+                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
+                    if (!basketCode.isEmpty()) {
+                        getBasketData(basketCode);
+                        binding.basketCode.setError(null);
+                    } else {
+                        binding.basketCode.setError("Basket code shouldn't be empty!");
+                    }
                     return true;
                 }
                 return false;
@@ -186,17 +194,20 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
             sampleQty = binding.sampleQtnEdt.getText().toString().trim();
             newSample = binding.newSample.isChecked();
             boolean validSampleQty = false;
-            if (basketData!=null) {
+            if (!parentCode.isEmpty()) {
                 if (sampleQty.isEmpty())
                     Toast.makeText(getContext(), "Please enter sample quantity!", Toast.LENGTH_SHORT).show();
                 else {
-                    validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
-                    if (!validSampleQty)
-                        Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
-                    if (Integer.parseInt(sampleQty)<=0)
-                        Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
+                    if (containsOnlyDigits(sampleQty)) {
+                        validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
+                        if (!validSampleQty)
+                            Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
+                        if (Integer.parseInt(sampleQty) <= 0)
+                            Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(getContext(), "Sample Quantity should be only digits!", Toast.LENGTH_SHORT).show();
                 }
-                if (!sampleQty.isEmpty() && validSampleQty) {
+                if (!sampleQty.isEmpty() && validSampleQty&&containsOnlyDigits(sampleQty)) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("basketData", basketData);
                     bundle.putInt("sampleQty", Integer.parseInt(sampleQty));

@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Production.PaintProductionRepair;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -174,7 +176,5 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         }
     }
 
-    private boolean containsOnlyDigits(String s) {
-        return s.matches("\\d+");
-    }
+
 }

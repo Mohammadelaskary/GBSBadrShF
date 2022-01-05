@@ -89,10 +89,6 @@ public class SigninFragment extends DaggerFragment {
             public void onChanged(Usertype usertype) {
                 switch (usertype)
                 {
-                    case ProductionPainting:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionpainting);
-
-                        break;
                     case All:
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
                         break;
@@ -105,7 +101,27 @@ public class SigninFragment extends DaggerFragment {
                     case QualityControlUser:
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qc);
                         break;
-
+                    case Qcmanufaturing:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcmanfacturing);
+                        break;
+                    case Qcwelding:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcwelding);
+                        break;
+                    case Qcpainting:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcpainting);
+                        break;
+                    case ProductionManufaturing:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionmanfacturing);
+                        break;
+                    case ProductionWelding:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionwelding);
+                        break;
+                    case ProductionPainting:
+                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionpainting);
+                        break;
+                    case CONNECTION_ERROR:
+                        Toast.makeText(getContext(), "Error in Connectivity", Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         });

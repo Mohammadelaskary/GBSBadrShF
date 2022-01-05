@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,14 +90,15 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 
 
         barcodeReader = MainActivity.getBarcodeObject();
-        fragmentWeldingSequenceBinding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
+        fragmentWeldingSequenceBinding.barcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-            viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getText().toString());
-
+                    viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
+                    Toast.makeText(getContext(), "request sent", Toast.LENGTH_SHORT).show();
+                    Log.d("requestSent","requestSent");
                     return true;
                 }
                 return false;
@@ -246,8 +248,8 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 // update UI to reflect the data
 
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
-                fragmentWeldingSequenceBinding.barcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-
+                fragmentWeldingSequenceBinding.barcodeEdt.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
 
 
 

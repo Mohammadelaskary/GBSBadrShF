@@ -143,9 +143,7 @@
         <action
             android:id="@+id/action_welding_menu_fragment_to_production_repair_welding_fragment"
             app:destination="@id/welding_production_repair_fragment" />
-        <action
-            android:id="@+id/action_weldingMenuFragment_to_baskettransferweFragment"
-            app:destination="@id/baskettransferweFragment" />
+
         <action
             android:id="@+id/action_weldingMenuFragment_to_qualityscraplistweFragment"
             app:destination="@id/qualityscraplistweFragment" />
@@ -244,37 +242,47 @@
                 android:name="com.example.gbsbadrsf.signin.SigninFragment"
                 android:label="fragment_signin"
                 tools:layout="@layout/fragment_signin">
+                <!--All-->
                 <action
                     android:id="@+id/action_signinFragment_to_mainmenuFragment"
                     app:destination="@id/mainmenuFragment" />
-
+                <!--Production paint-->
                 <action
                     android:id="@+id/action_signinFragment_to_productionpainting"
                     app:destination="@id/paintMenuFragment" />
+                <!--Settings-->
                 <action
                     android:id="@+id/action_signinFragment_to_change_ip"
                     app:destination="@id/changeIpFragment" />
+                <!--production manufacturing-->
                 <action
                     android:id="@+id/action_signinFragment_to_productionmanfacturing"
                     app:destination="@id/manfacturingmenuFragment" />
+                <!--production welding-->
                 <action
                     android:id="@+id/action_signinFragment_to_productionwelding"
                     app:destination="@id/weldingMenuFragment" />
+                <!--production all-->
                 <action
                     android:id="@+id/action_signinFragment_to_production"
                     app:destination="@id/productionMenuFragment" />
+                <!--Quality paint-->
                 <action
                     android:id="@+id/action_signinFragment_to_Qcpainting"
                     app:destination="@id/paintqualityFragment" />
+                <!--Quality manufacturing-->
                 <action
                     android:id="@+id/action_signinFragment_to_Qcmanfacturing"
                     app:destination="@id/manfacturingqualityFragment" />
+                <!--Quality welding-->
                 <action
                     android:id="@+id/action_signinFragment_to_Qcwelding"
                     app:destination="@id/qualityweldingFragment" />
+                <!--Quality all-->
                 <action
                     android:id="@+id/action_signinFragment_to_Qc"
                     app:destination="@id/qualitymainmenuFragment" />
+                <!--Planning-->
                 <action
                     android:id="@+id/action_signinFragment_to_planning"
                     app:destination="@id/planningMenuFragment" />
@@ -299,11 +307,7 @@
         android:name="com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception.RandomQualityInceptionFragment"
         android:label="fragment_random_quality_inception"
         tools:layout="@layout/fragment_random_quality_inception"/>
-    <fragment
-        android:id="@+id/baskettransferFragment"
-        android:name="com.example.gbsbadrsf.BaskettransferFragment"
-        android:label="fragment_baskettransfer"
-        tools:layout="@layout/fragment_baskettransfer" />
+
     <fragment
         android:id="@+id/qualitymainmenuFragment"
         android:name="com.example.gbsbadrsf.Quality.QualitymainmenuFragment"
@@ -574,11 +578,7 @@
         android:name="com.example.gbsbadrsf.welding.productionrepairwe.ProductionrepairweFragment"
         android:label="fragment_productionrepairwe"
         tools:layout="@layout/fragment_productionrepairwe" />
-    <fragment
-        android:id="@+id/baskettransferweFragment"
-        android:name="com.example.gbsbadrsf.welding.BaskettransferweFragment"
-        android:label="fragment_baskettransferwe"
-        tools:layout="@layout/fragment_baskettransferwe" />
+
     <fragment
         android:id="@+id/qualityscraplistweFragment"
         android:name="com.example.gbsbadrsf.welding.qualityscrapwe.qualityscraplistweFragment"

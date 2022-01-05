@@ -86,6 +86,7 @@
         android:layout_marginEnd="25dp"
         android:checked="true"
         />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/basketcode_edt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -94,10 +95,11 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
+        app:startIconDrawable="@drawable/ic_barcode_icon"
         app:errorEnabled="true"
         app:errorTextColor="@android:color/holo_red_dark"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/basketcode_img"
         app:layout_constraintTop_toBottomOf="@id/basketqty">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -105,6 +107,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/basket_code"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionGo"
             android:textColor="@color/colorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,16 +126,6 @@
 <!--        android:background="@drawable/edt_bg"-->
 <!--        android:textColor="@color/black"-->
 <!--        />-->
-    <ImageView
-        android:id="@+id/basketcode_img"
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/basketcode_edt"
-        android:src="@drawable/barcodel"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/basketcode_rv"
         android:layout_width="match_parent"
@@ -162,6 +158,10 @@
         android:maxLength="5"
         android:textColor="@color/black"
         android:visibility="gone"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:lines="1"
+        android:imeOptions="actionGo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/totalqtn_txt" />
     <TextView

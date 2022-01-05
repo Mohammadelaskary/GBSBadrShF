@@ -157,6 +157,10 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -181,6 +185,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
                     android:textColorHint="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 

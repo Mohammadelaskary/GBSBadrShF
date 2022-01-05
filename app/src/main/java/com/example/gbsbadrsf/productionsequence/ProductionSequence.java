@@ -8,8 +8,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +41,7 @@ import dagger.android.support.DaggerFragment;
 
 public class ProductionSequence extends DaggerFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener,productionsequenceadapter.onCheckedChangedListener {
-    FragmentProductionSequenceBinding fragmentProductionSequenceBinding;
+    FragmentProductionSequenceBinding binding;
     public RecyclerView recyclerView;
     private BarcodeReader barcodeReader;
     @Inject
@@ -66,7 +64,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentProductionSequenceBinding = FragmentProductionSequenceBinding.inflate(inflater, container, false);
+        binding = FragmentProductionSequenceBinding.inflate(inflater, container, false);
         viewModel = ViewModelProviders.of(this,provider).get(ProductionsequenceViewModel.class);
         selectedLoadinsequenceinfoViewModel=ViewModelProviders.of(this,provider).get(SelectedLoadinsequenceinfoViewModel.class);
 
@@ -90,14 +88,14 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 //
 //            }
 //        });
-        fragmentProductionSequenceBinding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
+        binding.jobOrderName.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                 viewModel.getProductionsequence(fragmentProductionSequenceBinding.barcodeEdt.getText().toString());
-
+                    String jobOrderName = binding.jobOrderName.getEditText().getText().toString().trim();
+                    viewModel.getProductionsequence(jobOrderName);
                     return true;
                 }
                 return false;
@@ -114,7 +112,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
         selectedsequence = new ArrayList<>();
 
-        recyclerView = fragmentProductionSequenceBinding.defectqtnRv;
+        recyclerView = binding.defectqtnRv;
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         barcodeReader = MainActivity.getBarcodeObjectsequence();
 
@@ -156,10 +154,12 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
             barcodeReader.setProperties(properties);
         }
 
-        return fragmentProductionSequenceBinding.getRoot();
+        return binding.getRoot();
 
 
     }
+
+
 
     private void subscribeRequest() {
         selectedLoadinsequenceinfoViewModel.getLoadingstatustype().observe(getViewLifecycleOwner(), new Observer<Loadingstatus>() {
@@ -200,9 +200,9 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     private void setUpRecyclerView() {
          productionsequenceresponse = new ArrayList<>();
         adapter = new productionsequenceadapter(productionsequenceresponse,this);
-        fragmentProductionSequenceBinding.defectqtnRv.setAdapter(adapter);
-        fragmentProductionSequenceBinding.defectqtnRv.setNestedScrollingEnabled(true);
-        fragmentProductionSequenceBinding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.defectqtnRv.setAdapter(adapter);
+        binding.defectqtnRv.setNestedScrollingEnabled(true);
+        binding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
 
@@ -228,18 +228,10 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
             @Override
             public void run() {
                 // update UI to reflect the data
-
+                String scannedText = barcodeReadEvent.getBarcodeData();
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
-                fragmentProductionSequenceBinding.barcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-
-
-
-
-//}
-
-
-
-
+                binding.jobOrderName.getEditText().setText(scannedText);
+                viewModel.getProductionsequence(scannedText);
             }
         });
 
@@ -311,7 +303,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
     @Override
     public void onCheckedChanged(int position, boolean isChecked, Ppr item) {
-        fragmentProductionSequenceBinding.firstloadingBtn.setOnClickListener(__ -> {
+        binding.firstloadingBtn.setOnClickListener(__ -> {
 
 
             if (isChecked) {

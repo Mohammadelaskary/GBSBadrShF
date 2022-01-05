@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -115,7 +117,12 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
                     basketCode = binding.basketCode.getEditText().getText().toString().trim();
-                    getBasketData(basketCode);
+                    if (!basketCode.isEmpty()) {
+                        getBasketData(basketCode);
+                        binding.basketCode.setError(null);
+                    } else {
+                        binding.basketCode.setError("Basket code shouldn't be empty!");
+                    }
                     return true;
                 }
                 return false;
@@ -208,22 +215,29 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
             sampleQty = binding.sampleQtnEdt.getText().toString().trim();
             newSample = binding.newSample.isChecked();
             boolean validSampleQty = false;
-            if (basketData!=null) {
-                if (sampleQty.isEmpty())
-                    Toast.makeText(getContext(), "Please enter sample quantity!", Toast.LENGTH_SHORT).show();
-                else {
-                    validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
-                    if (!validSampleQty)
-                        Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
-                    if (Integer.parseInt(sampleQty)<=0)
-                        Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
-                }
-                if (!sampleQty.isEmpty() && validSampleQty) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("basketData", basketData);
-                    bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
-                    bundle.putBoolean("newSample", newSample);
-                    Navigation.findNavController(v).navigate(R.id.action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment, bundle);
+            if (childCode!=null) {
+                if (!childCode.isEmpty()) {
+                    if (sampleQty.isEmpty())
+                        Toast.makeText(getContext(), "Please enter sample quantity!", Toast.LENGTH_SHORT).show();
+                    else {
+                        if (containsOnlyDigits(sampleQty)) {
+                            validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
+                            if (!validSampleQty)
+                                Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
+                            if (Integer.parseInt(sampleQty) <= 0)
+                                Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(getContext(), "Sample Quantity should be only digits!", Toast.LENGTH_SHORT).show();
+                    }
+                    if (!sampleQty.isEmpty() && validSampleQty && containsOnlyDigits(sampleQty)) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("basketData", basketData);
+                        bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
+                        bundle.putBoolean("newSample", newSample);
+                        Navigation.findNavController(v).navigate(R.id.action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment, bundle);
+                    }
+                } else {
+                    binding.basketCode.setError("Please enter a valid basket code and press enter!");
                 }
             } else {
                 binding.basketCode.setError("Please enter a valid basket code and press enter!");
@@ -236,7 +250,12 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         getActivity().runOnUiThread(() -> {
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
-            getBasketData(scannedText);
+            if (!scannedText.isEmpty()) {
+                getBasketData(scannedText.trim());
+                binding.basketCode.setError(null);
+            } else {
+                binding.basketCode.setError("Basket code shouldn't be empty!");
+            }
         });
 
     }

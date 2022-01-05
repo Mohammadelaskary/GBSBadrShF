@@ -148,6 +148,7 @@
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
                     android:lines="3"
+                    android:imeOptions="actionDone"
                     android:gravity="start"/>
             </com.google.android.material.textfield.TextInputLayout>
 

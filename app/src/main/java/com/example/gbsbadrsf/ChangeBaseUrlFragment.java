@@ -2,6 +2,8 @@ package com.example.gbsbadrsf;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static com.example.gbsbadrsf.Util.Constant.BASE_URL;
+
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,12 +78,13 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         addTextWatcher();
         initViewModel();
         observeCheckingConnectivity();
+
         binding.save.setOnClickListener(v->{
             newBaseUrl = binding.newIp.getEditText().getText().toString().trim();
             if (newBaseUrl.isEmpty())
                 binding.newIp.setError("Please enter new valid ip!");
-            if (!newBaseUrl.equals(MainActivity.IP)&&!newBaseUrl.isEmpty()){
-                testConnectivity();
+            if (!newBaseUrl.isEmpty()){
+                saveBaseUrl(newBaseUrl);
             }
 
         });
@@ -91,16 +95,19 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 binding.newIp.setError(null);
+                binding.newIp.setHelperText("Please enter only ip without http:// or folder name");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.newIp.setError(null);
+                binding.newIp.setHelperText("Please enter only ip without http:// or folder name");
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 binding.newIp.setError(null);
+                binding.newIp.setHelperText("Please enter only ip without http:// or folder name");
             }
         });
     }
@@ -122,14 +129,16 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         });
     }
 
-    private void testConnectivity() {
+    private void testConnectivity(String newIp) {
         viewModel.testApi();
         viewModel.getTestApi().observe(getViewLifecycleOwner(),s -> {
-            Log.d("test",s);
-                if (s.equals("Welcome GBS")){
-                    saveBaseUrl(newBaseUrl);
-                } else
-                    binding.newIp.setError("Wrong ip");
+            if (s!=null) {
+                if (s.getResponseStatus().getStatusMessage().equals("Welcome GBS")) {
+                    saveBaseUrl(newIp);
+                } else {
+                    Toast.makeText(getContext(), "Connection Error!", Toast.LENGTH_SHORT).show();
+                }
+            } else Toast.makeText(getContext(), "Connection Error!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -142,14 +151,15 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("database_url", MODE_PRIVATE).edit();
         editor.putString("base_url", newBaseUrl);
         editor.apply();
-        showAlertDialog();
+        showAlertDialog("Saved Successfully","Application should restart to perform ip change");
     }
 
-    private void showAlertDialog() {
+    private void showAlertDialog(String title,String body) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Saved Successfully");
+        alertDialog.setTitle(title);
         alertDialog.setIcon(R.drawable.ic_done);
-        alertDialog.setMessage("Application should restart to perform ip change");
+        alertDialog.setMessage(body);
+        alertDialog.setCancelable(false);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 (dialog, which) -> restartApp());
         alertDialog.show();

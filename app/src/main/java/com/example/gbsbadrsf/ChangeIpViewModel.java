@@ -17,7 +17,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ChangeIpViewModel extends ViewModel {
-    MutableLiveData<String> testApi;
+    MutableLiveData<ApiResponseTestConnectivity> testApi;
     MutableLiveData<Status> testApiStatus;
     @Inject
     ApiInterface apiInterface;
@@ -52,7 +52,7 @@ public class ChangeIpViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<String> getTestApi() {
+    public MutableLiveData<ApiResponseTestConnectivity> getTestApi() {
         return testApi;
     }
 

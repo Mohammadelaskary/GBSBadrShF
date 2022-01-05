@@ -35,19 +35,21 @@
             android:layout_marginTop="15dp"
 
             >
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/machinecode_edt"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                app:startIconDrawable="@drawable/ic_barcode_icon"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/machinecodebarcode_img"
-                app:layout_constraintTop_toBottomOf="@+id/productionsignoff_txt">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/machinecode_newedttxt"
@@ -55,8 +57,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/machine_code"
                     android:imeOptions="actionGo"
-                    android:maxLines="1"
                     android:lines="1"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -87,16 +89,6 @@
 <!--                android:textColor="@color/black"-->
 
 <!--                />-->
-            <ImageView
-                android:id="@+id/machinecodebarcode_img"
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/machinecode_edt"
-                android:src="@drawable/barcodel"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                />
             <TextView
                 android:id="@+id/childcode_txt"
                 android:layout_width="wrap_content"
