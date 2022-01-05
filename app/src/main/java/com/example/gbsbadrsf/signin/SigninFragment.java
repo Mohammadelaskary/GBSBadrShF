@@ -9,6 +9,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,40 +35,52 @@ public class SigninFragment extends DaggerFragment {
     SignInViewModel signinviewmodel;
 
 
-    public SigninFragment() {
-        // Required empty public constructor
-    }
 
-
-
-    public static SigninFragment newInstance(String param1, String param2) {
-        SigninFragment fragment = new SigninFragment();
-
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentSigninBinding = FragmentSigninBinding.inflate(inflater, container, false);
+        fragmentSigninBinding.usrEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                fragmentSigninBinding.usrEdt.setError(null);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentSigninBinding.usrEdt.setError(null);
+
+            }
+        });
 
         //attachListeners();
         signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
 
         subscribeRequest();
 
+
+
+
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
 
-            if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().trim().equals("")) {
+            if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().trim().isEmpty()) {
                 fragmentSigninBinding.usrEdt.setError(getString(R.string.uservalidationerror));
-            } else if (fragmentSigninBinding.passwordedittext.getText().toString().trim().equals("")) {
+            }
+//            else if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().trim()!=null){
+//                fragmentSigninBinding.usrEdt.setError(null);
+//
+//
+//            }
+
+            else if (fragmentSigninBinding.passwordedittext.getText().toString().trim().equals("")) {
                 fragmentSigninBinding.passwordedittext.setError(getString(R.string.passwordvalidationerror));
             } else {
 //

@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/drawable/ic_password.xml" value="0.23055555555555557" />
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_mainmenu.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_manfacturingquality.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_manufacturing_quality_operation.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_paint_quality_operation.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_production_sequence.xml" value="0.1" />
+        <entry key="..\:/Users/Waleed/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/fragment_signin.xml" value="0.11499493414387031" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/activity_main.xml" value="0.22192028985507245" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/add_defects_details_button.xml" value="0.22146739130434784" />
         <entry key="..\:/Users/Walid ElMarassy/AndroidStudioProjects/GBSBadrShF/app/src/main/res/layout/adddefectdialog.xml" value="0.22192028985507245" />
