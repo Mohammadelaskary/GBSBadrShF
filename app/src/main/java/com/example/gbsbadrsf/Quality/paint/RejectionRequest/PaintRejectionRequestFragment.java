@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequest;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -232,7 +234,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     }
 
     List<Department> departments = new ArrayList<>();
-    int userId = 1;
+    int userId =USER_ID;
     private void getDepartmentsList() {
         viewModel.getDepartmentsList(userId);
         viewModel.getApiResponseDepartmentsListLiveData().observe(getViewLifecycleOwner(),apiResponseDepartmentsList -> {

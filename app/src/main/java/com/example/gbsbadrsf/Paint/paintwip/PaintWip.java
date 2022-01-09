@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Paint.paintwip;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -51,7 +53,7 @@ public class PaintWip extends DaggerFragment {
         // Inflate the layout for this fragment
         fragmentPaintWipwipBinding = FragmentPaintWipBinding.inflate(inflater, container, false);
         viewModel = ViewModelProviders.of(this, provider).get(PaintViewModel.class);
-        viewModel.getweldingpaint("1", "S1");
+        viewModel.getweldingpaint(USER_ID, "S1");
 
         setUpRecyclerView();
         attachListeners();

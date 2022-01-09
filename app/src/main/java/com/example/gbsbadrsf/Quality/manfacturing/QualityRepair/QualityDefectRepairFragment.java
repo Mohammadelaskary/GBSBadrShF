@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityRepair;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -152,7 +154,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         } else
             binding.approvedQty.getEditText().setText("Defect isn't repaired yet!");
     }
-    int userId = 1,defectsManufacturingDetailsId=-1,defectStatus;
+    int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",approvedQty;
 
     @Override

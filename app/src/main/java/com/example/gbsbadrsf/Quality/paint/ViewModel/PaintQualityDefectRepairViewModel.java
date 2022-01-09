@@ -34,35 +34,7 @@ public class PaintQualityDefectRepairViewModel extends ViewModel {
         addWeldingRepairQualityStatus = new MutableLiveData<>();
     }
 
-    public void addPaintingRepairQuality(
-            int userId,
-            String deviceSerialNumber,
-            int defectsManufacturingDetailsId,
-            String notes,
-            int defectStatus,
-            int qtyApproved
-    ) {
-        disposable.add(apiInterface.PaintingRepair_QC(
-                userId,
-                deviceSerialNumber,
-                defectsManufacturingDetailsId,
-                notes,
-                defectStatus,
-                qtyApproved
-        )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(__ -> addWeldingRepairQualityStatus.postValue(Status.LOADING))
-                .subscribe(
-                        response -> {
-                            addPaintingRepairQuality.postValue(response);
-                            addWeldingRepairQualityStatus.postValue(Status.SUCCESS);
-                        },
-                        throwable -> {
-                            addWeldingRepairQualityStatus.postValue(Status.ERROR);
-                        }
-                ));
-    }
+
 
     public MutableLiveData<ApiResponsePaintingRepair_QC> getAddPaintingRepairQuality() {
         return addPaintingRepairQuality;

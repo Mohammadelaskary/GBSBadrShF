@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.weldingsequence;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -72,7 +74,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
     List<String> selectedsequence;
     PprWelding clickedPprwelding;
     Baskets baskets;
-
+    int userId;
 
 
 
@@ -96,7 +98,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
+                    viewModel.getWeldingsequence(USER_ID,"S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
                     Toast.makeText(getContext(), "request sent", Toast.LENGTH_SHORT).show();
                     Log.d("requestSent","requestSent");
                     return true;
@@ -249,7 +251,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
                 fragmentWeldingSequenceBinding.barcodeEdt.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                viewModel.getWeldingsequence("1","S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
+                viewModel.getWeldingsequence(USER_ID,"S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
 
 
 
@@ -317,7 +319,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 
 
             if (isChecked) {
-                infoForSelectedStationViewModel.getselectedweldingsequence("1", "S123", Weldingsequenceresponse.get(position).getLoadingSequenceID().toString());
+                infoForSelectedStationViewModel.getselectedweldingsequence(USER_ID, "S123", Weldingsequenceresponse.get(position).getLoadingSequenceID().toString());
                 clickedPprwelding = item;
 
             }

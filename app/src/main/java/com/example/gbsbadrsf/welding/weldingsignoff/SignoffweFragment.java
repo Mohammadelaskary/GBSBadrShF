@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.welding.weldingsignoff;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -76,7 +78,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
 
-                 signoffweViewModel.getstationcodedata("1", "S123", fragmentSignoffweBinding.stationNewedt.getText().toString());
+                 signoffweViewModel.getstationcodedata(USER_ID, "S123", fragmentSignoffweBinding.stationNewedt.getText().toString());
 
                     return true;
                 }
@@ -255,7 +257,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             @Override
             public void run() {
                 fragmentSignoffweBinding.stationNewedt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                signoffweViewModel.getstationcodedata("1", "S123", fragmentSignoffweBinding.stationNewedt.getText().toString());
+                signoffweViewModel.getstationcodedata(USER_ID, "S123", fragmentSignoffweBinding.stationNewedt.getText().toString());
 
 
             }

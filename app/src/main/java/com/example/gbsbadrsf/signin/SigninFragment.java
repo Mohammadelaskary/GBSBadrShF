@@ -34,7 +34,7 @@ public class SigninFragment extends DaggerFragment {
     //private LoadingDialog dialog;
     SignInViewModel signinviewmodel;
     ProgressDialog progressDialog;
-
+    public static int USER_ID = -1;
     public SigninFragment() {
         // Required empty public constructor
     }
@@ -63,6 +63,7 @@ public class SigninFragment extends DaggerFragment {
         signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
         progressDialog = loadingProgressDialog(getContext());
         observeSignInStatus();
+        obderveUserId();
         subscribeRequest();
 
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
@@ -84,6 +85,11 @@ public class SigninFragment extends DaggerFragment {
 
         });
         return fragmentSigninBinding.getRoot();
+
+    }
+
+    private void obderveUserId() {
+        signinviewmodel.getUserId().observe(getViewLifecycleOwner(),userId->this.USER_ID=userId);
 
     }
 
@@ -136,9 +142,6 @@ public class SigninFragment extends DaggerFragment {
                 }
             }
         });
-
-
-
-
     }
+
 }

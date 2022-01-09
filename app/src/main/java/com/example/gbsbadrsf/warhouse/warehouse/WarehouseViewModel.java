@@ -39,7 +39,7 @@ public class WarehouseViewModel extends ViewModel {
 
         status = new MutableLiveData<>(Status.IDLE);
     }
-    void getrecivingbarcodecodedata(String userid,String deviceserialnum,String barcode){
+    void getrecivingbarcodecodedata(int userid,String deviceserialnum,String barcode){
         disposable.add(apiInterface.getrecivingcountingdata(userid,deviceserialnum,barcode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetRecivingData<CountingDataRecivingdata>, Throwable>() {
             @Override
             public void accept(ApiGetRecivingData<CountingDataRecivingdata> getcountingdata, Throwable throwable) throws Exception {
@@ -61,7 +61,7 @@ public class WarehouseViewModel extends ViewModel {
         }));
 
     }
-    void setrecivingbarcodecodedata(String UserId,String DeviceSerialNo,String Barcode,String ReceivingQty){
+    void setrecivingbarcodecodedata(int UserId,String DeviceSerialNo,String Barcode,String ReceivingQty){
         disposable.add(apiInterface.setRecivinggdata(UserId,DeviceSerialNo,Barcode,ReceivingQty).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetRecivingData<ResponseStatus>, Throwable>() {
             @Override
             public void accept(ApiGetRecivingData<ResponseStatus> responseStatusApiSavefirstloading, Throwable throwable) throws Exception {

@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -47,7 +49,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMoveWeldingBasket basketData;
-    int jobOrderId,parentId=3,sampleQty,userId = 1;
+    int jobOrderId,parentId=3,sampleQty,userId = USER_ID;
     String basketCode,deviceSerialNo = "S1";
     boolean newSample = false ;
     WeldingAddDefectsViewModel viewModel;

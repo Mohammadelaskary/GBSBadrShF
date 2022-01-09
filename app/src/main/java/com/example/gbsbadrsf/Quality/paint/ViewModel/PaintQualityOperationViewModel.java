@@ -125,20 +125,7 @@ public class PaintQualityOperationViewModel extends ViewModel {
                         }
                 ));
     }
-    public void addPaintingDefectResponseViewModel(AddPaintingDefectData addPaintingDefectData){
-        disposable.add(apiInterface.addPaintingDefect(addPaintingDefectData)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addPaintingDefectsStatus.postValue(Status.LOADING))
-                .subscribe(apiResponseAddingDefectsPainting -> {
-                            addPaintingDefectsStatus.postValue(Status.SUCCESS);
-                            addPaintingDefectsResponse.postValue(apiResponseAddingDefectsPainting);
-                        },
-                        throwable ->
-                                addPaintingDefectsStatus.postValue(Status.ERROR)
 
-                ));
-    }
 
     public MutableLiveData<ApiResponseGetBasketInfoForQuality_Painting> getBasketDataLiveData() {
         return basketDataLiveData;

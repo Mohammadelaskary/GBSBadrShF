@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.AddDefects;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -48,7 +50,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMovePaintingBasket basketData;
-    int jobOrderId,parentId=3,sampleQty,userId = 1;
+    int jobOrderId,parentId=3,sampleQty,userId = USER_ID;
     String basketCode,deviceSerialNo = "S1";
     boolean newSample = false ;
     PaintAddDefectsViewModel viewModel;

@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequestsList;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -112,7 +114,7 @@ public class WeldingRejectionRequestDetailsFragment extends DaggerFragment imple
         });
     }
 
-    int userId = 1 ;
+    int userId = USER_ID ;
     int rejectionRequestId;
     @Override
     public void onClick(View v) {

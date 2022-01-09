@@ -41,7 +41,7 @@ public class CountingViewModel extends ViewModel {
 
         status = new MutableLiveData<>(Status.IDLE);
     }
-    void getbarcodecodedata(String userid,String deviceserialnum,String barcode){
+    void getbarcodecodedata(int userid,String deviceserialnum,String barcode){
         disposable.add(apiInterface.getcountingdata(userid,deviceserialnum,barcode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetCountingData<CountingData>, Throwable>() {
             @Override
             public void accept(ApiGetCountingData<CountingData> getcountingdata, Throwable throwable) throws Exception {
@@ -63,7 +63,7 @@ public class CountingViewModel extends ViewModel {
         }));
 
     }
-    void setbarcodecodedata(String UserId,String DeviceSerialNo,String Barcode,String Countingqty){
+    void setbarcodecodedata(int UserId,String DeviceSerialNo,String Barcode,String Countingqty){
         disposable.add(apiInterface.seetcountingdata(UserId,DeviceSerialNo,Barcode,Countingqty).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetCountingData<ResponseStatus>, Throwable>() {
             @Override
             public void accept(ApiGetCountingData<ResponseStatus> responseStatusApiSavefirstloading, Throwable throwable) throws Exception {

@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequestsList;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -64,7 +66,7 @@ public class WeldingRejectionRequestsListQualityFragment extends DaggerFragment 
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestsListQualityViewModel.class);
     }
-    int userId = 1;
+    int userId = USER_ID;
     String deviceSerialNo = "S1";
     private void getRejectionRequestsList() {
         viewModel.getRejectionRequests(userId,deviceSerialNo);

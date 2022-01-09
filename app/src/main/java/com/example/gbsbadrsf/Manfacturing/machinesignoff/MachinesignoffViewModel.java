@@ -84,7 +84,7 @@ public class MachinesignoffViewModel extends ViewModel {
                             }
                         }));
     }
-    void getmachinecodedata(String userid,String deviceserialnum,String machinecode){
+    void getmachinecodedata(int userid,String deviceserialnum,String machinecode){
         disposable.add(apiInterface.getmachinecodedata(userid,deviceserialnum,machinecode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<Apigetmachinecode<MachineLoading>, Throwable>() {
             @Override
             public void accept(Apigetmachinecode<MachineLoading> getmachinecode, Throwable throwable) throws Exception {

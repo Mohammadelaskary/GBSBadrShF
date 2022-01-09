@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Manfacturing.machinesignoff;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -83,7 +85,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
 
-            machinesignoffViewModel.getmachinecodedata("1", "S123", fragmentProductionSignoffBinding.machinecodeNewedttxt.getText().toString());
+            machinesignoffViewModel.getmachinecodedata(USER_ID, "S123", fragmentProductionSignoffBinding.machinecodeNewedttxt.getText().toString());
 
                     return true;
                 }
@@ -284,7 +286,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
             @Override
             public void run() {
                 fragmentProductionSignoffBinding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                machinesignoffViewModel.getmachinecodedata("1", "S123", fragmentProductionSignoffBinding.machinecodeNewedttxt.getText().toString());
+                machinesignoffViewModel.getmachinecodedata(USER_ID, "S123", fragmentProductionSignoffBinding.machinecodeNewedttxt.getText().toString());
 
 
             }

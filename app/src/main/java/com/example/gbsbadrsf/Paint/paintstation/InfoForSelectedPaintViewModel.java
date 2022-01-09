@@ -41,7 +41,7 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
 
 
     }
-    void getselectedpaintsequence(String UserID,String DeviceSerialNo,String loadingsequenceid){
+    void getselectedpaintsequence(int UserID,String DeviceSerialNo,String loadingsequenceid){
         disposable.add(apiinterface.getpaintloadingsequence(UserID,DeviceSerialNo,loadingsequenceid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>, Throwable>() {
             @Override
             public void accept(ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets> getinfoforselectedstationloading, Throwable throwable) throws Exception {

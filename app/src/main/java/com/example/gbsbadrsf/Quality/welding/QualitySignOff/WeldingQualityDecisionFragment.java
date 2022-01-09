@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.QualitySignOff;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -243,7 +245,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityDecisionViewModel.class);
     }
-    int userId = 1,operationId, parentId,jobOrderId,lastMoveId,pprLoadingId;
+    int userId = USER_ID,operationId, parentId,jobOrderId,lastMoveId,pprLoadingId;
     String deviceSerialNumber = "Dev1",defectedQty;
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     List<DefectsWelding> defectsWeldingList = new ArrayList<>();

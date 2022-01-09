@@ -49,7 +49,7 @@ public class SignoffweViewModel extends ViewModel {
 
 
     }
-    void getstationcodedata(String userid,String deviceserialnum,String productionstationcode){
+    void getstationcodedata(int userid,String deviceserialnum,String productionstationcode){
         disposable.add(apiInterface.getinfoforstationcode(userid,deviceserialnum,productionstationcode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<Apiinfoforstationcode<Stationcodeloading>, Throwable>() {
             @Override
             public void accept(Apiinfoforstationcode<Stationcodeloading> getinfoforstationcode, Throwable throwable) throws Exception {

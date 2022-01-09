@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Paint.paintstation;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
@@ -85,7 +87,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-             viewModel.getpaintsequence("1","S123",fragmentPaintdstationBinding.barcodeEdt.getText().toString());
+             viewModel.getpaintsequence(USER_ID,"S123",fragmentPaintdstationBinding.barcodeEdt.getText().toString());
 
                     return true;
                 }
@@ -301,7 +303,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
 
             if (isChecked) {
-                infoForSelectedPaintViewModel.getselectedpaintsequence("1", "S123", Paintsequenceresponse.get(position).getLoadingSequenceID().toString());
+                infoForSelectedPaintViewModel.getselectedpaintsequence(USER_ID, "S123", Paintsequenceresponse.get(position).getLoadingSequenceID().toString());
                 clickedPprpaint = item;
 
             }

@@ -36,7 +36,7 @@ public class MachinewipViewModel extends ViewModel {
 
     }
 
-    void getmachinewip(String UserID,String DeviceSerialNo){
+    void getmachinewip(int UserID,String DeviceSerialNo){
         disposable.add(apiInterface.getmachinewip(UserID,DeviceSerialNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

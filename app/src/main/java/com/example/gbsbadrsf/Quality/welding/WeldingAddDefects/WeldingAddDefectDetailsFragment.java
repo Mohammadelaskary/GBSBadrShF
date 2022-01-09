@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -159,7 +160,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
             jobOrderId,
             operationId,
             sampleQty,
-            userId=1;
+            userId=USER_ID;
     @Override
     public void onClick(View v) {
         int id = v.getId();

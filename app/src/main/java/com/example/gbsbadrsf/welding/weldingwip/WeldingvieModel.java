@@ -36,7 +36,7 @@ public class WeldingvieModel extends ViewModel {
 
     }
 
-    void getweldingwip(String UserID,String DeviceSerialNo){
+    void getweldingwip(int UserID,String DeviceSerialNo){
         disposable.add(apiInterface.getstationwip(UserID,DeviceSerialNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

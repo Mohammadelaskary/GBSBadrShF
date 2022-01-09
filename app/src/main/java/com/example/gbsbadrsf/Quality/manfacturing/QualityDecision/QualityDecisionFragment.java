@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityDecision;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -240,7 +242,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(QualityDecisionViewModel.class);
     }
-    int userId = 1,operationId,childId,jobOrderId,lastMoveId,pprLoadingId;
+    int userId = USER_ID,operationId,childId,jobOrderId,lastMoveId,pprLoadingId;
     String deviceSerialNumber = "Dev1",defectedQty;
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     List<DefectsManufacturing> defectsManufacturingList = new ArrayList<>();

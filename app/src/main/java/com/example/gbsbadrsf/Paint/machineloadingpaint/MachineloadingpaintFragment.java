@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Paint.machineloadingpaint;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -67,7 +69,7 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
         fragmentMachineloadingpaintBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savepaintViewModel.savepaintloading("1", "S123", fragmentMachineloadingpaintBinding.stationcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.loadingqtns.getText().toString(), "2", getArguments().getString("parentid"));
+                savepaintViewModel.savepaintloading(USER_ID, "S123", fragmentMachineloadingpaintBinding.stationcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.loadingqtns.getText().toString(), "2", getArguments().getString("parentid"));
 
             }
         });

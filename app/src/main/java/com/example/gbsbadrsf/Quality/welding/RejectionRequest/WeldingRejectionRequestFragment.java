@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequest;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -237,7 +239,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
     }
 
     List<Department> departments = new ArrayList<>();
-    int userId = 1;
+    int userId = USER_ID;
     private void getDepartmentsList() {
         viewModel.getDepartmentsList(userId);
         viewModel.getApiResponseDepartmentsListLiveData().observe(getViewLifecycleOwner(),apiResponseDepartmentsList -> {

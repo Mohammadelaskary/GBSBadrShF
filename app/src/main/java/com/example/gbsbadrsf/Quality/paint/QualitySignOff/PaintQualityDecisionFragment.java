@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.QualitySignOff;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -248,7 +250,7 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(PaintQualityDecisionViewModel.class);
     }
-    int userId = 1,operationId, parentId,jobOrderId,lastMoveId,pprLoadingId;
+    int userId = USER_ID,operationId, parentId,jobOrderId,lastMoveId,pprLoadingId;
     String deviceSerialNumber = "Dev1",defectedQty;
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     List<DefectsPainting> defectsPaintingList = new ArrayList<>();

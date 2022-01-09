@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.machineloading;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -70,7 +72,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              machineloadingViewModel.savefirstloading("1","S123",getArguments().getString("loadingsequenceid"), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(), binding.newloadingqtnEdt.getText().toString());
+              machineloadingViewModel.savefirstloading(USER_ID,"S123",getArguments().getString("loadingsequenceid"), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(), binding.newloadingqtnEdt.getText().toString());
 
             }
         });

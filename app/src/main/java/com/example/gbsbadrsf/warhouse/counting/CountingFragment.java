@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.warhouse.counting;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -72,7 +74,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    countingViewModel.getbarcodecodedata("1", "S123", fragmentCountingBinding.barcodenewEdt.getText().toString());
+                    countingViewModel.getbarcodecodedata(USER_ID, "S123", fragmentCountingBinding.barcodenewEdt.getText().toString());
                     return true;
                 }
                 return false;
@@ -106,7 +108,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
         fragmentCountingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countingViewModel.setbarcodecodedata("1", "S123", fragmentCountingBinding.barcodenewEdt.getText().toString(), fragmentCountingBinding.qtyEdt.getText().toString());
+                countingViewModel.setbarcodecodedata(USER_ID, "S123", fragmentCountingBinding.barcodenewEdt.getText().toString(), fragmentCountingBinding.qtyEdt.getText().toString());
 
             }
         });
@@ -242,7 +244,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
             @Override
             public void run() {
                 fragmentCountingBinding.barcodenewEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                countingViewModel.getbarcodecodedata("1", "S123", fragmentCountingBinding.barcodenewEdt.getText().toString());
+                countingViewModel.getbarcodecodedata(USER_ID, "S123", fragmentCountingBinding.barcodenewEdt.getText().toString());
 
 
             }

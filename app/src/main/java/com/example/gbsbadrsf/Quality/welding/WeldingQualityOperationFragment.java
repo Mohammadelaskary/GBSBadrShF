@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -119,7 +120,7 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     }
 
     String deviceSerialNo = "S1";
-    int userId = 1;
+    int userId = USER_ID;
     LastMoveWeldingBasket basketData;
     private void getBasketData(String basketCode) {
         binding.basketCode.setError(null);

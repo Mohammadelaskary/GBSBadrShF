@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.welding.machineloadingwe;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -73,7 +75,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
         fragmentMachineloadingweBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveweldingViewModel.saveweldingloading("1","S123",fragmentMachineloadingweBinding.stationcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),"1",getArguments().getString("parentid"));
+                saveweldingViewModel.saveweldingloading(USER_ID,"S123",fragmentMachineloadingweBinding.stationcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),"1",getArguments().getString("parentid"));
 
             }
         });

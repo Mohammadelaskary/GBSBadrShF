@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -175,7 +177,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
         });
     }
 
-    int userId = 1 ;
+    int userId = USER_ID ;
     String deviceSerialNumber = "S12";
     private void getMachineDieInfo(String machineDieCode) {
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);

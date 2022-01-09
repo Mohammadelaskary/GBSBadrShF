@@ -43,7 +43,7 @@ public class ContinueLoadingViewModel extends ViewModel {
 
         status = new MutableLiveData<>(Status.IDLE);
     }
-    void getbasketedata(String userid,String deviceserialnum,String basketcode){
+    void getbasketedata(int userid,String deviceserialnum,String basketcode){
         disposable.add(apiInterface.getbasketcodedata(userid,deviceserialnum,basketcode)
                 .doOnSubscribe(__ -> status.postValue(Status.LOADING))
                 .subscribe(getbasketcode -> {
@@ -60,7 +60,7 @@ public class ContinueLoadingViewModel extends ViewModel {
         }));
 
     }
-    void savecontinueloading(String UserId,String DeviceSerialNo,String BasketCode,String MachineCode,String DieCode,String  LoadingQtyMobile){
+    void savecontinueloading(int UserId,String DeviceSerialNo,String BasketCode,String MachineCode,String DieCode,String  LoadingQtyMobile){
         disposable.add(apiInterface.savecontinueloading(UserId,DeviceSerialNo,BasketCode,MachineCode,DieCode,LoadingQtyMobile).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(responseStatusApiContinuetloading -> {
             if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
             {

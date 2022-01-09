@@ -98,13 +98,13 @@ public interface ApiInterface {
 
 
   @GET("GetWeldingLoadingSequenceByJobOrder")
-    Single<ApiResponseweldingbyjoborder<List<PprWelding>>> getweldingsequence(@Query("UserID") String userid,
+    Single<ApiResponseweldingbyjoborder<List<PprWelding>>> getweldingsequence(@Query("UserID") int userid,
                                                                               @Query("DeviceSerialNo") String deviceserialnumber,
                                                                               @Query("JobOrderName") String jobordername);
 
     //get paint station by job order
     @GET("GetPaintingLoadingSequenceByJobOrder")
-    Single<ApiPaintstation<List<Pprpaint>>> getpaintsequence(@Query("UserID") String userid,
+    Single<ApiPaintstation<List<Pprpaint>>> getpaintsequence(@Query("UserID") int userid,
                                                              @Query("DeviceSerialNo") String deviceserialnumber,
                                                              @Query("JobOrderName") String jobordername);
 
@@ -113,19 +113,19 @@ public interface ApiInterface {
 //Single<Apigetinfoforselectedstation<StationLoading>> getinfoforselectedstation(@Query("UserID") String userid,@Query("DeviceSerialNo") String deviceserialnumber,@Query("ProductionStationEnName")String ProductionStationEnName);//old
     @GET("GetWeldingLoadingSequenceStartLoading")
 //the new one of get selection info
-    Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingsequence(@Query("UserID") String userid,
+    Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingsequence(@Query("UserID") int userid,
                                                                                           @Query("DeviceSerialNo") String deviceserialnumber,
                                                                                           @Query("LoadingSequenceID") String loadingsequenceid);
 
     //get info for selected paint
     @GET("GetPaintingLoadingSequenceStartLoading")
-    Single<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>> getpaintloadingsequence(@Query("UserID") String userid,
+    Single<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>> getpaintloadingsequence(@Query("UserID") int userid,
                                                                                                       @Query("DeviceSerialNo") String deviceserialnumber,
                                                                                                       @Query("LoadingSequenceID") String loadingsequenceid);
 
     //saveweldingloadingsequence
     @GET("SaveWeldingLoadingSequence")
-    Single<ApiSavefirstloading<ResponseStatus>> saveweldingloadingsequence(@Query("UserID") String userid,
+    Single<ApiSavefirstloading<ResponseStatus>> saveweldingloadingsequence(@Query("UserID") int userid,
                                                                            @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                            @Query("ProductionStationCode") String ProductionStationCode,
                                                                            @Query("BasketCode") String BsketCode,
@@ -136,7 +136,7 @@ public interface ApiInterface {
 
     //savepaintloadingsequence
     @GET("SavePaintingLoadingSequence")
-    Single<ApiSavePaintloading<ResponseStatus>> savepaintloadingsequence(@Query("UserID") String userid,
+    Single<ApiSavePaintloading<ResponseStatus>> savepaintloadingsequence(@Query("UserID") int userid,
                                                                          @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                          @Query("ProductionStationCode") String ProductionStationCode,
                                                                          @Query("BasketCode") String BsketCode,
@@ -147,13 +147,13 @@ public interface ApiInterface {
 
     //GetCountingdata
     @GET("GetCountingData")
-    Single<ApiGetCountingData<CountingData>> getcountingdata(@Query("UserID") String userid,
+    Single<ApiGetCountingData<CountingData>> getcountingdata(@Query("UserID") int userid,
                                                              @Query("DeviceSerialNo") String DeviceSerialNo,
                                                              @Query("Barcode") String barcode);
 
     //SetCountingData
     @GET("SetCountingData")
-    Single<ApiGetCountingData<ResponseStatus>> seetcountingdata(@Query("UserID") String userid,
+    Single<ApiGetCountingData<ResponseStatus>> seetcountingdata(@Query("UserID") int userid,
                                                                 @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                 @Query("Barcode") String barcode,
                                                                 @Query("CountingQty") String contingqty
@@ -161,13 +161,13 @@ public interface ApiInterface {
 
     //Get Recivingdata
     @GET("GetReceivingData")
-    Single<ApiGetRecivingData<CountingDataRecivingdata>> getrecivingcountingdata(@Query("UserID") String userid,
+    Single<ApiGetRecivingData<CountingDataRecivingdata>> getrecivingcountingdata(@Query("UserID") int userid,
                                                                                  @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                                  @Query("Barcode") String barcode);
 
     //setRecivingData
     @GET("SetReceivingData")
-    Single<ApiGetRecivingData<ResponseStatus>> setRecivinggdata(@Query("UserID") String userid,
+    Single<ApiGetRecivingData<ResponseStatus>> setRecivinggdata(@Query("UserID") int userid,
                                                                 @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                 @Query("Barcode") String barcode,
                                                                 @Query("ReceivingQty") String recivingqty);
@@ -175,23 +175,23 @@ public interface ApiInterface {
 
     //Getmachinewip
     @GET("GetMachinesWIP")
-    Single<ApiResponseMachinewip<List<MachinesWIP>>> getmachinewip(@Query("UserID") String userid,
+    Single<ApiResponseMachinewip<List<MachinesWIP>>> getmachinewip(@Query("UserID") int userid,
                                                                    @Query("DeviceSerialNo") String deviceserialnumber);
 
     //Getweldingwip
     @GET("GetStationsWIP")
-    Single<ApiResponseStationwip<List<StationsWIP>>> getstationwip(@Query("UserID") String userid,
+    Single<ApiResponseStationwip<List<StationsWIP>>> getstationwip(@Query("UserID") int userid,
                                                                    @Query("DeviceSerialNo") String deviceserialnumber);
 
     //Getpaintwip
     @GET("GetStationsWIP_Painting")
-    Single<ApiResponsePaintwip<List<StationsWIP>>> getpaintwip(@Query("UserID") String userid,
+    Single<ApiResponsePaintwip<List<StationsWIP>>> getpaintwip(@Query("UserID") int userid,
                                                                @Query("DeviceSerialNo") String deviceserialnumber);
 
 
     //Get info for stationcode
     @GET("GetInfoForSelectedStation")
-    Single<Apiinfoforstationcode<Stationcodeloading>> getinfoforstationcode(@Query("UserID") String userid,
+    Single<Apiinfoforstationcode<Stationcodeloading>> getinfoforstationcode(@Query("UserID") int userid,
                                                                             @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                             @Query("ProductionStationCode") String ProductionStationCode);
 
@@ -205,7 +205,7 @@ public interface ApiInterface {
                                                                                     @Query("DeviceSerialNo") String deviceserialnumber, @Query("LoadingSequenceID") int loadingsequenceid);
 
     @GET("SaveFistLoadingSequence")
-    Single<ApiSavefirstloading<ResponseStatus>> savefirstloading(@Query("UserID") String userid,
+    Single<ApiSavefirstloading<ResponseStatus>> savefirstloading(@Query("UserID") int userid,
                                                                  @Query("DeviceSerialNo") String deviceserialnumber,
                                                                  @Query("LoadingSequenceID") String loadingsequenceid,
                                                                  @Query("MachineCode") String machinecode,
@@ -222,13 +222,13 @@ public interface ApiInterface {
 
     //get machine code in signoff
     @GET("GetInfoForSelectedMachine")
-    Single<Apigetmachinecode<MachineLoading>> getmachinecodedata(@Query("UserID") String userid, @Query("DeviceSerialNo") String devicenumber, @Query("MachineCode") String machinecode);
+    Single<Apigetmachinecode<MachineLoading>> getmachinecodedata(@Query("UserID") int userid, @Query("DeviceSerialNo") String devicenumber, @Query("MachineCode") String machinecode);
 
     @GET("GetBasketInfo")
-    Single<Apigetbasketcode<LastMoveManufacturingBasketInfo>> getbasketcodedata(@Query("UserID") String userid, @Query("DeviceSerialNo") String devicenumber, @Query("BasketCode") String basketcode);
+    Single<Apigetbasketcode<LastMoveManufacturingBasketInfo>> getbasketcodedata(@Query("UserID") int userid, @Query("DeviceSerialNo") String devicenumber, @Query("BasketCode") String basketcode);
 
     @GET("ContinueLoading")
-    Single<ApiContinueloading<ResponseStatus>> savecontinueloading(@Query("UserID") String userid,
+    Single<ApiContinueloading<ResponseStatus>> savecontinueloading(@Query("UserID") int userid,
                                                                    @Query("DeviceSerialNo") String deviceserialnumber,
                                                                    @Query("BasketCode") String basketcode,
                                                                    @Query("MachineCode") String machinecode,

@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Manfacturing.machineloading;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                {
-               continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
+               continueLoadingViewModel.getbasketedata(USER_ID, "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
                    return true;
                }
                return false;
@@ -106,7 +107,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         fragmentContinueLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                continueLoadingViewModel.savecontinueloading("1","S123",fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString(),fragmentContinueLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentContinueLoadingBinding.newdiecodeEdt.getText().toString(),"12");
+                continueLoadingViewModel.savecontinueloading(USER_ID,"S123",fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString(),fragmentContinueLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentContinueLoadingBinding.newdiecodeEdt.getText().toString(),"12");
 
             }
         });
@@ -237,7 +238,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 }
                 else if (fragmentContinueLoadingBinding.basketcodeEdt.getEditText().isFocused()){
                     fragmentContinueLoadingBinding.basketcodeEdt.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                    continueLoadingViewModel.getbasketedata("1", "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
+                    continueLoadingViewModel.getbasketedata(USER_ID, "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
                 }
 
             }

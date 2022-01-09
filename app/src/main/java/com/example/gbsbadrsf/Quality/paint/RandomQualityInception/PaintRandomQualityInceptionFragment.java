@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.RandomQualityInception;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -174,7 +176,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
         });
     }
 
-    int userId = 1 ;
+    int userId = USER_ID ;
     String deviceSerialNumber = "S12";
     private void getMachineDieInfo(String machineDieCode) {
         binding.machineDieCode.setError(null);

@@ -35,7 +35,7 @@ public class PaintViewModel extends ViewModel {
 
     }
 
-    void getweldingpaint(String UserID,String DeviceSerialNo){
+    void getweldingpaint(int UserID,String DeviceSerialNo){
         disposable.add(apiInterface.getpaintwip(UserID,DeviceSerialNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

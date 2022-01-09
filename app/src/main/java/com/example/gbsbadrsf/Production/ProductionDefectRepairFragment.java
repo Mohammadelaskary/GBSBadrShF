@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Production;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -146,7 +147,7 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
         this.defectsManufacturing = defectsManufacturing;
         this.position = position;
     }
-    int userId = 1,defectsManufacturingDetailsId=-1,defectStatus;
+    int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",repairedQty;
 
     @Override

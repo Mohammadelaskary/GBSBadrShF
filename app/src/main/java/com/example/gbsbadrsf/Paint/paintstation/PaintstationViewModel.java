@@ -36,7 +36,7 @@ public class PaintstationViewModel extends ViewModel {
 
     }
 
-    void getpaintsequence(String Userid,String Deviceserialnumber,String Joborddername){
+    void getpaintsequence(int Userid,String Deviceserialnumber,String Joborddername){
         disposable.add(apiInterface.getpaintsequence(Userid,Deviceserialnumber,Joborddername)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

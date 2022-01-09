@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -128,7 +130,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     }
 
 
-    int userId = 1, defectsWeldingDetailsId =-1,defectStatus;
+    int userId = USER_ID, defectsWeldingDetailsId =-1,defectStatus;
     String notes="df", deviceSerialNumber="sdf",approvedQty;
 
     @Override

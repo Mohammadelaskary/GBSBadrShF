@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -117,7 +118,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         });
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
-    int userId = 1;
+    int userId = USER_ID;
     String deviceSerialNo="S1",basketCode;
     private void getBasketDefectsPainting(String basketCode) {
         viewModel.getDefectsPaintingViewModel(userId,deviceSerialNo,basketCode);

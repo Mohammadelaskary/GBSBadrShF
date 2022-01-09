@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.warhouse.warehouse;
 
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -72,7 +74,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    warehouseViewModel.getrecivingbarcodecodedata("1", "S123", fragmentWarehouseBinding.barcodenewEdt.getText().toString());
+                    warehouseViewModel.getrecivingbarcodecodedata(USER_ID, "S123", fragmentWarehouseBinding.barcodenewEdt.getText().toString());
 
                     return true;
                 }
@@ -102,7 +104,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
         fragmentWarehouseBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                warehouseViewModel.setrecivingbarcodecodedata("1", "S123", fragmentWarehouseBinding.barcodenewEdt.getText().toString(), fragmentWarehouseBinding.qtyEdt.getText().toString());
+                warehouseViewModel.setrecivingbarcodecodedata(USER_ID, "S123", fragmentWarehouseBinding.barcodenewEdt.getText().toString(), fragmentWarehouseBinding.qtyEdt.getText().toString());
 
             }
         });
@@ -201,7 +203,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
             @Override
             public void run() {
                 fragmentWarehouseBinding.barcodenewEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                warehouseViewModel.getrecivingbarcodecodedata("1", "S123", fragmentWarehouseBinding.barcodenewEdt.getText().toString());
+                warehouseViewModel.getrecivingbarcodecodedata(USER_ID, "S123", fragmentWarehouseBinding.barcodenewEdt.getText().toString());
 
 
             }

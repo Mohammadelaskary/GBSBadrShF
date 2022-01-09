@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -119,7 +120,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
     }
 
     String deviceSerialNo = "S1";
-    int userId = 1;
+    int userId = USER_ID;
     LastMovePaintingBasket basketData;
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
