@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
 import com.example.gbsbadrsf.data.response.LoadingSequenceInfo;
 import com.example.gbsbadrsf.data.response.Ppr;
+import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -61,6 +62,7 @@ public class ProductionsequenceViewModel extends ViewModel {
 
 
 
+
     public MutableLiveData<List<Ppr>> getProductionsequenceResponse() {
         return productionsequenceResponse;
     }
@@ -68,4 +70,6 @@ public class ProductionsequenceViewModel extends ViewModel {
     public MutableLiveData<Status> getStatus() {
         return status;
     }
+
+
 }

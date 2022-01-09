@@ -1,5 +1,8 @@
 package com.example.gbsbadrsf.productionsequence;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
@@ -19,6 +22,7 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Ppr;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionSequenceBinding;
 import com.google.gson.Gson;
 import com.honeywell.aidc.BarcodeFailureEvent;
@@ -57,7 +61,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
     List<String> selectedsequence;
     Ppr clickedPpr;
-
+    ProgressDialog progressDialog;
 
 
 
@@ -67,7 +71,8 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         binding = FragmentProductionSequenceBinding.inflate(inflater, container, false);
         viewModel = ViewModelProviders.of(this,provider).get(ProductionsequenceViewModel.class);
         selectedLoadinsequenceinfoViewModel=ViewModelProviders.of(this,provider).get(SelectedLoadinsequenceinfoViewModel.class);
-
+        progressDialog = loadingProgressDialog(getContext());
+        observeGettingProductionSequence();
 
 //        fragmentProductionSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -88,7 +93,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 //
 //            }
 //        });
-        binding.jobOrderName.setOnKeyListener(new View.OnKeyListener() {
+        binding.jobOrderName.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
@@ -159,6 +164,14 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
     }
 
+    private void observeGettingProductionSequence() {
+        viewModel.status.observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.dismiss();
+        });
+    }
 
 
     private void subscribeRequest() {

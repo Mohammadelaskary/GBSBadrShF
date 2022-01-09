@@ -1,5 +1,8 @@
 package com.example.gbsbadrsf.Manfacturing.machineloading;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,6 +25,7 @@ import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.Machinsignoffcases;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentContinueLoadingBinding;
 import com.example.gbsbadrsf.databinding.FragmentProductionSignoffBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
@@ -48,7 +52,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
     FragmentContinueLoadingBinding fragmentContinueLoadingBinding;
     private BarcodeReader barcodeReader;
     private ContinueLoadingViewModel continueLoadingViewModel;
-
+    ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         }
         continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
-
+        progressDialog = loadingProgressDialog(getContext());
        fragmentContinueLoadingBinding.basketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
            @Override
            public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -98,7 +102,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         getdata();
        // initViews();
         subscribeRequest();
-
+        observeGettingData();
         fragmentContinueLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,15 +151,22 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
         return fragmentContinueLoadingBinding.getRoot();
     }
+
+    private void observeGettingData() {
+        continueLoadingViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING)) {
+                progressDialog.show();
+            } else {
+                progressDialog.dismiss();
+            }
+        });
+    }
+
     public void getdata() {
         continueLoadingViewModel.getLastmanfacturingbasketinfo().observe(getViewLifecycleOwner(), cuisines -> {
             fragmentContinueLoadingBinding.childesc.setText(cuisines.getChildDescription());
             fragmentContinueLoadingBinding.childcode.setText(cuisines.getChildCode());
             fragmentContinueLoadingBinding.jobordernum.setText(cuisines.getJobOrderName());
-
-
-
-
         });
     }
     private void subscribeRequest() {

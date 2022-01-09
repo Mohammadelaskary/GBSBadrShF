@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.machineloading;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
@@ -18,6 +19,7 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentMachineLoadingBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -46,7 +48,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
     ViewModelProviderFactory providerFactory;
     MachineloadingViewModel machineloadingViewModel;
     private ResponseStatus responseStatus;
-
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -64,7 +66,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         initObjects();
         //attachListeners();
         subscribeRequest();
-
+        observeSavingData();
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +117,16 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         return binding.getRoot();
 
 
+    }
+
+    private void observeSavingData() {
+        machineloadingViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if ((status.equals(Status.LOADING))) {
+                progressDialog.show();
+            } else {
+                progressDialog.dismiss();
+            }
+        });
     }
 
     private void initObjects() {

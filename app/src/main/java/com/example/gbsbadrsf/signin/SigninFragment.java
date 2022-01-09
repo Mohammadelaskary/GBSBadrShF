@@ -1,5 +1,8 @@
 package com.example.gbsbadrsf.signin;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,7 +33,7 @@ public class SigninFragment extends DaggerFragment {
     ViewModelProviderFactory providerFactory;
     //private LoadingDialog dialog;
     SignInViewModel signinviewmodel;
-
+    ProgressDialog progressDialog;
 
     public SigninFragment() {
         // Required empty public constructor
@@ -58,7 +61,8 @@ public class SigninFragment extends DaggerFragment {
 
         //attachListeners();
         signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
-
+        progressDialog = loadingProgressDialog(getContext());
+        observeSignInStatus();
         subscribeRequest();
 
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
@@ -81,6 +85,13 @@ public class SigninFragment extends DaggerFragment {
         });
         return fragmentSigninBinding.getRoot();
 
+    }
+
+    private void observeSignInStatus() {
+        signinviewmodel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING)) progressDialog.show();
+            else progressDialog.dismiss();
+        });
     }
 
     private void subscribeRequest() {
