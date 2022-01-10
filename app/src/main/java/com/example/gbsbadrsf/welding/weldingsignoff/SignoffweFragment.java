@@ -167,15 +167,18 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 }catch (Exception e){
                     c.setTotalQty(0);
                 }*/
-                Bundle args = new Bundle();
-                args.putString("parentdesc", fragmentSignoffweBinding.parentdesc.getText().toString());
-                args.putString("loadingqty", fragmentSignoffweBinding.loadingqtn.getText().toString());
+                if (!fragmentSignoffweBinding.loadingqtn.getText().toString().isEmpty()) {
+                    Bundle args = new Bundle();
+                    args.putString("parentdesc", fragmentSignoffweBinding.parentdesc.getText().toString());
+                    args.putString("loadingqty", fragmentSignoffweBinding.loadingqtn.getText().toString());
 
-                Signoffweitemsdialog dialog = new Signoffweitemsdialog();
-                dialog.setArguments(args);
-                dialog.setTargetFragment(SignoffweFragment.this, 1);
-                dialog.show(getFragmentManager(), "MyCustomDialog");
-
+                    Signoffweitemsdialog dialog = new Signoffweitemsdialog();
+                    dialog.setArguments(args);
+                    dialog.setTargetFragment(SignoffweFragment.this, 1);
+                    dialog.show(getFragmentManager(), "MyCustomDialog");
+                } else {
+                    Toast.makeText(getContext(), "Wrong machine code!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.machineloading;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -59,7 +60,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         // Inflate the layout for this fragment
 
         binding = FragmentMachineLoadingBinding.inflate(inflater, container, false);
-
+        progressDialog = loadingProgressDialog(getContext());
         machineloadingViewModel = ViewModelProviders.of(this, providerFactory).get(MachineloadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
 

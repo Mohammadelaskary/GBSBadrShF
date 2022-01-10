@@ -221,14 +221,14 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
 
                         break;
 
-                    case wrongmachinecode:
+                    case wrongmachinecode: {
+                        fragmentCountingBinding.barcodenewEdt.requestFocus();
                         Toast.makeText(getContext(), "Wrong Barcoe or No data found!", Toast.LENGTH_SHORT).show();
 
-
-                        break;
-                    case Updatedsuccessfully:
+                    } break;
+                    case Updatedsuccessfully: {
                         Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
-
+                    } break;
 
                 }
             }

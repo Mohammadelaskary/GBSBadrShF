@@ -180,11 +180,10 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
 
                         break;
 
-                    case wrongmachinecode:
-                        Toast.makeText(getContext(), "Wrong Barcoe or No data found!", Toast.LENGTH_SHORT).show();
-
-
-                        break;
+                    case wrongmachinecode: {
+                        Toast.makeText(getContext(), "Wrong Barcode or No data found!", Toast.LENGTH_SHORT).show();
+                        fragmentWarehouseBinding.barcodenewEdt.requestFocus();
+                    }  break;
                     case Updatedsuccessfully:
                         Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
 

@@ -105,12 +105,8 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
                             basketcodelstList.add(nwItem);
                             productionSignoffadapter.notifyDataSetChanged();
                         }
-
                     }
-
-
                     else {
-
                         if (totalqtn.getText().toString().trim().isEmpty()) {
                             Toast.makeText(getContext(), "please enter quantity ", Toast.LENGTH_SHORT).show();
                         } else {
