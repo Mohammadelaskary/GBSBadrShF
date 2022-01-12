@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.QualitySignOff;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -130,7 +131,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting Check list!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting Check list!");
             }
         });
     }
@@ -194,7 +195,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
             if (statusMessage.equals("Done successfully"))
                 navController.popBackStack();
             else
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),statusMessage);
         });
     }
 
@@ -209,7 +210,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     spinnerAdapter.notifyDataSetChanged();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
         });
     }
@@ -290,7 +291,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     binding.saveBtn.setEnabled(true);
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
         });
     }
@@ -398,7 +399,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     if (checkListEnded)
                         viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,date,decisionId);
                     else
-                        Toast.makeText(getContext(), "Please finish mandatory check items first!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Please finish mandatory check items first!");
                 } else
                     binding.basketCode.setError("Please scan or enter valid basket code!");
             } break;
@@ -413,7 +414,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                         binding.basketCode.setError("Please scan or enter valid basket code!");
                     }
                 } else {
-                    Toast.makeText(getContext(), "There is no check list for this operation!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"There is no check list for this operation!");
                 }
             } break;
         }

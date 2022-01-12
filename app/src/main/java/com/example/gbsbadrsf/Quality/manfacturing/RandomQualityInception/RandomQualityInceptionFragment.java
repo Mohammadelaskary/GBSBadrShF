@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -155,7 +156,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                 Toast.makeText(getContext(), SAVED_SUCCESSFULLY, Toast.LENGTH_SHORT).show();
                 navController.popBackStack();
             } else {
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),statusMessage);
             }
         });
     }

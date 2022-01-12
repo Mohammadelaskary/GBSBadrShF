@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.AddDefects;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.AlertDialog;
@@ -244,7 +245,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
                             binding.basketCode.setError(responseMessage);
                         }
                     } else {
-                        Toast.makeText(getContext(), "Error in saving data!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Error in saving data!");
                     }
                 });
             }

@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.gbsbadrsf.MainActivity.getBarcodeObject;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
 public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener, productionsequenceadapter.onCheckedChangedListener {
@@ -320,7 +321,8 @@ public class Signoffitemsdialog extends DialogFragment implements BarcodeReader.
                 //list
 
                 if (constant.getTotalQtyVar()>Integer.valueOf(signoffqty.getText().toString())){
-                    Toast.makeText(getContext(), "the Qty enterd above the signoffQty", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "the Qty enterd above the signoffQty", Toast.LENGTH_LONG).show();
+                    warningDialog(getContext(),"the Qty enterd above the signoffQty");
                     constant.decrementTotalQty(totalQty);
 
 

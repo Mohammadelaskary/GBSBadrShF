@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.warhouse.counting;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -223,8 +224,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
 
                     case wrongmachinecode: {
                         fragmentCountingBinding.barcodenewEdt.requestFocus();
-                        Toast.makeText(getContext(), "Wrong Barcoe or No data found!", Toast.LENGTH_SHORT).show();
-
+                        warningDialog(getContext(),"Wrong Barcode or No data found!");
                     } break;
                     case Updatedsuccessfully: {
                         Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();

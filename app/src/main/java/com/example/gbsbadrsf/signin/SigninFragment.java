@@ -1,13 +1,18 @@
 package com.example.gbsbadrsf.signin;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.hideToolBar;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showToolBar;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -17,10 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.databinding.FragmentSigninBinding;
 
 import javax.inject.Inject;
@@ -65,7 +71,6 @@ public class SigninFragment extends DaggerFragment {
         observeSignInStatus();
         obderveUserId();
         subscribeRequest();
-
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
 
             if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().trim().equals("")) {
@@ -88,9 +93,26 @@ public class SigninFragment extends DaggerFragment {
 
     }
 
-    private void obderveUserId() {
-        signinviewmodel.getUserId().observe(getViewLifecycleOwner(),userId->this.USER_ID=userId);
 
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideToolBar((MainActivity) getActivity());
+    }
+
+    private void obderveUserId() {
+        signinviewmodel.getUserId().observe(getViewLifecycleOwner(),userId->USER_ID=userId);
+
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        showToolBar((MainActivity) getActivity());
     }
 
     private void observeSignInStatus() {
@@ -110,7 +132,7 @@ public class SigninFragment extends DaggerFragment {
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
                         break;
                     case wrongusernameorpassword:
-                        Toast.makeText(getContext(), "Wrong username or password!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong username or password!");
                         break;
                     case ProductionUser:
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
@@ -137,7 +159,7 @@ public class SigninFragment extends DaggerFragment {
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionpainting);
                         break;
                     case CONNECTION_ERROR:
-                        Toast.makeText(getContext(), "Error in Connectivity", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Error in Connectivity");
                         break;
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -143,7 +144,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             } else {
                 binding.defectQtn.setText("");
                 qtyDefectsQtyDefectedList.clear();
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();

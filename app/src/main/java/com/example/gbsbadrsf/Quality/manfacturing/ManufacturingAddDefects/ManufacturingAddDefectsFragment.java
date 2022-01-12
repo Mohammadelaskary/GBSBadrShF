@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -237,7 +239,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
                 bundle.putInt(REMAINING_QTY, remainingQty);
                 Navigation.findNavController(v).navigate(R.id.action_manufacturing_add_defects_to_manufacturing_add_defects_details, bundle);
             } else {
-                Toast.makeText(getContext(), "There is no more childs in sample!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"There is no more childs in sample!");
             }
             });
         binding.saveBtn.setOnClickListener(v -> {

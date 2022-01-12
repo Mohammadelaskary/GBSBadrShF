@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequestsList;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -109,7 +110,7 @@ public class WeldingRejectionRequestDetailsFragment extends DaggerFragment imple
                     navController.popBackStack();
                 }
             } else {
-                Toast.makeText(getContext(), "error in saving data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in saving data!");
             }
         });
     }

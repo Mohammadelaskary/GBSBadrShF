@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Paint.paintstation;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -180,6 +181,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                         bundle.putString("parentdesc",clickedPprpaint.getParentDescription());
                         bundle.putString("parentcode",clickedPprpaint.getParentCode());
                         bundle.putString("parentid",clickedPprpaint.getParentID().toString());
+                        bundle.putInt("jobOrderId",clickedPprpaint.getJobOrderID());
                         //bundle.putString("basketcode",clickedPprwelding.getBaskets().getBasketCode());
                         // bundle.putString("ddd",baskets.getBasketCode());
                         // bundle.putString("slslsl",infoForSelectedStationViewModel.getBaskets().getValue().getJobOrderId().toString());
@@ -189,8 +191,8 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
                     case noloadingquantityformachine:
 
-                        Toast.makeText(getContext(), "There is no loading quantity on the machine!", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "There is no loading quantity on the machine!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"There is no loading quantity on the machine!");
                         break;
 
 

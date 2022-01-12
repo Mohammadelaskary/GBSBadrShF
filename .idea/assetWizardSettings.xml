@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/person/baseline_person_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/arrow_back_ios/baseline_arrow_back_ios_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,9 +29,10 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+                            <entry key="autoMirrored" value="true" />
                             <entry key="color" value="848684" />
-                            <entry key="outputName" value="ic_barcode_icon" />
-                            <entry key="sourceFile" value="C:\Users\Dell\Downloads\barcode_icon.svg" />
+                            <entry key="outputName" value="ic_warning_alert" />
+                            <entry key="sourceFile" value="C:\Users\Dell\Downloads\warning-alert-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

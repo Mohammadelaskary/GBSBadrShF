@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.machineloading;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -161,8 +162,8 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
                         break;
                     case machinealreadyused:
-                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
-                        
+//                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"The machine has already been used");
                         break;
 
                     case wromgmachinecode:

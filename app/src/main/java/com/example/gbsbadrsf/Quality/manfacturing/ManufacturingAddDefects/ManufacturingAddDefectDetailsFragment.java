@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 
 import android.app.ProgressDialog;
@@ -100,7 +101,8 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 }
                 Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
             } else
-                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
+                     warningDialog(getContext(),"Error in connection");
         });
     }
 
@@ -168,14 +170,15 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 String defectedQtyString = binding.defectedQtnEdt.getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
-                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please enter defected quantity!");
                 else {
                     validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    Toast.makeText(getContext(), "Total defected Quantity must be less than or equal sample quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
                 if (defectsIds.isEmpty()){
-                    Toast.makeText(getContext(), "Please Select the found defects!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please Select the found defects!");
                 }
                 AddManufacturingDefectData data = new AddManufacturingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
@@ -229,7 +232,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                     adapter.notifyDataSetChanged();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in connection");
             }
         });
     }

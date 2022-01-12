@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.RandomQualityInception;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -222,7 +223,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 defectedQty = 0;
                 jobOrderQty = 0;
                 binding.machineDieCode.setError("Error in getting data!");
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
             fillData();
         });

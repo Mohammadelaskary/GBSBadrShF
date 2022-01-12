@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -101,6 +102,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
 //                        if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
             navController.popBackStack();
 //                        }
+
             Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
         });
     }
@@ -169,14 +171,14 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
                 String defectedQtyString = binding.defectedQtnEdt.getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
-                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please enter defected quantity!");
                 else {
                     validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    Toast.makeText(getContext(), "Total defected Quantity must be less than or equal sample quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
                 if (defectsIds.isEmpty()){
-                    Toast.makeText(getContext(), "Please Select the found defects!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please Select the found defects!");
                 }
                 AddWeldingDefectData data = new AddWeldingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){

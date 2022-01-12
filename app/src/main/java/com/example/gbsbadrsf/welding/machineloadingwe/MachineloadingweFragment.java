@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.welding.machineloadingwe;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -75,7 +76,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
         fragmentMachineloadingweBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveweldingViewModel.saveweldingloading(USER_ID,"S123",fragmentMachineloadingweBinding.stationcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),"1",getArguments().getString("parentid"));
+                saveweldingViewModel.saveweldingloading(USER_ID,"S123",fragmentMachineloadingweBinding.stationcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),getArguments().getInt("jobOrderId"),getArguments().getString("parentid"));
 
             }
         });
@@ -155,17 +156,14 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
 
                         break;
                     case wrongjoborderorparentid:
-                        Toast.makeText(getContext(), "Wrong job order or parent id", Toast.LENGTH_SHORT).show();
-
+                        warningDialog(getContext(),"Wrong job order or parent id");
                         break;
 
                     case wrongbasketcode:
-                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
-
+                        warningDialog(getContext(),"Wrong basket code");
                         break;
                     case server:
-                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
-
+                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
                         break;
 
 

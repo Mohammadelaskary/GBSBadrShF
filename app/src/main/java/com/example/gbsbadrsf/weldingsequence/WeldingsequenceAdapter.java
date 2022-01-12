@@ -65,7 +65,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
 //                        lastCheckedRB.setChecked(false);
 //                    }
                   checked_rb.setChecked(true);
-                    onClick.onCheckedChanged(holder.getAdapterPosition(), isChecked, weldingsequenceresponse.get(position));
+                    onClick.onCheckedChanged(holder.getAdapterPosition(), true, weldingsequenceresponse.get(position));
 
                 }
                 else {

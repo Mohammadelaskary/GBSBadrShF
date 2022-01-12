@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityRepair;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -94,8 +95,8 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
                 updateRecyclerView();
-            }
-            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+            } else
+                warningDialog(getContext(),statusMessage);
         });
     }
 

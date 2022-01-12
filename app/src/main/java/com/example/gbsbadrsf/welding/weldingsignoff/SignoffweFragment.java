@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.welding.weldingsignoff;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -177,7 +178,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                     dialog.setTargetFragment(SignoffweFragment.this, 1);
                     dialog.show(getFragmentManager(), "MyCustomDialog");
                 } else {
-                    Toast.makeText(getContext(), "Wrong machine code!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Wrong machine code!");
                 }
 
             }
@@ -210,23 +211,20 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                         Toast.makeText(getContext(), "Getting data successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         break;
                     case Wrongproductionstatname:
-                        Toast.makeText(getContext(), "Wrong production station name", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        warningDialog(getContext(),"Wrong production station name");
                         break;
                     case Donesuccessfully:
                         Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         break;
                     case machinefree:
-
-                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"This machine has not been loaded with anything");
                         break;
                     case  wrongmachine:
-                    Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong machine code");
                     break;
-                    case servererror: Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
-
-
-
-
+                    case servererror:
+                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
+                        break;
 
                 }
             }

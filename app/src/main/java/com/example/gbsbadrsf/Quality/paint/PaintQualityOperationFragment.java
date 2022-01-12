@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -197,16 +198,16 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
             boolean validSampleQty = false;
             if (!parentCode.isEmpty()) {
                 if (sampleQty.isEmpty())
-                    Toast.makeText(getContext(), "Please enter sample quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please enter sample quantity!");
                 else {
                     if (containsOnlyDigits(sampleQty)) {
                         validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
                         if (!validSampleQty)
-                            Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
+                            warningDialog(getContext(),"Sample Quantity should be less than or equal sign off Quantity!");
                         if (Integer.parseInt(sampleQty) <= 0)
-                            Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
+                            warningDialog(getContext(),"Sample Quantity should be more than 0!");
                     } else
-                        Toast.makeText(getContext(), "Sample Quantity should be only digits!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Sample Quantity should be only digits!");
                 }
                 if (!sampleQty.isEmpty() && validSampleQty&&containsOnlyDigits(sampleQty)) {
                     Bundle bundle = new Bundle();

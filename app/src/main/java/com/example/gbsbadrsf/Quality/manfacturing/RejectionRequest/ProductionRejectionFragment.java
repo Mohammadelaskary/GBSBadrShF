@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -252,7 +253,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
                     Toast.makeText(getContext(), responseStatus.getStatusMessage(), Toast.LENGTH_SHORT).show();
                 }
             } else
-                Toast.makeText(getContext(), "Error in getting departments!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting departments!");
         });
     }
 
@@ -284,7 +285,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
                     Department department = departments.get(binding.responsibledepSpin.getSelectedItemPosition());
                     departmentId = department.getDepartmentId();
                 } else {
-                    Toast.makeText(getContext(), "Please Select A Responsibility!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please Select A Responsibility!");
                 }
                 if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!childCode.isEmpty()){
                     saveRejectedRequest(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId);

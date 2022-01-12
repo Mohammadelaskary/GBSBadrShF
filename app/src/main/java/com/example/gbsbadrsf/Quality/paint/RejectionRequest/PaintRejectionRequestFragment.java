@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequest;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -246,10 +247,10 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                     departments.addAll(departmentList);
                     spinnerAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "Failed to get Departments", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Failed to get Departments");
                 }
             } else
-                Toast.makeText(getContext(), "Error in getting departments!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting departments!");
         });
     }
 
@@ -281,7 +282,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                     Department department = departments.get(binding.responsibledepSpin.getSelectedItemPosition());
                     departmentId = department.getDepartmentId();
                 } else {
-                    Toast.makeText(getContext(), "Please Select A Responsibility!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please Select A Responsibility!");
                 }
                 if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!parentCode.isEmpty()){
                     saveRejectedRequest(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId);
@@ -305,7 +306,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                     binding.newBasketCode.setError(statusMessage);
                 }
             } else {
-                Toast.makeText(getContext(), "Error in saving data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in saving data!");
             }
         });
     }

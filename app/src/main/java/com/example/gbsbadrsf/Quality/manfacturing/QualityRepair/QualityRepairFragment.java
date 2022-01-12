@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityRepair;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 
 import android.app.ProgressDialog;
@@ -134,7 +135,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
             } else {
                 binding.defectQtn.setText("");
                 qtyDefectsQtyDefectedList.clear();
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.AddDefects;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -168,14 +169,14 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
                 String defectedQtyString = binding.defectedQtnEdt.getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
-                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please enter defected quantity!");
                 else {
                     validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    Toast.makeText(getContext(), "Total defected Quantity must be less than or equal sample quantity!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
                 if (defectsIds.isEmpty()){
-                    Toast.makeText(getContext(), "Please Select the found defects!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please Select the found defects!");
                 }
                 AddPaintingDefectData data = new AddPaintingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){

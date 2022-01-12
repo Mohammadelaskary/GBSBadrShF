@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.warhouse.warehouse;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.content.SharedPreferences;
@@ -181,7 +182,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                         break;
 
                     case wrongmachinecode: {
-                        Toast.makeText(getContext(), "Wrong Barcode or No data found!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong Barcode or No data found!");
                         fragmentWarehouseBinding.barcodenewEdt.requestFocus();
                     }  break;
                     case Updatedsuccessfully:

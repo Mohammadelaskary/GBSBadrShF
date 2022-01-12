@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequestsList;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -108,7 +110,7 @@ public class PaintRejectionRequestDetailsFragment extends DaggerFragment impleme
                     navController.popBackStack();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
         });
     }

@@ -35,7 +35,7 @@ public class SaveweldingViewModel extends ViewModel {
         status = new MutableLiveData<>(Status.IDLE);
 
     }
-    void saveweldingloading(int UserId,String DeviceSerialNo,String ProductionStationCode,String BsketCode,String loadinyqty,String  JoborderId,String parentid){
+    void saveweldingloading(int UserId,String DeviceSerialNo,String ProductionStationCode,String BsketCode,String loadinyqty,int  JoborderId,String parentid){
         disposable.add(apiInterface.saveweldingloadingsequence(UserId,DeviceSerialNo,ProductionStationCode,BsketCode,loadinyqty,JoborderId,parentid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiSavefirstloading<ResponseStatus>, Throwable>() {
             @Override
             public void accept(ApiSavefirstloading<ResponseStatus> responseStatusApiSavefirstloading, Throwable throwable) throws Exception {

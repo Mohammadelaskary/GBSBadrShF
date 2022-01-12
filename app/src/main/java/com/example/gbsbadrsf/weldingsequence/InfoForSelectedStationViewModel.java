@@ -48,26 +48,23 @@ public class InfoForSelectedStationViewModel extends ViewModel {
 
     }
     void getselectedweldingsequence(int UserID,String DeviceSerialNo,String loadingsequenceid){
-        disposable.add(apiinterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetweldingloadingstartloading<Pprcontainbaskets>, Throwable>() {
-            @Override
-            public void accept(ApiGetweldingloadingstartloading<Pprcontainbaskets>getinfoforselectedstationloading, Throwable throwable) throws Exception {
-                if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)
-                {
-                    statustype.postValue(Staustype.gettingdatasuccesfully);
-                   //baskets.postValue(getBaskets().getValue());
+        disposable.add(apiinterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe((getinfoforselectedstationloading, throwable) -> {
+            if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)
+            {
+                statustype.postValue(Staustype.gettingdatasuccesfully);
+               //baskets.postValue(getBaskets().getValue());
 
 
 
-
-
-                }
-                else if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Wrong Loading sequence ID!")){
-                    statustype.postValue(Staustype.noloadingquantityformachine);
-
-                }
 
 
             }
+            else if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Wrong Loading sequence ID!")){
+                statustype.postValue(Staustype.noloadingquantityformachine);
+
+            }
+
+        status.postValue(Status.SUCCESS);
         }));
 
 

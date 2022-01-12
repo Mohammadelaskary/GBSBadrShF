@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.QualityRepair;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -141,7 +142,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
                     qtyDefectsQtyDefectedList.clear();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
                 binding.defectQtn.setText("");
                 qtyDefectsQtyDefectedList.clear();
             }

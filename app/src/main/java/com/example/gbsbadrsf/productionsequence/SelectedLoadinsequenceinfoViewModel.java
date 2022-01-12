@@ -36,7 +36,7 @@ public class SelectedLoadinsequenceinfoViewModel extends ViewModel {
 
         this.repository=productionsequencerepository;
     }
-    void getselectedloadingsequence(String UserID,String DeviceSerialNo,int LoadingSequenceID){
+    void getselectedloadingsequence(int UserID,String DeviceSerialNo,int LoadingSequenceID){
         disposable.add(repository.Loadingsequenceinfo(UserID,DeviceSerialNo,LoadingSequenceID).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>, Throwable>() {
             @Override
             public void accept(APIResponseLoadingsequenceinfo<LoadingSequenceInfo> loadingSequenceInfoAPIResponseLoadingsequenceinfo, Throwable throwable) throws Exception {

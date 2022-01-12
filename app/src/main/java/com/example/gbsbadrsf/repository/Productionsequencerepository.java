@@ -27,7 +27,7 @@ public class Productionsequencerepository {
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread());
 //    }
-    public Single<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>> Loadingsequenceinfo(String userid, String deviceserialnumber, int loadingsequenceid) {
+    public Single<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>> Loadingsequenceinfo(int userid, String deviceserialnumber, int loadingsequenceid) {
         return apiInterface.loadingswquenceinfo(userid, deviceserialnumber, loadingsequenceid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

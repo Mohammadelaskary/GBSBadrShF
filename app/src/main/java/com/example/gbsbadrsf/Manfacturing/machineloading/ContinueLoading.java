@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Manfacturing.machineloading;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -183,8 +184,8 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
                     case wrongbasketcode:
 
-                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong basket code");
 
                         break;
                     case
@@ -195,23 +196,23 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                         break;
                         case wrongbasket:
 
-                        Toast.makeText(getContext(), "Wrong basket ", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Wrong basket ", Toast.LENGTH_SHORT).show();
+                            warningDialog(getContext(),"Wrong basket!");
                         break;
                         case wrongdie:
 
-                        Toast.makeText(getContext(), "Wrong die code", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Wrong die code", Toast.LENGTH_SHORT).show();
+                            warningDialog(getContext(),"Wrong die code");
                         break;
                         case machinealreadyused:
 
-                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
+                            warningDialog(getContext(),"The machine has already been used");
                         break;
                     case wrongmachinecode:
 
-                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong machine code");
                         break;
 
 

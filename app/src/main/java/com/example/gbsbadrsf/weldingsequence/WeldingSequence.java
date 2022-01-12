@@ -1,7 +1,9 @@
 package com.example.gbsbadrsf.weldingsequence;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -28,6 +30,7 @@ import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.PprWelding;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionSequenceBinding;
 import com.example.gbsbadrsf.databinding.FragmentWeldingSequenceBinding;
 import com.example.gbsbadrsf.productionsequence.Loadingstatus;
@@ -77,11 +80,13 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
     int userId;
 
 
-
+    ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentWeldingSequenceBinding = FragmentWeldingSequenceBinding.inflate(inflater, container, false);
+        progressDialog = loadingProgressDialog(getContext());
+
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -89,7 +94,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 
         viewModel = ViewModelProviders.of(this,provider).get(WeldingsequenceViewModel.class);
         infoForSelectedStationViewModel=ViewModelProviders.of(this,provider).get(InfoForSelectedStationViewModel.class);
-
+        observeGettingInfoForSelectedStation();
 
         barcodeReader = MainActivity.getBarcodeObject();
         fragmentWeldingSequenceBinding.barcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
@@ -99,8 +104,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
                     viewModel.getWeldingsequence(USER_ID,"S123",fragmentWeldingSequenceBinding.barcodeEdt.getEditText().getText().toString());
-                    Toast.makeText(getContext(), "request sent", Toast.LENGTH_SHORT).show();
-                    Log.d("requestSent","requestSent");
+
                     return true;
                 }
                 return false;
@@ -179,6 +183,15 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
         return fragmentWeldingSequenceBinding.getRoot();
     }
 
+    private void observeGettingInfoForSelectedStation() {
+        infoForSelectedStationViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.dismiss();
+        });
+    }
+
     private void subscribeRequest() {
         infoForSelectedStationViewModel.getstaustype().observe(getViewLifecycleOwner(), new Observer<Staustype>() {
             @Override
@@ -192,6 +205,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                         bundle.putString("parentdesc",clickedPprwelding.getParentDescription());
                         bundle.putString("parentcode",clickedPprwelding.getParentCode());
                         bundle.putString("parentid",clickedPprwelding.getParentID().toString());
+                        bundle.putInt("jobOrderId",clickedPprwelding.getJobOrderID());
                         //bundle.putString("basketcode",clickedPprwelding.getBaskets().getBasketCode());
                        // bundle.putString("ddd",baskets.getBasketCode());
                       // bundle.putString("slslsl",infoForSelectedStationViewModel.getBaskets().getValue().getJobOrderId().toString());
@@ -316,7 +330,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
     @Override
     public void onCheckedChanged(int position, boolean isChecked, PprWelding item) {
         fragmentWeldingSequenceBinding.qtnokBtn.setOnClickListener(__ -> {
-
+            Log.d("===isChecked",isChecked+"");
 
             if (isChecked) {
                 infoForSelectedStationViewModel.getselectedweldingsequence(USER_ID, "S123", Weldingsequenceresponse.get(position).getLoadingSequenceID().toString());

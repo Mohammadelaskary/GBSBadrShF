@@ -130,7 +130,7 @@ public interface ApiInterface {
                                                                            @Query("ProductionStationCode") String ProductionStationCode,
                                                                            @Query("BasketCode") String BsketCode,
                                                                            @Query("LoadingQty") String loadinyqty,
-                                                                           @Query("JobOrderID") String JoborderId,
+                                                                           @Query("JobOrderID") int JoborderId,
                                                                            @Query("ParentID") String ParentId
     );
 
@@ -141,7 +141,7 @@ public interface ApiInterface {
                                                                          @Query("ProductionStationCode") String ProductionStationCode,
                                                                          @Query("BasketCode") String BsketCode,
                                                                          @Query("LoadingQty") String loadinyqty,
-                                                                         @Query("JobOrderID") String JoborderId,
+                                                                         @Query("JobOrderID") int JoborderId,
                                                                          @Query("ParentID") String ParentId
     );
 
@@ -201,7 +201,7 @@ public interface ApiInterface {
                                               @Query("Pass") String pass);
 
     @GET("GetInfoForSelectedLoadingSequence")
-    Single<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>> loadingswquenceinfo(@Query("UserID") String username,
+    Single<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>> loadingswquenceinfo(@Query("UserID") int username,
                                                                                     @Query("DeviceSerialNo") String deviceserialnumber, @Query("LoadingSequenceID") int loadingsequenceid);
 
     @GET("SaveFistLoadingSequence")

@@ -220,7 +220,6 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
                 defectedQty = 0;
                 jobOrderQty = 0;
                 binding.machineDieCode.setError("Error in getting data!");
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
             fillData();
         });

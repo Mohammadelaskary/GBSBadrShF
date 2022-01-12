@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Paint.machineloadingpaint;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -69,7 +70,7 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
         fragmentMachineloadingpaintBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savepaintViewModel.savepaintloading(USER_ID, "S123", fragmentMachineloadingpaintBinding.stationcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.loadingqtns.getText().toString(), "2", getArguments().getString("parentid"));
+                savepaintViewModel.savepaintloading(USER_ID, "S123", fragmentMachineloadingpaintBinding.stationcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
 
             }
         });
@@ -147,17 +148,17 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
 
                         break;
                     case wrongjoborderorparentid:
-                        Toast.makeText(getContext(), "Wrong job order or parent id", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Wrong job order or parent id", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong job order or parent id");
                         break;
 
                     case wrongbasketcode:
-                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Wrong basket code");
                         break;
                     case server:
-                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
                         break;
 
 

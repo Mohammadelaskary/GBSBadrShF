@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Production;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -171,7 +172,8 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
                         binding.repairedQty.setError("Please enter a valid repaired quantity!");
                     }
                 } else {
-                    Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"Please first select defect to repair!");
                 }
             } break;
         }

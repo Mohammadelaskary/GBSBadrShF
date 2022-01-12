@@ -1,6 +1,8 @@
 package com.example.gbsbadrsf.productionsequence;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -181,6 +183,15 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 switch (loadingstatus)
                 {
                     case Loadingstatusbusy:
+
+//                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Loading status busy");
+                        break;
+
+                    case Loadingstatusfreeandrequiredietrue:
+
+//                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        // 3ashan btest
                         Bundle bundle = new Bundle();
                         bundle.putString("enabledie","1");
                         bundle.putString("jobordername",clickedPpr.getJobOrderName());
@@ -191,14 +202,6 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
 
                         Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_machineLoadingFragment, bundle);
-                       // Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();
-
-                        break;
-
-                    case Loadingstatusfreeandrequiredietrue:
-
-                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-                        // 3ashan btest
 
                         break;
 
@@ -320,12 +323,13 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
 
             if (isChecked) {
-                selectedLoadinsequenceinfoViewModel.getselectedloadingsequence("1", "S123", productionsequenceresponse.get(position).getLoadingSequenceID());
+                selectedLoadinsequenceinfoViewModel.getselectedloadingsequence(USER_ID, "S123", productionsequenceresponse.get(position).getLoadingSequenceID());
                 clickedPpr = item;
 
             }
             else {
-                Toast.makeText(getActivity(), "Please check production sequence", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Please check production sequence", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Please check production sequence");
             }
         });
 

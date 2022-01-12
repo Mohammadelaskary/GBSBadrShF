@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -148,7 +149,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     dischargeViews();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in Getting Data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in Getting Data!");
                 basketData = null;
                 dischargeViews();
             }
@@ -218,16 +219,16 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
             if (childCode!=null) {
                 if (!childCode.isEmpty()) {
                     if (sampleQty.isEmpty())
-                        Toast.makeText(getContext(), "Please enter sample quantity!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Please enter sample quantity!");
                     else {
                         if (containsOnlyDigits(sampleQty)) {
                             validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
                             if (!validSampleQty)
-                                Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
+                                warningDialog(getContext(),"Sample Quantity should be less than or equal sign off Quantity!");
                             if (Integer.parseInt(sampleQty) <= 0)
-                                Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
+                                warningDialog(getContext(),"Sample Quantity should be more than 0!");
                         } else
-                            Toast.makeText(getContext(), "Sample Quantity should be only digits!", Toast.LENGTH_SHORT).show();
+                            warningDialog(getContext(),"Sample Quantity should be only digits!");
                     }
                     if (!sampleQty.isEmpty() && validSampleQty && containsOnlyDigits(sampleQty)) {
                         Bundle bundle = new Bundle();

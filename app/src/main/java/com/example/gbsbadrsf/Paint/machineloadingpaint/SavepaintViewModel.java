@@ -35,7 +35,7 @@ public class SavepaintViewModel extends ViewModel {
         status = new MutableLiveData<>(Status.IDLE);
 
     }
-    void savepaintloading(int UserId,String DeviceSerialNo,String ProductionStationCode,String BsketCode,String loadinyqty,String  JoborderId,String parentid){
+    void savepaintloading(int UserId,String DeviceSerialNo,String ProductionStationCode,String BsketCode,String loadinyqty,int  JoborderId,String parentid){
         disposable.add(apiInterface.savepaintloadingsequence(UserId,DeviceSerialNo,ProductionStationCode,BsketCode,loadinyqty,JoborderId,parentid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiSavePaintloading<ResponseStatus>, Throwable>() {
             @Override
             public void accept(ApiSavePaintloading<ResponseStatus> responseStatusApiSavefirstloading, Throwable throwable) throws Exception {

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Manfacturing.machinesignoff;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.net.Uri;
@@ -230,32 +231,32 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
 
                     case machinefree:
 
-                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+//                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
-
+                        warningDialog(getContext(),"This machine has not been loaded with anything");
                         break;
                     case wrongmachine:
 
-                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+//                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
-
+                        warningDialog(getContext(),"Wrong machine code");
                         break;
                     case servererror:
 
-                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+//                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
-
+                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
                         break;
                     case datagettingsuccesfully:
                         break;
                     case wrongmachinecode:
-                        Toast.makeText(getContext(), "wrong machine code", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "wrong machine code", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"wrong machine code");
 
                         break;
                     case noloadingquantityonthemachine:
-                        Toast.makeText(getContext(), "There is no loading quantity on the machine!\n", Toast.LENGTH_SHORT).show();
-
+//                        Toast.makeText(getContext(), "There is no loading quantity on the machine!\n", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"There is no loading quantity on the machine!");
 
                         break;
 

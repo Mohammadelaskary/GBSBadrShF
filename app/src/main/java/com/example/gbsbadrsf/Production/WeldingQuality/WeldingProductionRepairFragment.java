@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Production.WeldingQuality;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -142,7 +143,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
             } else {
                 binding.defectQtn.setText("");
                 qtyDefectsQtyDefectedList.clear();
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();

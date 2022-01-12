@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityDecision;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -132,7 +133,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+               warningDialog(getContext(),"Error in getting data!");
             }
         });
     }
@@ -286,7 +287,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     binding.saveBtn.setEnabled(true);
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
         });
     }
@@ -394,9 +395,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     if (checkListEnded)
                         viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,date,decisionId);
                     else
-                        Toast.makeText(getContext(), "Please finish mandatory check items first!", Toast.LENGTH_SHORT).show();
+                        warningDialog(getContext(),"Please finish mandatory check items first!");
                 } else
-                    binding.basketCode.setError("Please scan or enter valid basket code!");
+                    warningDialog(getContext(),"Please scan or enter valid basket code!");
             } break;
             case R.id.check_list_btn:{
                 if (savedCheckList==null)
@@ -409,7 +410,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                         binding.basketCode.setError("Please scan or enter valid basket code!");
                     }
                 } else {
-                    Toast.makeText(getContext(), "There is no check list for this operation!", Toast.LENGTH_SHORT).show();
+                    warningDialog(getContext(),"There is no check list for this operation!");
                 }
             } break;
         }
@@ -491,7 +492,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     savedCheckList.add(saveCheckListResponse);
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
             }
         });
     }

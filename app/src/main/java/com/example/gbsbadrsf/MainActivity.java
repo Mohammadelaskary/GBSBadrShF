@@ -1,17 +1,26 @@
 package com.example.gbsbadrsf;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.gbsbadrsf.Util.Constant;
 import com.example.gbsbadrsf.databinding.ActivityMainBinding;
+import com.example.gbsbadrsf.signin.SigninFragment;
 import com.honeywell.aidc.AidcManager;
 import com.honeywell.aidc.BarcodeReader;
 
@@ -25,12 +34,11 @@ import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity {
     private static final String MY_PREFS_NAME = "database_url";
-    ActivityMainBinding activityMainBinding;
+    private static ActivityMainBinding activityMainBinding;
     private static BarcodeReader barcodeReader;
     private static BarcodeReader barcodeReaderSequence;
     private AidcManager manager;
     public static String IP;
-
 
 
 
@@ -41,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         getBaseUrlFromSharedPreferences();
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
-        //
+        installToolbar();
         AidcManager.create(this, aidcManager -> {
                         manager = aidcManager;
                         barcodeReader = manager.createBarcodeReader();
@@ -50,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void installToolbar() {
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24);
+
+        // showing the back button in action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
     public static BarcodeReader getBarcodeObject() {
         return barcodeReader;
     }
@@ -63,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         else
             IP = "45.241.58.79:97";
     }
+    public static ActivityMainBinding getBinding() {
+        return activityMainBinding;
+    }
+
 //    public static Observable<Boolean> isConnected = new MutableLiveData<>();
 //    public static void isConnectedToServer() {
 //        try {
@@ -105,4 +126,23 @@ public class MainActivity extends AppCompatActivity {
             manager.close();
         }
   }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home: onBackPressed(); break;
+            case R.id.logout:{
+                finish();
+                startActivity(getIntent());
+            } break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }
