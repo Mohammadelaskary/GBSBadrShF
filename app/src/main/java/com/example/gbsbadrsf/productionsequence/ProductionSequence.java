@@ -13,6 +13,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +55,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     @Inject
     ViewModelProviderFactory provider;
     CheckBox checkBox;
-
+    private static final String ENTER_VALID_JOB_ORDER_NAME  = "Please enter or scan a valid job order name!";
     @Inject
     Gson gson;
     productionsequenceadapter adapter;
@@ -95,6 +97,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 //
 //            }
 //        });
+        addTextWatcher();
         binding.jobOrderName.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -102,7 +105,10 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
                     String jobOrderName = binding.jobOrderName.getEditText().getText().toString().trim();
-                    viewModel.getProductionsequence(jobOrderName);
+                    if (jobOrderName.isEmpty())
+                        binding.jobOrderName.setError(ENTER_VALID_JOB_ORDER_NAME);
+                    else
+                        viewModel.getProductionsequence(jobOrderName);
                     return true;
                 }
                 return false;
@@ -166,6 +172,25 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
     }
 
+    private void addTextWatcher() {
+        binding.jobOrderName.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.jobOrderName.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.jobOrderName.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.jobOrderName.setError(null);
+            }
+        });
+    }
+
     private void observeGettingProductionSequence() {
         viewModel.status.observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
@@ -180,20 +205,20 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         selectedLoadinsequenceinfoViewModel.getLoadingstatustype().observe(getViewLifecycleOwner(), new Observer<Loadingstatus>() {
             @Override
             public void onChanged(Loadingstatus loadingstatus) {
+
+                Bundle bundle = new Bundle();
                 switch (loadingstatus)
                 {
                     case Loadingstatusbusy:
-
-//                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"Loading status busy");
-                        break;
-
                     case Loadingstatusfreeandrequiredietrue:
-
+                    case Loadingstatusfreeandrequirediefalse:
 //                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
-                        Bundle bundle = new Bundle();
-                        bundle.putString("enabledie","1");
+
+                        //                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();
+//                        warningDialog(getContext(),"Loading status busy");
+
+                        bundle.putString("enabledie", "1");
                         bundle.putString("jobordername",clickedPpr.getJobOrderName());
                         bundle.putString("joborderqty",clickedPpr.getJobOrderQty().toString());
                         bundle.putString("childdesc",clickedPpr.getChildDescription());
@@ -202,7 +227,6 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
 
                         Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_machineLoadingFragment, bundle);
-
                         break;
 
 
@@ -225,13 +249,18 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     }
     private void attachListeners() {
 
-        viewModel.getProductionsequenceResponse().observe(getViewLifecycleOwner(), cuisines->{
-//            productionsequenceresponse.clear();//malosh lazma
-//            //if(cuisines!=null)
-//            productionsequenceresponse.addAll(cuisines);
-//            adapter.getproductionsequencelist(productionsequenceresponse);
-            adapter.getproductionsequencelist(cuisines);// today 23/11
+        viewModel.getProductionsequenceResponse().observe(getViewLifecycleOwner(), apiResponse->{
+            if (apiResponse!=null) {
+                String statusMessage = apiResponse.getResponseStatus().getStatusMessage();
+                List<Ppr> pprList = apiResponse.getData();
+                if (statusMessage.equals("Data sent successfully")){
+                    if (pprList.isEmpty())
+                        binding.jobOrderName.setError("No ppr list for this job order!");
+                    adapter.getproductionsequencelist(pprList);// today 23/11
+                } else
+                    binding.jobOrderName.setError(statusMessage);
 
+            }
         });
 
 
@@ -246,8 +275,12 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 // update UI to reflect the data
                 String scannedText = barcodeReadEvent.getBarcodeData();
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
-                binding.jobOrderName.getEditText().setText(scannedText);
-                viewModel.getProductionsequence(scannedText);
+                if (scannedText.isEmpty())
+                    binding.jobOrderName.setError(ENTER_VALID_JOB_ORDER_NAME);
+                else {
+                    binding.jobOrderName.getEditText().setText(scannedText);
+                    viewModel.getProductionsequence(scannedText);
+                }
             }
         });
 

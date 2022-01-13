@@ -63,7 +63,7 @@ public class SavepaintViewModel extends ViewModel {
 
 
                 }
-
+                status.postValue(Status.SUCCESS);
             }
         }));
 

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
 import com.example.gbsbadrsf.data.response.LoadingSequenceInfo;
 import com.example.gbsbadrsf.data.response.Ppr;
@@ -26,7 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ProductionsequenceViewModel extends ViewModel {
     private static final String TAG = "ProductionsequenceViewModel";
-    MutableLiveData<List<Ppr>> productionsequenceResponse;
+    MutableLiveData<APIResponse<List<Ppr>>> productionsequenceResponse;
     MutableLiveData<Status> status;
 
     @Inject
@@ -50,7 +51,7 @@ public class ProductionsequenceViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
-                        cuisines -> {productionsequenceResponse.postValue(cuisines.getData());
+                        cuisines -> {productionsequenceResponse.postValue(cuisines);
                             status.postValue(Status.SUCCESS);},
                         throwable -> {
                             status.postValue(Status.ERROR);
@@ -63,7 +64,7 @@ public class ProductionsequenceViewModel extends ViewModel {
 
 
 
-    public MutableLiveData<List<Ppr>> getProductionsequenceResponse() {
+    public MutableLiveData<APIResponse<List<Ppr>>> getProductionsequenceResponse() {
         return productionsequenceResponse;
     }
 

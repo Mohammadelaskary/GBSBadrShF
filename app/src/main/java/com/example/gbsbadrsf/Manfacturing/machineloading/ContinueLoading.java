@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Manfacturing.machineloading;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -7,7 +8,6 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -23,13 +23,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
-import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel;
-import com.example.gbsbadrsf.Manfacturing.machinesignoff.Machinsignoffcases;
-import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentContinueLoadingBinding;
-import com.example.gbsbadrsf.databinding.FragmentProductionSignoffBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -51,7 +47,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
     @Inject
     ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
-    FragmentContinueLoadingBinding fragmentContinueLoadingBinding;
+    FragmentContinueLoadingBinding binding;
     private BarcodeReader barcodeReader;
     private ContinueLoadingViewModel continueLoadingViewModel;
     ProgressDialog progressDialog;
@@ -60,7 +56,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        // return inflater.inflate(R.layout.fragment_continue_loading, container, false);
-        fragmentContinueLoadingBinding = FragmentContinueLoadingBinding.inflate(inflater, container, false);
+        binding = FragmentContinueLoadingBinding.inflate(inflater, container, false);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -68,13 +64,17 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
         progressDialog = loadingProgressDialog(getContext());
-       fragmentContinueLoadingBinding.basketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
+       binding.basketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
            @Override
            public boolean onKey(View view, int i, KeyEvent keyEvent) {
                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                {
-               continueLoadingViewModel.getbasketedata(USER_ID, "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
+                   String basketCode = binding.basketcodeEdt.getEditText().getText().toString().trim();
+                   if (basketCode.isEmpty())
+                       binding.basketcodeEdt.setError("Please scan or enter a valid basket code!");
+                   else
+                       continueLoadingViewModel.getbasketedata(USER_ID, "S123", binding.basketcodeEdt.getEditText().getText().toString());
                    return true;
                }
                return false;
@@ -103,12 +103,26 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
         getdata();
        // initViews();
+        addTextWatchers();
         subscribeRequest();
         observeGettingData();
-        fragmentContinueLoadingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
+        binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                continueLoadingViewModel.savecontinueloading(USER_ID,"S123",fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString(),fragmentContinueLoadingBinding.machinecodeNewedttxt.getText().toString(),fragmentContinueLoadingBinding.newdiecodeEdt.getText().toString(),"12");
+                String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
+                String dieCode     = binding.diecodeEdt.getEditText().getText().toString().trim();
+                if (childCode==null)
+                    binding.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                if (machineCode.isEmpty())
+                    binding.machinecodeEdt.setError("Please enter or scan a valid machine code!");
+                if (dieCode.isEmpty())
+                    binding.diecodeEdt.setError("Please enter or scan a valid die code!");
+                if (
+                        childCode!=null &&
+                                !machineCode.isEmpty() &&
+                                !dieCode.isEmpty()
+                )
+                continueLoadingViewModel.savecontinueloading(USER_ID,"S123", binding.basketcodeEdt.getEditText().getText().toString(), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(),"12");
 
             }
         });
@@ -151,7 +165,59 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         }
 
 
-        return fragmentContinueLoadingBinding.getRoot();
+        return binding.getRoot();
+    }
+
+
+    private void addTextWatchers() {
+        binding.machinecodeEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.machinecodeEdt.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.machinecodeEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.machinecodeEdt.setError(null);
+            }
+        });
+        binding.diecodeEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.diecodeEdt.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.diecodeEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.diecodeEdt.setError(null);
+            }
+        });
+        binding.basketcodeEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.basketcodeEdt.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.basketcodeEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.basketcodeEdt.setError(null);
+            }
+        });
     }
 
     private void observeGettingData() {
@@ -163,12 +229,20 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
             }
         });
     }
-
+    String childCode;
     public void getdata() {
         continueLoadingViewModel.getLastmanfacturingbasketinfo().observe(getViewLifecycleOwner(), cuisines -> {
-            fragmentContinueLoadingBinding.childesc.setText(cuisines.getChildDescription());
-            fragmentContinueLoadingBinding.childcode.setText(cuisines.getChildCode());
-            fragmentContinueLoadingBinding.jobordernum.setText(cuisines.getJobOrderName());
+            if (cuisines!=null) {
+                childCode = cuisines.getChildCode();
+                binding.childesc.setText(cuisines.getChildDescription());
+                binding.childcode.setText(cuisines.getChildCode());
+                binding.jobordernum.setText(cuisines.getJobOrderName());
+            } else {
+                binding.childesc.setText("");
+                binding.childcode.setText("");
+                binding.jobordernum.setText("");
+                warningDialog(getContext(), "Error in getting data!");
+            }
         });
     }
     private void subscribeRequest() {
@@ -178,41 +252,41 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 switch (basketcases) {
                     case datagettingsuccesfully:
                        // Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-
+                        binding.machinecodeEdt.getEditText().requestFocus();
 
                         break;
 
                     case wrongbasketcode:
 
 //                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"Wrong basket code");
-
+                        binding.basketcodeEdt.setError("Wrong basket code");
+                        binding.childesc.setText("");
+                        binding.childcode.setText("");
+                        binding.jobordernum.setText("");
                         break;
                     case
                             Savingdatasuccessfully:
 
                         Toast.makeText(getContext(), "Saving Data successfully", Toast.LENGTH_SHORT).show();
-
+                         back(ContinueLoading.this);
                         break;
                         case wrongbasket:
 
 //                        Toast.makeText(getContext(), "Wrong basket ", Toast.LENGTH_SHORT).show();
-                            warningDialog(getContext(),"Wrong basket!");
+                            binding.basketcodeEdt.setError("Wrong basket");
+                            binding.childesc.setText("");
+                            binding.childcode.setText("");
+                            binding.jobordernum.setText("");
                         break;
                         case wrongdie:
 
-//                        Toast.makeText(getContext(), "Wrong die code", Toast.LENGTH_SHORT).show();
-                            warningDialog(getContext(),"Wrong die code");
+                            binding.diecodeEdt.setError("Wrong die code");
                         break;
                         case machinealreadyused:
-
-//                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
-                            warningDialog(getContext(),"The machine has already been used");
+                            binding.machinecodeEdt.setError("The machine has already been used");
                         break;
                     case wrongmachinecode:
-
-//                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"Wrong machine code");
+                        binding.machinecodeEdt.setError("Wrong machine code");
                         break;
 
 
@@ -228,18 +302,22 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (fragmentContinueLoadingBinding.machinecodeNewedttxt.isFocused()) {
+                if (binding.machinecodeNewedttxt.isFocused()) {
 
-                    fragmentContinueLoadingBinding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    binding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    binding.diecodeEdt.getEditText().requestFocus();
+                }
+                else if (binding.newdiecodeEdt.isFocused()){
+                    binding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
 
                 }
-                else if (fragmentContinueLoadingBinding.newdiecodeEdt.isFocused()){
-                    fragmentContinueLoadingBinding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-
-                }
-                else if (fragmentContinueLoadingBinding.basketcodeEdt.getEditText().isFocused()){
-                    fragmentContinueLoadingBinding.basketcodeEdt.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                    continueLoadingViewModel.getbasketedata(USER_ID, "S123", fragmentContinueLoadingBinding.basketcodeEdt.getEditText().getText().toString());
+                else if (binding.basketcodeEdt.getEditText().isFocused()){
+                    String scannedText = barcodeReadEvent.getBarcodeData();
+                    binding.basketcodeEdt.getEditText().setText(scannedText);
+                    if (scannedText.isEmpty())
+                        binding.basketcodeEdt.setError("Please enter or scan a valid basket code");
+                    else
+                        continueLoadingViewModel.getbasketedata(USER_ID, "S123", binding.basketcodeEdt.getEditText().getText().toString());
                 }
 
             }

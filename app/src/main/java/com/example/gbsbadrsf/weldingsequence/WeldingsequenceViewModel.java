@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.weldingsequence;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.data.response.ApiResponseweldingbyjoborder;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Status;
@@ -18,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class WeldingsequenceViewModel extends ViewModel {
-    MutableLiveData<List<PprWelding>> weldingsequenceResponse;
+    MutableLiveData<ApiResponseweldingbyjoborder<List<PprWelding>>> weldingsequenceResponse;
     MutableLiveData<Status> status;
 
     @Inject
@@ -42,7 +43,7 @@ public class WeldingsequenceViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
-                        cuisines -> {weldingsequenceResponse.postValue(cuisines.getData());
+                        cuisines -> {weldingsequenceResponse.postValue(cuisines);
                             status.postValue(Status.SUCCESS);},
                         throwable -> {
                             status.postValue(Status.ERROR);
@@ -54,7 +55,7 @@ public class WeldingsequenceViewModel extends ViewModel {
 
 
 
-    public MutableLiveData<List<PprWelding>> getWeldingsequenceResponse() {
+    public MutableLiveData<ApiResponseweldingbyjoborder<List<PprWelding>>> getWeldingsequenceResponse() {
         return weldingsequenceResponse;
     }
 

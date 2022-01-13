@@ -1,17 +1,20 @@
 package com.example.gbsbadrsf.welding.machineloadingwe;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +25,7 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
-import com.example.gbsbadrsf.databinding.FragmentMachineLoadingBinding;
 import com.example.gbsbadrsf.databinding.FragmentMachineloadingweBinding;
-import com.example.gbsbadrsf.machineloading.MachineloadingViewModel;
-import com.example.gbsbadrsf.machineloading.typesosavedloading;
 import com.example.gbsbadrsf.weldingsequence.InfoForSelectedStationViewModel;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -36,6 +36,7 @@ import com.honeywell.aidc.TriggerStateChangeEvent;
 import com.honeywell.aidc.UnsupportedPropertyException;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -45,7 +46,7 @@ import dagger.android.support.DaggerFragment;
 
 public class MachineloadingweFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
-    FragmentMachineloadingweBinding fragmentMachineloadingweBinding;
+    FragmentMachineloadingweBinding binding;
     private BarcodeReader barcodeReader;
 
     @Inject
@@ -65,7 +66,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentMachineloadingweBinding = FragmentMachineloadingweBinding.inflate(inflater, container, false);
+        binding = FragmentMachineloadingweBinding.inflate(inflater, container, false);
         saveweldingViewModel = ViewModelProviders.of(this, providerFactory).get(SaveweldingViewModel.class);
         infoForSelectedStationViewModel = ViewModelProviders.of(this, providerFactory).get(InfoForSelectedStationViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
@@ -73,16 +74,25 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
 
         initObjects();
         subscribeRequest();
-        fragmentMachineloadingweBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
+        getdata();
+        addTextWatcher();
+        binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveweldingViewModel.saveweldingloading(USER_ID,"S123",fragmentMachineloadingweBinding.stationcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.childbasketcodeNewedttxt.getText().toString(),fragmentMachineloadingweBinding.loadingqtns.getText().toString(),getArguments().getInt("jobOrderId"),getArguments().getString("parentid"));
-
+                String stationCode = binding.stationcodeEdt.getEditText().getText().toString().trim();
+                String childBasketCode = binding.childbasketcodeEdt.getEditText().getText().toString().trim();
+                if (stationCode.isEmpty())
+                    binding.stationcodeEdt.setError("Please scan or enter a valid station code!");
+                if (childBasketCode.isEmpty())
+                    binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
+                if (!stationCode.isEmpty()&&!childBasketCode.isEmpty()) {
+                    saveweldingViewModel.saveweldingloading(USER_ID, "S123", binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
+                }
             }
         });
 
 
-        getdata();
+
         if (barcodeReader != null) {
 
             // register bar code event listener
@@ -122,22 +132,29 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
         }
 
 
-        return fragmentMachineloadingweBinding.getRoot();
+        return binding.getRoot();
 
     }
 
+    private void addTextWatcher() {
+        clearInputLayoutError(binding.stationcodeEdt);
+        clearInputLayoutError(binding.childbasketcodeEdt);
+    }
 
 
     private void initObjects() {
-        fragmentMachineloadingweBinding.parentcode.setText(getArguments().getString("parentcode"));
-        fragmentMachineloadingweBinding.parentdesc.setText(getArguments().getString("parentdesc"));
-        fragmentMachineloadingweBinding.operation.setText(getArguments().getString("operationrname"));
-        fragmentMachineloadingweBinding.loadingqtns.setText(getArguments().getString("loadingqty"));
-        fragmentMachineloadingweBinding.childqtn.setText(getArguments().getString("basketcode"));
+        binding.parentcode.setText(getArguments().getString("parentcode"));
+        binding.parentdesc.setText(getArguments().getString("parentdesc"));
+        binding.operation.setText(getArguments().getString("operationrname"));
+        binding.loadingqtns.setText(getArguments().getString("loadingqty"));
+        binding.childqtn.setText(getArguments().getString("basketcode"));
     }
     public void getdata() {
         infoForSelectedStationViewModel.getBaskets().observe(getViewLifecycleOwner(), cuisines -> {
-            fragmentMachineloadingweBinding.childqtn.setText(cuisines.getBasketCode());
+            if (cuisines!=null)
+            binding.childqtn.setText(cuisines.getBasketCode());
+            else
+                warningDialog(getContext(),"Error in getting data!");
             //fragmentMachineloadingweBinding.childcode.setText(cuisines.getJobOrderId());
 
 
@@ -151,23 +168,20 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
             public void onChanged(Typesofsavewelding typesofsavewelding) {
                 switch (typesofsavewelding)
                 {
-                    case savedsucessfull:
+                    case savedsucessfull: {
                         Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
-
-                        break;
+                        back(MachineloadingweFragment.this);
+                    }break;
                     case wrongjoborderorparentid:
                         warningDialog(getContext(),"Wrong job order or parent id");
                         break;
 
                     case wrongbasketcode:
-                        warningDialog(getContext(),"Wrong basket code");
+                        binding.childbasketcodeEdt.setError("Wrong basket code");
                         break;
                     case server:
                         warningDialog(getContext(),"There was a server side failure while respond to this transaction");
                         break;
-
-
-
                 }
             }
         });
@@ -180,12 +194,12 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (fragmentMachineloadingweBinding.stationcodeNewedttxt.isFocused()) {
-
-                    fragmentMachineloadingweBinding.stationcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                if (binding.stationcodeNewedttxt.isFocused()) {
+                    binding.stationcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    binding.childbasketcodeEdt.getEditText().requestFocus();
                 }
-                else if (fragmentMachineloadingweBinding.childbasketcodeNewedttxt.isFocused()){
-                    fragmentMachineloadingweBinding.childbasketcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                else if (binding.childbasketcodeNewedttxt.isFocused()){
+                    binding.childbasketcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
                 }
 
 

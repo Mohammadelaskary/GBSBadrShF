@@ -51,13 +51,13 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
 
     @Override
     public void onBindViewHolder(@NonNull productionsequenceadapter.productionsequenceViewHolder holder, int position) {
-
-        holder.sequencenumbercheckbox.setText(Productionsequenceresponse.get(position).getLoadingSequenceNumber().toString());
-        holder.childdesc.setText(Productionsequenceresponse.get(position).getChildDescription());
-        holder.loadingqty.setText(Productionsequenceresponse.get(position).getLoadingQty().toString());
-        holder.jobordername.setText(Productionsequenceresponse.get(position).getJobOrderName());
-        holder.joborderquantity.setText(Productionsequenceresponse.get(position).getJobOrderQty().toString());
-        holder.status.setText(Productionsequenceresponse.get(position).getLoadingSequenceStatus().toString());
+        int currentPosition = position;
+        holder.sequencenumbercheckbox.setText(Productionsequenceresponse.get(currentPosition).getLoadingSequenceNumber().toString());
+        holder.childdesc.setText(Productionsequenceresponse.get(currentPosition).getChildDescription());
+        holder.loadingqty.setText(Productionsequenceresponse.get(currentPosition).getLoadingQty().toString());
+        holder.jobordername.setText(Productionsequenceresponse.get(currentPosition).getJobOrderName());
+        holder.joborderquantity.setText(Productionsequenceresponse.get(currentPosition).getJobOrderQty().toString());
+        holder.status.setText(Productionsequenceresponse.get(currentPosition).getLoadingSequenceStatus().toString());
 
 
         holder.sequencenumbercheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -65,11 +65,13 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 CheckBox checked_rb = (CheckBox) buttonView;
-                if (lastCheckedRB != null) {
-                    lastCheckedRB.setChecked(false);
+                if (isChecked) {
+                    if (lastCheckedRB != null) {
+                        lastCheckedRB.setChecked(false);
+                    }
                 }
                 lastCheckedRB = checked_rb;
-                onClick.onCheckedChanged(holder.getAdapterPosition(),isChecked, Productionsequenceresponse.get(position));
+                onClick.onCheckedChanged(holder.getAdapterPosition(),isChecked, Productionsequenceresponse.get(currentPosition));
             }
         });
 

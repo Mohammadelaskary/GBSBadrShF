@@ -233,7 +233,7 @@ public interface ApiInterface {
                                                                    @Query("BasketCode") String basketcode,
                                                                    @Query("MachineCode") String machinecode,
                                                                    @Query("DieCode") String DieCode,
-                                                                   @Query(" LoadingQtyMobile") String loadinyqtymobile);
+                                                                   @Query("LoadingQtyMobile") String loadinyqtymobile);
 
 
     @GET("GetBasketInfoForQuality")

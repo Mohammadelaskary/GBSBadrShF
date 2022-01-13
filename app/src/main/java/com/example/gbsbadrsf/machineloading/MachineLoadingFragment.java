@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.machineloading;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -13,6 +15,8 @@ import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,14 +72,44 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         responseStatus = new ResponseStatus();
 
         initObjects();
+        binding.machinecodeEdt.getEditText().requestFocus();
         //attachListeners();
+        addTextWatchers();
         subscribeRequest();
         observeSavingData();
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              machineloadingViewModel.savefirstloading(USER_ID,"S123",getArguments().getString("loadingsequenceid"), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(), binding.newloadingqtnEdt.getText().toString());
+                String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
+                String dieCode     = binding.newdiecodeEdt.getText().toString().trim();
+                String loadingQty  = binding.newloadingqtnEdt.getText().toString().trim();
+                if (machineCode.isEmpty())
+                    binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
+                if (dieCode.isEmpty())
+                    binding.diecodeEdt.setError("Please scan or enter a valid die code!");
+                if (loadingQty.isEmpty())
+                    binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
+                else{
+                    if (!containsOnlyDigits(loadingQty))
+                        binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
+                    else {
+                        if (Integer.parseInt(loadingQty)>Integer.parseInt(getArguments().getString("joborderqty")))
+                            binding.loadingqtnEdt.setError("Loading quantity must be equal or less than job order quantity!");
+                        if (Integer.parseInt(loadingQty)==0)
+                            binding.loadingqtnEdt.setError("Loading quantity can not be 0!");
+                    }
 
+                }
+                if (
+                        !machineCode.isEmpty()&&
+                        !dieCode.isEmpty()&&
+                        !loadingQty.isEmpty()&&
+                        containsOnlyDigits(loadingQty)&&
+                        Integer.parseInt(loadingQty)<=Integer.parseInt(getArguments().getString("joborderqty"))&&
+                        Integer.parseInt(loadingQty)>0
+                ) {
+                    machineloadingViewModel.savefirstloading(USER_ID, "S123", getArguments().getString("loadingsequenceid"), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(), binding.newloadingqtnEdt.getText().toString());
+                }
             }
         });
         if (barcodeReader != null) {
@@ -123,6 +157,57 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
     }
 
+    private void addTextWatchers() {
+        binding.diecodeEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.diecodeEdt.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.diecodeEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.diecodeEdt.setError(null);
+            }
+        });
+        binding.machinecodeEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.machinecodeEdt.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.machinecodeEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.machinecodeEdt.setError(null);
+            }
+        });
+        binding.loadingqtnEdt.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.loadingqtnEdt.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.loadingqtnEdt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.loadingqtnEdt.setError(null);
+            }
+        });
+    }
+
     private void observeSavingData() {
         machineloadingViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if ((status.equals(Status.LOADING))) {
@@ -159,24 +244,24 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                 {
                     case Savedsuccessfully:
                         Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
-
+                        back(MachineLoadingFragment.this);
                         break;
                     case machinealreadyused:
 //                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"The machine has already been used");
+                        binding.machinecodeEdt.setError("The machine has already been used");
+                        binding.machinecodeEdt.getEditText().requestFocus();
                         break;
 
                     case wromgmachinecode:
-                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();
-
+                        binding.machinecodeEdt.setError("Wrong machine code");
+                        binding.machinecodeEdt.getEditText().requestFocus();
                         break;
                     case wrongdiecode:
-                        Toast.makeText(getContext(), "Wrong die code for this child", Toast.LENGTH_SHORT).show();
-
+                        binding.diecodeEdt.setError("Wrong die code for this child");
+                        binding.diecodeEdt.getEditText().requestFocus();
                         break;
                     case servererror:
-                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
-
+                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
                         break;
 
 
@@ -204,11 +289,12 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         @Override
         public void run() {
             if (binding.machinecodeNewedttxt.isFocused()) {
-
                 binding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                binding.newdiecodeEdt.requestFocus();
             }
             else if (binding.newdiecodeEdt.isFocused()){
                 binding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                binding.loadingqtnEdt.requestFocus();
             }
 
         }

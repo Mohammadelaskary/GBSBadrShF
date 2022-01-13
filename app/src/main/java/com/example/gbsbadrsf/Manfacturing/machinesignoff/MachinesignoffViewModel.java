@@ -81,8 +81,10 @@ public class MachinesignoffViewModel extends ViewModel {
                                     machinesignoffcases.postValue(Machinsignoffcases.servererror);
 
                                 }
+                                status.postValue(Status.SUCCESS);
                             }
                         }));
+
     }
     void getmachinecodedata(int userid,String deviceserialnum,String machinecode){
         disposable.add(apiInterface.getmachinecodedata(userid,deviceserialnum,machinecode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<Apigetmachinecode<MachineLoading>, Throwable>() {
@@ -106,7 +108,7 @@ public class MachinesignoffViewModel extends ViewModel {
 
                 }
 
-
+            status.postValue(Status.SUCCESS);
             }
         }));
 

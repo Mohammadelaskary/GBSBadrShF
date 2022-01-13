@@ -661,7 +661,8 @@
         tools:layout="@layout/fragment_paintdstation">
         <action
             android:id="@+id/action_paintdstation_to_machineLoadingpaintFragment"
-            app:destination="@id/machineloadingpaintFragment"/>
+            app:destination="@id/machineloadingpaintFragment"
+            app:popUpTo="@id/paintdstation"/>
     </fragment>
 
 

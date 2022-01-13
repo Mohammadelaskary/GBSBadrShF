@@ -1,11 +1,12 @@
 package com.example.gbsbadrsf.Paint.machineloadingpaint;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -23,11 +24,9 @@ import com.example.gbsbadrsf.Paint.paintstation.InfoForSelectedPaintViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentMachineloadingpaintBinding;
-import com.example.gbsbadrsf.databinding.FragmentMachineloadingweBinding;
-import com.example.gbsbadrsf.welding.machineloadingwe.SaveweldingViewModel;
 import com.example.gbsbadrsf.welding.machineloadingwe.Typesofsavewelding;
-import com.example.gbsbadrsf.weldingsequence.InfoForSelectedStationViewModel;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -45,7 +44,7 @@ import dagger.android.support.DaggerFragment;
 
 public class MachineloadingpaintFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
-    FragmentMachineloadingpaintBinding fragmentMachineloadingpaintBinding;
+    FragmentMachineloadingpaintBinding binding;
     private BarcodeReader barcodeReader;
 
     @Inject
@@ -53,24 +52,33 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
     InfoForSelectedPaintViewModel infoForSelectedPaintViewModel;
     SavepaintViewModel savepaintViewModel;
     private ResponseStatus responseStatus;
-
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentMachineloadingpaintBinding = FragmentMachineloadingpaintBinding.inflate(inflater, container, false);
+        binding = FragmentMachineloadingpaintBinding.inflate(inflater, container, false);
         savepaintViewModel = ViewModelProviders.of(this, providerFactory).get(SavepaintViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
 
         infoForSelectedPaintViewModel = ViewModelProviders.of(this, providerFactory).get(InfoForSelectedPaintViewModel.class);
-
+        progressDialog = loadingProgressDialog(getContext());
+        binding.stationcodeEdt.getEditText().requestFocus();
+        observeStatus();
         initObjects();
         subscribeRequest();
-        fragmentMachineloadingpaintBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
+        binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savepaintViewModel.savepaintloading(USER_ID, "S123", fragmentMachineloadingpaintBinding.stationcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.getText().toString(), fragmentMachineloadingpaintBinding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
+                String paintCode = binding.stationcodeNewedttxt.getText().toString().trim();
+                String childBasketCode = binding.childbasketcodeNewedttxt.getText().toString().trim();
+                if (paintCode.isEmpty())
+                    binding.stationcodeEdt.setError("Please scan or enter a valid paint code!");
+                if (childBasketCode.isEmpty())
+                    binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
+                if (!paintCode.isEmpty()&&!childBasketCode.isEmpty())
+                    savepaintViewModel.savepaintloading(USER_ID, "S123", binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
 
             }
         });
@@ -116,22 +124,31 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
         }
 
 
-        return fragmentMachineloadingpaintBinding.getRoot();
+        return binding.getRoot();
 
+    }
+
+    private void observeStatus() {
+        savepaintViewModel.getStatus().observe(getViewLifecycleOwner(),status ->{
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.hide();
+        });
     }
 
 
     private void initObjects() {
-        fragmentMachineloadingpaintBinding.parentcode.setText(getArguments().getString("parentcode"));
-        fragmentMachineloadingpaintBinding.parentdesc.setText(getArguments().getString("parentdesc"));
-        fragmentMachineloadingpaintBinding.operation.setText(getArguments().getString("operationrname"));
-        fragmentMachineloadingpaintBinding.loadingqtns.setText(getArguments().getString("loadingqty"));
-        fragmentMachineloadingpaintBinding.childqtn.setText(getArguments().getString("basketcode"));
+        binding.parentcode.setText(getArguments().getString("parentcode"));
+        binding.parentdesc.setText(getArguments().getString("parentdesc"));
+        binding.operation.setText(getArguments().getString("operationrname"));
+        binding.loadingqtns.setText(getArguments().getString("loadingqty"));
+        binding.childqtn.setText(getArguments().getString("basketcode"));
     }
 
     public void getdata() {
         infoForSelectedPaintViewModel.getBaskets().observe(getViewLifecycleOwner(), cuisines -> {
-            fragmentMachineloadingpaintBinding.childqtn.setText(cuisines.getBasketCode());
+            binding.childqtn.setText(cuisines.getBasketCode());
             //fragmentMachineloadingweBinding.childcode.setText(cuisines.getJobOrderId());
 
 
@@ -149,12 +166,14 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                         break;
                     case wrongjoborderorparentid:
 //                        Toast.makeText(getContext(), "Wrong job order or parent id", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"Wrong job order or parent id");
+                        binding.stationcodeEdt.setError("Wrong job order or parent id");
+                        binding.stationcodeEdt.getEditText().requestFocus();
                         break;
 
                     case wrongbasketcode:
 //                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"Wrong basket code");
+                        binding.childbasketcodeEdt.setError("Wrong basket code");
+                        binding.childbasketcodeEdt.getEditText().requestFocus();
                         break;
                     case server:
 //                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();
@@ -174,12 +193,12 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (fragmentMachineloadingpaintBinding.stationcodeNewedttxt.isFocused()) {
-
-                    fragmentMachineloadingpaintBinding.stationcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                if (binding.stationcodeNewedttxt.isFocused()) {
+                    binding.stationcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    binding.childbasketcodeEdt.getEditText().requestFocus();
                 }
-                else if (fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.isFocused()){
-                    fragmentMachineloadingpaintBinding.childbasketcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                else if (binding.childbasketcodeNewedttxt.isFocused()){
+                    binding.childbasketcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
                 }
 
 

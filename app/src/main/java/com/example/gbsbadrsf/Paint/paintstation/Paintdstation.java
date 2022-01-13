@@ -1,8 +1,11 @@
 package com.example.gbsbadrsf.Paint.paintstation;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
@@ -17,13 +20,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.Pprpaint;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintdstationBinding;
 import com.example.gbsbadrsf.productionsequence.SimpleDividerItemDecoration;
 import com.example.gbsbadrsf.weldingsequence.Staustype;
@@ -48,7 +51,7 @@ import dagger.android.support.DaggerFragment;
 
 public class Paintdstation extends DaggerFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener, PaintStationAdapter.onCheckedChangedListener {
-    FragmentPaintdstationBinding fragmentPaintdstationBinding;
+    FragmentPaintdstationBinding binding;
     public RecyclerView recyclerView;
     private BarcodeReader barcodeReader;
     @Inject
@@ -66,12 +69,12 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
     List<String> selectedsequence;
     Pprpaint clickedPprpaint;
     Baskets baskets;
-
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentPaintdstationBinding = FragmentPaintdstationBinding.inflate(inflater, container, false);
+        binding = FragmentPaintdstationBinding.inflate(inflater, container, false);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -79,17 +82,20 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
         viewModel = ViewModelProviders.of(this,provider).get(PaintstationViewModel.class);
         infoForSelectedPaintViewModel=ViewModelProviders.of(this,provider).get(InfoForSelectedPaintViewModel.class);
-
-
+        progressDialog = loadingProgressDialog(getContext());
+        addTextWatcher();
         barcodeReader = MainActivity.getBarcodeObject();
-        fragmentPaintdstationBinding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
+        binding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-             viewModel.getpaintsequence(USER_ID,"S123",fragmentPaintdstationBinding.barcodeEdt.getText().toString());
-
+                    String jobOrderName = binding.barcodeEdt.getText().toString().trim();
+                    if (jobOrderName.isEmpty())
+                        binding.basketcodeEdt.setError(null);
+                    else
+                        viewModel.getpaintsequence(USER_ID,"S123", binding.barcodeEdt.getText().toString());
                     return true;
                 }
                 return false;
@@ -120,12 +126,11 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
         attachListeners();
         subscribeRequest();
-
-
+        observeStatus();
 
         selectedsequence = new ArrayList<>();
 
-        recyclerView = fragmentPaintdstationBinding.defectqtnRv;
+        recyclerView = binding.defectqtnRv;
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         if (barcodeReader != null) {
 
@@ -165,9 +170,22 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
             barcodeReader.setProperties(properties);
         }
 
-        return fragmentPaintdstationBinding.getRoot();
+        return binding.getRoot();
     }
 
+    private void observeStatus() {
+        viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.hide();
+        });
+    }
+
+    private void addTextWatcher() {
+        clearInputLayoutError(binding.basketcodeEdt);
+    }
+    Bundle bundle = new Bundle();
     private void subscribeRequest() {
         infoForSelectedPaintViewModel.getstaustype().observe(getViewLifecycleOwner(), new Observer<Staustype>() {
             @Override
@@ -175,7 +193,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                 switch (staustype)
                 {
                     case gettingdatasuccesfully:
-                        Bundle bundle = new Bundle();
+
                         bundle.putString("operationrname",clickedPprpaint.getOperationEnName());
                         bundle.putString("loadingqty",clickedPprpaint.getLoadingQty().toString());
                         bundle.putString("parentdesc",clickedPprpaint.getParentDescription());
@@ -186,13 +204,12 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                         // bundle.putString("ddd",baskets.getBasketCode());
                         // bundle.putString("slslsl",infoForSelectedStationViewModel.getBaskets().getValue().getJobOrderId().toString());
                         Navigation.findNavController(getView()).navigate(R.id.action_paintdstation_to_machineLoadingpaintFragment, bundle);
-
                         break;
 
                     case noloadingquantityformachine:
 
 //                        Toast.makeText(getContext(), "There is no loading quantity on the machine!", Toast.LENGTH_SHORT).show();
-                        warningDialog(getContext(),"There is no loading quantity on the machine!");
+                        binding.basketcodeEdt.setError("There is no loading quantity on the machine!");
                         break;
 
 
@@ -206,9 +223,9 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
     private void setUpRecyclerView() {
         Paintsequenceresponse = new ArrayList<>();
         adapter = new PaintStationAdapter(Paintsequenceresponse,this);
-        fragmentPaintdstationBinding.defectqtnRv.setAdapter(adapter);
-        fragmentPaintdstationBinding.defectqtnRv.setNestedScrollingEnabled(true);
-        fragmentPaintdstationBinding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.defectqtnRv.setAdapter(adapter);
+        binding.defectqtnRv.setNestedScrollingEnabled(true);
+        binding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
 
@@ -220,10 +237,21 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 //            //if(cuisines!=null)
 //            productionsequenceresponse.addAll(cuisines);
 //            adapter.getproductionsequencelist(productionsequenceresponse);
-            adapter.getpaintsequencelist(cuisines);// today 23/11
+            if (cuisines!=null){
+                if (cuisines.isEmpty())
+                    binding.basketcodeEdt.setError("No ppr list for this job order name!");
+                else
+                    binding.basketcodeEdt.setError(null);
+                adapter.getpaintsequencelist(cuisines);// today 23/11
+            } else
+                warningDialog(getContext(),"Error in getting data!");
+        });
+        binding.qtnokBtn.setOnClickListener(v -> {
+            String jobOrderName = binding.barcodeEdt.getText().toString().trim();
+            if (jobOrderName.isEmpty())
+                binding.basketcodeEdt.setError("Please scan or enter a valid job order name!");
 
         });
-
 
     }
 
@@ -234,9 +262,14 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
             @Override
             public void run() {
                 // update UI to reflect the data
-
+                binding.barcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                String jobOrderName = binding.barcodeEdt.getText().toString().trim();
+                if (jobOrderName.isEmpty())
+                    binding.basketcodeEdt.setError(null);
+                else
+                    viewModel.getpaintsequence(USER_ID,"S123", binding.barcodeEdt.getText().toString());
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
-                fragmentPaintdstationBinding.barcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+
 
 
 
@@ -301,7 +334,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
     @Override
     public void onCheckedChanged(int position, boolean isChecked, Pprpaint item) {
-        fragmentPaintdstationBinding.qtnokBtn.setOnClickListener(__ -> {
+        binding.qtnokBtn.setOnClickListener(__ -> {
 
 
             if (isChecked) {
