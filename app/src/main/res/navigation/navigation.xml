@@ -59,9 +59,9 @@
         android:name="com.example.gbsbadrsf.Manfacturing.ManfacturingmenuFragment"
         android:label="fragment_manfacturingmenu"
         tools:layout="@layout/fragment_manfacturingmenu" >
-        <action
-            android:id="@+id/action_manfacturingmenuFragment_to_machineLoadingFragment"
-            app:destination="@id/machineLoadingFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_manfacturingmenuFragment_to_machineLoadingFragment"-->
+<!--            app:destination="@id/machineLoadingFragment" />-->
 
 
         <action
@@ -132,8 +132,8 @@
         android:label="fragment_welding_menu"
         tools:layout="@layout/fragment_welding_menu" >
         <action
-            android:id="@+id/action_weldingMenuFragment_to_machineloadingweFragment"
-            app:destination="@id/machineloadingweFragment" />
+            android:id="@+id/action_weldingMenuFragment_to_main_welding_machine_loading"
+            app:destination="@id/fragment_main_machine_loading_menu_welding" />
         <action
             android:id="@+id/action_weldingMenuFragment_to_signoffweFragment"
             app:destination="@id/signoffweFragment" />
@@ -159,6 +159,15 @@
         <action
             android:id="@+id/action_quality_welding_fragment_to_fragment_welding_rejection_request"
             app:destination="@id/fragment_welding_rejection_request" />
+    </fragment>
+    <fragment android:id="@+id/fragment_main_machine_loading_menu_welding"
+        tools:layout="@layout/fragment_main_welding_machine_loading"
+        android:name="com.example.gbsbadrsf.weldingsequence.MainWeldingMachineLoadingFragment"
+        android:label="fragment_main_machine_loading_menu_welding">
+        <action android:id="@+id/action_fragment_main_machine_loading_welding_to_fragment_welding_production_sequence"
+            app:destination="@id/weldingSequence"/>
+        <action android:id="@+id/action_fragment_main_machine_loading_welding_to_fragment_welding_continue"
+            app:destination="@id/fragment_welding_continue_loading"/>
     </fragment>
     <fragment android:id="@+id/welding_production_repair_fragment"
         tools:layout="@layout/welding_production_repair_fragment"
@@ -206,10 +215,10 @@
             android:id="@+id/action_machineLoadingFragment_to_addworkersFragment"
             app:destination="@id/addworkersFragment"
             />
-        <action
-            android:id="@+id/action_machineLoadingFragment_to_productionsequenceFragment"
-            app:destination="@id/productionSequence"
-            />
+<!--        <action-->
+<!--            android:id="@+id/action_machineLoadingFragment_to_productionsequenceFragment"-->
+<!--            app:destination="@id/productionSequence"-->
+<!--            />-->
 
 
 
@@ -692,16 +701,7 @@
         tools:layout="@layout/fragment_production_sequence" >
         <action
             android:id="@+id/action_productionSequence_to_machineLoadingFragment"
-            app:destination="@id/machineLoadingFragment"
-            app:popUpTo="@id/machineLoadingFragment"
-
-            />
-        <action
-            android:id="@+id/action_productionSequence_to_mainmachineLoadingFragment"
-            app:destination="@id/mainmachineloading"
-
-            />
-
+            app:destination="@id/machineLoadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/weldingSequence"
@@ -720,13 +720,17 @@
         <action
             android:id="@+id/action_mainmachineloading_to_productionSequence"
             app:destination="@id/productionSequence"
-
             />
         <action
             android:id="@+id/action_mainmachineloading_to_continueLoading"
             app:destination="@id/continueLoading" />
 
     </fragment>
+    <fragment
+        android:id="@+id/fragment_welding_continue_loading"
+        android:name="com.example.gbsbadrsf.weldingsequence.WeldingContinueLoadingFragment"
+        android:label="fragment_welding_continue_loading"
+        tools:layout="@layout/fragment_welding_continue_loading" />
     <fragment
         android:id="@+id/continueLoading"
         android:name="com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading"

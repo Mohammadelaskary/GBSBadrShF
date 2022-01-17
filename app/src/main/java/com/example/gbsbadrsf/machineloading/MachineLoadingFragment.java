@@ -85,8 +85,8 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                 String loadingQty  = binding.newloadingqtnEdt.getText().toString().trim();
                 if (machineCode.isEmpty())
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
-                if (dieCode.isEmpty())
-                    binding.diecodeEdt.setError("Please scan or enter a valid die code!");
+//                if (dieCode.isEmpty())
+//                    binding.diecodeEdt.setError("Please scan or enter a valid die code!");
                 if (loadingQty.isEmpty())
                     binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
                 else{
@@ -102,7 +102,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                 }
                 if (
                         !machineCode.isEmpty()&&
-                        !dieCode.isEmpty()&&
+//                        !dieCode.isEmpty()&&
                         !loadingQty.isEmpty()&&
                         containsOnlyDigits(loadingQty)&&
                         Integer.parseInt(loadingQty)<=Integer.parseInt(getArguments().getString("joborderqty"))&&
@@ -220,12 +220,12 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
     private void initObjects() {
         if (getArguments().getString("enabledie").equals("1")){
-            binding.diecodeEdt.setEnabled(true);
-            binding.diecodeEdt.setClickable(true);
+            binding.diecodeEdt.getEditText().setEnabled(true);
+            binding.diecodeEdt.getEditText().setClickable(true);
         }
         else {
-            binding.diecodeEdt.setEnabled(false);
-            binding.diecodeEdt.setClickable(false);
+            binding.diecodeEdt.getEditText().setEnabled(false);
+            binding.diecodeEdt.getEditText().setClickable(false);
         }
         binding.jobordernum.setText(getArguments().getString("jobordername"));
         binding.Joborderqtn.setText(getArguments().getString("joborderqty"));
@@ -237,35 +237,35 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
     }
     private void subscribeRequest() {
-        machineloadingViewModel.gettypesofsavedloading().observe(getViewLifecycleOwner(), new Observer<typesosavedloading>() {
-            @Override
-            public void onChanged(typesosavedloading typesosavedloading) {
-                switch (typesosavedloading)
-                {
-                    case Savedsuccessfully:
-                        Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
-                        back(MachineLoadingFragment.this);
-                        break;
-                    case machinealreadyused:
+        machineloadingViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
+            String statusMessage = responseStatus.getStatusMessage();
+            switch (statusMessage)
+            {
+                case "Saving data successfully":
+                    Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
+                    back(MachineLoadingFragment.this);
+                    break;
+                case "The machine has already been used":
 //                        Toast.makeText(getContext(), "The machine has already been used", Toast.LENGTH_SHORT).show();
-                        binding.machinecodeEdt.setError("The machine has already been used");
-                        binding.machinecodeEdt.getEditText().requestFocus();
-                        break;
+                    binding.machinecodeEdt.setError("The machine has already been used");
+                    binding.machinecodeEdt.getEditText().requestFocus();
+                    break;
 
-                    case wromgmachinecode:
-                        binding.machinecodeEdt.setError("Wrong machine code");
-                        binding.machinecodeEdt.getEditText().requestFocus();
-                        break;
-                    case wrongdiecode:
-                        binding.diecodeEdt.setError("Wrong die code for this child");
-                        binding.diecodeEdt.getEditText().requestFocus();
-                        break;
-                    case servererror:
-                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
-                        break;
+                case "Wrong machine code":
+                    binding.machinecodeEdt.setError("Wrong machine code");
+                    binding.machinecodeEdt.getEditText().requestFocus();
+                    break;
+                case "Wrong die code for this child":
+                    binding.diecodeEdt.setError("Wrong die code for this child");
+                    binding.diecodeEdt.getEditText().requestFocus();
+                    break;
+                case "There was a server side failure while respond to this transaction":
+                    warningDialog(getContext(),"There was a server side failure while respond to this transaction");
+                    break;
+                default:
+                    warningDialog(getContext(),statusMessage);
+                    break;
 
-
-                }
             }
         });
 

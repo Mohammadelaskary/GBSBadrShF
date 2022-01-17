@@ -41,36 +41,39 @@ public class MachineloadingViewModel extends ViewModel {
         this.repository=productionsequencerepository;
     }
     void savefirstloading(int UserId,String DeviceSerialNo,String LoadingSequenceID,String MachineCode,String DieCode,String  LoadingQtyMobile){
-        disposable.add(repository.SaveLoadingsequenceinfo(UserId,DeviceSerialNo,LoadingSequenceID,MachineCode,DieCode,LoadingQtyMobile).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(responseStatusApiSavefirstloading -> {
-            if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
-            {
-                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.Savedsuccessfully);
-
-
-            }
-            else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("The machine has already been used")){
-                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.machinealreadyused);
-
-
-
-            }
-            else if(responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong machine code")){
-                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.wromgmachinecode);
-
-
-            }
-           else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong die code for this child"))
-           {
-               typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.wrongdiecode);
-
-
-            }
-            else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction"))
-            {
-                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.servererror);
-
-
-            }
+        disposable.add(repository.SaveLoadingsequenceinfo(UserId,DeviceSerialNo,LoadingSequenceID,MachineCode,DieCode,LoadingQtyMobile)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe(responseStatusApiSavefirstloading -> {
+                    responseLiveData.postValue(responseStatusApiSavefirstloading.getResponseStatus());
+//            if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
+//            {
+//                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.Savedsuccessfully);
+//
+//
+//            }
+//            else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("The machine has already been used")){
+//                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.machinealreadyused);
+//
+//
+//
+//            }
+//            else if(responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong machine code")){
+//                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.wromgmachinecode);
+//
+//
+//            }
+//           else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong die code for this child"))
+//           {
+//               typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.wrongdiecode);
+//
+//
+//            }
+//            else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction"))
+//            {
+//                typesosavedloading.postValue(com.example.gbsbadrsf.machineloading.typesosavedloading.servererror);
+//
+//
+//            }
             status.postValue(Status.SUCCESS);
         },throwable -> status.postValue(Status.ERROR)));
 

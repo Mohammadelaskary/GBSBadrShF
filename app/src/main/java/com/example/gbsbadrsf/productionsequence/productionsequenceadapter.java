@@ -17,7 +17,7 @@ import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.LoadingSequenceInfo;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.UserInfo;
-import com.example.gbsbadrsf.databinding.DefectinproductionrepstatusLstBinding;
+
 import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
 import com.example.gbsbadrsf.productionrepairstaus.ProductionrepstatusAdapter;
 
@@ -27,7 +27,8 @@ import java.util.List;
 public class productionsequenceadapter  extends RecyclerView.Adapter<productionsequenceadapter.productionsequenceViewHolder> {
     private List<Ppr> Productionsequenceresponse;
     onCheckedChangedListener onClick;
-    private CheckBox lastCheckedRB = null;
+    private ArrayList<Integer> selectCheck = new ArrayList<>();
+
 
 
     public productionsequenceadapter(List<Ppr> productionsequenceresponse,onCheckedChangedListener onClick) {
@@ -38,6 +39,9 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
     public void getproductionsequencelist(List<Ppr> productionsequencelst){
         Productionsequenceresponse.clear();
         Productionsequenceresponse.addAll(productionsequencelst);
+        for (int i = 0; i < productionsequencelst.size(); i++) {
+            selectCheck.add(0);
+        }
         notifyDataSetChanged();
     }
   
@@ -48,30 +52,36 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
         ProductionsequenceRvBinding productionsequenceRvBinding = ProductionsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new productionsequenceadapter.productionsequenceViewHolder(productionsequenceRvBinding);
     }
-
+    int currentPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull productionsequenceadapter.productionsequenceViewHolder holder, int position) {
-        int currentPosition = position;
-        holder.sequencenumbercheckbox.setText(Productionsequenceresponse.get(currentPosition).getLoadingSequenceNumber().toString());
-        holder.childdesc.setText(Productionsequenceresponse.get(currentPosition).getChildDescription());
-        holder.loadingqty.setText(Productionsequenceresponse.get(currentPosition).getLoadingQty().toString());
-        holder.jobordername.setText(Productionsequenceresponse.get(currentPosition).getJobOrderName());
-        holder.joborderquantity.setText(Productionsequenceresponse.get(currentPosition).getJobOrderQty().toString());
-        holder.status.setText(Productionsequenceresponse.get(currentPosition).getLoadingSequenceStatus().toString());
-
-
+        holder.sequencenumbercheckbox.setText(Productionsequenceresponse.get(position).getLoadingSequenceNumber().toString());
+        holder.childdesc.setText(Productionsequenceresponse.get(position).getChildDescription());
+        holder.loadingqty.setText(Productionsequenceresponse.get(position).getLoadingQty().toString());
+        holder.operationName.setText(Productionsequenceresponse.get(position).getOperationEnName().toString());
+        holder.joborderquantity.setText(Productionsequenceresponse.get(position).getJobOrderQty().toString());
+        if (selectCheck.get(position) == 1) {
+            holder.sequencenumbercheckbox.setChecked(true);
+        } else {
+            holder.sequencenumbercheckbox.setChecked(false);
+        }
+        holder.sequencenumbercheckbox.setOnClickListener(v->{
+            for(int k=0; k<selectCheck.size(); k++) {
+                if(k==position) {
+                    selectCheck.set(k,1);
+                } else {
+                    selectCheck.set(k,0);
+                }
+            }
+            notifyDataSetChanged();
+        });
         holder.sequencenumbercheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                CheckBox checked_rb = (CheckBox) buttonView;
                 if (isChecked) {
-                    if (lastCheckedRB != null) {
-                        lastCheckedRB.setChecked(false);
-                    }
+                    onClick.onCheckedChanged(holder.getAdapterPosition(), isChecked, Productionsequenceresponse.get(position));
                 }
-                lastCheckedRB = checked_rb;
-                onClick.onCheckedChanged(holder.getAdapterPosition(),isChecked, Productionsequenceresponse.get(currentPosition));
             }
         });
 
@@ -86,15 +96,14 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
     class productionsequenceViewHolder extends RecyclerView.ViewHolder{
         CheckBox sequencenumbercheckbox;
 
-        TextView childdesc,loadingqty,jobordername,joborderquantity,status;
+        TextView childdesc,loadingqty,operationName,joborderquantity;
 
         public productionsequenceViewHolder(@NonNull ProductionsequenceRvBinding itemView) {
             super(itemView.getRoot());
             sequencenumbercheckbox=itemView.sequencenumCheckBox;
             childdesc=itemView.childdesc;
             loadingqty=itemView.loadingqty;
-            status=itemView.status;
-            jobordername=itemView.jobordername;
+            operationName=itemView.operationName;
             joborderquantity=itemView.joborderquantity;
         }
 

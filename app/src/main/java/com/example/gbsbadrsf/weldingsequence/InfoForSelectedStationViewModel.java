@@ -28,7 +28,7 @@ public class InfoForSelectedStationViewModel extends ViewModel {
     Gson gson;
     @Inject
     ApiInterface apiinterface;
-    private MutableLiveData<Pprcontainbaskets> responseLiveData ;
+    private MutableLiveData<ApiGetweldingloadingstartloading<Pprcontainbaskets>> responseLiveData ;
     private MutableLiveData<Baskets> baskets;
 
     private MutableLiveData<Status> status;
@@ -48,29 +48,31 @@ public class InfoForSelectedStationViewModel extends ViewModel {
 
     }
     void getselectedweldingsequence(int UserID,String DeviceSerialNo,String loadingsequenceid){
-        disposable.add(apiinterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe((getinfoforselectedstationloading, throwable) -> {
-            if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)
-            {
-                statustype.postValue(Staustype.gettingdatasuccesfully);
-               //baskets.postValue(getBaskets().getValue());
-
-
-
-
-
-            }
-            else if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Wrong Loading sequence ID!")){
-                statustype.postValue(Staustype.noloadingquantityformachine);
-
-            }
-
-        status.postValue(Status.SUCCESS);
+        disposable.add(apiinterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((getinfoforselectedstationloading, throwable) -> {
+//            if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)
+//            {
+//                statustype.postValue(Staustype.gettingdatasuccesfully);
+//               //baskets.postValue(getBaskets().getValue());
+//
+//
+//
+//
+//
+//            }
+//            else if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Wrong Loading sequence ID!")){
+//                statustype.postValue(Staustype.noloadingquantityformachine);
+//
+//            }
+                    responseLiveData.postValue(getinfoforselectedstationloading);
+            status.postValue(Status.SUCCESS);
         }));
 
 
 
     }
-    public MutableLiveData<Pprcontainbaskets> getResponseLiveData() {
+    public MutableLiveData<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getResponseLiveData() {
         return responseLiveData;
     }
 

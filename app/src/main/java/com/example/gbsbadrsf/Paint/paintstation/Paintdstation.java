@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Paint.paintstation;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -187,34 +188,43 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
     }
     Bundle bundle = new Bundle();
     private void subscribeRequest() {
-        infoForSelectedPaintViewModel.getstaustype().observe(getViewLifecycleOwner(), new Observer<Staustype>() {
-            @Override
-            public void onChanged(Staustype staustype) {
-                switch (staustype)
-                {
-                    case gettingdatasuccesfully:
-
-                        bundle.putString("operationrname",clickedPprpaint.getOperationEnName());
-                        bundle.putString("loadingqty",clickedPprpaint.getLoadingQty().toString());
-                        bundle.putString("parentdesc",clickedPprpaint.getParentDescription());
-                        bundle.putString("parentcode",clickedPprpaint.getParentCode());
-                        bundle.putString("parentid",clickedPprpaint.getParentID().toString());
-                        bundle.putInt("jobOrderId",clickedPprpaint.getJobOrderID());
+        infoForSelectedPaintViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+            if (response!=null) {
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                Baskets baskets = response.getBaskets();
+                if (statusMessage.equals("Data sent successfully")) {
+                    if (baskets != null) {
+                        bundle.putString("operationrname", clickedPprpaint.getOperationEnName());
+                        bundle.putString("loadingqty", clickedPprpaint.getLoadingQty().toString());
+                        bundle.putString("parentdesc", clickedPprpaint.getParentDescription());
+                        bundle.putString("parentcode", clickedPprpaint.getParentCode());
+                        bundle.putString("parentid", clickedPprpaint.getParentID().toString());
+                        bundle.putInt("jobOrderId", clickedPprpaint.getJobOrderID());
                         //bundle.putString("basketcode",clickedPprwelding.getBaskets().getBasketCode());
                         // bundle.putString("ddd",baskets.getBasketCode());
                         // bundle.putString("slslsl",infoForSelectedStationViewModel.getBaskets().getValue().getJobOrderId().toString());
                         Navigation.findNavController(getView()).navigate(R.id.action_paintdstation_to_machineLoadingpaintFragment, bundle);
-                        break;
-
-                    case noloadingquantityformachine:
-
-//                        Toast.makeText(getContext(), "There is no loading quantity on the machine!", Toast.LENGTH_SHORT).show();
-                        binding.basketcodeEdt.setError("There is no loading quantity on the machine!");
-                        break;
-
-
-                }
-            }
+                    } else
+                        warningDialog(getContext(), "There is no baskets for this machine!");
+                } else
+                    binding.basketcodeEdt.setError(statusMessage);
+            } else
+                warningDialog(getContext(), "Error in getting data!");
+//            switch (staustype)
+//            {
+//                case gettingdatasuccesfully:
+//
+//
+//                    break;
+//
+//                case noloadingquantityformachine:
+//
+////                        Toast.makeText(getContext(), "There is no loading quantity on the machine!", Toast.LENGTH_SHORT).show();
+//                    binding.basketcodeEdt.setError("There is no loading quantity on the machine!");
+//                    break;
+//
+//
+//            }
         });
 
     }
@@ -262,6 +272,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
             @Override
             public void run() {
                 // update UI to reflect the data
+                hideKeyboard(getActivity());
                 binding.barcodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
                 String jobOrderName = binding.barcodeEdt.getText().toString().trim();
                 if (jobOrderName.isEmpty())

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.productionsequence;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,7 +194,13 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     }
 
     private void observeGettingProductionSequence() {
-        viewModel.status.observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.dismiss();
+        });
+        selectedLoadinsequenceinfoViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
             else
@@ -209,8 +217,25 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 Bundle bundle = new Bundle();
                 switch (loadingstatus)
                 {
-                    case Loadingstatusbusy:
+//                    case Loadingstatusbusy:
+
                     case Loadingstatusfreeandrequiredietrue:
+//                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        // 3ashan btest
+
+                        //                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();
+//
+
+                        bundle.putString("enabledie", "1");
+                        bundle.putString("jobordername",clickedPpr.getJobOrderName());
+                        bundle.putString("joborderqty",clickedPpr.getJobOrderQty().toString());
+                        bundle.putString("childdesc",clickedPpr.getChildDescription());
+                        bundle.putString("childcode",clickedPpr.getChildCode());
+                        bundle.putString("loadingsequenceid",clickedPpr.getLoadingSequenceID().toString());
+
+
+                        Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_machineLoadingFragment, bundle);
+                        break;
                     case Loadingstatusfreeandrequirediefalse:
 //                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
@@ -218,7 +243,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                         //                        Toast.makeText(getContext(), "loading status busy", Toast.LENGTH_SHORT).show();
 //                        warningDialog(getContext(),"Loading status busy");
 
-                        bundle.putString("enabledie", "1");
+                        bundle.putString("enabledie", "0");
                         bundle.putString("jobordername",clickedPpr.getJobOrderName());
                         bundle.putString("joborderqty",clickedPpr.getJobOrderQty().toString());
                         bundle.putString("childdesc",clickedPpr.getChildDescription());
@@ -248,7 +273,13 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
     }
     private void attachListeners() {
+        binding.firstloadingBtn.setOnClickListener(v->{
+            if (clickedPpr!=null)
+                selectedLoadinsequenceinfoViewModel.getselectedloadingsequence(USER_ID, "S123", clickedPpr.getLoadingSequenceID());
+            else
+                warningDialog(getContext(),"Please check production sequence");
 
+        });
         viewModel.getProductionsequenceResponse().observe(getViewLifecycleOwner(), apiResponse->{
             if (apiResponse!=null) {
                 String statusMessage = apiResponse.getResponseStatus().getStatusMessage();
@@ -273,6 +304,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
             @Override
             public void run() {
                 // update UI to reflect the data
+                hideKeyboard(getActivity());
                 String scannedText = barcodeReadEvent.getBarcodeData();
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
                 if (scannedText.isEmpty())
@@ -323,21 +355,21 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
             }
         }
 
-//        getView().setFocusableInTouchMode(true);
-//        getView().requestFocus();
-//        getView().setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-//                    // handle back button's click listener
-//                    //Navigation.findNavController(getView()).popBackStack(R.id.mainmachineloading,true);
-//                   // Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_mainmachineLoadingFragment);
-//
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    // handle back button's click listener
+                    Navigation.findNavController(getView()).popBackStack(R.id.mainmachineloading,true);
+                   // Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_mainmachineLoadingFragment);
+
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -352,22 +384,8 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
     @Override
     public void onCheckedChanged(int position, boolean isChecked, Ppr item) {
-        binding.firstloadingBtn.setOnClickListener(__ -> {
-
-
-            if (isChecked) {
-                selectedLoadinsequenceinfoViewModel.getselectedloadingsequence(USER_ID, "S123", productionsequenceresponse.get(position).getLoadingSequenceID());
-                clickedPpr = item;
-
-            }
-            else {
-//                Toast.makeText(getActivity(), "Please check production sequence", Toast.LENGTH_SHORT).show();
-                warningDialog(getContext(),"Please check production sequence");
-            }
-        });
-
-
-
+        Log.d("======id",item.getSequenceId().toString());
+            clickedPpr = item;
     }
 
 

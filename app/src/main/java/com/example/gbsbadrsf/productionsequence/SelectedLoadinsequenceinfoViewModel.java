@@ -37,30 +37,35 @@ public class SelectedLoadinsequenceinfoViewModel extends ViewModel {
         this.repository=productionsequencerepository;
     }
     void getselectedloadingsequence(int UserID,String DeviceSerialNo,int LoadingSequenceID){
-        disposable.add(repository.Loadingsequenceinfo(UserID,DeviceSerialNo,LoadingSequenceID).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>, Throwable>() {
-            @Override
-            public void accept(APIResponseLoadingsequenceinfo<LoadingSequenceInfo> loadingSequenceInfoAPIResponseLoadingsequenceinfo, Throwable throwable) throws Exception {
-                if (loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getLoadingSequenceStatus()== 1)
-                {
-                    loadingstatustype.postValue(Loadingstatus.Loadingstatusbusy);
+        disposable.add(repository.Loadingsequenceinfo(UserID,DeviceSerialNo,LoadingSequenceID)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((loadingSequenceInfoAPIResponseLoadingsequenceinfo, throwable) -> {
+//                    if (loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getLoadingSequenceStatus()== 1)
+//                    {
+//                        loadingstatustype.postValue(Loadingstatus.Loadingstatusbusy);
+//
+//
+//                    }
+//                    else
+                        if (
+//                            loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getLoadingSequenceStatus()==0 &&
+                                    loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getRequiredDie()==true){
+                        //loadingstatus=0&&requirdie=true
+                        loadingstatustype.postValue(Loadingstatus.Loadingstatusfreeandrequiredietrue);
+
+                    }
+                    else if(
+//                            loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getLoadingSequenceStatus()==0 &&
+                                    loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getRequiredDie()==false)
+                    {
+                       //loadingstatus=0&&requirdie=false
+                        loadingstatustype.postValue(Loadingstatus.Loadingstatusfreeandrequirediefalse);
 
 
+                    }
+                    status.postValue(Status.SUCCESS);
                 }
-                else if (loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getLoadingSequenceStatus()==0 &&loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getRequiredDie()==true){
-                    //loadingstatus=0&&requirdie=true
-                    loadingstatustype.postValue(Loadingstatus.Loadingstatusfreeandrequiredietrue);
-
-                }
-                else if(loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getLoadingSequenceStatus()==0 &&loadingSequenceInfoAPIResponseLoadingsequenceinfo.getData().getRequiredDie()==false)
-                {
-                   //loadingstatus=0&&requirdie=false
-                    loadingstatustype.postValue(Loadingstatus.Loadingstatusfreeandrequirediefalse);
-
-
-                }
-
-            }
-        }));
+                ));
 
 
     }

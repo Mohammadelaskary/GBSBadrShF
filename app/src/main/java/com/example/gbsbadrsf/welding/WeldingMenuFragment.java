@@ -47,7 +47,7 @@ FragmentWeldingMenuBinding fragmentWeldingMenuBinding;
     private void attachListeners() {
         fragmentWeldingMenuBinding.machineloadingBtn.setOnClickListener(__ -> {
 
-            Navigation.findNavController(getView()).navigate(R.id.action_weldingMenuFragment_to_weldingSequence);
+            Navigation.findNavController(getView()).navigate(R.id.action_weldingMenuFragment_to_main_welding_machine_loading);
 
         });
         fragmentWeldingMenuBinding.machinesignoffBtn.setOnClickListener(__ -> {

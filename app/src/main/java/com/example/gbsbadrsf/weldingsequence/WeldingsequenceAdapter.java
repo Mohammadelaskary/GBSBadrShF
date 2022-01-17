@@ -1,5 +1,8 @@
 package com.example.gbsbadrsf.weldingsequence;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,13 +23,14 @@ import java.util.List;
 public class WeldingsequenceAdapter extends RecyclerView.Adapter<WeldingsequenceAdapter.WeldingsequenceViewHolder> {
     private List<PprWelding> weldingsequenceresponse;
     WeldingsequenceAdapter.onCheckedChangedListener onClick;
+    private Context context;
     private CheckBox lastCheckedRB = null;
 
 
-    public WeldingsequenceAdapter(List<PprWelding> weldingsequenceresponse, WeldingsequenceAdapter.onCheckedChangedListener onClick) {
+    public WeldingsequenceAdapter(List<PprWelding> weldingsequenceresponse, WeldingsequenceAdapter.onCheckedChangedListener onClick,Context context) {
         this.weldingsequenceresponse = weldingsequenceresponse;
         this.onClick = onClick;
-
+        this.context = context;
     }
     public void getweldingsequencelist(List<PprWelding> weldingsequencelst){
         weldingsequenceresponse.clear();
@@ -70,6 +74,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
                 }
                 else {
                     checked_rb.setChecked(false);
+                    warningDialog(context,"You must check the first ppr!");
                 }
             }
         });

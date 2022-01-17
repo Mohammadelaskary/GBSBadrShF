@@ -89,6 +89,7 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_machinehold.xml" value="0.13020833333333334" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_machineloadingpaint.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_machineloadingwe.xml" value="0.25416666666666665" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_main_welding_machine_loading.xml" value="0.24010416666666667" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_mainmachineloading.xml" value="0.24010416666666667" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_mainmachinesignoff.xml" value="0.13020833333333334" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_mainmenu.xml" value="0.264" />
@@ -136,6 +137,7 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_add_defect_details.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_add_defects.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_add_deffects.xml" value="0.22592592592592592" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_continue_loading.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_display_defect_details.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_menu.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_quality_operation.xml" value="0.22592592592592592" />
@@ -144,6 +146,7 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_random_quality_inspection.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_welding_sequence.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/productionscrap_lst.xml" value="0.4" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/productionsequence_rv.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/qty_child_qty_defect_item.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/qualityscrap_lst.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/qualityscrapwe_lst.xml" value="0.25416666666666665" />

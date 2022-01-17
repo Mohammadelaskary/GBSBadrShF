@@ -324,11 +324,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
            public void run() {
                String scannedText = barcodeReadEvent.getBarcodeData();
                binding.machinecodeNewedttxt.setText(scannedText);
-               if (scannedText.isEmpty())
-                   binding.machinecodeEdt.setError("Please scan or enter a valid machine code and press enter!");
-               else
-                   machinesignoffViewModel.getmachinecodedata(USER_ID, "S123", scannedText);
-
+               machinesignoffViewModel.getmachinecodedata(USER_ID, "S123", scannedText);
            }
        });
     }

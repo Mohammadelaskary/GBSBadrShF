@@ -22,7 +22,7 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
     Gson gson;
     @Inject
     ApiInterface apiinterface;
-    private MutableLiveData<Pprpaintcontainbaskets> responseLiveData ;
+    private MutableLiveData<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>> responseLiveData ;
     private MutableLiveData<Baskets> baskets;
 
     private MutableLiveData<Status> status;
@@ -42,32 +42,29 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
 
     }
     void getselectedpaintsequence(int UserID,String DeviceSerialNo,String loadingsequenceid){
-        disposable.add(apiinterface.getpaintloadingsequence(UserID,DeviceSerialNo,loadingsequenceid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>, Throwable>() {
-            @Override
-            public void accept(ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets> getinfoforselectedstationloading, Throwable throwable) throws Exception {
-                if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)
-                {
-                    statustype.postValue(Staustype.gettingdatasuccesfully);
-                    //baskets.postValue(getBaskets().getValue());
+        disposable.add(apiinterface.getpaintloadingsequence(UserID,DeviceSerialNo,loadingsequenceid)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((getinfoforselectedstationloading, throwable) -> {
+//                    if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)
+//                    {
+//                        statustype.postValue(Staustype.gettingdatasuccesfully);
+//                        //baskets.postValue(getBaskets().getValue());
+//
+//
+//
+//
+//
+//                    }
+//                    else if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Wrong Loading sequence ID!")){
+//                        statustype.postValue(Staustype.noloadingquantityformachine);
+//
+//                    }
 
-
-
-
-
-                }
-                else if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Wrong Loading sequence ID!")){
-                    statustype.postValue(Staustype.noloadingquantityformachine);
-
-                }
-
-
-            }
-        }));
-
-
-
+                    responseLiveData.postValue(getinfoforselectedstationloading);
+                    status.postValue(Status.SUCCESS);
+                }));
     }
-    public MutableLiveData<Pprpaintcontainbaskets> getResponseLiveData() {
+    public MutableLiveData<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>> getResponseLiveData() {
         return responseLiveData;
     }
 
