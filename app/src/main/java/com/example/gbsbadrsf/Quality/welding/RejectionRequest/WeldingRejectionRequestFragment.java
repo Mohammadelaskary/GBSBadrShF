@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequest;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -171,7 +172,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1",oldBasketCode;
+    String parentCode ="", parentDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,oldBasketCode;
     int basketQty;
     LastMoveWeldingBasket basketData;
 

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.welding.weldingsignoff;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -73,7 +74,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 {
                     String stationCode = binding.stationNewedt.getText().toString();
                     if (!stationCode.isEmpty())
-                        signoffweViewModel.getstationcodedata(USER_ID, "S123", stationCode);
+                        signoffweViewModel.getstationcodedata(USER_ID, DEVICE_SERIAL_NO, stationCode);
                     else
                         binding.stationEdt.setError("Please scan or enter a valid station code!");
 
@@ -195,6 +196,8 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
                     weldingSignoffBody.setProductionStationCode(binding.stationNewedt.getText().toString());
                     //  machineSignoffBody.setSignOutQty(passedtext);
+                    weldingSignoffBody.setUserID(USER_ID);
+                    weldingSignoffBody.setDeviceSerialNo(DEVICE_SERIAL_NO);
                     weldingSignoffBody.setBasketLst(passedinput);
                     signoffweViewModel.getweldingsignoff(weldingSignoffBody, getContext());
                 }
@@ -271,7 +274,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             public void run() {
                 String scannedText = barcodeReadEvent.getBarcodeData();
                 binding.stationNewedt.setText(scannedText);
-                signoffweViewModel.getstationcodedata(USER_ID, "S123", scannedText);
+                signoffweViewModel.getstationcodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
             }
         });
 

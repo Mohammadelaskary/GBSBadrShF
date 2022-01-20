@@ -32,7 +32,7 @@ public class MachinesignoffViewModel extends ViewModel {
     Gson gson;
     Productionsequencerepository repository;
     private MutableLiveData<ResponseStatus> responseLiveData ;
-    private MutableLiveData<MachineLoading>machineloadingformachinecode;
+    private MutableLiveData<Apigetmachinecode<MachineLoading>>apiResponseMachineLoadingData;
 
     private MutableLiveData<Machinsignoffcases>machinesignoffcases;
 
@@ -45,7 +45,7 @@ public class MachinesignoffViewModel extends ViewModel {
     public MachinesignoffViewModel(Productionsequencerepository productionsequencerepository,Gson gson) {
         this.gson = gson;
         responseLiveData = new MutableLiveData<>();
-        machineloadingformachinecode=new MutableLiveData<>();
+        apiResponseMachineLoadingData=new MutableLiveData<>();
         machinesignoffcases=new MutableLiveData<>(Machinsignoffcases.fake);
 
         status = new MutableLiveData<>(Status.IDLE);
@@ -56,61 +56,59 @@ public class MachinesignoffViewModel extends ViewModel {
         disposable.add(
                 repository.Machinesignoff(object)
                         .doOnSubscribe(__ -> status.postValue(Status.LOADING))
-                        .subscribe(new BiConsumer<ApiMachinesignoff<ResponseStatus>, Throwable>() {
-                            @Override
-                            public void accept(ApiMachinesignoff<ResponseStatus> Machinesignoffresponse, Throwable throwable) throws Exception {
-                                if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("Done successfully") )
-                                {
-
-
-                                  machinesignoffcases.postValue(Machinsignoffcases.Donesuccessfully);
-                                }
-                                else if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("This machine has not been loaded with anything") )
-                                {
-                                    machinesignoffcases.postValue(Machinsignoffcases.machinefree);
-
-                                }
-                                else if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong machine code") )
-                                {
-                                    machinesignoffcases.postValue(Machinsignoffcases.wrongmachine);
-
-                                }
-
-                                else if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction") )
-                                {
-                                    machinesignoffcases.postValue(Machinsignoffcases.servererror);
-
-                                }
-                                status.postValue(Status.SUCCESS);
-                            }
+                        .subscribe((Machinesignoffresponse, throwable) -> {
+                            responseLiveData.postValue(Machinesignoffresponse.getResponseStatus());
+//                            if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("Done successfully") )
+//                            {
+//
+//
+//                              machinesignoffcases.postValue(Machinsignoffcases.Donesuccessfully);
+//                            }
+//                            else if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("This machine has not been loaded with anything") )
+//                            {
+//                                machinesignoffcases.postValue(Machinsignoffcases.machinefree);
+//
+//                            }
+//                            else if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong machine code") )
+//                            {
+//                                machinesignoffcases.postValue(Machinsignoffcases.wrongmachine);
+//
+//                            }
+//
+//                            else if(Machinesignoffresponse.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction") )
+//                            {
+//                                machinesignoffcases.postValue(Machinsignoffcases.servererror);
+//
+//                            }
+                            status.postValue(Status.SUCCESS);
                         }));
 
     }
     void getmachinecodedata(int userid,String deviceserialnum,String machinecode){
-        disposable.add(apiInterface.getmachinecodedata(userid,deviceserialnum,machinecode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<Apigetmachinecode<MachineLoading>, Throwable>() {
-            @Override
-            public void accept(Apigetmachinecode<MachineLoading> getmachinecode, Throwable throwable) throws Exception {
-                if (getmachinecode.getResponseStatus().getStatusMessage().equals("Getting data successfully"))
-                {
-                   machinesignoffcases.postValue(Machinsignoffcases.datagettingsuccesfully);
-                   machineloadingformachinecode.postValue(getmachinecode.getData());
+        disposable.add(apiInterface.getmachinecodedata(userid,deviceserialnum,machinecode)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((getmachinecode, throwable) -> {
+                    apiResponseMachineLoadingData.postValue(getmachinecode);
+//                    if (getmachinecode.getResponseStatus().getStatusMessage().equals("Getting data successfully"))
+//                    {
+//                       machinesignoffcases.postValue(Machinsignoffcases.datagettingsuccesfully);
+//                       machineloadingformachinecode.postValue(getmachinecode.getData());
+//
+//                    }
+//                    else if(getmachinecode.getResponseStatus().getStatusMessage().equals("Wrong machine code")){
+//                        machinesignoffcases.postValue(Machinsignoffcases.wrongmachinecode);
+//
+//
+//                    }
+//                    else if (getmachinecode.getResponseStatus().getStatusMessage().equals("There is no loading quantity on the machine!"))
+//                    {
+//                        machinesignoffcases.postValue(Machinsignoffcases.noloadingquantityonthemachine);
+//
+//
+//                    }
 
-                }
-                else if(getmachinecode.getResponseStatus().getStatusMessage().equals("Wrong machine code")){
-                    machinesignoffcases.postValue(Machinsignoffcases.wrongmachinecode);
-
-
-                }
-                else if (getmachinecode.getResponseStatus().getStatusMessage().equals("There is no loading quantity on the machine!"))
-                {
-                    machinesignoffcases.postValue(Machinsignoffcases.noloadingquantityonthemachine);
-
-
-                }
-
-            status.postValue(Status.SUCCESS);
-            }
-        }));
+                status.postValue(Status.SUCCESS);
+                }));
 
     }
 
@@ -126,10 +124,8 @@ public class MachinesignoffViewModel extends ViewModel {
     public MutableLiveData<Machinsignoffcases> getMachinesignoffcases() {
         return machinesignoffcases;
     }
-    public MutableLiveData<MachineLoading> getMachineloadingformachinecode() {
-        return machineloadingformachinecode;
+
+    public MutableLiveData<Apigetmachinecode<MachineLoading>> getApiResponseMachineLoadingData() {
+        return apiResponseMachineLoadingData;
     }
-
-
-
 }

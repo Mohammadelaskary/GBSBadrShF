@@ -1,6 +1,9 @@
 package com.example.gbsbadrsf.Manfacturing.machineloading;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -16,6 +19,7 @@ import android.os.Looper;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +78,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                    if (basketCode.isEmpty())
                        binding.basketcodeEdt.setError("Please scan or enter a valid basket code!");
                    else
-                       continueLoadingViewModel.getbasketedata(USER_ID, "S123", binding.basketcodeEdt.getEditText().getText().toString());
+                       continueLoadingViewModel.getbasketedata(USER_ID, DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString());
                    return true;
                }
                return false;
@@ -104,25 +108,37 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         getdata();
        // initViews();
         addTextWatchers();
-        subscribeRequest();
+//        subscribeRequest();
         observeGettingData();
+        observeSavingData();
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
                 String dieCode     = binding.diecodeEdt.getEditText().getText().toString().trim();
+                String loadingQty  = binding.loadingQty.getEditText().getText().toString().trim();
+                Log.d("=====qty",qty+"");
                 if (childCode==null)
                     binding.basketcodeEdt.setError("Please enter or scan a valid basket code!");
                 if (machineCode.isEmpty())
                     binding.machinecodeEdt.setError("Please enter or scan a valid machine code!");
-                if (dieCode.isEmpty())
-                    binding.diecodeEdt.setError("Please enter or scan a valid die code!");
+//                if (dieCode.isEmpty())
+//                    binding.diecodeEdt.setError("Please enter or scan a valid die code!");
+                if (!loadingQty.isEmpty()){
+                    if (containsOnlyDigits(loadingQty)){
+                        if (Integer.parseInt(loadingQty)>qty||Integer.parseInt(loadingQty)<=0)
+                            binding.loadingQty.setError("Loading Quantity must be equal or less than basket Quantity and bigger than 0!");
+                    } else binding.loadingQty.setError("Loading Quantity must contain only digits!");
+
+                } else
+                    binding.loadingQty.setError("Please set loading quantity!");
                 if (
                         childCode!=null &&
-                                !machineCode.isEmpty() &&
-                                !dieCode.isEmpty()
+                                !machineCode.isEmpty()
+//                                &&!dieCode.isEmpty()
+                        && !loadingQty.isEmpty()&&containsOnlyDigits(loadingQty)&&Integer.parseInt(loadingQty)<=qty&&Integer.parseInt(loadingQty)>0
                 )
-                continueLoadingViewModel.savecontinueloading(USER_ID,"S123", binding.basketcodeEdt.getEditText().getText().toString(), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(),"12");
+                continueLoadingViewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString(), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(),loadingQty);
 
             }
         });
@@ -166,6 +182,36 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
 
         return binding.getRoot();
+    }
+
+    private void observeSavingData() {
+        continueLoadingViewModel.getResponseLiveData().observe(getViewLifecycleOwner(),responseStatus -> {
+            if (responseStatus!=null){
+                String statusMessage = responseStatus.getStatusMessage();
+                switch (statusMessage){
+                    case "Saving data successfully":
+                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                        back(ContinueLoading.this);
+                        break;
+                    case "The machine has already been used":
+                    case "Wrong machine code":
+                        binding.machinecodeEdt.setError(statusMessage);
+                        binding.machinecodeEdt.getEditText().requestFocus();
+                        break;
+                    case "Wrong die code for this child":
+                        binding.diecodeEdt.setError(statusMessage);
+                        binding.diecodeEdt.getEditText().requestFocus();
+                        break;
+                    case "Wrong basket code":
+                        binding.basketcodeEdt.setError(statusMessage);
+                        binding.basketcodeEdt.getEditText().requestFocus();
+                        break;
+                    default:
+                        warningDialog(getContext(),statusMessage);
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -230,17 +276,29 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         });
     }
     String childCode;
+    int qty;
     public void getdata() {
-        continueLoadingViewModel.getLastmanfacturingbasketinfo().observe(getViewLifecycleOwner(), cuisines -> {
-            if (cuisines!=null) {
-                childCode = cuisines.getChildCode();
-                binding.childesc.setText(cuisines.getChildDescription());
-                binding.childcode.setText(cuisines.getChildCode());
-                binding.jobordernum.setText(cuisines.getJobOrderName());
+        continueLoadingViewModel.getLastmanfacturingbasketinfo().observe(getViewLifecycleOwner(), response -> {
+            if (response!=null) {
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                if (response.getData()!=null) {
+                    childCode = response.getData().getChildCode();
+                    binding.childesc.setText(response.getData().getChildDescription());
+                    binding.childcode.setText(response.getData().getChildCode());
+                    binding.jobordernum.setText(response.getData().getJobOrderName());
+                    qty = response.getData().getQty();
+                } else {
+                    binding.basketcodeEdt.setError(statusMessage);
+                    binding.childesc.setText("");
+                    binding.childcode.setText("");
+                    binding.jobordernum.setText("");
+                    qty=0;
+                }
             } else {
                 binding.childesc.setText("");
                 binding.childcode.setText("");
                 binding.jobordernum.setText("");
+                qty=0;
                 warningDialog(getContext(), "Error in getting data!");
             }
         });
@@ -317,9 +375,9 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                     if (scannedText.isEmpty())
                         binding.basketcodeEdt.setError("Please enter or scan a valid basket code");
                     else
-                        continueLoadingViewModel.getbasketedata(USER_ID, "S123", binding.basketcodeEdt.getEditText().getText().toString());
+                        continueLoadingViewModel.getbasketedata(USER_ID, DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString());
                 }
-
+                hideKeyboard(getActivity());
             }
         });
 
@@ -370,7 +428,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
     }
 

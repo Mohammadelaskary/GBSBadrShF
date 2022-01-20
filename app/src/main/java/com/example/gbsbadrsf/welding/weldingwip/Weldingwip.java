@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.welding.weldingwip;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class Weldingwip extends DaggerFragment {
         // Inflate the layout for this fragment
         fragmentWeldingwipBinding = FragmentWeldingwipBinding.inflate(inflater, container, false);
         viewModel = ViewModelProviders.of(this, provider).get(WeldingvieModel.class);
-        viewModel.getweldingwip(USER_ID, "S1");
+        viewModel.getweldingwip(USER_ID, DEVICE_SERIAL_NO);
 
         setUpRecyclerView();
         attachListeners();

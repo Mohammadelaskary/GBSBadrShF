@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.QualitySignOff;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -252,7 +253,7 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
         viewModel = ViewModelProviders.of(this,provider).get(PaintQualityDecisionViewModel.class);
     }
     int userId = USER_ID,operationId, parentId,jobOrderId,lastMoveId,pprLoadingId;
-    String deviceSerialNumber = "Dev1",defectedQty;
+    String deviceSerialNumber = DEVICE_SERIAL_NO,defectedQty;
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     List<DefectsPainting> defectsPaintingList = new ArrayList<>();
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;

@@ -1,14 +1,18 @@
 package com.example.gbsbadrsf.machineloading;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+import static com.example.gbsbadrsf.productionsequence.ProductionSequence.PPR_KEY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -26,6 +30,7 @@ import android.widget.Toast;
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentMachineLoadingBinding;
@@ -72,7 +77,6 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         responseStatus = new ResponseStatus();
 
         initObjects();
-        binding.machinecodeEdt.getEditText().requestFocus();
         //attachListeners();
         addTextWatchers();
         subscribeRequest();
@@ -85,16 +89,18 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                 String loadingQty  = binding.newloadingqtnEdt.getText().toString().trim();
                 if (machineCode.isEmpty())
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
-//                if (dieCode.isEmpty())
-//                    binding.diecodeEdt.setError("Please scan or enter a valid die code!");
+                if (dieCode.isEmpty()&&requiredDie)
+                    binding.diecodeEdt.setError("Please scan or enter a valid die code!");
+                if (!dieCode.equals(requiredDieCode)&&requiredDie)
+                    binding.diecodeEdt.setError("Wrong die code!");
                 if (loadingQty.isEmpty())
                     binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
                 else{
                     if (!containsOnlyDigits(loadingQty))
                         binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
                     else {
-                        if (Integer.parseInt(loadingQty)>Integer.parseInt(getArguments().getString("joborderqty")))
-                            binding.loadingqtnEdt.setError("Loading quantity must be equal or less than job order quantity!");
+                        if (Integer.parseInt(loadingQty)>remainQty)
+                            binding.loadingqtnEdt.setError("Loading quantity must be equal or less than available loading qty!");
                         if (Integer.parseInt(loadingQty)==0)
                             binding.loadingqtnEdt.setError("Loading quantity can not be 0!");
                     }
@@ -102,13 +108,14 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                 }
                 if (
                         !machineCode.isEmpty()&&
-//                        !dieCode.isEmpty()&&
+                        !(dieCode.isEmpty()&&requiredDie)&&
+                                !(!dieCode.equals(requiredDieCode)&&requiredDie)&&
                         !loadingQty.isEmpty()&&
                         containsOnlyDigits(loadingQty)&&
-                        Integer.parseInt(loadingQty)<=Integer.parseInt(getArguments().getString("joborderqty"))&&
+                        Integer.parseInt(loadingQty)<=remainQty&&
                         Integer.parseInt(loadingQty)>0
                 ) {
-                    machineloadingViewModel.savefirstloading(USER_ID, "S123", getArguments().getString("loadingsequenceid"), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(), binding.newloadingqtnEdt.getText().toString());
+                    machineloadingViewModel.savefirstloading(USER_ID, DEVICE_SERIAL_NO,loadingSequenceId , machineCode, dieCode, loadingQty);
                 }
             }
         });
@@ -153,6 +160,13 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
 
         return binding.getRoot();
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
 
     }
@@ -217,24 +231,31 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
             }
         });
     }
-
+    int remainQty,loadingSequenceId;
+    boolean requiredDie;
+    String requiredDieCode;
     private void initObjects() {
-        if (getArguments().getString("enabledie").equals("1")){
-            binding.diecodeEdt.getEditText().setEnabled(true);
-            binding.diecodeEdt.getEditText().setClickable(true);
+        if (getArguments() != null) {
+            Ppr ppr = getArguments().getParcelable(PPR_KEY);
+            if (!ppr.getDieCode().isEmpty()) {
+                binding.diecodeEdt.getEditText().setEnabled(true);
+                binding.diecodeEdt.getEditText().setClickable(true);
+                requiredDie = true;
+            } else {
+                binding.diecodeEdt.getEditText().setEnabled(false);
+                binding.diecodeEdt.getEditText().setClickable(false);
+                requiredDie = false;
+            }
+            binding.jobordernum.setText(ppr.getJobOrderName());
+            binding.Joborderqtn.setText(String.valueOf(ppr.getJobOrderQty()));
+            binding.childesc.setText(ppr.getChildDescription());
+            binding.childcode.setText(ppr.getChildCode());
+            binding.loadingsequenceid.setText(String.valueOf(ppr.getLoadingSequenceID()));
+            binding.availableQty.setText(String.valueOf(ppr.getAvailableloadingQty()));
+            remainQty = ppr.getAvailableloadingQty();
+            loadingSequenceId = ppr.getLoadingSequenceID();
+            requiredDieCode = ppr.getDieCode();
         }
-        else {
-            binding.diecodeEdt.getEditText().setEnabled(false);
-            binding.diecodeEdt.getEditText().setClickable(false);
-        }
-        binding.jobordernum.setText(getArguments().getString("jobordername"));
-        binding.Joborderqtn.setText(getArguments().getString("joborderqty"));
-        binding.childesc.setText(getArguments().getString("childdesc"));
-        binding.childcode.setText(getArguments().getString("childcode"));
-        binding.loadingsequenceid.setText(getArguments().getString("loadingsequenceid"));
-
-
-
     }
     private void subscribeRequest() {
         machineloadingViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
@@ -290,7 +311,10 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         public void run() {
             if (binding.machinecodeNewedttxt.isFocused()) {
                 binding.machinecodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                binding.newdiecodeEdt.requestFocus();
+                if (requiredDie)
+                    binding.newdiecodeEdt.requestFocus();
+                else
+                    binding.loadingqtnEdt.requestFocus();
             }
             else if (binding.newdiecodeEdt.isFocused()){
                 binding.newdiecodeEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
@@ -332,6 +356,7 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
     @Override
     public void onResume() {
         super.onResume();
+        binding.machinecodeEdt.getEditText().requestFocus();
         if (barcodeReader != null) {
             try {
                 barcodeReader.claim();
@@ -339,21 +364,21 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
                 e.printStackTrace();
             }
         }
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    // handle back button's click listener
-                  Navigation.findNavController(getView()).popBackStack(R.id.productionSequence,true);
-
-
-                    return true;
-                }
-                return false;
-            }
-        });
+//        getView().setFocusableInTouchMode(true);
+//        getView().requestFocus();
+//        getView().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                    // handle back button's click listener
+//                  Navigation.findNavController(getView()).popBackStack(R.id.productionSequence,true);
+//
+//
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -362,7 +387,7 @@ public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
     }
 

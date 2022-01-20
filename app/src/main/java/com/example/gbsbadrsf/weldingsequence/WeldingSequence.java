@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.weldingsequence;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
@@ -98,7 +99,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    viewModel.getWeldingsequence(USER_ID,"S123", binding.barcodeEdt.getEditText().getText().toString());
+                    viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO, binding.barcodeEdt.getEditText().getText().toString());
                     return true;
                 }
                 return false;
@@ -233,7 +234,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
     private void attachListeners() {
         binding.qtnokBtn.setOnClickListener(v->{
             if (clickedPprwelding!=null)
-                infoForSelectedStationViewModel.getselectedweldingsequence(USER_ID, "S123", clickedPprwelding.getSequenceId().toString());
+                infoForSelectedStationViewModel.getselectedweldingsequence(USER_ID, DEVICE_SERIAL_NO, clickedPprwelding.getSequenceId().toString());
         });
         viewModel.getWeldingsequenceResponse().observe(getViewLifecycleOwner(), cuisines->{
 //            productionsequenceresponse.clear();//malosh lazma
@@ -264,7 +265,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 hideKeyboard(getActivity());
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
                 binding.barcodeEdt.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                viewModel.getWeldingsequence(USER_ID,"S123", binding.barcodeEdt.getEditText().getText().toString());
+                viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO, binding.barcodeEdt.getEditText().getText().toString());
 
             }
         });
@@ -317,7 +318,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
     }
 

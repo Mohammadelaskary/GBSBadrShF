@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -179,7 +180,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
     }
 
     int userId = USER_ID ;
-    String deviceSerialNumber = "S12";
+    String deviceSerialNumber = DEVICE_SERIAL_NO;
     private void getMachineDieInfo(String machineDieCode) {
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);
         viewModel.getInfoForQualityRandomInspectionLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturing -> {

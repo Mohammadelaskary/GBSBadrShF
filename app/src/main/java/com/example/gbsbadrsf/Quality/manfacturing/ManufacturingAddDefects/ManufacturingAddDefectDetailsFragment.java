@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 
@@ -154,7 +155,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String childCode,childDescription,notes = "ghi",deviceSerialNumber="fsd" ;
+    String childCode,childDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO ;
     int     childId,
             defectedQty,
             jobOrderId,

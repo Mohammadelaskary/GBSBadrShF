@@ -12,6 +12,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +23,10 @@ import com.example.gbsbadrsf.Util.Constant;
 import com.example.gbsbadrsf.databinding.ActivityMainBinding;
 import com.example.gbsbadrsf.signin.SigninFragment;
 import com.honeywell.aidc.AidcManager;
+import com.honeywell.aidc.BarcodeDeviceConnectionEvent;
 import com.honeywell.aidc.BarcodeReader;
+import com.honeywell.aidc.BarcodeReaderInfo;
+import com.honeywell.aidc.ScannerUnavailableException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -32,14 +36,14 @@ import java.net.URLConnection;
 
 import io.reactivex.Observable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private static final String MY_PREFS_NAME = "database_url";
     private static ActivityMainBinding activityMainBinding;
     private static BarcodeReader barcodeReader;
     private static BarcodeReader barcodeReaderSequence;
+    public static  String DEVICE_SERIAL_NO;
     private AidcManager manager;
     public static String IP;
-
 
 
 
@@ -49,11 +53,17 @@ public class MainActivity extends AppCompatActivity {
         getBaseUrlFromSharedPreferences();
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
+
         installToolbar();
         AidcManager.create(this, aidcManager -> {
                         manager = aidcManager;
                         barcodeReader = manager.createBarcodeReader();
                         barcodeReaderSequence = manager.createBarcodeReader();
+            try {
+                DEVICE_SERIAL_NO = barcodeReader.getInfo().getScannerId();
+            } catch (ScannerUnavailableException e) {
+                e.printStackTrace();
+            }
                     });
 
 
@@ -145,4 +155,6 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.logout, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 }

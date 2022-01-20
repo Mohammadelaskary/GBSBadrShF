@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.productionsequence;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
@@ -51,6 +52,7 @@ import dagger.android.support.DaggerFragment;
 
 public class ProductionSequence extends DaggerFragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener,productionsequenceadapter.onCheckedChangedListener {
+    public static final String PPR_KEY = "ppr";
     FragmentProductionSequenceBinding binding;
     public RecyclerView recyclerView;
     private BarcodeReader barcodeReader;
@@ -121,14 +123,14 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
 
 
         attachListeners();
-        subscribeRequest();
+//        subscribeRequest();
 
 
 
         selectedsequence = new ArrayList<>();
 
         recyclerView = binding.defectqtnRv;
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+//        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         barcodeReader = MainActivity.getBarcodeObjectsequence();
 
         if (barcodeReader != null) {
@@ -200,12 +202,12 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
             else
                 progressDialog.dismiss();
         });
-        selectedLoadinsequenceinfoViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
-            if (status.equals(Status.LOADING))
-                progressDialog.show();
-            else
-                progressDialog.dismiss();
-        });
+//        selectedLoadinsequenceinfoViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+//            if (status.equals(Status.LOADING))
+//                progressDialog.show();
+//            else
+//                progressDialog.dismiss();
+//        });
     }
 
 
@@ -267,17 +269,25 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         adapter = new productionsequenceadapter(productionsequenceresponse,this);
         binding.defectqtnRv.setAdapter(adapter);
         binding.defectqtnRv.setNestedScrollingEnabled(true);
-        binding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager manager = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        binding.defectqtnRv.setLayoutManager(manager);
 
 
 
     }
     private void attachListeners() {
         binding.firstloadingBtn.setOnClickListener(v->{
-            if (clickedPpr!=null)
-                selectedLoadinsequenceinfoViewModel.getselectedloadingsequence(USER_ID, "S123", clickedPpr.getLoadingSequenceID());
-            else
-                warningDialog(getContext(),"Please check production sequence");
+            if (clickedPpr!=null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(PPR_KEY,clickedPpr);
+                Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_machineLoadingFragment, bundle);
+            } else
+                warningDialog(getContext(),"Please select 1 production sequence");
 
         });
         viewModel.getProductionsequenceResponse().observe(getViewLifecycleOwner(), apiResponse->{
@@ -287,7 +297,8 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 if (statusMessage.equals("Data sent successfully")){
                     if (pprList.isEmpty())
                         binding.jobOrderName.setError("No ppr list for this job order!");
-                    adapter.getproductionsequencelist(pprList);// today 23/11
+                    adapter.setPprList(pprList);// today 23/11
+                    adapter.notifyDataSetChanged();
                 } else
                     binding.jobOrderName.setError(statusMessage);
 
@@ -378,13 +389,13 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
     }
 
     @Override
-    public void onCheckedChanged(int position, boolean isChecked, Ppr item) {
-        Log.d("======id",item.getSequenceId().toString());
+    public void onCheckedChanged(Ppr item) {
+        Log.d("======id",item.getOperationEnName().toString());
             clickedPpr = item;
     }
 

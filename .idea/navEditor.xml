@@ -68,18 +68,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="fragcontinueLoading">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="fragment_display_defect_details">
                     <value>
                       <LayoutPositions>
@@ -103,6 +91,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragment_main_machine_loading_welding_to_fragment_welding_continue">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fragment_main_machine_loading_welding_to_fragment_welding_production_sequence">
                               <value>
                                 <LayoutPositions />
@@ -419,6 +412,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_welding_continue_loading">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -1558,7 +1563,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_weldingMenuFragment_to_machineloadingweFragment">
+                            <entry key="action_weldingMenuFragment_to_main_welding_machine_loading">
                               <value>
                                 <LayoutPositions />
                               </value>

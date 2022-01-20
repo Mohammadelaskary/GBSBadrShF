@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.AddDefects;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -154,7 +155,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
         binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String parentCode,parentDescription,notes = "ghi",deviceSerialNumber="S1",jobOrderName;
+    String parentCode,parentDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName;
     int     parentId,
             defectedQty,
             jobOrderId,

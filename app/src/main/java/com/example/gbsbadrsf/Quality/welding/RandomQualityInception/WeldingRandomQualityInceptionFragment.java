@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.RandomQualityInception;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -177,7 +178,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
     }
 
     int userId = USER_ID ;
-    String deviceSerialNumber = "S12";
+    String deviceSerialNumber = DEVICE_SERIAL_NO;
     private void getMachineDieInfo(String machineDieCode) {
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);
         viewModel.getInfoForQualityRandomInspectionLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWelding -> {

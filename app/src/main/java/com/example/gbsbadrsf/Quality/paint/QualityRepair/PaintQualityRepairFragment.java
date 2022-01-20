@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -120,7 +121,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     int userId = USER_ID;
-    String deviceSerialNo="S1",basketCode;
+    String deviceSerialNo=DEVICE_SERIAL_NO,basketCode;
     private void getBasketDefectsPainting(String basketCode) {
         viewModel.getDefectsPaintingViewModel(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting -> {

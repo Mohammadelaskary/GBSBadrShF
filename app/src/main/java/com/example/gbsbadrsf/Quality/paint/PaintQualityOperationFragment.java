@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -120,7 +121,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
         });
     }
 
-    String deviceSerialNo = "S1";
+    String deviceSerialNo = DEVICE_SERIAL_NO;
     int userId = USER_ID;
     LastMovePaintingBasket basketData;
     private void getBasketData(String basketCode) {

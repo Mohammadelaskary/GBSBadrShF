@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.machinewip;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.os.Bundle;
@@ -59,7 +60,7 @@ public class MachineWip extends DaggerFragment {
         // Inflate the layout for this fragment
         fragmentMachineWipBinding = FragmentMachineWipBinding.inflate(inflater, container, false);
         viewModel = ViewModelProviders.of(this,provider).get(MachinewipViewModel.class);
-        viewModel.getmachinewip(USER_ID,"S1");
+        viewModel.getmachinewip(USER_ID,DEVICE_SERIAL_NO);
 
         setUpRecyclerView();
         attachListeners();

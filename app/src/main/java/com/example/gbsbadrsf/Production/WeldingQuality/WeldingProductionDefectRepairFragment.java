@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Production.WeldingQuality;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -154,7 +155,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         defectStatus = defectsWelding.getDefectStatus();
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
-    String notes="df", deviceSerialNumber="sdf",repairedQty;
+    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,repairedQty;
 
     @Override
     public void onClick(View v) {

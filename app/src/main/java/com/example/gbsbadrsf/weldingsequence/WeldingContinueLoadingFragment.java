@@ -11,17 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.R;
+import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.databinding.FragmentWeldingContinueLoadingBinding;
+import com.honeywell.aidc.BarcodeFailureEvent;
+import com.honeywell.aidc.BarcodeReadEvent;
+import com.honeywell.aidc.BarcodeReader;
+import com.honeywell.aidc.BarcodeReaderInfo;
+import com.honeywell.aidc.TriggerStateChangeEvent;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WeldingContinueLoadingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class WeldingContinueLoadingFragment extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+public class WeldingContinueLoadingFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+        BarcodeReader.TriggerListener {
 
 
-
+    SetUpBarCodeReader barCodeReader;
     public WeldingContinueLoadingFragment() {
         // Required empty public constructor
     }
@@ -47,6 +51,30 @@ public class WeldingContinueLoadingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        barCodeReader = new SetUpBarCodeReader(this,this);
 
+    }
+
+    @Override
+    public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
+        new Thread(() -> {
+            String scannedText = barCodeReader.scannedData(barcodeReadEvent);
+        });
+    }
+
+    @Override
+    public void onFailureEvent(BarcodeFailureEvent barcodeFailureEvent) {
+
+    }
+
+    @Override
+    public void onTriggerEvent(TriggerStateChangeEvent triggerStateChangeEvent) {
+        barCodeReader.onTrigger(triggerStateChangeEvent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        barCodeReader.onResume();
     }
 }

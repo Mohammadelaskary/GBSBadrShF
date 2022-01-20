@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Manfacturing.machinesignoff;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -7,11 +9,8 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.MachineSignoffBody;
@@ -35,6 +35,7 @@ import com.honeywell.aidc.ScannerUnavailableException;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 import com.honeywell.aidc.UnsupportedPropertyException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ProductionSignoffFragment extends DaggerFragment implements Signoffitemsdialog.OnInputSelected, BarcodeReader.BarcodeListener,
+public class ProductionSignoffFragment extends DaggerFragment implements  BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
     @Inject
     ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
@@ -53,7 +54,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
 
     private MachinesignoffViewModel machinesignoffViewModel;
     MachineLoading machineLoading;
-    List<Basketcodelst> passedinput;
+    List<Basketcodelst> basketList = new ArrayList<>();
     //String passedtext;
     ProgressDialog progressDialog;
     @Override
@@ -79,7 +80,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
                     if (!machineCode.isEmpty())
                         binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
                     else
-                        machinesignoffViewModel.getmachinecodedata(USER_ID, "S123", binding.machinecodeNewedttxt.getText().toString());
+                        machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, binding.machinecodeNewedttxt.getText().toString());
                     return true;
                 }
                 return false;
@@ -184,14 +185,25 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
 
     String childCode;
     public void getdata() {
-        machinesignoffViewModel.getMachineloadingformachinecode().observe(getViewLifecycleOwner(), cuisines -> {
-            if (cuisines!=null) {
-                childCode = cuisines.getChildCode();
-                binding.childesc.setText(cuisines.getChildDescription());
-                binding.childcode.setText(cuisines.getChildCode());
-                binding.jobordernum.setText(cuisines.getJobOrderName());
-                binding.operation.setText(cuisines.getOperationEnName());
-                binding.loadingqtn.setText(cuisines.getLoadingQty().toString());
+        machinesignoffViewModel.getApiResponseMachineLoadingData().observe(getViewLifecycleOwner(), response -> {
+            if (response!=null) {
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                if(response.getData()!=null) {
+                    childCode = response.getData().getChildCode();
+                    binding.childesc.setText(response.getData().getChildDescription());
+                    binding.childcode.setText(response.getData().getChildCode());
+                    binding.jobordernum.setText(response.getData().getJobOrderName());
+                    binding.operation.setText(response.getData().getOperationEnName());
+                    binding.loadingqtn.setText(String.valueOf(response.getData().getLoadingQty()));
+                } else {
+                    childCode = null;
+                    binding.childesc.setText("");
+                    binding.childcode.setText("");
+                    binding.jobordernum.setText("");
+                    binding.operation.setText("");
+                    binding.loadingqtn.setText("");
+                    binding.machinecodeEdt.setError(statusMessage);
+                }
             } else {
                 childCode = null;
                 binding.childesc.setText("");
@@ -204,7 +216,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
 
         });
     }
-
+    private boolean isBulk = true;
     private void initViews() {
         binding.signoffitemsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,13 +230,13 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
                     c.setTotalQty(0);
                 }*/
                 if (childCode!=null) {
-                    Bundle args = new Bundle();
-                    args.putString("childdesc", binding.childesc.getText().toString());
-                    args.putString("loadingqty", binding.loadingqtn.getText().toString());
-                    Signoffitemsdialog dialog = new Signoffitemsdialog();
-                    dialog.setArguments(args);
-                    dialog.setTargetFragment(ProductionSignoffFragment.this, 1);
-                    dialog.show(getFragmentManager(), "MyCustomDialog");
+                    String childDesc = binding.childesc.getText().toString().trim();
+                    String loadingQty = binding.loadingqtn.getText().toString().trim();
+                    Signoffitemsdialog dialog = new Signoffitemsdialog(getContext(), childDesc, loadingQty, (input, bulk) -> {
+                        basketList = input;
+                        isBulk = bulk;
+                    }, isBulk, basketList,getActivity());
+                    dialog.show();
                 } else {
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code and press enter!");
                 }
@@ -236,13 +248,15 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
             public void onClick(View v) {
                 if (childCode==null)
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
-                if (passedinput==null)
+                if (basketList ==null)
                     warningDialog(getContext(),"Please enter at least 1 basket code!");
-                if (childCode!=null&&passedinput!=null) {
+                if (childCode!=null&& basketList !=null) {
                     MachineSignoffBody machineSignoffBody = new MachineSignoffBody();
                     machineSignoffBody.setMachineCode(binding.machinecodeNewedttxt.getText().toString());
+                    machineSignoffBody.setUserID(USER_ID );
+                    machineSignoffBody.setDeviceSerialNo(DEVICE_SERIAL_NO);
                     //  machineSignoffBody.setSignOutQty(passedtext);
-                    machineSignoffBody.setBasketLst(passedinput);
+                    machineSignoffBody.setBasketLst(basketList);
                     machinesignoffViewModel.getmachinesignoff(machineSignoffBody, getContext());
                 }
 
@@ -253,51 +267,27 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
     }
 
     private void subscribeRequest() {
-        machinesignoffViewModel.getMachinesignoffcases().observe(getViewLifecycleOwner(), new Observer<Machinsignoffcases>() {
-            @Override
-            public void onChanged(Machinsignoffcases machinsignoffcases) {
-                switch (machinsignoffcases) {
-                    case Donesuccessfully:
-                        Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-
-
+        machinesignoffViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
+            if (responseStatus!=null) {
+                String statusMessage = responseStatus.getStatusMessage();
+                switch (statusMessage) {
+                    case "Done successfully":
+                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        back(ProductionSignoffFragment.this);
                         break;
-
-                    case machinefree:
-
+                    case "This machine has not been loaded with anything":
+                    case "Wrong machine code":
+                    case "Wrong machine!":
+                    case "There is no loading quantity on the machine!":
 //                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
-                        binding.machinecodeEdt.setError("This machine has not been loaded with anything");
+                        binding.machinecodeEdt.setError(statusMessage);
                         childCode = null;
                         break;
-                    case wrongmachine:
-
-//                        Toast.makeText(getContext(), "Wrong machine code", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-                        // 3ashan btest
-                        binding.machinecodeEdt.setError("Wrong machine code");
+                    default:
+                        warningDialog(getContext(),statusMessage);
                         childCode = null;
                         break;
-                    case servererror:
-
-//                        Toast.makeText(getContext(), "There was a server side failure while respond to this transaction", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-                        // 3ashan btest
-                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
-                        childCode = null;
-                        break;
-                    case datagettingsuccesfully:
-                        break;
-                    case wrongmachinecode:
-//                        Toast.makeText(getContext(), "wrong machine code", Toast.LENGTH_SHORT).show();
-                        binding.machinecodeEdt.setError("Wrong machine!");
-                        childCode = null;
-                        break;
-                    case noloadingquantityonthemachine:
-//                        Toast.makeText(getContext(), "There is no loading quantity on the machine!\n", Toast.LENGTH_SHORT).show();
-                        binding.machinecodeEdt.setError("There is no loading quantity on the machine!");
-                        childCode = null;
-                        break;
-
-
                 }
             }
         });
@@ -312,11 +302,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
 //    }
 
     //that for send list
-    @Override
-    public void sendlist(List<Basketcodelst> input) {
 
-        passedinput = input;
-    }
     @Override
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
        getActivity().runOnUiThread(new Runnable() {
@@ -324,7 +310,8 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
            public void run() {
                String scannedText = barcodeReadEvent.getBarcodeData();
                binding.machinecodeNewedttxt.setText(scannedText);
-               machinesignoffViewModel.getmachinecodedata(USER_ID, "S123", scannedText);
+               machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
+               MyMethods.hideKeyboard(getActivity());
            }
        });
     }
@@ -369,7 +356,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements Signoff
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
     }
 }

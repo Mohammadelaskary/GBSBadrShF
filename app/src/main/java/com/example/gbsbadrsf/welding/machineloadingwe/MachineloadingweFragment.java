@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.welding.machineloadingwe;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
@@ -86,7 +87,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                 if (childBasketCode.isEmpty())
                     binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
                 if (!stationCode.isEmpty()&&!childBasketCode.isEmpty()) {
-                    saveweldingViewModel.saveweldingloading(USER_ID, "S123", binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
+                    saveweldingViewModel.saveweldingloading(USER_ID, DEVICE_SERIAL_NO, binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
                 }
             }
         });

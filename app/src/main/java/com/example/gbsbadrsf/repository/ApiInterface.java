@@ -207,7 +207,7 @@ public interface ApiInterface {
     @GET("SaveFistLoadingSequence")
     Single<ApiSavefirstloading<ResponseStatus>> savefirstloading(@Query("UserID") int userid,
                                                                  @Query("DeviceSerialNo") String deviceserialnumber,
-                                                                 @Query("LoadingSequenceID") String loadingsequenceid,
+                                                                 @Query("LoadingSequenceID") int loadingsequenceid,
                                                                  @Query("MachineCode") String machinecode,
                                                                  @Query("DieCode") String DieCode,
                                                                  @Query(" LoadingQtyMobile") String loadinyqtymobile
@@ -224,7 +224,7 @@ public interface ApiInterface {
     @GET("GetInfoForSelectedMachine")
     Single<Apigetmachinecode<MachineLoading>> getmachinecodedata(@Query("UserID") int userid, @Query("DeviceSerialNo") String devicenumber, @Query("MachineCode") String machinecode);
 
-    @GET("GetBasketInfo")
+    @GET("GetSecondLoading")
     Single<Apigetbasketcode<LastMoveManufacturingBasketInfo>> getbasketcodedata(@Query("UserID") int userid, @Query("DeviceSerialNo") String devicenumber, @Query("BasketCode") String basketcode);
 
     @GET("ContinueLoading")
@@ -507,6 +507,14 @@ public interface ApiInterface {
             @Query("JobOrderId") int JobOrderId,
             @Query("OperationID") int OperationID
     );
+  @GET("GetSavedCheckList")
+  Single<ApiResponseGetSavedCheckList> getSavedCheckList_Painting(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("ChildId") int ChildId,
+          @Query("JobOrderId") int JobOrderId,
+          @Query("OperationID") int OperationID
+  );
 
     @GET("GetBasketInfoForQuality_Welding")
     Single<ApiResponseGetBasketInfoForQuality_Welding> getBasketInfoForQuality_Welding(

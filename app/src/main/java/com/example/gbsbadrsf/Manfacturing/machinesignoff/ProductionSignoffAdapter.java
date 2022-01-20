@@ -1,7 +1,9 @@
 package com.example.gbsbadrsf.Manfacturing.machinesignoff;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,13 +19,21 @@ import java.util.List;
 
 public class ProductionSignoffAdapter extends RecyclerView.Adapter<ProductionSignoffAdapter.ProductionSignoffViewHolder> {
     public List<Basketcodelst> Basketcodelst;
-    public ProductionSignoffAdapter(List<Basketcodelst> basketcodelst) {
+    OnBasketRemoved onBasketRemoved;
+    private boolean isBulk;
+    public ProductionSignoffAdapter(List<Basketcodelst> basketcodelst,OnBasketRemoved onBasketRemoved,boolean isBulk) {
         this.Basketcodelst = basketcodelst;
-
+        this.onBasketRemoved = onBasketRemoved;
+        this.isBulk = isBulk;
     }
+
+    public void setBulk(boolean bulk) {
+        isBulk = bulk;
+        notifyDataSetChanged();
+    }
+
     public void getproductionsequencelist(List<Basketcodelst> basketcodelst){
-        Basketcodelst.clear();
-        Basketcodelst.addAll(basketcodelst);
+        this.Basketcodelst = basketcodelst;
         notifyDataSetChanged();
     }
     public List<Basketcodelst> getproductionsequencelist(){
@@ -42,9 +52,18 @@ public class ProductionSignoffAdapter extends RecyclerView.Adapter<ProductionSig
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ProductionSignoffAdapter.ProductionSignoffViewHolder holder, int position) {
-
+        if (isBulk) {
+            holder.basketQty.setVisibility(View.GONE);
+        } else {
+            holder.basketQty.setText(String.valueOf(Basketcodelst.get(position).getQty()));
+            holder.basketQty.setVisibility(View.VISIBLE);
+        }
         holder.basketname.setText(Basketcodelst.get(position).getBasketcode());
-
+        holder.delete.setOnClickListener(__->{
+//            Basketcodelst.remove(position);
+//            notifyItemChanged(position);
+            onBasketRemoved.onBasketRemoved(Basketcodelst.get(position));
+        });
     }
 
     @Override
@@ -53,12 +72,14 @@ public class ProductionSignoffAdapter extends RecyclerView.Adapter<ProductionSig
     }
 
     class ProductionSignoffViewHolder extends RecyclerView.ViewHolder{
-TextView basketname;
 
+        TextView basketname,basketQty;
+        ImageButton delete;
         public ProductionSignoffViewHolder(@NonNull BasketcodeLstBinding itemView) {
             super(itemView.getRoot());
             basketname=itemView.basketcode;
-
+            basketQty = itemView.basketQty;
+            delete = itemView.delete;
         }
 
     }

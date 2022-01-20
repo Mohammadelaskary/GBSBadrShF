@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequest;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -169,7 +170,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String parentCode ="", parentDesc,jobOrderName,deviceSerial="dev1",oldBasketCode,newBasketCode;
+    String parentCode ="", parentDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,oldBasketCode,newBasketCode;
     int basketQty;
     LastMovePaintingBasket basketData;
 

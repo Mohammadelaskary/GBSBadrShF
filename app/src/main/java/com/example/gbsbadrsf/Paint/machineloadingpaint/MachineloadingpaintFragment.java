@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Paint.machineloadingpaint;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -78,7 +79,7 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                 if (childBasketCode.isEmpty())
                     binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
                 if (!paintCode.isEmpty()&&!childBasketCode.isEmpty())
-                    savepaintViewModel.savepaintloading(USER_ID, "S123", binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
+                    savepaintViewModel.savepaintloading(USER_ID, DEVICE_SERIAL_NO, binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
 
             }
         });

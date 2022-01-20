@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Paint.paintstation;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
@@ -96,7 +97,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                     if (jobOrderName.isEmpty())
                         binding.basketcodeEdt.setError(null);
                     else
-                        viewModel.getpaintsequence(USER_ID,"S123", binding.barcodeEdt.getText().toString());
+                        viewModel.getpaintsequence(USER_ID,DEVICE_SERIAL_NO, binding.barcodeEdt.getText().toString());
                     return true;
                 }
                 return false;
@@ -278,7 +279,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                 if (jobOrderName.isEmpty())
                     binding.basketcodeEdt.setError(null);
                 else
-                    viewModel.getpaintsequence(USER_ID,"S123", binding.barcodeEdt.getText().toString());
+                    viewModel.getpaintsequence(USER_ID,DEVICE_SERIAL_NO, binding.barcodeEdt.getText().toString());
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
 
 
@@ -349,7 +350,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
 
             if (isChecked) {
-                infoForSelectedPaintViewModel.getselectedpaintsequence(USER_ID, "S123", Paintsequenceresponse.get(position).getLoadingSequenceID().toString());
+                infoForSelectedPaintViewModel.getselectedpaintsequence(USER_ID, DEVICE_SERIAL_NO, Paintsequenceresponse.get(position).getLoadingSequenceID().toString());
                 clickedPprpaint = item;
 
             }

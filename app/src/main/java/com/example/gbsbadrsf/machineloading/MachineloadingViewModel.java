@@ -40,7 +40,7 @@ public class MachineloadingViewModel extends ViewModel {
 
         this.repository=productionsequencerepository;
     }
-    void savefirstloading(int UserId,String DeviceSerialNo,String LoadingSequenceID,String MachineCode,String DieCode,String  LoadingQtyMobile){
+    void savefirstloading(int UserId,String DeviceSerialNo,int LoadingSequenceID,String MachineCode,String DieCode,String  LoadingQtyMobile){
         disposable.add(repository.SaveLoadingsequenceinfo(UserId,DeviceSerialNo,LoadingSequenceID,MachineCode,DieCode,LoadingQtyMobile)
                 .doOnSubscribe(__ -> status.postValue(Status.LOADING))
                 .subscribe(responseStatusApiSavefirstloading -> {

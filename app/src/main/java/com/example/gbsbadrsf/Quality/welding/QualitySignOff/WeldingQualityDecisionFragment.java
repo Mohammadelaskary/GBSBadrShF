@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding.QualitySignOff;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -247,7 +248,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityDecisionViewModel.class);
     }
     int userId = USER_ID,operationId, parentId,jobOrderId,lastMoveId,pprLoadingId;
-    String deviceSerialNumber = "Dev1",defectedQty;
+    String deviceSerialNumber = DEVICE_SERIAL_NO,defectedQty;
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     List<DefectsWelding> defectsWeldingList = new ArrayList<>();
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;

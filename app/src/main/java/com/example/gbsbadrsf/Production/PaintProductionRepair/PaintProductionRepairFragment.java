@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Production.PaintProductionRepair;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -71,7 +72,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
     }
 
     int userId = USER_ID;
-    String deviceSerialNo = "S1",basketCode;
+    String deviceSerialNo = DEVICE_SERIAL_NO,basketCode;
 
     private void addTextWatcher() {
         binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {

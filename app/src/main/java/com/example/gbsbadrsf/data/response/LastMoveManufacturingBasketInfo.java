@@ -1,63 +1,35 @@
 package com.example.gbsbadrsf.data.response;
 
+import com.example.gbsbadrsf.Manfacturing.machineloading.RelatedBasketLst;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class LastMoveManufacturingBasketInfo {
-    @SerializedName("basketMoveId")
-    @Expose
+
     private Integer basketMoveId;
-    @SerializedName("childId")
-    @Expose
     private Integer childId;
-    @SerializedName("childCode")
-    @Expose
     private String childCode;
-    @SerializedName("childDescription")
-    @Expose
     private String childDescription;
-    @SerializedName("qty")
-    @Expose
     private Integer qty;
-    @SerializedName("jobOrderId")
-    @Expose
     private Integer jobOrderId;
-    @SerializedName("jobOrderName")
-    @Expose
     private String jobOrderName;
-    @SerializedName("pprLoadingId")
-    @Expose
     private Integer pprLoadingId;
-    @SerializedName("lastOperationId")
-    @Expose
     private Integer lastOperationId;
-    @SerializedName("machineId")
-    @Expose
     private Integer machineId;
-    @SerializedName("dieId")
-    @Expose
     private Integer dieId;
-    @SerializedName("sequenceNo")
-    @Expose
     private Integer sequenceNo;
-    @SerializedName("dateSignIn")
-    @Expose
     private String dateSignIn;
-    @SerializedName("productionSequenceNo")
-    @Expose
     private Integer productionSequenceNo;
-    @SerializedName("isBulkQty")
-    @Expose
     private Boolean isBulkQty;
-    @SerializedName("nextOperationId")
-    @Expose
     private Integer nextOperationId;
-    @SerializedName("nextOperationName")
-    @Expose
-    private Object nextOperationName;
-    @SerializedName("nextProductionSequenceNo")
-    @Expose
+    private String nextOperationName;
     private Integer nextProductionSequenceNo;
+    private List<RelatedBasketLst> relatedBasketLst = null;
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Integer getBasketMoveId() {
         return basketMoveId;
@@ -187,11 +159,11 @@ public class LastMoveManufacturingBasketInfo {
         this.nextOperationId = nextOperationId;
     }
 
-    public Object getNextOperationName() {
+    public String getNextOperationName() {
         return nextOperationName;
     }
 
-    public void setNextOperationName(Object nextOperationName) {
+    public void setNextOperationName(String nextOperationName) {
         this.nextOperationName = nextOperationName;
     }
 
@@ -201,6 +173,22 @@ public class LastMoveManufacturingBasketInfo {
 
     public void setNextProductionSequenceNo(Integer nextProductionSequenceNo) {
         this.nextProductionSequenceNo = nextProductionSequenceNo;
+    }
+
+    public List<RelatedBasketLst> getRelatedBasketLst() {
+        return relatedBasketLst;
+    }
+
+    public void setRelatedBasketLst(List<RelatedBasketLst> relatedBasketLst) {
+        this.relatedBasketLst = relatedBasketLst;
+    }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityRepair;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -156,7 +157,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
             binding.approvedQty.getEditText().setText("Defect isn't repaired yet!");
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
-    String notes="df", deviceSerialNumber="sdf",approvedQty;
+    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,approvedQty;
 
     @Override
     public void onClick(View v) {

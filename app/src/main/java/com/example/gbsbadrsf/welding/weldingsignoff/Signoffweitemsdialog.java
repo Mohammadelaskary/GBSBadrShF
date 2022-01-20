@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.Basketcodelst;
+import com.example.gbsbadrsf.Manfacturing.machinesignoff.OnBasketRemoved;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffAdapter;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.Constant;
@@ -44,10 +45,15 @@ import java.util.List;
 import java.util.Map;
 
 public class Signoffweitemsdialog extends DialogFragment implements BarcodeReader.BarcodeListener,
-        BarcodeReader.TriggerListener, productionsequenceadapter.onCheckedChangedListener{
+        BarcodeReader.TriggerListener, productionsequenceadapter.onCheckedChangedListener, OnBasketRemoved {
 
 
     private static final String TAG = "MyCustomDialog";
+    private boolean isBulk;
+    @Override
+    public void onBasketRemoved(Basketcodelst basketcodelst) {
+        //TODO handle basket removed
+    }
 
 
     public interface OnInputSelected{
@@ -212,7 +218,7 @@ public class Signoffweitemsdialog extends DialogFragment implements BarcodeReade
 
 
     @Override
-    public void onCheckedChanged(int position, boolean isChecked, Ppr item) {
+    public void onCheckedChanged(Ppr item) {
 
     }
 
@@ -303,7 +309,7 @@ public class Signoffweitemsdialog extends DialogFragment implements BarcodeReade
     }
 
     private void setUpRecyclerView() {
-        productionSignoffadapter = new ProductionSignoffAdapter(basketcodelstList);
+        productionSignoffadapter = new ProductionSignoffAdapter(basketcodelstList,this,isBulk);
         productionSignoffadapter.getproductionsequencelist(basketcodelstList);
         recyclerView.setAdapter(productionSignoffadapter);
         recyclerView.setNestedScrollingEnabled(true);

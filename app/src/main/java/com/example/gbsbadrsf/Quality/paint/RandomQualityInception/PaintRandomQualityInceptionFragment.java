@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.RandomQualityInception;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -178,7 +179,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
     }
 
     int userId = USER_ID ;
-    String deviceSerialNumber = "S12";
+    String deviceSerialNumber = DEVICE_SERIAL_NO;
     private void getMachineDieInfo(String machineDieCode) {
         binding.machineDieCode.setError(null);
         viewModel.getInfoForQualityRandomInspection(userId,deviceSerialNumber,machineDieCode);

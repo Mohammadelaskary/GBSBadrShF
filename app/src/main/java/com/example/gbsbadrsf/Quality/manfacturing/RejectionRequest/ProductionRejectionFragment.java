@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -170,7 +171,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
         binding.newdefBtn.setOnClickListener(this);
     }
 
-    String childCode="",childDesc,jobOrderName,deviceSerial="dev1",oldBasketCode;
+    String childCode="",childDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,oldBasketCode;
     int basketQty;
     LastMoveManufacturingBasketInfo basketData;
 

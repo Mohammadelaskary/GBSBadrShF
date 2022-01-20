@@ -107,7 +107,7 @@ public class PaintQualityDecisionViewModel extends ViewModel {
                 ));
     }
     public void getSavedCheckList(int userId,String deviceSerialNo,int childId,int jobOrderId,int operationId){
-        disposable.add(apiInterface.getSavedCheckList_Welding(userId,deviceSerialNo,childId,jobOrderId,operationId)
+        disposable.add(apiInterface.getSavedCheckList_Painting(userId,deviceSerialNo,childId,jobOrderId,operationId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseGetSavedCheckListStatus.postValue(Status.LOADING))

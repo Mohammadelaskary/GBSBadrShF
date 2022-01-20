@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.welding;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -119,7 +120,7 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
         });
     }
 
-    String deviceSerialNo = "S1";
+    String deviceSerialNo = DEVICE_SERIAL_NO;
     int userId = USER_ID;
     LastMoveWeldingBasket basketData;
     private void getBasketData(String basketCode) {

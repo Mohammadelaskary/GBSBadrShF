@@ -33,7 +33,7 @@ public class Productionsequencerepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ApiSavefirstloading<ResponseStatus>> SaveLoadingsequenceinfo(int userid, String deviceserialnumber, String loadingsequenceid, String machinecode, String diecode, String loadingqtymobile) {
+    public Single<ApiSavefirstloading<ResponseStatus>> SaveLoadingsequenceinfo(int userid, String deviceserialnumber, int loadingsequenceid, String machinecode, String diecode, String loadingqtymobile) {
         return apiInterface.savefirstloading(userid, deviceserialnumber, loadingsequenceid, machinecode, diecode, loadingqtymobile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

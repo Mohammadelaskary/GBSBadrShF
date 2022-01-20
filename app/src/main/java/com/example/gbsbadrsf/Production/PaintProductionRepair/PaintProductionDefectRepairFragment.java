@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Production.PaintProductionRepair;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -150,7 +151,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         defectedQty = defectsPainting.getQtyDefected();
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
-    String notes="df", deviceSerialNumber="sdf",repairedQty;
+    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,repairedQty;
 
     @Override
     public void onClick(View v) {

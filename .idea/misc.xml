@@ -72,9 +72,12 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/drawable/ic_logout.xml" value="0.14635416666666667" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/drawable/ic_settings.xml" value="0.21574074074074073" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/drawable/ic_warning_alert.xml" value="0.2703125" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/drawable/ppr_background.xml" value="0.2703125" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/basketcode_lst.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/check_list_item.xml" value="0.1" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/custom_alert_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/custom_alert_dialog_with_choices.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/defectqtns_lst.xml" value="0.264" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/dialog_checklist.xml" value="0.4" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_add_defects.xml" value="0.264" />
@@ -121,7 +124,7 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_production_rejection.xml" value="0.264" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_production_rejection_requests_list_quality.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_production_repair.xml" value="0.264" />
-        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_production_sequence.xml" value="0.25416666666666665" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_production_sequence.xml" value="0.2" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_production_signoff.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_productionscraprequestqc.xml" value="0.264" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/fragment_quality.xml" value="0.25416666666666665" />
@@ -151,6 +154,7 @@
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/qualityscrap_lst.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/qualityscrapwe_lst.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/repair_defect_item.xml" value="0.22592592592592592" />
+        <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/signoffcustomdialog.xml" value="0.25416666666666665" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/welding_dialog_checklist.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/welding_production_defect_repair_fragment.xml" value="0.22592592592592592" />
         <entry key="..\:/ghabbour project/GBSBadrSF_Work-master/app/src/main/res/layout/welding_production_repair_fragment.xml" value="0.22592592592592592" />

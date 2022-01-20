@@ -24,7 +24,7 @@ import io.reactivex.functions.BiConsumer;
 public class ContinueLoadingViewModel extends ViewModel {
     Gson gson;
     private MutableLiveData<ResponseStatus> responseLiveData ;
-    private MutableLiveData<LastMoveManufacturingBasketInfo>lastmanfacturingbasketinfo;
+    private MutableLiveData<Apigetbasketcode<LastMoveManufacturingBasketInfo>>lastmanfacturingbasketinfo;
     private MutableLiveData<Basketcases>basketcases;
 
 
@@ -47,13 +47,7 @@ public class ContinueLoadingViewModel extends ViewModel {
         disposable.add(apiInterface.getbasketcodedata(userid,deviceserialnum,basketcode)
                 .doOnSubscribe(__ -> status.postValue(Status.LOADING))
                 .subscribe(getbasketcode -> {
-            if (getbasketcode.getResponseStatus().getStatusMessage().equals("Getting data successfully")) {
-                basketcases.postValue(Basketcases.datagettingsuccesfully);
-                lastmanfacturingbasketinfo.postValue(getbasketcode.getData());
-
-            }  else if(getbasketcode.getResponseStatus().getStatusMessage().equals("Wrong basket code")){
-                basketcases.postValue(Basketcases.wrongbasketcode);
-            }
+                lastmanfacturingbasketinfo.postValue(getbasketcode);
             status.postValue(Status.SUCCESS);
         },throwable -> {
             status.postValue(Status.ERROR);
@@ -61,37 +55,40 @@ public class ContinueLoadingViewModel extends ViewModel {
 
     }
     void savecontinueloading(int UserId,String DeviceSerialNo,String BasketCode,String MachineCode,String DieCode,String  LoadingQtyMobile){
-        disposable.add(apiInterface.savecontinueloading(UserId,DeviceSerialNo,BasketCode,MachineCode,DieCode,LoadingQtyMobile).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(responseStatusApiContinuetloading -> {
-            if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
-            {
-                basketcases.postValue(Basketcases.Savingdatasuccessfully);
-
-
-            }
-            else if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("The machine has already been used")){
-                basketcases.postValue(Basketcases.machinealreadyused);
-
-
-
-            }
-            else if(responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Wrong machine code")){
-                basketcases.postValue(Basketcases.wrongmachinecode);
-
-
-            }
-            else if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Wrong die code for this child"))
-            {
-                basketcases.postValue(Basketcases.wrongdie);
-
-
-            }
-
-            else if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Wrong basket code"))
-            {
-                basketcases.postValue(Basketcases.wrongbasket);
-
-
-            }
+        disposable.add(apiInterface.savecontinueloading(UserId,DeviceSerialNo,BasketCode,MachineCode,DieCode,LoadingQtyMobile)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe(responseStatusApiContinuetloading -> {
+//            if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
+//            {
+//                basketcases.postValue(Basketcases.Savingdatasuccessfully);
+//
+//
+//            }
+//            else if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("The machine has already been used")){
+//                basketcases.postValue(Basketcases.machinealreadyused);
+//
+//
+//
+//            }
+//            else if(responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Wrong machine code")){
+//                basketcases.postValue(Basketcases.wrongmachinecode);
+//
+//
+//            }
+//            else if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Wrong die code for this child"))
+//            {
+//                basketcases.postValue(Basketcases.wrongdie);
+//
+//
+//            }
+//
+//            else if (responseStatusApiContinuetloading.getResponseStatus().getStatusMessage().equals("Wrong basket code"))
+//            {
+//                basketcases.postValue(Basketcases.wrongbasket);
+//
+//
+//            }
+                    responseLiveData.postValue(responseStatusApiContinuetloading.getResponseStatus());
             status.postValue(Status.SUCCESS);
         },throwable -> status.postValue(Status.ERROR)));
 
@@ -107,9 +104,8 @@ public class ContinueLoadingViewModel extends ViewModel {
     public MutableLiveData<Basketcases> getBasketcases() {
         return basketcases;
     }
-    public MutableLiveData<LastMoveManufacturingBasketInfo> getLastmanfacturingbasketinfo() {
+
+    public MutableLiveData<Apigetbasketcode<LastMoveManufacturingBasketInfo>> getLastmanfacturingbasketinfo() {
         return lastmanfacturingbasketinfo;
     }
-
-
 }
