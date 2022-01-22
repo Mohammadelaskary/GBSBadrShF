@@ -55,14 +55,6 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
     InfoForSelectedStationViewModel infoForSelectedStationViewModel;
     SaveweldingViewModel saveweldingViewModel;
     private ResponseStatus responseStatus;
-
-
-
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

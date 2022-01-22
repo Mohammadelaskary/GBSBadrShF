@@ -132,8 +132,8 @@
         android:label="fragment_welding_menu"
         tools:layout="@layout/fragment_welding_menu" >
         <action
-            android:id="@+id/action_weldingMenuFragment_to_main_welding_machine_loading"
-            app:destination="@id/fragment_main_machine_loading_menu_welding" />
+            android:id="@+id/action_weldingMenuFragment_to_welding_production_sequence"
+            app:destination="@id/weldingSequence" />
         <action
             android:id="@+id/action_weldingMenuFragment_to_signoffweFragment"
             app:destination="@id/signoffweFragment" />
@@ -147,9 +147,7 @@
         <action
             android:id="@+id/action_weldingMenuFragment_to_qualityscraplistweFragment"
             app:destination="@id/qualityscraplistweFragment" />
-        <action
-            android:id="@+id/action_weldingMenuFragment_to_weldingSequence"
-            app:destination="@id/weldingSequence" />
+
         <action
             android:id="@+id/action_weldingMenuFragment_to_weldingwip"
             app:destination="@id/weldingwip" />

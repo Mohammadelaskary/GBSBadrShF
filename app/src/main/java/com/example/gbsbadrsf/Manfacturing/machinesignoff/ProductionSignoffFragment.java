@@ -7,13 +7,18 @@ import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.MachineSignoffBody;
@@ -237,6 +243,18 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                         isBulk = bulk;
                     }, isBulk, basketList,getActivity());
                     dialog.show();
+                    dialog.setOnDismissListener(dialog1 -> {
+                        if (basketList.isEmpty()){
+                            binding.signoffitemsBtn.setText("Add to baskets");
+                            binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.appbarcolor));
+                            binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
+                        } else {
+                            binding.signoffitemsBtn.setText("Edit baskets");
+                            binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.done));
+                            binding.signoffitemsBtn.setIconResource(R.drawable.ic_edit);
+                        }
+
+                    });
                 } else {
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code and press enter!");
                 }
@@ -257,6 +275,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     machineSignoffBody.setDeviceSerialNo(DEVICE_SERIAL_NO);
                     //  machineSignoffBody.setSignOutQty(passedtext);
                     machineSignoffBody.setBasketLst(basketList);
+                    machineSignoffBody.setIsBulkQty(isBulk);
                     machinesignoffViewModel.getmachinesignoff(machineSignoffBody, getContext());
                 }
 
@@ -348,6 +367,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 e.printStackTrace();
             }
         }
+        Log.d("lifeCycle","onResume()");
     }
 
     @Override
@@ -358,6 +378,12 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
             // notifications while paused.
 //            barcodeReader.release();
         }
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return super.getLifecycle();
     }
 }
 

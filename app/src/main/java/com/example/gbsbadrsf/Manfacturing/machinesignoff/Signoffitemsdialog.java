@@ -74,6 +74,7 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
         else
             setUnBulkViews();
         barCodeReader = new SetUpBarCodeReader(this,this);
+        barCodeReader.onResume();
         setUpRecyclerView();
         fillData();
         clearInputLayoutError(binding.basketcodeEdt);

@@ -116,7 +116,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
             public void onClick(View v) {
                 String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
                 String dieCode     = binding.diecodeEdt.getEditText().getText().toString().trim();
-                String loadingQty  = binding.loadingQty.getEditText().getText().toString().trim();
+//                String loadingQty  = binding.loadingQty.getEditText().getText().toString().trim();
                 Log.d("=====qty",qty+"");
                 if (childCode==null)
                     binding.basketcodeEdt.setError("Please enter or scan a valid basket code!");
@@ -124,21 +124,21 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                     binding.machinecodeEdt.setError("Please enter or scan a valid machine code!");
 //                if (dieCode.isEmpty())
 //                    binding.diecodeEdt.setError("Please enter or scan a valid die code!");
-                if (!loadingQty.isEmpty()){
-                    if (containsOnlyDigits(loadingQty)){
-                        if (Integer.parseInt(loadingQty)>qty||Integer.parseInt(loadingQty)<=0)
-                            binding.loadingQty.setError("Loading Quantity must be equal or less than basket Quantity and bigger than 0!");
-                    } else binding.loadingQty.setError("Loading Quantity must contain only digits!");
-
-                } else
-                    binding.loadingQty.setError("Please set loading quantity!");
+//                if (!loadingQty.isEmpty()){
+//                    if (containsOnlyDigits(loadingQty)){
+//                        if (Integer.parseInt(loadingQty)>qty||Integer.parseInt(loadingQty)<=0)
+//                            binding.loadingQty.setError("Loading Quantity must be equal or less than basket Quantity and bigger than 0!");
+//                    } else binding.loadingQty.setError("Loading Quantity must contain only digits!");
+//
+//                } else
+//                    binding.loadingQty.setError("Please set loading quantity!");
                 if (
                         childCode!=null &&
                                 !machineCode.isEmpty()
 //                                &&!dieCode.isEmpty()
-                        && !loadingQty.isEmpty()&&containsOnlyDigits(loadingQty)&&Integer.parseInt(loadingQty)<=qty&&Integer.parseInt(loadingQty)>0
+//                        && !loadingQty.isEmpty()&&containsOnlyDigits(loadingQty)&&Integer.parseInt(loadingQty)<=qty&&Integer.parseInt(loadingQty)>0
                 )
-                continueLoadingViewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString(), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(),loadingQty);
+                continueLoadingViewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString(), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(),String.valueOf(qty));
 
             }
         });

@@ -297,6 +297,8 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 if (statusMessage.equals("Data sent successfully")){
                     if (pprList.isEmpty())
                         binding.jobOrderName.setError("No ppr list for this job order!");
+                    if (pprList.isEmpty())
+                        binding.jobOrderName.setError("There is no ppr for this job order name!");
                     adapter.setPprList(pprList);// today 23/11
                     adapter.notifyDataSetChanged();
                 } else

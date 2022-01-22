@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.fragment.app.Fragment;
@@ -78,4 +79,18 @@ public class MyMethods {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+    public static void activateItem(View itemView) {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.9f,1.0f);
+        alphaAnimation.setFillAfter(true);
+        alphaAnimation.setDuration(50);//duration in millisecond
+        itemView.startAnimation(alphaAnimation);
+    }
+
+    public static void deactivateItem(View itemView) {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.9f,0.4f);
+        alphaAnimation.setFillAfter(true);
+        alphaAnimation.setDuration(50);//duration in millisecond
+        itemView.startAnimation(alphaAnimation);
+    }
+
 }
