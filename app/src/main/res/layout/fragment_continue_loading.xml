@@ -32,7 +32,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:animateLayoutChanges="true">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/basketcode_edt"
@@ -59,76 +59,63 @@
                     android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/childcode_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/child"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/basketcode_edt"
-                app:layout_constraintTop_toBottomOf="@id/basketcode_edt"
-                />
-
-            <TextView
-                android:id="@+id/childcode"
-                style="@style/styleoftext"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="@+id/basketcode_edt"
-                app:layout_constraintStart_toEndOf="@id/childcode_txt"
-                app:layout_constraintTop_toTopOf="@id/childcode_txt" />
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/data_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:visibility="visible"
+    app:layout_constraintEnd_toEndOf="@+id/basketcode_edt"
+    app:layout_constraintStart_toStartOf="@id/basketcode_edt"
+    app:layout_constraintTop_toBottomOf="@id/basketcode_edt" >
 
             <TextView
                 android:id="@+id/childesc"
-                style="@style/styleoftext"
+                style="@style/child_parent_desc_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="@+id/basketcode_edt"
-                app:layout_constraintStart_toStartOf="@id/childcode"
-                app:layout_constraintTop_toBottomOf="@+id/childcode" />
-            <TextView
-                android:id="@+id/jobordernum_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/childesc"
-                app:layout_constraintStart_toStartOf="@id/childcode_txt"
-                android:layout_marginTop="15dp"
-                android:text="@string/job_order_number_txt"
-                style="@style/styleoftextbold"
-                />
+                android:visibility="visible"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@id/machinecode_edt"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/jobordernum"
-                style="@style/styleoftext"
+                style="@style/job_order_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="@+id/basketcode_edt"
-                app:layout_constraintStart_toEndOf="@id/jobordernum_txt"
-                app:layout_constraintTop_toTopOf="@id/jobordernum_txt" />
+                android:layout_marginTop="17dp"
+                android:visibility="visible"
+                android:gravity="center"
+                android:text="@string/job_order_name"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+                app:layout_constraintTop_toBottomOf="@+id/childesc" />
+            <TextView
+                android:id="@+id/operation"
+                style="@style/operation_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:visibility="visible"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+                app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/machinecode_edt"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
                 android:layout_marginTop="15dp"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_barcode_icon"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobordernum">
+                app:layout_constraintTop_toBottomOf="@+id/operation">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/machinecode_newedttxt"
@@ -146,8 +133,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
                 android:layout_marginTop="15dp"
                 app:startIconDrawable="@drawable/ic_barcode_icon"
                 app:errorEnabled="true"
@@ -166,7 +151,22 @@
                     android:imeOptions="actionNext"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_btn"
+        style="@style/styleoftextinbtn"
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/appbarcolor"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        app:cornerRadius="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diecode_edt"
 
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
 <!--            <com.google.android.material.textfield.TextInputLayout-->
 <!--                android:id="@+id/loading_qty"-->
 <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
@@ -193,21 +193,7 @@
 <!--                    android:textColor="@color/colorPrimary" />-->
 <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_btn"
-                style="@style/styleoftextinbtn"
-                android:layout_width="220dp"
-                android:layout_height="55dp"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/appbarcolor"
-                android:text="@string/save"
-                android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/diecode_edt"
 
-                />
 
 
 

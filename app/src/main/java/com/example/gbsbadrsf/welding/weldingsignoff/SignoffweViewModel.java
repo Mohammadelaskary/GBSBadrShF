@@ -34,6 +34,9 @@ public class SignoffweViewModel extends ViewModel {
     private MutableLiveData<Status> status;
     private MutableLiveData<Weldingsignoffcases>weldingsignoffcases;
 
+    private MutableLiveData<Apiinfoforstationcode<Stationcodeloading>> getStationData;
+    private MutableLiveData<ApiWeldingsignoff<ResponseStatus>> saveSignOffResponse;
+
 
     private CompositeDisposable disposable;
     @Inject
@@ -44,31 +47,32 @@ public class SignoffweViewModel extends ViewModel {
         responseLiveData = new MutableLiveData<>();
         weldingsignoffcases=new MutableLiveData<>(Weldingsignoffcases.global);
         status = new MutableLiveData<>();
+        getStationData = new MutableLiveData<>();
+        saveSignOffResponse = new MutableLiveData<>();
         this.repository=weldingSignoffrepository;
 
 
 
     }
     void getstationcodedata(int userid,String deviceserialnum,String productionstationcode){
-        disposable.add(apiInterface.getinfoforstationcode(userid,deviceserialnum,productionstationcode).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<Apiinfoforstationcode<Stationcodeloading>, Throwable>() {
-            @Override
-            public void accept(Apiinfoforstationcode<Stationcodeloading> getinfoforstationcode, Throwable throwable) throws Exception {
-                if (getinfoforstationcode.getResponseStatus().getStatusMessage().equals("Getting data successfully"))
-                {
-                    weldingsignoffcases.postValue(Weldingsignoffcases.gettingsuccesfully);
-                    stationcodeloadingMutableLiveData.postValue(getinfoforstationcode.getData());
-
-                }
-                else if(getinfoforstationcode.getResponseStatus().getStatusMessage().equals("Wrong production station name")){
-                    weldingsignoffcases.postValue(Weldingsignoffcases.Wrongproductionstatname);
-
-
-                }
-
-
-
-            }
-        }));
+        disposable.add(apiInterface.getinfoforstationcode(userid,deviceserialnum,productionstationcode)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((getinfoforstationcode, throwable) -> {
+//                    if (getinfoforstationcode.getResponseStatus().getStatusMessage().equals("Getting data successfully"))
+//                    {
+//                        weldingsignoffcases.postValue(Weldingsignoffcases.gettingsuccesfully);
+//                        stationcodeloadingMutableLiveData.postValue(getinfoforstationcode.getData());
+//
+//                    }
+//                    else if(getinfoforstationcode.getResponseStatus().getStatusMessage().equals("Wrong production station name")){
+//                        weldingsignoffcases.postValue(Weldingsignoffcases.Wrongproductionstatname);
+//
+//
+//                    }
+//
+                    getStationData.postValue(getinfoforstationcode);
+                    status.postValue(Status.SUCCESS);
+                }));
 
     }
     public void getweldingsignoff(WeldingSignoffBody object, Context context){
@@ -76,33 +80,32 @@ public class SignoffweViewModel extends ViewModel {
         disposable.add(
                 repository.Weldingsignoff(object)
                         .doOnSubscribe(__ -> status.postValue(Status.LOADING))
-                        .subscribe(new BiConsumer<ApiWeldingsignoff<ResponseStatus>, Throwable>() {
-                            @Override
-                            public void accept(ApiWeldingsignoff<ResponseStatus> Weldingsignoffresponse, Throwable throwable) throws Exception {
-                                if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Done successfully") )
-                                {
-                                    weldingsignoffcases.postValue(Weldingsignoffcases.Donesuccessfully);
-                                }
-                                else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("This machine has not been loaded with anything") )
-                                {
-                                    weldingsignoffcases.postValue(Weldingsignoffcases.machinefree);
-
-                                }
-                                else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong machine code") )
-                                {
-                                    weldingsignoffcases.postValue(Weldingsignoffcases.wrongmachine);
-
-                                }
-                                else if (Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong production station name")){
-                                    weldingsignoffcases.postValue(Weldingsignoffcases.Wrongproductionstatname);
-                                }
-
-                                else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction") )
-                                {
-                                    weldingsignoffcases.postValue(Weldingsignoffcases.servererror);
-
-                                }
-                            }
+                        .subscribe((Weldingsignoffresponse, throwable) -> {
+//                            if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Done successfully") )
+//                            {
+//                                weldingsignoffcases.postValue(Weldingsignoffcases.Donesuccessfully);
+//                            }
+//                            else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("This machine has not been loaded with anything") )
+//                            {
+//                                weldingsignoffcases.postValue(Weldingsignoffcases.machinefree);
+//
+//                            }
+//                            else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong machine code") )
+//                            {
+//                                weldingsignoffcases.postValue(Weldingsignoffcases.wrongmachine);
+//
+//                            }
+//                            else if (Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("Wrong production station name")){
+//                                weldingsignoffcases.postValue(Weldingsignoffcases.Wrongproductionstatname);
+//                            }
+//
+//                            else if(Weldingsignoffresponse.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction") )
+//                            {
+//                                weldingsignoffcases.postValue(Weldingsignoffcases.servererror);
+//
+//                            }
+                            saveSignOffResponse.postValue(Weldingsignoffresponse);
+                            status.postValue(Status.SUCCESS);
                         }));
     }
 
@@ -120,5 +123,11 @@ public class SignoffweViewModel extends ViewModel {
         return stationcodeloadingMutableLiveData;
     }
 
+    public MutableLiveData<Apiinfoforstationcode<Stationcodeloading>> getGetStationData() {
+        return getStationData;
+    }
 
+    public MutableLiveData<ApiWeldingsignoff<ResponseStatus>> getSaveSignOffResponse() {
+        return saveSignOffResponse;
+    }
 }

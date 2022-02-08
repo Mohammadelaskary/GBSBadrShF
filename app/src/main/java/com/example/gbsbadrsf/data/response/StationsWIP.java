@@ -1,30 +1,12 @@
 package com.example.gbsbadrsf.data.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class StationsWIP {
-    @SerializedName("stationId")
-    @Expose
-    private Integer stationId;
-    @SerializedName("productionStationCode")
-    @Expose
-    private String productionStationCode;
-    @SerializedName("productionStationEnName")
-    @Expose
-    private String productionStationEnName;
-    @SerializedName("parentId")
-    @Expose
-    private Integer parentId;
-    @SerializedName("parentCode")
-    @Expose
-    private String parentCode;
-    @SerializedName("parentDescription")
-    @Expose
-    private String parentDescription;
-    @SerializedName("jobOrderId")
-    @Expose
-    private Integer jobOrderId;
+public class StationsWIP implements Parcelable {
     @SerializedName("jobOrderName")
     @Expose
     private String jobOrderName;
@@ -34,86 +16,87 @@ public class StationsWIP {
     @SerializedName("pprLoadingId")
     @Expose
     private Integer pprLoadingId;
-    @SerializedName("operationQty")
+    @SerializedName("pprLoadingQty")
     @Expose
-    private Object operationQty;
-    @SerializedName("loadingQty")
+    private Integer pprLoadingQty;
+    @SerializedName("parentCode")
     @Expose
-    private Integer loadingQty;
+    private String parentCode;
+    @SerializedName("parentName")
+    @Expose
+    private String parentName;
     @SerializedName("operationEnName")
     @Expose
     private String operationEnName;
+    @SerializedName("loadedQtyByMobile")
+    @Expose
+    private Integer loadedQtyByMobile;
+    @SerializedName("productionStationCode")
+    @Expose
+    private String productionStationCode;
+    @SerializedName("productionStationEnName")
+    @Expose
+    private String productionStationEnName;
     @SerializedName("dateSignIn")
     @Expose
     private String dateSignIn;
-    @SerializedName("dateSignOut")
-    @Expose
-    private Object dateSignOut;
     @SerializedName("operationTime")
     @Expose
     private Integer operationTime;
+    @SerializedName("expectedSignOut")
+    @Expose
+    private String expectedSignOut;
     @SerializedName("remainingTime")
     @Expose
     private RemainingTime remainingTime;
-    @SerializedName("remainingTime2")
-    @Expose
-    private Object remainingTime2;
 
-    public Integer getStationId() {
-        return stationId;
+    protected StationsWIP(Parcel in) {
+        jobOrderName = in.readString();
+        if (in.readByte() == 0) {
+            jobOrderQty = null;
+        } else {
+            jobOrderQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            pprLoadingId = null;
+        } else {
+            pprLoadingId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            pprLoadingQty = null;
+        } else {
+            pprLoadingQty = in.readInt();
+        }
+        parentCode = in.readString();
+        parentName = in.readString();
+        operationEnName = in.readString();
+        if (in.readByte() == 0) {
+            loadedQtyByMobile = null;
+        } else {
+            loadedQtyByMobile = in.readInt();
+        }
+        productionStationCode = in.readString();
+        productionStationEnName = in.readString();
+        dateSignIn = in.readString();
+        if (in.readByte() == 0) {
+            operationTime = null;
+        } else {
+            operationTime = in.readInt();
+        }
+        expectedSignOut = in.readString();
     }
 
-    public void setStationId(Integer stationId) {
-        this.stationId = stationId;
-    }
+    public static final Creator<StationsWIP> CREATOR = new Creator<StationsWIP>() {
+        @Override
+        public StationsWIP createFromParcel(Parcel in) {
+            return new StationsWIP(in);
+        }
 
-    public String getProductionStationCode() {
-        return productionStationCode;
-    }
-
-    public void setProductionStationCode(String productionStationCode) {
-        this.productionStationCode = productionStationCode;
-    }
-
-    public String getProductionStationEnName() {
-        return productionStationEnName;
-    }
-
-    public void setProductionStationEnName(String productionStationEnName) {
-        this.productionStationEnName = productionStationEnName;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getParentCode() {
-        return parentCode;
-    }
-
-    public void setParentCode(String parentCode) {
-        this.parentCode = parentCode;
-    }
-
-    public String getParentDescription() {
-        return parentDescription;
-    }
-
-    public void setParentDescription(String parentDescription) {
-        this.parentDescription = parentDescription;
-    }
-
-    public Integer getJobOrderId() {
-        return jobOrderId;
-    }
-
-    public void setJobOrderId(Integer jobOrderId) {
-        this.jobOrderId = jobOrderId;
-    }
+        @Override
+        public StationsWIP[] newArray(int size) {
+            return new StationsWIP[size];
+        }
+    };
 
     public String getJobOrderName() {
         return jobOrderName;
@@ -139,20 +122,28 @@ public class StationsWIP {
         this.pprLoadingId = pprLoadingId;
     }
 
-    public Object getOperationQty() {
-        return operationQty;
+    public Integer getPprLoadingQty() {
+        return pprLoadingQty;
     }
 
-    public void setOperationQty(Object operationQty) {
-        this.operationQty = operationQty;
+    public void setPprLoadingQty(Integer pprLoadingQty) {
+        this.pprLoadingQty = pprLoadingQty;
     }
 
-    public Integer getLoadingQty() {
-        return loadingQty;
+    public String getParentCode() {
+        return parentCode;
     }
 
-    public void setLoadingQty(Integer loadingQty) {
-        this.loadingQty = loadingQty;
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public String getOperationEnName() {
@@ -163,20 +154,36 @@ public class StationsWIP {
         this.operationEnName = operationEnName;
     }
 
+    public Integer getLoadedQtyByMobile() {
+        return loadedQtyByMobile;
+    }
+
+    public void setLoadedQtyByMobile(Integer loadedQtyByMobile) {
+        this.loadedQtyByMobile = loadedQtyByMobile;
+    }
+
+    public String getProductionStationCode() {
+        return productionStationCode;
+    }
+
+    public void setProductionStationCode(String productionStationCode) {
+        this.productionStationCode = productionStationCode;
+    }
+
+    public String getProductionStationEnName() {
+        return productionStationEnName;
+    }
+
+    public void setProductionStationEnName(String productionStationEnName) {
+        this.productionStationEnName = productionStationEnName;
+    }
+
     public String getDateSignIn() {
         return dateSignIn;
     }
 
     public void setDateSignIn(String dateSignIn) {
         this.dateSignIn = dateSignIn;
-    }
-
-    public Object getDateSignOut() {
-        return dateSignOut;
-    }
-
-    public void setDateSignOut(Object dateSignOut) {
-        this.dateSignOut = dateSignOut;
     }
 
     public Integer getOperationTime() {
@@ -187,6 +194,14 @@ public class StationsWIP {
         this.operationTime = operationTime;
     }
 
+    public String getExpectedSignOut() {
+        return expectedSignOut;
+    }
+
+    public void setExpectedSignOut(String expectedSignOut) {
+        this.expectedSignOut = expectedSignOut;
+    }
+
     public RemainingTime getRemainingTime() {
         return remainingTime;
     }
@@ -195,11 +210,50 @@ public class StationsWIP {
         this.remainingTime = remainingTime;
     }
 
-    public Object getRemainingTime2() {
-        return remainingTime2;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setRemainingTime2(Object remainingTime2) {
-        this.remainingTime2 = remainingTime2;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(jobOrderName);
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        if (pprLoadingId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprLoadingId);
+        }
+        if (pprLoadingQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprLoadingQty);
+        }
+        dest.writeString(parentCode);
+        dest.writeString(parentName);
+        dest.writeString(operationEnName);
+        if (loadedQtyByMobile == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(loadedQtyByMobile);
+        }
+        dest.writeString(productionStationCode);
+        dest.writeString(productionStationEnName);
+        dest.writeString(dateSignIn);
+        if (operationTime == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationTime);
+        }
+        dest.writeString(expectedSignOut);
     }
 }

@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Paint.paintstation;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Paint.Basket;
 import com.example.gbsbadrsf.data.response.ApiGetPaintingLoadingSequenceStartLoading;
 import com.example.gbsbadrsf.data.response.ApiGetweldingloadingstartloading;
 import com.example.gbsbadrsf.data.response.Baskets;
@@ -12,6 +13,8 @@ import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.weldingsequence.Staustype;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,7 +26,7 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
     @Inject
     ApiInterface apiinterface;
     private MutableLiveData<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>> responseLiveData ;
-    private MutableLiveData<Baskets> baskets;
+    private MutableLiveData<List<Basket>> baskets;
 
     private MutableLiveData<Status> status;
 
@@ -59,7 +62,7 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
 //                        statustype.postValue(Staustype.noloadingquantityformachine);
 //
 //                    }
-
+                    baskets.postValue(getinfoforselectedstationloading.getBaskets());
                     responseLiveData.postValue(getinfoforselectedstationloading);
                     status.postValue(Status.SUCCESS);
                 }));
@@ -75,7 +78,7 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
     public MutableLiveData<Staustype> getstaustype() {
         return statustype;
     }
-    public MutableLiveData<Baskets> getBaskets() {
+    public MutableLiveData<List<Basket>> getBaskets() {
         return baskets;
     }
 

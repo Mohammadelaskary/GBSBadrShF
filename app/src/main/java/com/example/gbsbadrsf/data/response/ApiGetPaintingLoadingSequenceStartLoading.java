@@ -1,7 +1,10 @@
 package com.example.gbsbadrsf.data.response;
 
+import com.example.gbsbadrsf.Paint.Basket;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ApiGetPaintingLoadingSequenceStartLoading<T> {
     @SerializedName("responseStatus")
@@ -9,10 +12,10 @@ public class ApiGetPaintingLoadingSequenceStartLoading<T> {
     private ResponseStatus responseStatus;
     @SerializedName("pPR")
     @Expose
-    private T data;
+    private Ppr pPR;
     @SerializedName("baskets")
     @Expose
-    private Baskets baskets;
+    private List<Basket> baskets = null;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -22,19 +25,19 @@ public class ApiGetPaintingLoadingSequenceStartLoading<T> {
         this.responseStatus = responseStatus;
     }
 
-    public T getData() {
-        return data;
+    public Ppr getpPR() {
+        return pPR;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setpPR(Ppr pPR) {
+        this.pPR = pPR;
     }
 
-    public Baskets getBaskets() {
+    public List<Basket> getBaskets() {
         return baskets;
     }
 
-    public void setBaskets(Baskets baskets) {
+    public void setBaskets(List<Basket> baskets) {
         this.baskets = baskets;
     }
 }

@@ -1,59 +1,61 @@
 package com.example.gbsbadrsf.welding.weldingwip;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.getRemainingTime;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.startRemainingTimeTimer;
+
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gbsbadrsf.data.response.MachinesWIP;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.StationsWIP;
-import com.example.gbsbadrsf.databinding.MachinewipLstBinding;
+import com.example.gbsbadrsf.databinding.StationWipListItemBinding;
 
 import java.util.List;
 
 public class WeldingwipAdapter extends RecyclerView.Adapter<WeldingwipAdapter.WeldingwipViewHolder> {
-    private List<StationsWIP> Stationwiperesponse;
+    public static final String STATION_WIP = "stationWIP";
+    private List<StationsWIP> stationsWIPS;
     // productionsequenceadapter.onCheckedChangedListener onClick;
-    private CheckBox lastCheckedRB = null;
 
 
-    public WeldingwipAdapter(List<StationsWIP> stationwipresponse) {
-        this.Stationwiperesponse = stationwipresponse;
+    public WeldingwipAdapter(List<StationsWIP> stationsWIPS) {
+        this.stationsWIPS = stationsWIPS;
         //this.onClick = onClick;
 
     }
 
-    public void getstationwiplist(List<StationsWIP> stationwiplst) {
-        Stationwiperesponse.clear();
-        Stationwiperesponse.addAll(stationwiplst);
+    public void setStationsWIPS(List<StationsWIP> stationsWIPS) {
+        this.stationsWIPS = stationsWIPS;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
     public WeldingwipAdapter.WeldingwipViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        MachinewipLstBinding machinewipLstBinding = MachinewipLstBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new WeldingwipAdapter.WeldingwipViewHolder(machinewipLstBinding);
+        StationWipListItemBinding binding = StationWipListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new WeldingwipViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeldingwipAdapter.WeldingwipViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeldingwipViewHolder holder, int position) {
+        StationsWIP stationWip = stationsWIPS.get(position);
+        holder.binding.childParentDesc.setText(stationWip.getParentName());
+        holder.binding.jobOrderName.setText(stationWip.getJobOrderName());
+        holder.binding.operation.setText(stationWip.getOperationEnName());
+        holder.binding.machineDesc.setText(stationWip.getProductionStationCode());
 
-        holder.machinecodecheckbox.setText(Stationwiperesponse.get(position).getProductionStationCode());
-        holder.childdesc.setText(Stationwiperesponse.get(position).getParentDescription());
-        holder.loadingqty.setText(Stationwiperesponse.get(position).getLoadingQty().toString());
-        holder.jobordername.setText(Stationwiperesponse.get(position).getJobOrderName());
-        holder.childcode.setText(Stationwiperesponse.get(position).getParentCode());
-        holder.joborderqty.setText(Stationwiperesponse.get(position).getJobOrderQty().toString());
-        holder.operationname.setText(Stationwiperesponse.get(position).getOperationEnName());
-        holder.operationtime.setText(Stationwiperesponse.get(position).getOperationTime().toString());
-        holder.loadingtime.setText(Stationwiperesponse.get(position).getDateSignIn());
-        holder.remainingtime.setText(Stationwiperesponse.get(position).getRemainingTime().getMinutes().toString());
+        startRemainingTimeTimer(getRemainingTime(stationWip.getExpectedSignOut()),holder.binding.remainingTime);
 
+        holder.itemView.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(STATION_WIP,stationWip);
+            Navigation.findNavController(v).navigate(R.id.action_main_welding_wip_to_welding_wip_details,bundle);
+        });
 
 //        holder.machinecodecheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //
@@ -71,30 +73,22 @@ public class WeldingwipAdapter extends RecyclerView.Adapter<WeldingwipAdapter.We
 
     }
 
+
+
     @Override
     public int getItemCount() {
-        return Stationwiperesponse.size();
+        return stationsWIPS.size();
     }
 
-    class WeldingwipViewHolder extends RecyclerView.ViewHolder {
-
-        TextView machinecodecheckbox, jobordername, joborderqty, loadingqty, childcode, childdesc, operationname, operationtime, loadingtime, remainingtime;
-
-        public WeldingwipViewHolder(@NonNull MachinewipLstBinding itemView) {
-            super(itemView.getRoot());
-            machinecodecheckbox = itemView.machinecodeCheckBox;
-            childdesc = itemView.childdesc;
-            loadingqty = itemView.loadingqty;
-            childcode = itemView.childcode;
-            jobordername = itemView.jobordername;
-            joborderqty = itemView.joborderqty;
-            operationname = itemView.operationname;
-            operationtime = itemView.operationntime;
-            loadingtime = itemView.loadingtime;
-            remainingtime = itemView.remainingtime;
+    static class WeldingwipViewHolder extends RecyclerView.ViewHolder {
+        StationWipListItemBinding binding;
+        public WeldingwipViewHolder(@NonNull StationWipListItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
     }
+
 
     public interface onCheckedChangedListener {
         void onCheckedChangedMachineWip(int position, boolean isChecked, StationsWIP item);

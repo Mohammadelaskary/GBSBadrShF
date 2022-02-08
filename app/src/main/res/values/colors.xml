@@ -8,5 +8,6 @@
     <color name="appbarcolor">#003f7d</color>
     <color name="background">#FFFFFFFF </color>
     <color name="done">#43A047</color>
+    <color name="text_details">#0A6183</color>
 
 </resources>

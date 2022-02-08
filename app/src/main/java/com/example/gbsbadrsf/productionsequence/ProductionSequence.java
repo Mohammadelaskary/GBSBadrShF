@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.productionsequence;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
@@ -367,7 +368,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 e.printStackTrace();
             }
         }
-
+        changeTitle("Manufacturing",(MainActivity) getActivity());
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {

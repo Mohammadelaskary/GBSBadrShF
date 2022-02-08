@@ -30,110 +30,87 @@
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
 
-
-
-            >
-
-            <TextView
-                android:id="@+id/jobordernum_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/childcode"
-                app:layout_constraintStart_toStartOf="@id/child_txt"
-                android:layout_marginTop="15dp"
-                android:text="@string/job_order_number_txt"
-                style="@style/styleoftextbold"
-                />
-
-            <TextView
-                android:id="@+id/jobordernum"
-                style="@style/styleoftext"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/job_order_data"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/jobordernum_txt"
-                app:layout_constraintTop_toTopOf="@id/jobordernum_txt" />
+                android:layout_marginTop="-16dp"
+                android:background="@drawable/job_order_data_background"
+                android:padding="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+                app:layout_constraintTop_toBottomOf="@id/jobordernum_txt">
+
+
+                <TextView
+                    android:id="@+id/jobordernum"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/Joborderqtn"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/jobordernum"
+                    app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
-                android:id="@+id/child_txt"
+                android:id="@+id/jobordernum_txt"
+                style="@style/styleoftextbold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Child : "
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="15dp"
-                />
+                android:background="@drawable/job_order_txt_background"
+                android:text="Job Order"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+                app:layout_constraintTop_toBottomOf="@id/childesc" />
 
             <TextView
                 android:id="@+id/childesc"
-                style="@style/styleoftext"
+                style="@style/child_parent_desc_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="@id/machinecode_edt"
-                app:layout_constraintStart_toEndOf="@id/child_txt"
-                app:layout_constraintTop_toTopOf="@id/child_txt" />
-
-            <TextView
-                android:id="@+id/childcode"
-                style="@style/styleoftext"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="@id/machinecode_edt"
-                app:layout_constraintStart_toStartOf="@id/childesc"
-                app:layout_constraintTop_toBottomOf="@+id/childesc" />
-
-            <TextView
-                android:id="@+id/Joborderqtn_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/job_orderqtn"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/child_txt"
-                app:layout_constraintTop_toBottomOf="@id/jobordernum"
                 android:layout_marginTop="20dp"
-                />
-
+                android:visibility="visible"
+                android:gravity="center"
+                android:text="Child description"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+                app:layout_constraintTop_toTopOf="parent" />
             <TextView
-                android:id="@+id/Joborderqtn"
-                style="@style/styleoftext"
+                android:id="@+id/operation"
+                style="@style/operation_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="@id/machinecode_edt"
-                app:layout_constraintStart_toEndOf="@id/Joborderqtn_txt"
-                app:layout_constraintTop_toTopOf="@id/Joborderqtn_txt" />
-            <TextView
-                android:id="@+id/available_qty_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Available Qty:"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/child_txt"
-                app:layout_constraintTop_toBottomOf="@id/Joborderqtn_txt"
                 android:layout_marginTop="20dp"
-                />
+                android:visibility="visible"
+                android:gravity="center"
+                android:text="Operation"
+                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+                app:layout_constraintTop_toBottomOf="@id/job_order_data" />
 
-            <TextView
-                android:id="@+id/available_qty"
-                style="@style/styleoftext"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintBottom_toBottomOf="@id/available_qty_txt"
-                app:layout_constraintEnd_toEndOf="@id/machinecode_edt"
-                app:layout_constraintStart_toEndOf="@id/available_qty_txt"
-                app:layout_constraintTop_toTopOf="@id/available_qty_txt" />
-<!--            <TextView-->
+
+            <!--            <TextView-->
 <!--                android:id="@+id/machinecode_txt"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->
@@ -143,6 +120,8 @@
 <!--                app:layout_constraintTop_toBottomOf="@id/Joborderqtn_txt"-->
 <!--                android:layout_marginTop="20dp"-->
 <!--                />-->
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/machinecode_edt"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -150,13 +129,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginTop="15dp"
-                app:startIconDrawable="@drawable/ic_barcode_icon"
+                android:layout_marginTop="20dp"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/available_qty_txt">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/operation"
+                app:startIconDrawable="@drawable/ic_barcode_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/machinecode_newedttxt"
@@ -190,7 +169,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 app:startIconDrawable="@drawable/ic_barcode_icon"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
@@ -217,7 +196,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintStart_toStartOf="parent"
@@ -238,6 +217,13 @@
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 
+<!--            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton-->
+<!--                android:id="@+id/loading_qty"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/diecode_edt" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_btn"
@@ -294,6 +280,8 @@
                 android:text="djdjdkd"
                 android:visibility="gone"
                 />
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

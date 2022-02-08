@@ -1,7 +1,11 @@
 package com.example.gbsbadrsf.Paint.paintstation;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.activateItem;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.deactivateItem;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -11,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprpaint;
+import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
 import com.example.gbsbadrsf.databinding.WeldingsequenceRvBinding;
 import com.example.gbsbadrsf.weldingsequence.WeldingsequenceAdapter;
 
@@ -37,41 +42,48 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
     @NonNull
     @Override
     public PaintStationAdapter.PaintStationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        WeldingsequenceRvBinding weldingsequenceRvBinding = WeldingsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new PaintStationAdapter.PaintStationViewHolder(weldingsequenceRvBinding);
+        ProductionsequenceRvBinding productionsequenceRvBinding = ProductionsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new PaintStationAdapter.PaintStationViewHolder(productionsequenceRvBinding);
     }
 
+    int selectedPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull PaintStationAdapter.PaintStationViewHolder holder, int position) {
-
-        holder.sequencenumbercheckbox.setText(paintsequenceresponse.get(position).getLoadingSequenceNumber().toString());
-        holder.childdesc.setText(paintsequenceresponse.get(position).getParentDescription());
-        holder.loadingqty.setText(paintsequenceresponse.get(position).getLoadingQty().toString());
-        holder.jobordername.setText(paintsequenceresponse.get(position).getJobOrderName());
-        holder.joborderquantity.setText(paintsequenceresponse.get(position).getJobOrderQty().toString());
-        holder.status.setText(paintsequenceresponse.get(position).getLoadingSequenceStatus().toString());
-
-
-        holder.sequencenumbercheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                CheckBox checked_rb = (CheckBox) buttonView;
-                int selectedposition = 0;
-                if (selectedposition == position) {
-//                    if (lastCheckedRB != null) {
-//                        lastCheckedRB.setChecked(false);
-//                    }
-                    checked_rb.setChecked(true);
-                    onClick.onCheckedChanged(holder.getAdapterPosition(), isChecked, paintsequenceresponse.get(position));
-
-                }
-                else {
-                    checked_rb.setChecked(false);
-                }
-            }
+        int currentPosition = holder.getAdapterPosition();
+        holder.binding.sequenceNum.setText(paintsequenceresponse.get(currentPosition).getLoadingSequenceNumber().toString());
+        holder.binding.childDesc.setText(paintsequenceresponse.get(position).getParentDescription());
+        holder.binding.loadingQty.setText(paintsequenceresponse.get(currentPosition).getLoadingQty().toString());
+        holder.binding.jobOrderQty.setText(paintsequenceresponse.get(currentPosition).getJobOrderQty().toString());
+        holder.binding.childTxt.setText("Parent");
+        if (currentPosition==selectedPosition)
+            activateItem(holder.itemView);
+        else
+            deactivateItem(holder.itemView);
+        holder.itemView.setOnClickListener(__->{
+            selectedPosition = holder.getAdapterPosition();
+            notifyDataSetChanged();
+            onClick.onCheckedChanged(paintsequenceresponse.get(selectedPosition));
         });
+//        holder.itemView.(new CompoundButton.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                CheckBox checked_rb = (CheckBox) buttonView;
+//                int selectedposition = 0;
+//                if (selectedposition == position) {
+////                    if (lastCheckedRB != null) {
+////                        lastCheckedRB.setChecked(false);
+////                    }
+//                    checked_rb.setChecked(true);
+//                    onClick.onCheckedChanged(holder.getAdapterPosition(), isChecked, paintsequenceresponse.get(position));
+//
+//                }
+//                else {
+//                    checked_rb.setChecked(false);
+//                }
+//            }
+//        });
 
 
 
@@ -81,24 +93,22 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
     public int getItemCount() {
         return paintsequenceresponse.size();
     }
-    class PaintStationViewHolder extends RecyclerView.ViewHolder{
-        CheckBox sequencenumbercheckbox;
-
-        TextView childdesc,loadingqty,jobordername,joborderquantity,status;
-
-        public PaintStationViewHolder(@NonNull WeldingsequenceRvBinding itemView) {
-            super(itemView.getRoot());
-            sequencenumbercheckbox=itemView.sequencenumCheckBox;
-            childdesc=itemView.childdesc;
-            loadingqty=itemView.loadingqty;
-            status=itemView.status;
-            jobordername=itemView.jobordername;
-            joborderquantity=itemView.joborderquantity;
+    static class PaintStationViewHolder extends RecyclerView.ViewHolder{
+        ProductionsequenceRvBinding binding;
+        public PaintStationViewHolder(@NonNull ProductionsequenceRvBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            changeItemsOpacity();
         }
-
+        private void changeItemsOpacity() {
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f,0.4f);
+            alphaAnimation.setFillAfter(true);
+            alphaAnimation.setDuration(10);//duration in millisecond
+            binding.getRoot().startAnimation(alphaAnimation);
+        }
     }
     public interface onCheckedChangedListener{
-        void onCheckedChanged(int position, boolean isChecked, Pprpaint item);
+        void onCheckedChanged(Pprpaint item);
     }
 
 

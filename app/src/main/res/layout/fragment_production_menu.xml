@@ -32,65 +32,60 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/Manfacturing_btn"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/welding_btn"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:backgroundTint="@color/appbarcolor"
-        app:cornerRadius="25dp"
-        android:text="@string/manfacturing"
-        style="@style/styleoftextinbtn"
-        />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/welding_btn"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        app:layout_constraintTop_toBottomOf="@id/Manfacturing_btn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="230dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:backgroundTint="@color/appbarcolor"
-        app:cornerRadius="25dp"
-        android:text="@string/welding"
-        style="@style/styleoftextinbtn"
-        />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/Paint_btn"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        app:layout_constraintTop_toBottomOf="@id/welding_btn"
-        android:layout_marginTop="70dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:backgroundTint="@color/appbarcolor"
-        app:cornerRadius="25dp"
-        android:text="@string/paint"
-        style="@style/styleoftextinbtn"
-        />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/Manfacturing_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="35dp"
+                android:layout_marginStart="35dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/manfacturing"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/welding_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/welding"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/Manfacturing_btn"
+                app:layout_constraintStart_toStartOf="@+id/Manfacturing_btn"
+                app:layout_constraintTop_toBottomOf="@+id/Manfacturing_btn" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/Paint_btn"
+                style="@style/styleoftextinbtn"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/paint"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/welding_btn"
+                app:layout_constraintStart_toStartOf="@+id/welding_btn"
+                app:layout_constraintTop_toBottomOf="@id/welding_btn" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/Warehouse_btn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                app:layout_constraintTop_toBottomOf="@id/Paint_btn"
-                android:layout_marginTop="70dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:backgroundTint="@color/appbarcolor"
-                app:cornerRadius="25dp"
-                android:text="Warehouse"
                 style="@style/styleoftextinbtn"
-                />
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="Warehouse"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/Paint_btn"
+                app:layout_constraintStart_toStartOf="@+id/Paint_btn"
+                app:layout_constraintTop_toBottomOf="@id/Paint_btn" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

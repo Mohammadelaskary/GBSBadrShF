@@ -1,12 +1,16 @@
 package com.example.gbsbadrsf.welding.weldingsignoff;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -17,12 +21,16 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.Basketcodelst;
+import com.example.gbsbadrsf.Manfacturing.machinesignoff.Signoffitemsdialog;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Stationcodeloading;
+import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 import com.example.gbsbadrsf.databinding.FragmentSignoffweBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
@@ -33,6 +41,7 @@ import com.honeywell.aidc.ScannerUnavailableException;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 import com.honeywell.aidc.UnsupportedPropertyException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +60,9 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
     private SignoffweViewModel signoffweViewModel;
     Stationcodeloading stationcodeloading;
-    List<Basketcodelst> passedinput;
+    List<Basketcodelst> basketList = new ArrayList<>();
     //String passedtext;;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -66,6 +76,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
         }
         signoffweViewModel = ViewModelProviders.of(this, providerFactory).get(SignoffweViewModel.class);
         barcodeReader = MainActivity.getBarcodeObjectsequence();
+        progressDialog = loadingProgressDialog(getContext());
         binding.stationNewedt.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -105,10 +116,11 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 //
 //            }
 //        });
-        getdata();
+//        getdata();
         initViews();
         addTextWatcher();
         subscribeRequest();
+        observeStatus();
         if (barcodeReader != null) {
 
             // register bar code event listener
@@ -153,10 +165,19 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
     }
 
+    private void observeStatus() {
+        signoffweViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.hide();
+        });
+    }
+
     private void addTextWatcher() {
         clearInputLayoutError(binding.stationEdt);
     }
-
+    boolean isBulk = true;
     private void initViews() {
         binding.signoffitemsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,15 +190,27 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 }catch (Exception e){
                     c.setTotalQty(0);
                 }*/
-                if (!binding.loadingqtn.getText().toString().isEmpty()) {
-                    Bundle args = new Bundle();
-                    args.putString("parentdesc", binding.parentdesc.getText().toString());
-                    args.putString("loadingqty", binding.loadingqtn.getText().toString());
+                if (!binding.Joborderqtn.getText().toString().isEmpty()) {
+                    String parentDesc = binding.parentDesc.getText().toString().trim();
+                    String loadingQty = binding.Joborderqtn.getText().toString().trim();
+                    Signoffitemsdialog dialog = new Signoffitemsdialog(getContext(), parentDesc, loadingQty, (input, bulk) -> {
+                        basketList = input;
+                        isBulk = bulk;
+                    }, isBulk, basketList,getActivity());
+                    dialog.show();
+                    dialog.setOnDismissListener(dialog1 -> {
+                        if (basketList.isEmpty()){
+                            binding.signoffitemsBtn.setText("Add baskets");
+                            binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.appbarcolor));
+                            binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
+                        } else {
+                            binding.signoffitemsBtn.setText("Edit baskets");
+                            binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.done));
+                            binding.signoffitemsBtn.setIconResource(R.drawable.ic_edit);
+                        }
 
-                    Signoffweitemsdialog dialog = new Signoffweitemsdialog();
-                    dialog.setArguments(args);
-                    dialog.setTargetFragment(SignoffweFragment.this, 1);
-                    dialog.show(getFragmentManager(), "MyCustomDialog");
+                    });
+
                 } else {
                     binding.stationEdt.setError("Please scan or enter a valid station code!");
                 }
@@ -187,18 +220,22 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (parentCode==null)
+                String stationCode = binding.stationEdt.getEditText().getText().toString().trim();
+                if (stationCode.isEmpty())
                     binding.stationEdt.setError("Please scan or enter a valid station code!");
-                if (passedinput==null)
+                if (basketList.isEmpty())
                     warningDialog(getContext(),"Please enter at least 1 basket code!");
-                if (parentCode!=null&&passedinput!=null) {
+                if (!stationCode.isEmpty()&&!basketList.isEmpty()) {
                     WeldingSignoffBody weldingSignoffBody = new WeldingSignoffBody();
 
                     weldingSignoffBody.setProductionStationCode(binding.stationNewedt.getText().toString());
                     //  machineSignoffBody.setSignOutQty(passedtext);
                     weldingSignoffBody.setUserID(USER_ID);
                     weldingSignoffBody.setDeviceSerialNo(DEVICE_SERIAL_NO);
-                    weldingSignoffBody.setBasketLst(passedinput);
+                    weldingSignoffBody.setBasketLst(basketList);
+                    weldingSignoffBody.setIsBulkQty(isBulk);
+                    weldingSignoffBody.setProductionStationCode(binding.stationEdt.getEditText().getText().toString().trim());
+                    weldingSignoffBody.setSignOutQty(signOutQty);
                     signoffweViewModel.getweldingsignoff(weldingSignoffBody, getContext());
                 }
 
@@ -207,65 +244,79 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
 
     }
-
+    int signOutQty;
     private void subscribeRequest() {
-        signoffweViewModel.getWeldingignoffcases().observe(getViewLifecycleOwner(), new Observer<Weldingsignoffcases>() {
-            @Override
-            public void onChanged(Weldingsignoffcases weldingsignoffcases) {
-                switch (weldingsignoffcases) {
-                    case gettingsuccesfully:
-                        Toast.makeText(getContext(), "Getting data successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+        signoffweViewModel.getSaveSignOffResponse().observe(getViewLifecycleOwner(), response -> {
+            if (response!=null) {
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                switch (statusMessage) {
+                    case "Getting data successfully":
+                    case "Done successfully":
+                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        back(SignoffweFragment.this);
                         break;
-                    case Wrongproductionstatname:
-                        binding.stationEdt.setError("Wrong production station name");
+                    case "Wrong production station name":
+                    case "This machine has not been loaded with anything":
+                    case "Wrong machine code":
+                        binding.stationEdt.setError(statusMessage);
                         break;
-                    case Donesuccessfully:
-                        Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-                        break;
-                    case machinefree:
-                        binding.stationEdt.setError("This machine has not been loaded with anything");
-                        break;
-                    case  wrongmachine:
-                        binding.stationEdt.setError("Wrong machine code");
-                    break;
-                    case servererror:
-                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
+                    default:
+                        warningDialog(getContext(), statusMessage);
                         break;
 
                 }
             }
         });
-
-    }
-
-    String parentCode;
-    private void getdata() {
-        signoffweViewModel.getdatadforstationcodecode().observe(getViewLifecycleOwner(), cuisines -> {
-            if (cuisines!=null) {
-                parentCode = cuisines.getParentCode();
-                binding.parentcode.setText(cuisines.getParentCode());
-                binding.parentdesc.setText(cuisines.getParentDescription());
-                binding.loadingqtn.setText(cuisines.getLoadingQty().toString());
-                binding.operationname.setText(cuisines.getOperationEnName());
-                binding.jobordername.setText(cuisines.getJobOrderName());
+        signoffweViewModel.getGetStationData().observe(getViewLifecycleOwner(),response ->{
+            if (response!=null){
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")){
+                    parentCode = response.getData().getParentCode();
+                    signOutQty = response.getData().getSignOutQty();
+                    binding.dataLayout.setVisibility(View.VISIBLE);
+                    binding.parentDesc.setText(response.getData().getParentDescription());
+                    binding.Joborderqtn.setText(response.getData().getLoadingQty().toString());
+                    binding.operationname.setText(response.getData().getOperationEnName());
+                    binding.jobordernum.setText(response.getData().getJobOrderName());
+                    binding.loadingQty.setText(response.getData().getLoadingQty().toString());
+                    binding.signOffQty.setText(response.getData().getSignOutQty().toString());
+                } else {
+                    parentCode = null;
+//                    binding.parentDesc.setText("");
+//                    binding.Joborderqtn.setText("");
+//                    binding.operationname.setText("");
+//                    binding.jobordernum.setText("");
+                    binding.dataLayout.setVisibility(View.GONE);
+                    binding.stationEdt.setError(statusMessage);
+                }
             } else {
-                parentCode = null;
-                binding.parentcode.setText("");
-                binding.parentdesc.setText("");
-                binding.loadingqtn.setText("");
-                binding.operationname.setText("");
-                binding.jobordername.setText("");
+                warningDialog(getContext(), "Error in getting data!");
+                binding.dataLayout.setVisibility(View.GONE);
             }
-
         });
     }
 
-    @Override
-    public void sendlist(List<Basketcodelst> input) {
-        passedinput = input;
+    String parentCode;
+//    private void getdata() {
+//        signoffweViewModel.getdatadforstationcodecode().observe(getViewLifecycleOwner(), cuisines -> {
+//            if (cuisines!=null) {
+//                parentCode = cuisines.getParentCode();
+//                binding.parentDesc.setText(response.getData().getParentDescription());
+//                binding.Joborderqtn.setText(response.getData().getLoadingQty().toString());
+//                binding.operationname.setText(response.getData().getOperationEnName());
+//                binding.jobordernum.setText(response.getData().getJobOrderName());
+//            } else {
+//                parentCode = null;
+//                binding.parentcode.setText("");
+//                binding.parentdesc.setText("");
+//                binding.loadingqtn.setText("");
+//                binding.operationname.setText("");
+//                binding.jobordername.setText("");
+//            }
+//
+//        });
+//    }
 
-
-    }
     @Override
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         Handler handler = new Handler(Looper.getMainLooper());
@@ -320,7 +371,12 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
+    }
+
+    @Override
+    public void sendlist(List<Basketcodelst> input, boolean isBulk) {
+
     }
 }

@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/edit/baseline_edit_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/pending/baseline_pending_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -30,8 +30,8 @@
                           <map>
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="848684" />
-                            <entry key="outputName" value="ic_edit" />
-                            <entry key="sourceFile" value="C:\Users\Dell\Downloads\warning-alert-svgrepo-com.svg" />
+                            <entry key="outputName" value="ic_pending" />
+                            <entry key="sourceFile" value="C:\Users\Dell\Downloads\lathe-machine-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Production;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Production.Data.ProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
@@ -180,4 +182,9 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
+    }
 }

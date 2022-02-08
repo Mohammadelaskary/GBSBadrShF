@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,25 +12,16 @@
     android:background="@drawable/alert_dialog_background">
 
     <TextView
-        android:id="@+id/childdesc_txt"
-        style="@style/styleoftextbold"
-        android:layout_width="wrap_content"
+        android:id="@+id/childdesc"
+        style="@style/child_parent_desc_style"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:text="Child Description"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:text="Child description : "
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/childdesc"
-        style="@style/styleoftext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="sdsfsd"
-        app:layout_constraintBottom_toBottomOf="@+id/childdesc_txt"
-        app:layout_constraintStart_toEndOf="@+id/childdesc_txt"
-        app:layout_constraintTop_toTopOf="@+id/childdesc_txt" />
 
     <TextView
         android:id="@+id/signoffqty_txt"
@@ -45,19 +36,19 @@
 
     <TextView
         android:id="@+id/signoffqty"
-        style="@style/styleoftext"
-        android:layout_width="wrap_content"
+        style="@style/details_text_style"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="154"
         app:layout_constraintBottom_toBottomOf="@+id/signoffqty_txt"
-
+        app:layout_constraintEnd_toEndOf="@+id/basket_qty"
         app:layout_constraintStart_toEndOf="@+id/signoffqty_txt"
         app:layout_constraintTop_toTopOf="@+id/signoffqty_txt" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/bulk_group"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         app:singleSelection="true"
@@ -71,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="One qty for baskets"
+            android:text="One Qty/bskts"
             android:textSize="12sp"
             />
 
@@ -81,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Different qty/basket"
+            android:text="Qty / bskt"
             android:textSize="12sp"/>
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -113,12 +104,11 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+
         app:errorEnabled="true"
         app:errorTextColor="@android:color/holo_red_dark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/childdesc"
+        app:layout_constraintStart_toStartOf="@id/childdesc"
         app:layout_constraintTop_toBottomOf="@id/basket_qty"
         app:startIconDrawable="@drawable/ic_barcode_icon">
 
@@ -218,11 +208,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/basketcode_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="@id/basketcode_edt"
-        app:layout_constraintStart_toStartOf="@id/basketcode_edt"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="@id/childdesc"
+        app:layout_constraintStart_toStartOf="@id/childdesc"
         app:layout_constraintTop_toBottomOf="@+id/table_title"
         tools:listitem="@layout/basketcode_lst" />
     <TextView
@@ -239,7 +228,7 @@
 
     <TextView
         android:id="@+id/total_added_qtn"
-        style="@style/styleoftext"
+        style="@style/details_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -248,25 +237,38 @@
         app:layout_constraintEnd_toEndOf="@+id/basketcode_edt"
         app:layout_constraintStart_toEndOf="@+id/totalqtn_txt"
         app:layout_constraintTop_toTopOf="@+id/totalqtn_txt" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_btn"
-        android:layout_width="140dp"
-        android:layout_height="55dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/totalqtn_txt"
-        app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintBottom_toBottomOf="parent">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_btn"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"
         android:layout_marginTop="15dp"
         android:text="@string/save"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
         style="@style/styleoftextinbtn"
-
         />
-
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            android:layout_width="140dp"
+            android:layout_height="55dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/appbarcolor"
+            app:cornerRadius="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Cancel"
+            style="@style/styleoftextinbtn"
+            />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

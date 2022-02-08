@@ -75,13 +75,20 @@
             app:destination="@id/mainScrapmanagment" />
         <action
             android:id="@+id/action_manfacturingmenuFragment_to_machinewip"
-            app:destination="@id/machineWip" />
+            app:destination="@id/main_machine_wip" />
 
         <action
             android:id="@+id/action_manufacturing_menu_fragment_to_production_repair_fragment"
             app:destination="@id/fragment_manufacturing_production_repair"/>
+        <action
+            android:id="@+id/action_manufacturing_menu_fragment_to_fragment_manufacturing_basket_info"
+            app:destination="@id/fragment_manufacturing_basket_info"/>
 
     </fragment>
+    <fragment android:id="@+id/fragment_manufacturing_basket_info"
+        android:label="fragment_manufacturing_basket_info"
+        tools:layout="@layout/basket_info_fragment"
+        android:name="com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoFragment"/>
     <fragment android:id="@+id/fragment_manufacturing_production_repair"
         android:name="com.example.gbsbadrsf.Production.ProductionRepairFragment"
         android:label="fragment_manufacturing_production_repair"
@@ -150,7 +157,7 @@
 
         <action
             android:id="@+id/action_weldingMenuFragment_to_weldingwip"
-            app:destination="@id/weldingwip" />
+            app:destination="@id/main_welding_wip" />
         <action
             android:id="@+id/action_welding_menu_fragment_to_fragment_welding_production_repair"
             app:destination="@id/fragment_welding_production_repair" />
@@ -201,7 +208,7 @@
             android:id="@+id/action_paint_menu_fragment_to_fragment_paint_production_repair"/>
         <action
             android:id="@+id/action_paintMenuFragment_to_paintwipFragment"
-            app:destination="@id/paintWip" />
+            app:destination="@id/main_paint_wip" />
 
     </fragment>
     <fragment
@@ -669,7 +676,7 @@
         <action
             android:id="@+id/action_paintdstation_to_machineLoadingpaintFragment"
             app:destination="@id/machineloadingpaintFragment"
-            app:popUpTo="@id/paintdstation"/>
+            app:popUpTo="@id/paintMenuFragment"/>
     </fragment>
 
 
@@ -699,7 +706,8 @@
         tools:layout="@layout/fragment_production_sequence" >
         <action
             android:id="@+id/action_productionSequence_to_machineLoadingFragment"
-            app:destination="@id/machineLoadingFragment" />
+            app:destination="@id/machineLoadingFragment"
+            app:popUpTo="@id/mainmachineloading"/>
     </fragment>
     <fragment
         android:id="@+id/weldingSequence"
@@ -708,7 +716,8 @@
         tools:layout="@layout/fragment_welding_sequence" >
         <action
             android:id="@+id/action_weldingSequence_to_machineloadingweFragment"
-            app:destination="@id/machineloadingweFragment" />
+            app:destination="@id/machineloadingweFragment"
+           app:popUpTo="@id/weldingMenuFragment"/>
     </fragment>
     <fragment
         android:id="@+id/mainmachineloading"
@@ -765,15 +774,31 @@
 
     </fragment>
     <fragment
-        android:id="@+id/machineWip"
-        android:name="com.example.gbsbadrsf.machinewip.MachineWip"
+        android:id="@+id/main_machine_wip"
+        android:name="com.example.gbsbadrsf.machinewip.MachineWipMainFragment"
         android:label="fragment_machine_wip"
-        tools:layout="@layout/fragment_machine_wip" />
+        tools:layout="@layout/fragment_main_machine_wip" >
+        <action android:id="@+id/action_main_machine_wip_to_machine_wip"
+            app:destination="@id/machine_wip"/>
+    </fragment>
     <fragment
-        android:id="@+id/weldingwip"
-        android:name="com.example.gbsbadrsf.welding.weldingwip.Weldingwip"
-        android:label="fragment_weldingwip"
-        tools:layout="@layout/fragment_weldingwip" />
+        android:id="@+id/machine_wip"
+        android:name="com.example.gbsbadrsf.machinewip.MachineWipFragment"
+        android:label="fragment_machime_wip"
+        tools:layout="@layout/fragment_machime_wip" />
+    <fragment
+        android:id="@+id/main_welding_wip"
+        android:name="com.example.gbsbadrsf.welding.weldingwip.MainWeldingWip"
+        android:label="fragment_main_welding_wip"
+        tools:layout="@layout/fragment_main_welding_wip" >
+        <action android:id="@+id/action_main_welding_wip_to_welding_wip_details"
+            app:destination="@id/welding_wip_details"/>
+    </fragment>
+    <fragment
+        android:id="@+id/welding_wip_details"
+        android:name="com.example.gbsbadrsf.welding.weldingwip.WeldingWip_Details"
+        android:label="fragment_welding_wip_details"
+        tools:layout="@layout/fragment_welding_wip__details" />
     <fragment
         android:id="@+id/warehousesMain"
         android:name="com.example.gbsbadrsf.warhouse.WarehousesMain"
@@ -798,10 +823,18 @@
         android:label="fragment_warehouse"
         tools:layout="@layout/fragment_warehouse" />
     <fragment
-        android:id="@+id/paintWip"
-        android:name="com.example.gbsbadrsf.Paint.paintwip.PaintWip"
-        android:label="fragment_paint_wip"
-        tools:layout="@layout/fragment_paint_wip" />
+        android:id="@+id/main_paint_wip"
+        android:name="com.example.gbsbadrsf.Paint.paintwip.MainPaintWip"
+        android:label="fragment_main_paint_wip"
+        tools:layout="@layout/fragment_main_paint_wip" >
+        <action app:destination="@id/paint_wip_details"
+            android:id="@+id/action_main_paint_wip_to_paint_wip_details"/>
+    </fragment>
+    <fragment
+        android:id="@+id/paint_wip_details"
+        android:name="com.example.gbsbadrsf.Paint.paintwip.PaintWipDetailsFragment"
+        android:label="fragment_paint_wip_details"
+        tools:layout="@layout/fragment_paint_wip_details" />
     <fragment
         android:id="@+id/machineloadingpaintFragment"
         android:name="com.example.gbsbadrsf.Paint.machineloadingpaint.MachineloadingpaintFragment"

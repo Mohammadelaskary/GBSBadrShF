@@ -20,145 +20,59 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
         />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/basketcode_edt"
+        android:id="@+id/job_order_name"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        app:startIconDrawable="@drawable/ic_barcode_icon"
-        android:hint="@string/job_order_name"
+        android:hint="@string/job_order_name_txt"
         app:errorEnabled="true"
         app:errorTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weldingseq_txt">
+        app:layout_constraintTop_toBottomOf="@id/weldingseq_txt"
+        app:startIconDrawable="@drawable/ic_barcode_icon">
 
-    <EditText
-        android:id="@+id/barcode_edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:imeOptions="actionGo"
-        android:maxLines="1"
-        android:lines="1"
-        android:singleLine="true"
-        />
-    </com.google.android.material.textfield.TextInputLayout>
-    <HorizontalScrollView
-        android:id="@+id/hsv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/basketcode_edt"
-        app:layout_constraintStart_toStartOf="parent"
-
-        >
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/barcode_edt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionGo"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+<androidx.core.widget.NestedScrollView
+    android:id="@+id/nested"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="3dp"
+    app:layout_constraintBottom_toTopOf="@+id/qtnok_btn"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/job_order_name">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/production_sequence"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:itemCount="3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
 
 
-            >
-            <TextView
-                android:id="@+id/sequencenum_txt"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/child_txt"
-                android:text="@string/sequence_num"
-                android:layout_marginTop="25dp"
-                style="@style/styleoftextbold"
-                android:layout_marginStart="15dp"
-                />
-            <TextView
-                android:id="@+id/child_txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/sequencenum_txt"
-                app:layout_constraintTop_toTopOf="@+id/sequencenum_txt"
-                android:text="Parent"
-                android:layout_marginStart="35dp"
-
-                style="@style/styleoftextbold"
-                />
-            <TextView
-                android:id="@+id/loadingqty_txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/child_txt"
-                app:layout_constraintTop_toTopOf="@+id/sequencenum_txt"
-                android:text="Loadin Qty"
-                style="@style/styleoftextbold"
-                android:layout_marginStart="80dp"
-                />
-
-            <TextView
-                android:id="@+id/jobordername_txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/loadingqty_txt"
-                app:layout_constraintTop_toTopOf="@+id/sequencenum_txt"
-                android:text="@string/job_order_name_txt"
-                android:layout_marginStart="55dp"
-                style="@style/styleoftextbold"
-                />
-            <TextView
-                android:id="@+id/joborderqtn_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/jobordername_txt"
-                app:layout_constraintTop_toTopOf="@+id/sequencenum_txt"
-                android:text="Job order qty"
-                android:layout_marginStart="35dp"
-                style="@style/styleoftextbold"
-                />
-
-
-
-            <TextView
-                android:id="@+id/status_txt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/joborderqtn_txt"
-                app:layout_constraintTop_toTopOf="@+id/sequencenum_txt"
-                android:text="@string/status"
-                android:layout_marginStart="25dp"
-                style="@style/styleoftextbold"
-                />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="850dp"
-                android:layout_height="1.5dp"
-                app:layout_constraintTop_toBottomOf="@id/status_txt"
-                app:layout_constraintStart_toStartOf="parent"
-                android:background="#808080"
-                android:layout_marginTop="7dp"
-                />
-
-
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/defectqtn_rv"
-                android:layout_width="0dp"
-                android:layout_height="230dp"
-                tools:itemCount="3"
-                app:layout_constraintTop_toBottomOf="@id/view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/view"
-                android:layout_marginTop="3dp"
-                tools:listitem="@layout/weldingsequence_rv"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </HorizontalScrollView>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/qtnok_btn"
         android:layout_width="170dp"
@@ -166,7 +80,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hsv"
+        app:layout_constraintTop_toBottomOf="@+id/nested"
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"

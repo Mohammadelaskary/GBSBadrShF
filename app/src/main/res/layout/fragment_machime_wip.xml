@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:paddingBottom="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+
+            <TextView
+                android:id="@+id/child_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Child Description"
+                style="@style/child_parent_desc_style"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/job_order_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-16dp"
+                android:background="@drawable/job_order_data_background"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/jobordernum_txt">
+
+
+                <TextView
+                    android:id="@+id/jobordernum"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Qty"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
+
+                <TextView
+                    android:id="@+id/job_order_qty"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/jobordernum"
+                    app:layout_constraintTop_toTopOf="@+id/textView" />
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="17dp"
+                    app:layout_constraintTop_toTopOf="@id/jobordernum"
+                    app:layout_constraintBottom_toBottomOf="@id/jobordernum"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/jobordernum_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/job_order_txt_background"
+                android:layout_margin="5dp"
+                android:text="Job Order"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/child_desc" />
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/style_of_text_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Loading Qty:"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
+
+            <TextView
+                android:id="@+id/loading_qty"
+                style="@style/details_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/operation_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-16dp"
+                android:background="@drawable/job_order_data_background"
+                android:padding="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/operation_title_txt">
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="17dp"
+                    app:layout_constraintTop_toTopOf="@id/operation_name"
+                    app:layout_constraintBottom_toBottomOf="@id/operation_name"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/operation_name"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView7"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Qty"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/operation_name" />
+
+                <TextView
+                    android:id="@+id/operation_qty"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/operation_name"
+                    app:layout_constraintTop_toTopOf="@+id/textView8" />
+                <TextView
+                    android:id="@+id/textView13"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Time"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/operation_qty" />
+
+                <TextView
+                    android:id="@+id/operation_time"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView13"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/operation_name"
+                    app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/operation_title_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/job_order_txt_background"
+                android:layout_margin="10dp"
+                android:text="Operation"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/loading_qty" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/machine_die_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/job_order_data_background"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/operation_data">
+
+
+                <TextView
+                    android:id="@+id/machine_desc"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView9"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Die name:"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/machine_desc" />
+
+                <TextView
+                    android:id="@+id/die_desc"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/machine_desc"
+                    app:layout_constraintTop_toTopOf="@+id/textView10" />
+                <TextView
+                    android:id="@+id/textView9"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Machine name:"
+                    android:textSize="17dp"
+                    app:layout_constraintTop_toTopOf="@id/machine_desc"
+                    app:layout_constraintBottom_toBottomOf="@id/machine_desc"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/time_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-16dp"
+                android:background="@drawable/job_order_data_background"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/time_title_txt">
+                <TextView
+                    android:id="@+id/textView11"
+                    style="@style/styleoftextbold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Sign in time"
+                    android:textSize="17dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@id/textView12"
+                    app:layout_constraintStart_toStartOf="@+id/textView12"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/sign_in_time"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11"
+                    app:layout_constraintStart_toEndOf="@+id/textView11"
+                    app:layout_constraintStart_toStartOf="@+id/textView11"
+                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    style="@style/styleoftextbold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Expected sign out time"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sign_in_time" />
+
+                <TextView
+                    android:id="@+id/expected_time"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView12"
+                    app:layout_constraintStart_toStartOf="@+id/textView12"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                <TextView
+                    android:id="@+id/textView15"
+                    style="@style/styleoftextbold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Remaining time"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/expected_time" />
+
+                <TextView
+                    android:id="@+id/remaining_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/done"
+                    android:textSize="30sp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView15"
+                    app:layout_constraintStart_toStartOf="@+id/textView15"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/time_title_txt"
+                style="@style/styleoftextbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/job_order_txt_background"
+                android:layout_margin="10dp"
+                android:text="Time"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintTop_toBottomOf="@id/machine_die_data" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

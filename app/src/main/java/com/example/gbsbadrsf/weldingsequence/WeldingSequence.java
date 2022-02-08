@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.weldingsequence;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
@@ -70,6 +71,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
     WeldingsequenceViewModel viewModel;
     List<String> selectedsequence;
     PprWelding clickedPprwelding;
+    public static InfoForSelectedStationViewModel infoForSelectedStationViewModel;
 
 
 
@@ -85,21 +87,22 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
         }
 
         viewModel = ViewModelProviders.of(this,provider).get(WeldingsequenceViewModel.class);
+        infoForSelectedStationViewModel = ViewModelProviders.of(this,provider).get(InfoForSelectedStationViewModel.class);
         observeGettingData();
 
         barcodeReader = MainActivity.getBarcodeObject();
-        binding.jobOrderName.getEditText().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                {
-                    viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO, binding.jobOrderName.getEditText().getText().toString());
-                    return true;
-                }
-                return false;
-            }
-        });
+//        binding.jobOrderName.getEditText().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+//                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+//                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+//                {
+//                    viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO, binding.jobOrderName.getEditText().getText().toString());
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 //        fragmentWeldingSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -121,10 +124,10 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 //            }
 //        });
         setUpRecyclerView();
-
+        viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO);
 
         attachListeners();
-        clearInputLayoutError(binding.jobOrderName);
+//        clearInputLayoutError(binding.jobOrderName);
 
 
         selectedsequence = new ArrayList<>();
@@ -179,6 +182,12 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
             else
                 progressDialog.dismiss();
         });
+        infoForSelectedStationViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            if (status.equals(Status.LOADING))
+                progressDialog.show();
+            else
+                progressDialog.dismiss();
+        });
     }
 
 
@@ -197,10 +206,8 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
     }
     private void attachListeners() {
         binding.firstloadingBtn.setOnClickListener(v->{
-            if (clickedPprwelding!=null){
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(PPR_WELDING,clickedPprwelding);
-                Navigation.findNavController(getView()).navigate(R.id.action_weldingSequence_to_machineloadingweFragment, bundle);
+            if (selectedSequenceId!=-1){
+                infoForSelectedStationViewModel.getselectedweldingsequence(USER_ID,DEVICE_SERIAL_NO,String.valueOf(selectedSequenceId));
             } else {
                 warningDialog(getContext(),"Please select the first production sequence!");
             }
@@ -212,19 +219,25 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 //            adapter.getproductionsequencelist(productionsequenceresponse);
 
             if (cuisines!=null) {
-                String statusMessage = cuisines.getResponseStatus().getStatusMessage();
                 List<PprWelding> pprWeldingList = cuisines.getData();
-                if (!statusMessage.equals("Data sent successfully")) {
-                    binding.jobOrderName.setError(statusMessage);
-                }
-                if (pprWeldingList.isEmpty())
-                    binding.jobOrderName.setError("There is no ppr for this job order name!");
                 adapter.setPprList(pprWeldingList);// today 23/11
                 adapter.notifyDataSetChanged();
             } else
-                binding.jobOrderName.setError("Error in getting data!");
+                warningDialog(getContext(),"Error in getting data!");
         });
-
+        infoForSelectedStationViewModel.getResponseLiveData().observe(getViewLifecycleOwner(),response->{
+            if (response!=null){
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                List<Baskets> baskets = response.getBaskets();
+                if (statusMessage.equals("Data sent successfully")){
+                    if (baskets!=null){
+                        Navigation.findNavController(getView()).navigate(R.id.action_weldingSequence_to_machineloadingweFragment);
+                    } else
+                        warningDialog(getContext(),"No baskets for this job order name!");
+                }
+            } else
+                warningDialog(getContext(),"Error in getting data!");
+        });
 
     }
 
@@ -237,8 +250,8 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 // update UI to reflect the data
                 hideKeyboard(getActivity());
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
-                binding.jobOrderName.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO, binding.jobOrderName.getEditText().getText().toString());
+//                binding.jobOrderName.getEditText().setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+//                viewModel.getWeldingsequence(USER_ID,DEVICE_SERIAL_NO, binding.jobOrderName.getEditText().getText().toString());
 
             }
         });
@@ -283,6 +296,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 e.printStackTrace();
             }
         }
+        changeTitle("Welding",(MainActivity) getActivity());
     }
 
     @Override
@@ -295,10 +309,10 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
         }
     }
 
-
+    int selectedSequenceId = -1;
     @Override
-    public void onWeldingCheckedChanged(PprWelding item) {
-        clickedPprwelding = item;
+    public void onWeldingCheckedChanged(int sequenceId) {
+        selectedSequenceId = sequenceId;
     }
 }
 

@@ -1,7 +1,11 @@
 package com.example.gbsbadrsf.qualityscrap;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -12,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
 import com.example.gbsbadrsf.databinding.FragmentQualityscraplistBinding;
@@ -45,5 +50,11 @@ public class qualityscraplistFragment extends Fragment implements OnClick {
     public void OnItemClickedListener(int position) {
         Navigation.findNavController(getView()).navigate(R.id.action_qualityscraplistFragment_to_qualityScrapFragment);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 }

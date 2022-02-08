@@ -1,63 +1,70 @@
 package com.example.gbsbadrsf.machinewip;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.getRemainingTime;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.startRemainingTimeTimer;
+
+import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.MachinesWIP;
-import com.example.gbsbadrsf.data.response.Ppr;
-import com.example.gbsbadrsf.databinding.MachinewipLstBinding;
-import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
-import com.example.gbsbadrsf.productionsequence.productionsequenceadapter;
+import com.example.gbsbadrsf.databinding.MachineWipListItemBinding;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MachinewipAdapter extends RecyclerView.Adapter<MachinewipAdapter.MachinewipViewHolder> {
-    private List<MachinesWIP> Machinewiperesponse;
+    public static final String MACHINE_WIP = "machineWIP";
+    private List<MachinesWIP> machinesWIPList;
    // productionsequenceadapter.onCheckedChangedListener onClick;
-    private CheckBox lastCheckedRB = null;
 
 
     public MachinewipAdapter(List<MachinesWIP> machinewipresponse) {
-        this.Machinewiperesponse = machinewipresponse;
+        this.machinesWIPList = machinewipresponse;
         //this.onClick = onClick;
 
     }
 
-    public void getmachinewiplist(List<MachinesWIP> machinewiplst) {
-        Machinewiperesponse.clear();
-        Machinewiperesponse.addAll(machinewiplst);
+    public void setMachinesWIPList(List<MachinesWIP> machinesWIPList) {
+        this.machinesWIPList = machinesWIPList;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
     public MachinewipAdapter.MachinewipViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        MachinewipLstBinding machinewipLstBinding = MachinewipLstBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new MachinewipAdapter.MachinewipViewHolder(machinewipLstBinding);
+        MachineWipListItemBinding binding = MachineWipListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new MachinewipAdapter.MachinewipViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MachinewipAdapter.MachinewipViewHolder holder, int position) {
+        MachinesWIP machineWip = machinesWIPList.get(position);
+        holder.binding.childParentDesc.setText(machineWip.getChildDescription());
+        holder.binding.jobOrderName.setText(machineWip.getJobOrderName());
+        holder.binding.operation.setText(machineWip.getOperationEnName());
+        holder.binding.machineDesc.setText(machineWip.getMachineCode());
 
-        holder.machinecodecheckbox.setText(Machinewiperesponse.get(position).getMachineCode());
-        holder.childdesc.setText(Machinewiperesponse.get(position).getChildDescription());
-        holder.loadingqty.setText(Machinewiperesponse.get(position).getLoadingQty().toString());
-        holder.jobordername.setText(Machinewiperesponse.get(position).getJobOrderName());
-        holder.childcode.setText(Machinewiperesponse.get(position).getChildCode());
-        holder.joborderqty.setText(Machinewiperesponse.get(position).getJobOrderQty().toString());
-        holder.operationname.setText(Machinewiperesponse.get(position).getOperationEnName());
-        holder.operationtime.setText(Machinewiperesponse.get(position).getOperationTime().toString());
-        holder.loadingtime.setText(Machinewiperesponse.get(position).getDateSignIn());
-       holder.remainingtime.setText(Machinewiperesponse.get(position).getRemainingTime().getMinutes().toString());
+        startRemainingTimeTimer(getRemainingTime(machineWip.getExpectedSignOut()),holder.binding.remainingTime);
 
-
+        holder.itemView.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(MACHINE_WIP,machineWip);
+            Navigation.findNavController(v).navigate(R.id.action_main_machine_wip_to_machine_wip,bundle);
+        });
 
 //        holder.machinecodecheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //
@@ -75,28 +82,18 @@ public class MachinewipAdapter extends RecyclerView.Adapter<MachinewipAdapter.Ma
 
     }
 
+
+
     @Override
     public int getItemCount() {
-        return Machinewiperesponse.size();
+        return machinesWIPList.size();
     }
 
-    class MachinewipViewHolder extends RecyclerView.ViewHolder {
-
-        TextView machinecodecheckbox,jobordername, joborderqty, loadingqty, childcode, childdesc
-                ,operationname,operationtime,loadingtime,remainingtime;
-
-        public MachinewipViewHolder(@NonNull MachinewipLstBinding itemView) {
-            super(itemView.getRoot());
-            machinecodecheckbox = itemView.machinecodeCheckBox;
-            childdesc = itemView.childdesc;
-            loadingqty = itemView.loadingqty;
-            childcode = itemView.childcode;
-            jobordername = itemView.jobordername;
-            joborderqty = itemView.joborderqty;
-            operationname = itemView.operationname;
-            operationtime = itemView.operationntime;
-            loadingtime = itemView.loadingtime;
-            remainingtime = itemView.remainingtime;
+    static class MachinewipViewHolder extends RecyclerView.ViewHolder {
+        MachineWipListItemBinding binding;
+        public MachinewipViewHolder(@NonNull MachineWipListItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
     }

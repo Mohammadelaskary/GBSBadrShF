@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Production;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
@@ -266,6 +268,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     public void onResume() {
         super.onResume();
         barCodeReader.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Paint.machineloadingpaint;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Paint.PaintSignInData;
 import com.example.gbsbadrsf.data.response.ApiSavePaintloading;
 import com.example.gbsbadrsf.data.response.ApiSavefirstloading;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -20,7 +21,7 @@ public class SavepaintViewModel extends ViewModel {
     Gson gson;
     @Inject
     ApiInterface apiInterface;
-    private MutableLiveData<ResponseStatus> responseLiveData ;
+    private MutableLiveData<ApiSavePaintloading<ResponseStatus>> responseLiveData ;
     private MutableLiveData<Typesofsavewelding> typesosavedweldingloading;
 
     private MutableLiveData<Status> status;
@@ -35,40 +36,39 @@ public class SavepaintViewModel extends ViewModel {
         status = new MutableLiveData<>(Status.IDLE);
 
     }
-    void savepaintloading(int UserId,String DeviceSerialNo,String ProductionStationCode,String BsketCode,String loadinyqty,int  JoborderId,String parentid){
-        disposable.add(apiInterface.savepaintloadingsequence(UserId,DeviceSerialNo,ProductionStationCode,BsketCode,loadinyqty,JoborderId,parentid).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(new BiConsumer<ApiSavePaintloading<ResponseStatus>, Throwable>() {
-            @Override
-            public void accept(ApiSavePaintloading<ResponseStatus> responseStatusApiSavefirstloading, Throwable throwable) throws Exception {
-                if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
-                {
-                    typesosavedweldingloading.postValue(Typesofsavewelding.savedsucessfull);
-
-
-                }
-                else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong job order or parent id")){
-                    typesosavedweldingloading.postValue(Typesofsavewelding.wrongjoborderorparentid);
-
-
-
-                }
-                else if(responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong basket code")){
-                    typesosavedweldingloading.postValue(Typesofsavewelding.wrongbasketcode);
-
-
-                }
-
-                else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction"))
-                {
-                    typesosavedweldingloading.postValue(Typesofsavewelding.server);
-
-
-                }
-                status.postValue(Status.SUCCESS);
-            }
-        }));
+    void savepaintloading(PaintSignInData data){
+        disposable.add(apiInterface.savepaintloadingsequence(data).doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((responseStatusApiSavefirstloading, throwable) -> {
+//                    if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Saving data successfully"))
+//                    {
+//                        typesosavedweldingloading.postValue(Typesofsavewelding.savedsucessfull);
+//
+//
+//                    }
+//                    else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong job order or parent id")){
+//                        typesosavedweldingloading.postValue(Typesofsavewelding.wrongjoborderorparentid);
+//
+//
+//
+//                    }
+//                    else if(responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("Wrong basket code")){
+//                        typesosavedweldingloading.postValue(Typesofsavewelding.wrongbasketcode);
+//
+//
+//                    }
+//
+//                    else if (responseStatusApiSavefirstloading.getResponseStatus().getStatusMessage().equals("There was a server side failure while respond to this transaction"))
+//                    {
+//                        typesosavedweldingloading.postValue(Typesofsavewelding.server);
+//
+//
+//                    }
+                    status.postValue(Status.SUCCESS);
+                    responseLiveData.postValue(responseStatusApiSavefirstloading);
+                }));
 
     }
-    public MutableLiveData<ResponseStatus> getResponseLiveData() {
+    public MutableLiveData<ApiSavePaintloading<ResponseStatus>> getResponseLiveData() {
         return responseLiveData;
     }
 

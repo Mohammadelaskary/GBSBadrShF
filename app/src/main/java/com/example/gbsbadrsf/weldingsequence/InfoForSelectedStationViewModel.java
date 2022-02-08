@@ -9,6 +9,7 @@ import com.example.gbsbadrsf.data.response.Apigetinfoforselectedstation;
 import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.LoadingSequenceInfo;
 import com.example.gbsbadrsf.data.response.MachineLoading;
+import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
 import com.example.gbsbadrsf.data.response.StationLoading;
 import com.example.gbsbadrsf.data.response.Status;
@@ -28,7 +29,7 @@ public class InfoForSelectedStationViewModel extends ViewModel {
     Gson gson;
     @Inject
     ApiInterface apiinterface;
-    private MutableLiveData<ApiGetweldingloadingstartloading<Pprcontainbaskets>> responseLiveData ;
+    private MutableLiveData<ApiGetweldingloadingstartloading<PprWelding>> responseLiveData ;
     private MutableLiveData<Baskets> baskets;
 
     private MutableLiveData<Status> status;
@@ -72,7 +73,7 @@ public class InfoForSelectedStationViewModel extends ViewModel {
 
 
     }
-    public MutableLiveData<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getResponseLiveData() {
+    public MutableLiveData<ApiGetweldingloadingstartloading<PprWelding>> getResponseLiveData() {
         return responseLiveData;
     }
 

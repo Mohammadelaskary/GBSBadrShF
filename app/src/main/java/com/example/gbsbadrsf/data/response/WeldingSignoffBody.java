@@ -22,7 +22,7 @@ public class WeldingSignoffBody {
     @SerializedName("IsBulkQty")
     @Expose
     private Boolean isBulkQty;
-    @SerializedName("BasketLst")
+    @SerializedName("BasketList")
     @Expose
     private List<Basketcodelst> basketLst = null;
 

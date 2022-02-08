@@ -1,11 +1,12 @@
 package com.example.gbsbadrsf.di.module;
 
 import com.example.gbsbadrsf.ChangeBaseUrlFragment;
+import com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoFragment;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
 import com.example.gbsbadrsf.Paint.machineloadingpaint.MachineloadingpaintFragment;
 import com.example.gbsbadrsf.Paint.paintstation.Paintdstation;
-import com.example.gbsbadrsf.Paint.paintwip.PaintWip;
+import com.example.gbsbadrsf.Paint.paintwip.MainPaintWip;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.PaintProductionRepairFragment;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
@@ -45,14 +46,14 @@ import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectD
 import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectsFragment;
 import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.machineloading.MachineLoadingFragment;
-import com.example.gbsbadrsf.machinewip.MachineWip;
+import com.example.gbsbadrsf.machinewip.MachineWipMainFragment;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
 import com.example.gbsbadrsf.signin.SigninFragment;
 import com.example.gbsbadrsf.warhouse.counting.CountingFragment;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseFragment;
 import com.example.gbsbadrsf.welding.machineloadingwe.MachineloadingweFragment;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweFragment;
-import com.example.gbsbadrsf.welding.weldingwip.Weldingwip;
+import com.example.gbsbadrsf.welding.weldingwip.MainWeldingWip;
 import com.example.gbsbadrsf.weldingsequence.WeldingSequence;
 
 import dagger.Module;
@@ -91,11 +92,11 @@ public abstract class ActivityBuilderModule {
     @ContributesAndroidInjector
     abstract MachineloadingweFragment machineloadingweFragment();
     @ContributesAndroidInjector
-    abstract MachineWip machinewipFragment();
+    abstract MachineWipMainFragment machinewipFragment();
     @ContributesAndroidInjector
     abstract SignoffweFragment signoffweFragment();
     @ContributesAndroidInjector
-    abstract Weldingwip weldingwip();
+    abstract MainWeldingWip weldingwip();
     @ContributesAndroidInjector
     abstract ProductionRejectionFragment contributeProductionRejectionFragment();
     @ContributesAndroidInjector
@@ -127,7 +128,7 @@ public abstract class ActivityBuilderModule {
     @ContributesAndroidInjector
     abstract Paintdstation  contributepaintstationFragment ();
     @ContributesAndroidInjector
-    abstract PaintWip contributepaintwipFragment ();
+    abstract MainPaintWip contributepaintwipFragment ();
 
 
     @ContributesAndroidInjector
@@ -172,6 +173,9 @@ public abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector
     abstract ChangeBaseUrlFragment contributeChangeBaseUrlFragment ();
+
+    @ContributesAndroidInjector
+    abstract BasketInfoFragment contributeBasketInfoFragment ();
 
 
 

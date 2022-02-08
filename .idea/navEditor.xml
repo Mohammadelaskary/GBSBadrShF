@@ -106,6 +106,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fragment_manufacturing_basket_info">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_manufacturing_production_repair">
                     <value>
                       <LayoutPositions>
@@ -605,13 +617,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="machineWip">
+                  <entry key="machine_wip">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="2054" />
-                            <option name="y" value="7489" />
+                            <option name="x" value="256" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -670,6 +682,69 @@
                               </value>
                             </entry>
                             <entry key="action_mainScrapmanagment_to_scraprequestlist">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="main_machine_wip">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_main_machine_wip_to_machine_wip">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="main_paint_wip">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_main_paint_wip_to_paint_wip_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="main_welding_wip">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_main_welding_wip_to_welding_wip_details">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -794,6 +869,11 @@
                               </value>
                             </entry>
                             <entry key="action_manfacturingmenuFragment_to_mainmachinesignoff">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_manufacturing_menu_fragment_to_fragment_manufacturing_basket_info">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -964,18 +1044,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="paintWip">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="2054" />
-                            <option name="y" value="11092" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="paint_quality_operation_fragment">
                     <value>
                       <LayoutPositions>
@@ -993,6 +1061,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="paint_wip_details">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -1563,11 +1643,6 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_weldingMenuFragment_to_main_welding_machine_loading">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="action_weldingMenuFragment_to_qualityscraplistweFragment">
                               <value>
                                 <LayoutPositions />
@@ -1583,7 +1658,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_weldingMenuFragment_to_weldingSequence">
+                            <entry key="action_weldingMenuFragment_to_welding_production_sequence">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -1671,13 +1746,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="weldingwip">
+                  <entry key="welding_wip_details">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="2054" />
-                            <option name="y" value="1792" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

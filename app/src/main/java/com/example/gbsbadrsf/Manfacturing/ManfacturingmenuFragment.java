@@ -5,6 +5,8 @@ import static com.example.gbsbadrsf.MyMethods.MyMethods.showToolBar;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -102,6 +104,11 @@ public class ManfacturingmenuFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_machinewip);
 
         });
+        fragmentManfacturingmenuBinding.basketInfoBtn.setOnClickListener(__ -> {
+
+            Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_menu_fragment_to_fragment_manufacturing_basket_info);
+
+        });
 
 
 
@@ -109,5 +116,11 @@ public class ManfacturingmenuFragment extends Fragment {
 
 
 
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 }

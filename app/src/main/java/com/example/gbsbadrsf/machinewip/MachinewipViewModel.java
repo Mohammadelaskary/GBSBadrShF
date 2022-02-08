@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.machinewip;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.data.response.ApiResponseMachinewip;
 import com.example.gbsbadrsf.data.response.MachinesWIP;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.Status;
@@ -18,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MachinewipViewModel extends ViewModel {
-    MutableLiveData<List<MachinesWIP>> machinewipResponse;
+    MutableLiveData<ApiResponseMachinewip<List<MachinesWIP>>> machinewipResponse;
     MutableLiveData<Status> status;
 
     @Inject
@@ -42,7 +43,7 @@ public class MachinewipViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
-                        cuisines -> {machinewipResponse.postValue(cuisines.getData());
+                        response -> {machinewipResponse.postValue(response);
                             status.postValue(Status.SUCCESS);},
                         throwable -> {
                             status.postValue(Status.ERROR);
@@ -54,7 +55,7 @@ public class MachinewipViewModel extends ViewModel {
 
 
 
-    public MutableLiveData<List<MachinesWIP>> getProductionsequenceResponse() {
+    public MutableLiveData<ApiResponseMachinewip<List<MachinesWIP>>> getProductionsequenceResponse() {
         return machinewipResponse;
     }
 

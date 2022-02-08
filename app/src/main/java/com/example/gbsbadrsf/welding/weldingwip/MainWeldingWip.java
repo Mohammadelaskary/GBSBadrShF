@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Paint.paintwip;
+package com.example.gbsbadrsf.welding.weldingwip;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -15,14 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.data.response.MachinesWIP;
 import com.example.gbsbadrsf.data.response.StationsWIP;
-import com.example.gbsbadrsf.databinding.FragmentPaintWipBinding;
-import com.example.gbsbadrsf.databinding.FragmentWeldingwipBinding;
+import com.example.gbsbadrsf.databinding.FragmentMainMachineWipBinding;
+import com.example.gbsbadrsf.machinewip.MachinewipAdapter;
+import com.example.gbsbadrsf.machinewip.MachinewipViewModel;
 import com.example.gbsbadrsf.productionsequence.SimpleDividerItemDecoration;
-import com.example.gbsbadrsf.welding.weldingwip.WeldingvieModel;
-import com.example.gbsbadrsf.welding.weldingwip.WeldingwipAdapter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class PaintWip extends DaggerFragment {
-    FragmentPaintWipBinding fragmentPaintWipwipBinding;
+public class MainWeldingWip extends DaggerFragment {
+    FragmentMainMachineWipBinding fragmentWeldingwipBinding;
 
     public RecyclerView recyclerView;
     @Inject
@@ -43,48 +44,52 @@ public class PaintWip extends DaggerFragment {
 
     @Inject
     Gson gson;
-    PaintWipAdapter adapter;
+    WeldingwipAdapter adapter;
     List<StationsWIP> machineswipsequenceresponse;
-    PaintViewModel viewModel;
+    WeldingvieModel viewModel;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentPaintWipwipBinding = FragmentPaintWipBinding.inflate(inflater, container, false);
-        viewModel = ViewModelProviders.of(this, provider).get(PaintViewModel.class);
-        viewModel.getweldingpaint(USER_ID, DEVICE_SERIAL_NO);
+        fragmentWeldingwipBinding = FragmentMainMachineWipBinding.inflate(inflater, container, false);
+        viewModel = ViewModelProviders.of(this, provider).get(WeldingvieModel.class);
+        viewModel.getweldingwip(USER_ID, DEVICE_SERIAL_NO);
 
         setUpRecyclerView();
         attachListeners();
 
-        recyclerView = fragmentPaintWipwipBinding.defectqtnRv;
+        recyclerView = fragmentWeldingwipBinding.defectqtnRv;
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        return fragmentPaintWipwipBinding.getRoot();
+        return fragmentWeldingwipBinding.getRoot();
     }
 
 
     private void setUpRecyclerView() {
         machineswipsequenceresponse = new ArrayList<>();
-        adapter = new PaintWipAdapter(machineswipsequenceresponse);
-        fragmentPaintWipwipBinding.defectqtnRv.setAdapter(adapter);
-        fragmentPaintWipwipBinding.defectqtnRv.setNestedScrollingEnabled(true);
-        fragmentPaintWipwipBinding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new WeldingwipAdapter(machineswipsequenceresponse);
+        fragmentWeldingwipBinding.defectqtnRv.setAdapter(adapter);
+        fragmentWeldingwipBinding.defectqtnRv.setNestedScrollingEnabled(true);
+        fragmentWeldingwipBinding.defectqtnRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
 
     private void attachListeners() {
-        viewModel.getpaintsequenceResponse().observe(getViewLifecycleOwner(), cuisines -> {
+        viewModel.getweldingsequenceResponse().observe(getViewLifecycleOwner(), response -> {
 //            productionsequenceresponse.clear();//malosh lazma
 //            //if(cuisines!=null)
 //            productionsequenceresponse.addAll(cuisines);
 //            adapter.getproductionsequencelist(productionsequenceresponse);
-            adapter.getstationwiplist(cuisines);
+            if (response!=null) {
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully"))
+                    adapter.setStationsWIPS(response.getData());
+                else
+                    MyMethods.warningDialog(getContext(),statusMessage);
+            } else
+                MyMethods.warningDialog(getContext(),"Check your internet connection!");
         });
 
     }
-
-
-
 }

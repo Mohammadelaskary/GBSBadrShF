@@ -50,7 +50,8 @@
             android:textSize="15sp"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/details_text_style"/>
 
 
     </LinearLayout>
@@ -81,7 +82,8 @@
             android:textSize="15sp"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/child_parent_desc_style"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -108,35 +110,10 @@
             android:textSize="15sp"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/details_text_style"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/operation"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/colorPrimary"
-            android:textSize="17sp"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:gravity="end"/>
-        <TextView
-            android:id="@+id/operation_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/sequence_num"
-            android:textSize="15sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:gravity="center"/>
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -163,7 +140,8 @@
             android:textSize="15sp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            style="@style/details_text_style"/>
     </LinearLayout>
 
 

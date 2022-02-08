@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.data.response.Ppr;
-
 import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,6 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
         holder.binding.sequenceNum.setText(pprList.get(position).getLoadingSequenceNumber().toString());
         holder.binding.childDesc.setText(pprList.get(position).getChildDescription());
         holder.binding.loadingQty.setText(pprList.get(position).getLoadingQty().toString());
-        holder.binding.operationName.setText(pprList.get(position).getOperationEnName().toString());
         holder.binding.jobOrderQty.setText(pprList.get(position).getJobOrderQty().toString());
         if (position==selectedPosition)
             activateItem(holder.itemView);

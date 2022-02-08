@@ -50,7 +50,7 @@
     <string name="dep">Dep : </string>
     <string name="stauts_code">Stauts Code</string>
     <string name="parent">Parent :  </string>
-    <string name="loaing_quantites">Loaing Quantites :</string>
+    <string name="loaing_quantites">Loading Qty :</string>
     <string name="sign_off">Sign off</string>
     <string name="station">Station Code</string>
     <string name="basket">Basket</string>
@@ -166,5 +166,6 @@
     <string name="barcode">Barcode</string>
     <string name="paint_qty">Paint Qty</string>
     <string name="parent_quantity">Parent Quantity</string>
+    <string name="check_your_connection">Check your connection!</string>
 
 </resources>

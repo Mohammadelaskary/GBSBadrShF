@@ -62,7 +62,7 @@ public class ProductionSignoffAdapter extends RecyclerView.Adapter<ProductionSig
         holder.delete.setOnClickListener(__->{
 //            Basketcodelst.remove(position);
 //            notifyItemChanged(position);
-            onBasketRemoved.onBasketRemoved(Basketcodelst.get(position));
+            onBasketRemoved.onBasketRemoved(position);
         });
     }
 

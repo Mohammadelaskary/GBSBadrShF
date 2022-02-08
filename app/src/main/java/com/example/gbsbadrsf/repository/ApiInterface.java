@@ -1,10 +1,12 @@
 package com.example.gbsbadrsf.repository;
 
 import com.example.gbsbadrsf.ApiResponseTestConnectivity;
+import com.example.gbsbadrsf.Manfacturing.BasketInfo.ApiResponseBasketsWIP;
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Model.ApiResponseLastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Paint.PaintSignInData;
 import com.example.gbsbadrsf.Production.Data.ApiResponseSaveRejectionRequest;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ApiReponse.ApiResponsePaintingRepair_Production;
 import com.example.gbsbadrsf.Production.WeldingQuality.Data.ApiReponse.ApiResponseWeldingRepair_Production;
@@ -80,6 +82,7 @@ import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetRejectionRequestList;
+import com.example.gbsbadrsf.weldingsequence.StationSignIn;
 
 import java.util.List;
 
@@ -97,10 +100,9 @@ public interface ApiInterface {
     Single<APIResponse<ResponseStatus>> getproductionSequenceResponseStatus(@Query("JobOrderName") String jobordername);
 
 
-  @GET("GetWeldingLoadingSequenceByJobOrder")
+  @GET("GetWeldingLoadingSequence")
     Single<ApiResponseweldingbyjoborder<List<PprWelding>>> getweldingsequence(@Query("UserID") int userid,
-                                                                              @Query("DeviceSerialNo") String deviceserialnumber,
-                                                                              @Query("JobOrderName") String jobordername);
+                                                                              @Query("DeviceSerialNo") String deviceserialnumber);
 
     //get paint station by job order
     @GET("GetPaintingLoadingSequenceByJobOrder")
@@ -113,7 +115,7 @@ public interface ApiInterface {
 //Single<Apigetinfoforselectedstation<StationLoading>> getinfoforselectedstation(@Query("UserID") String userid,@Query("DeviceSerialNo") String deviceserialnumber,@Query("ProductionStationEnName")String ProductionStationEnName);//old
     @GET("GetWeldingLoadingSequenceStartLoading")
 //the new one of get selection info
-    Single<ApiGetweldingloadingstartloading<Pprcontainbaskets>> getweldingloadingsequence(@Query("UserID") int userid,
+    Single<ApiGetweldingloadingstartloading<PprWelding>> getweldingloadingsequence(@Query("UserID") int userid,
                                                                                           @Query("DeviceSerialNo") String deviceserialnumber,
                                                                                           @Query("LoadingSequenceID") String loadingsequenceid);
 
@@ -124,25 +126,12 @@ public interface ApiInterface {
                                                                                                       @Query("LoadingSequenceID") String loadingsequenceid);
 
     //saveweldingloadingsequence
-    @GET("SaveWeldingLoadingSequence")
-    Single<ApiSavefirstloading<ResponseStatus>> saveweldingloadingsequence(@Query("UserID") int userid,
-                                                                           @Query("DeviceSerialNo") String DeviceSerialNo,
-                                                                           @Query("ProductionStationCode") String ProductionStationCode,
-                                                                           @Query("BasketCode") String BsketCode,
-                                                                           @Query("LoadingQty") String loadinyqty,
-                                                                           @Query("JobOrderID") int JoborderId,
-                                                                           @Query("ParentID") String ParentId
-    );
+    @POST("SaveWeldingLoadingSequence")
+    Single<ApiSavefirstloading<ResponseStatus>> saveweldingloadingsequence(@Body StationSignIn stationSignIn);
 
     //savepaintloadingsequence
-    @GET("SavePaintingLoadingSequence")
-    Single<ApiSavePaintloading<ResponseStatus>> savepaintloadingsequence(@Query("UserID") int userid,
-                                                                         @Query("DeviceSerialNo") String DeviceSerialNo,
-                                                                         @Query("ProductionStationCode") String ProductionStationCode,
-                                                                         @Query("BasketCode") String BsketCode,
-                                                                         @Query("LoadingQty") String loadinyqty,
-                                                                         @Query("JobOrderID") int JoborderId,
-                                                                         @Query("ParentID") String ParentId
+    @POST("SavePaintingLoadingSequence")
+    Single<ApiSavePaintloading<ResponseStatus>> savepaintloadingsequence(@Body PaintSignInData data
     );
 
     //GetCountingdata
@@ -185,7 +174,7 @@ public interface ApiInterface {
 
     //Getpaintwip
     @GET("GetStationsWIP_Painting")
-    Single<ApiResponsePaintwip<List<StationsWIP>>> getpaintwip(@Query("UserID") int userid,
+    Single<ApiResponseStationwip<List<StationsWIP>>> getpaintwip(@Query("UserID") int userid,
                                                                @Query("DeviceSerialNo") String deviceserialnumber);
 
 
@@ -195,6 +184,11 @@ public interface ApiInterface {
                                                                             @Query("DeviceSerialNo") String DeviceSerialNo,
                                                                             @Query("ProductionStationCode") String ProductionStationCode);
 
+  @GET("GetManufacturingBasketWIP")
+  Single<ApiResponseBasketsWIP> GetManufacturingBasketWIP(@Query("UserID") int userid,
+                                                          @Query("DeviceSerialNo") String DeviceSerialNo,
+                                                          @Query("BasketCode") String BasketCode);
+
 
     @GET("SignIn")
     Single<APIResponseSignin<UserInfo>> login(@Query("Username") String username,
@@ -202,7 +196,8 @@ public interface ApiInterface {
 
     @GET("GetInfoForSelectedLoadingSequence")
     Single<APIResponseLoadingsequenceinfo<LoadingSequenceInfo>> loadingswquenceinfo(@Query("UserID") int username,
-                                                                                    @Query("DeviceSerialNo") String deviceserialnumber, @Query("LoadingSequenceID") int loadingsequenceid);
+                                                                                    @Query("DeviceSerialNo") String deviceserialnumber,
+                                                                                    @Query("LoadingSequenceID") int loadingsequenceid);
 
     @GET("SaveFistLoadingSequence")
     Single<ApiSavefirstloading<ResponseStatus>> savefirstloading(@Query("UserID") int userid,
@@ -210,7 +205,7 @@ public interface ApiInterface {
                                                                  @Query("LoadingSequenceID") int loadingsequenceid,
                                                                  @Query("MachineCode") String machinecode,
                                                                  @Query("DieCode") String DieCode,
-                                                                 @Query(" LoadingQtyMobile") String loadinyqtymobile
+                                                                 @Query("LoadingQtyMobile") String loadinyqtymobile
     );
 
     @POST("MachineSignOff")
@@ -222,10 +217,14 @@ public interface ApiInterface {
 
     //get machine code in signoff
     @GET("GetInfoForSelectedMachine")
-    Single<Apigetmachinecode<MachineLoading>> getmachinecodedata(@Query("UserID") int userid, @Query("DeviceSerialNo") String devicenumber, @Query("MachineCode") String machinecode);
+    Single<Apigetmachinecode<MachineLoading>> getmachinecodedata(@Query("UserID") int userid,
+                                                                 @Query("DeviceSerialNo") String devicenumber,
+                                                                 @Query("MachineCode") String machinecode);
 
     @GET("GetSecondLoading")
-    Single<Apigetbasketcode<LastMoveManufacturingBasketInfo>> getbasketcodedata(@Query("UserID") int userid, @Query("DeviceSerialNo") String devicenumber, @Query("BasketCode") String basketcode);
+    Single<Apigetbasketcode<LastMoveManufacturingBasketInfo>> getbasketcodedata(@Query("UserID") int userid,
+                                                                                @Query("DeviceSerialNo") String devicenumber,
+                                                                                @Query("BasketCode") String basketcode);
 
     @GET("ContinueLoading")
     Single<ApiContinueloading<ResponseStatus>> savecontinueloading(@Query("UserID") int userid,

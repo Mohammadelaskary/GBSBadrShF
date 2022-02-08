@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Sign Off Quantity"
+        android:text="Sign Off"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,15 +60,15 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
-                app:startIconDrawable="@drawable/ic_barcode_icon"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/ic_barcode_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/station_newedt"
@@ -76,164 +76,227 @@
                     android:layout_height="wrap_content"
                     android:hint="Station code"
                     android:imeOptions="actionGo"
-                    android:maxLines="1"
                     android:lines="1"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <TextView
-                android:id="@+id/parent_txt"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/data_layout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/parent"
-                style="@style/styleoftextbold"
-                app:layout_constraintStart_toStartOf="@id/station_edt"
-                app:layout_constraintTop_toBottomOf="@id/station_edt"
-                android:layout_marginTop="10dp"
-                />
-            <TextView
-                android:id="@+id/parentcode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginStart="2dp"
-                style="@style/styleoftext"
-                app:layout_constraintStart_toEndOf="@id/parent_txt"
-                app:layout_constraintTop_toTopOf="@id/parent_txt"
-                android:layout_marginTop="2dp"
-                />
-            <TextView
-                android:id="@+id/parentdesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginTop="10dp"
-                style="@style/styleoftext"
-                app:layout_constraintStart_toStartOf="@id/parentcode"
-                app:layout_constraintTop_toBottomOf="@+id/parentcode"
-                />
-            <TextView
-                android:id="@+id/jobordername_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                style="@style/styleoftextbold"
-                android:text="@string/job_order_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/parentdesc"
-                />
-            <TextView
-                android:id="@+id/jobordername"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginStart="2dp"
-                style="@style/styleoftext"
-                app:layout_constraintStart_toEndOf="@id/jobordername_txt"
-                app:layout_constraintTop_toTopOf="@id/jobordername_txt"
-                android:layout_marginTop="2dp"
-                />
-            <TextView
-                android:id="@+id/operationname_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="15dp"
-                style="@style/styleoftextbold"
-                android:text="@string/job_order_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/jobordername_txt"
-                />
-            <TextView
-                android:id="@+id/operationname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginStart="2dp"
-                style="@style/styleoftext"
-                app:layout_constraintStart_toEndOf="@id/operationname_txt"
-                app:layout_constraintTop_toTopOf="@id/operationname_txt"
-                android:layout_marginTop="2dp"
-                />
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/station_edt"
+                app:layout_constraintStart_toStartOf="@+id/station_edt"
+                app:layout_constraintTop_toBottomOf="@+id/station_edt">
 
 
+                <TextView
+                    android:id="@+id/parent_desc"
+                    style="@style/child_parent_desc_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Parent Description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/loadingqtn_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/operationname_txt"
-                app:layout_constraintStart_toStartOf="@id/operationname_txt"
-                android:layout_marginTop="25dp"
-                android:text="@string/loadingqtn"
-                style="@style/styleoftextbold"
-                />
-            <TextView
-                android:id="@+id/loadingqtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/loadingqtn_txt"
-                app:layout_constraintStart_toStartOf="@id/loadingqtn_txt"
-                app:layout_constraintEnd_toEndOf="@id/loadingqtn_txt"
-                android:layout_marginTop="15dp"
-                android:text=""
-                style="@style/styleoftext"
-                />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/job_order_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-16dp"
+                    android:background="@drawable/job_order_data_background"
+                    android:padding="15dp"
+                    android:paddingStart="15dp"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/jobordernum_txt">
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/qtn_txt"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/basketqtn_edt"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                android:text="@string/sign_off_qty"-->
-            <!--                android:layout_marginTop="25dp"-->
-            <!--                android:layout_marginEnd="55dp"-->
-            <!--                style="@style/styleoftextbold"-->
-            <!--                />-->
-            <!--            <TextView-->
-            <!--                android:id="@+id/signoff_qtn"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/qtn_txt"-->
-            <!--                app:layout_constraintStart_toStartOf="@id/qtn_txt"-->
-            <!--                app:layout_constraintEnd_toEndOf="@id/qtn_txt"-->
-            <!--                android:layout_marginTop="15dp"-->
-            <!--                android:text="120"-->
-            <!--                style="@style/styleoftext"-->
-            <!--                />-->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_btn"
-                android:layout_width="200dp"
-                android:layout_height="55dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signoffitems_btn"
-                android:backgroundTint="@color/appbarcolor"
-                android:layout_marginTop="15dp"
-                app:cornerRadius="25dp"
-                android:text="@string/save"
-                style="@style/styleoftextinbtn"
 
-                />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/signoffitems_btn"
-                android:layout_width="200dp"
-                android:layout_height="55dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loadingqtn"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:backgroundTint="@color/appbarcolor"
-                android:layout_marginTop="15dp"
-                app:cornerRadius="25dp"
-                android:text="@string/signoff_items"
-                style="@style/styleoftextinbtn"
+                    <TextView
+                        android:id="@+id/jobordernum"
+                        style="@style/details_text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                />
+                    <TextView
+                        android:id="@+id/Joborderqtn"
+                        style="@style/details_text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/jobordernum"
+                        app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/jobordernum_txt"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/job_order_txt_background"
+                    android:text="Job Order"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/parent_desc" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sign_off_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-16dp"
+                    android:background="@drawable/job_order_data_background"
+                    android:padding="15dp"
+                    android:paddingStart="15dp"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sign_off_qty_txt">
+
+
+                    <TextView
+                        android:id="@+id/loading_qty"
+                        style="@style/details_text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView20"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        style="@style/styleoftextbold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Sign off"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/loading_qty" />
+
+                    <TextView
+                        android:id="@+id/sign_off_qty"
+                        style="@style/details_text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/loading_qty"
+                        app:layout_constraintTop_toTopOf="@+id/textView1" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        style="@style/styleoftextbold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loading"
+                        android:textSize="17dp"
+                        app:layout_constraintBottom_toBottomOf="@id/loading_qty"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/loading_qty" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/sign_off_qty_txt"
+                    style="@style/styleoftextbold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/job_order_txt_background"
+                    android:text="Qty"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/job_order_data" />
+
+                <TextView
+                    android:id="@+id/operationname"
+                    style="@style/operation_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sign_off_data" />
+
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/qtn_txt"-->
+                <!--                android:layout_width="0dp"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                app:layout_constraintTop_toBottomOf="@id/basketqtn_edt"-->
+                <!--                app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                android:text="@string/sign_off_qty"-->
+                <!--                android:layout_marginTop="25dp"-->
+                <!--                android:layout_marginEnd="55dp"-->
+                <!--                style="@style/styleoftextbold"-->
+                <!--                />-->
+                <!--            <TextView-->
+                <!--                android:id="@+id/signoff_qtn"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                app:layout_constraintTop_toBottomOf="@id/qtn_txt"-->
+                <!--                app:layout_constraintStart_toStartOf="@id/qtn_txt"-->
+                <!--                app:layout_constraintEnd_toEndOf="@id/qtn_txt"-->
+                <!--                android:layout_marginTop="15dp"-->
+                <!--                android:text="120"-->
+                <!--                style="@style/styleoftext"-->
+                <!--                />-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/save_btn"
+                    style="@style/styleoftextinbtn"
+                    android:layout_width="200dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/appbarcolor"
+                    android:text="@string/save"
+                    app:cornerRadius="25dp"
+                    app:icon="@drawable/ic__save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/signoffitems_btn"
+
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/signoffitems_btn"
+                    style="@style/styleoftextinbtn"
+                    android:layout_width="200dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/appbarcolor"
+                    android:text="Add Baskets"
+                    app:cornerRadius="25dp"
+                    app:icon="@drawable/ic_add"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/operationname"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

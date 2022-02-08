@@ -9,7 +9,7 @@ public class ApiResponseweldingbyjoborder<T> {
     @SerializedName("responseStatus")
     @Expose
     private ResponseStatus responseStatus;
-    @SerializedName("pPR")
+    @SerializedName("pprList")
     @Expose
     private T data;
     public ResponseStatus getResponseStatus() {

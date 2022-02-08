@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Paint.paintwip;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -17,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintViewModel extends ViewModel {
-    MutableLiveData<List<StationsWIP>> paintwipResponse;
+    MutableLiveData<ApiResponseStationwip<List<StationsWIP>>> paintwipResponse;
     MutableLiveData<Status> status;
 
     @Inject
@@ -41,7 +42,7 @@ public class PaintViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
-                        cuisines -> {paintwipResponse.postValue(cuisines.getData());
+                        response -> {paintwipResponse.postValue(response);
                             status.postValue(Status.SUCCESS);},
                         throwable -> {
                             status.postValue(Status.ERROR);
@@ -53,7 +54,7 @@ public class PaintViewModel extends ViewModel {
 
 
 
-    public MutableLiveData<List<StationsWIP>> getpaintsequenceResponse() {
+    public MutableLiveData<ApiResponseStationwip<List<StationsWIP>>> getpaintsequenceResponse() {
         return paintwipResponse;
     }
 

@@ -2,15 +2,18 @@ package com.example.gbsbadrsf.welding.machineloadingwe;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.net.LinkAddress;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -25,9 +28,14 @@ import android.widget.Toast;
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.data.response.Baskets;
+import com.example.gbsbadrsf.data.response.PprWelding;
+import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.databinding.FragmentMachineloadingweBinding;
 import com.example.gbsbadrsf.weldingsequence.InfoForSelectedStationViewModel;
+import com.example.gbsbadrsf.weldingsequence.StationSignIn;
+import com.example.gbsbadrsf.weldingsequence.WeldingSequence;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -36,7 +44,9 @@ import com.honeywell.aidc.ScannerUnavailableException;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 import com.honeywell.aidc.UnsupportedPropertyException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -55,31 +65,47 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
     InfoForSelectedStationViewModel infoForSelectedStationViewModel;
     SaveweldingViewModel saveweldingViewModel;
     private ResponseStatus responseStatus;
+    List<String> basketCodes = new ArrayList<>();
+    List<String> addedBasketCodes = new ArrayList<>();
+    BasketCodesAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMachineloadingweBinding.inflate(inflater, container, false);
         saveweldingViewModel = ViewModelProviders.of(this, providerFactory).get(SaveweldingViewModel.class);
-        infoForSelectedStationViewModel = ViewModelProviders.of(this, providerFactory).get(InfoForSelectedStationViewModel.class);
+        infoForSelectedStationViewModel = WeldingSequence.infoForSelectedStationViewModel;
         barcodeReader = MainActivity.getBarcodeObject();
 
 
-        initObjects();
+//        initObjects();
         subscribeRequest();
         getdata();
         addTextWatcher();
+        setUpRecyclerView();
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String stationCode = binding.stationcodeEdt.getEditText().getText().toString().trim();
-                String childBasketCode = binding.childbasketcodeEdt.getEditText().getText().toString().trim();
-                if (stationCode.isEmpty())
+                if (stationCode.isEmpty()) {
                     binding.stationcodeEdt.setError("Please scan or enter a valid station code!");
-                if (childBasketCode.isEmpty())
+                    binding.stationcodeEdt.getEditText().requestFocus();
+                }
+                if (addedBasketCodes.isEmpty()) {
                     binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
-                if (!stationCode.isEmpty()&&!childBasketCode.isEmpty()) {
-                    saveweldingViewModel.saveweldingloading(USER_ID, DEVICE_SERIAL_NO, binding.stationcodeNewedttxt.getText().toString(), binding.childbasketcodeNewedttxt.getText().toString(), binding.loadingqtns.getText().toString(), getArguments().getInt("jobOrderId"), getArguments().getString("parentid"));
+                    binding.childbasketcodeEdt.getEditText().requestFocus();
+                }
+                if (!stationCode.equals(currentStationCode)) {
+                    binding.stationcodeEdt.setError("Scanned station code doesn't match, Please scan the correct station code!");
+                    binding.stationcodeEdt.getEditText().requestFocus();
+                }
+                if (addedBasketCodes.size()!=basketCodes.size()) {
+                    binding.childbasketcodeEdt.setError("Please scan or enter all baskets!");
+                    binding.childbasketcodeEdt.getEditText().requestFocus();
+                }
+                if (!stationCode.isEmpty()&&!addedBasketCodes.isEmpty()&&basketCodes.size()==addedBasketCodes.size()&&stationCode.equals(currentStationCode)) {
+                    StationSignIn stationSignIn = new StationSignIn(USER_ID,DEVICE_SERIAL_NO, ppr.getLoadingSequenceID(), ppr.getProductionStationCode(), ppr.getLoadingQty(),addedBasketCodes);
+                    saveweldingViewModel.saveweldingloading(stationSignIn);
                 }
             }
         });
@@ -129,54 +155,106 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
 
     }
 
+    private void setUpRecyclerView() {
+        adapter = new BasketCodesAdapter(addedBasketCodes);
+        binding.baskets.setAdapter(adapter);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        binding.baskets.setLayoutManager(manager);
+    }
+
     private void addTextWatcher() {
         clearInputLayoutError(binding.stationcodeEdt);
         clearInputLayoutError(binding.childbasketcodeEdt);
+        binding.childbasketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    String basketCode = binding.childbasketcodeEdt.getEditText().getText().toString().trim();
+                    if (!basketCodes.contains(basketCode))
+                        binding.childbasketcodeEdt.setError("Scanned basket doesn't match stored baskets!");
+                    if (addedBasketCodes.contains(basketCode))
+                        binding.childbasketcodeEdt.setError("Basket is already added before!");
+                    if (basketCodes.contains(basketCode)&&!addedBasketCodes.contains(basketCode)){
+                        addedBasketCodes.add(basketCode);
+                        adapter.notifyItemInserted(addedBasketCodes.size());
+                        binding.childbasketcodeEdt.getEditText().setText("");
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 
-    private void initObjects() {
-        binding.parentcode.setText(getArguments().getString("parentcode"));
-        binding.parentdesc.setText(getArguments().getString("parentdesc"));
-        binding.operation.setText(getArguments().getString("operationrname"));
-        binding.loadingqtns.setText(getArguments().getString("loadingqty"));
-        binding.childqtn.setText(getArguments().getString("basketcode"));
-    }
+//    private void initObjects() {
+//        binding.parentcode.setText(getArguments().getString("parentcode"));
+//        binding.parentdesc.setText(getArguments().getString("parentdesc"));
+//        binding.operation.setText(getArguments().getString("operationrname"));
+//        binding.loadingqtns.setText(getArguments().getString("loadingqty"));
+//        binding.childqtn.setText(getArguments().getString("basketcode"));
+//    }
+    PprWelding  ppr;
+    String currentStationCode;
     public void getdata() {
-        infoForSelectedStationViewModel.getBaskets().observe(getViewLifecycleOwner(), cuisines -> {
-            if (cuisines!=null)
-            binding.childqtn.setText(cuisines.getBasketCode());
-            else
+        infoForSelectedStationViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+            if (response!=null) {
+                ppr = response.getData();
+                binding.parentdesc.setText(ppr.getParentDescription());
+                binding.operation.setText(ppr.getOperationEnName());
+                binding.loadingQty.setText(String.valueOf(ppr.getLoadingQty()));
+                currentStationCode = ppr.getProductionStationCode();
+//                binding.childqtn.setText(response.getBaskets().get(0).getBasketCode());
+                for(Baskets baskets: response.getBaskets()){
+                    basketCodes.add(baskets.getBasketCode());
+                }
+            } else
                 warningDialog(getContext(),"Error in getting data!");
-            //fragmentMachineloadingweBinding.childcode.setText(cuisines.getJobOrderId());
-
-
 
         });
     }
 
     private void subscribeRequest() {
-        saveweldingViewModel.gettypesofsavedloading().observe(getViewLifecycleOwner(), new Observer<Typesofsavewelding>() {
-            @Override
-            public void onChanged(Typesofsavewelding typesofsavewelding) {
-                switch (typesofsavewelding)
-                {
-                    case savedsucessfull: {
+        saveweldingViewModel.getSaveFirstLoadingResponse().observe(getViewLifecycleOwner(), response -> {
+//            switch (typesofsavewelding)
+//            {
+//                case savedsucessfull: {
+//                    Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
+//                    back(MachineloadingweFragment.this);
+//                }break;
+//                case wrongjoborderorparentid:
+//                    warningDialog(getContext(),"Wrong job order or parent id");
+//                    break;
+//
+//                case wrongbasketcode:
+//                    binding.childbasketcodeEdt.setError("Wrong basket code");
+//                    break;
+//                case server:
+//                    warningDialog(getContext(),"There was a server side failure while respond to this transaction");
+//                    break;
+//            }
+            if (response!=null){
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                switch (statusMessage) {
+                    case "Saving data successfully": {
                         Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
                         back(MachineloadingweFragment.this);
-                    }break;
-                    case wrongjoborderorparentid:
-                        warningDialog(getContext(),"Wrong job order or parent id");
-                        break;
-
-                    case wrongbasketcode:
-                        binding.childbasketcodeEdt.setError("Wrong basket code");
-                        break;
-                    case server:
-                        warningDialog(getContext(),"There was a server side failure while respond to this transaction");
+                    }
+                    break;
+                    default:
+                        warningDialog(getContext(), statusMessage);
                         break;
                 }
-            }
+            } else
+                warningDialog(getContext(),"Error in saving data!");
         });
 
 
@@ -192,7 +270,19 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                     binding.childbasketcodeEdt.getEditText().requestFocus();
                 }
                 else if (binding.childbasketcodeNewedttxt.isFocused()){
-                    binding.childbasketcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
+                    String scannedCode = String.valueOf(barcodeReadEvent.getBarcodeData());
+                    binding.childbasketcodeNewedttxt.setText(scannedCode);
+                    if (!basketCodes.contains(scannedCode))
+                        binding.childbasketcodeEdt.setError("Scanned basket doesn't match stored baskets!");
+                    if (addedBasketCodes.contains(scannedCode))
+                        binding.childbasketcodeEdt.setError("Basket is already added before!");
+                    if (basketCodes.contains(scannedCode)&&!addedBasketCodes.contains(scannedCode)){
+                        addedBasketCodes.add(scannedCode);
+                        adapter.notifyItemInserted(addedBasketCodes.size());
+                        binding.childbasketcodeEdt.getEditText().setText("");
+                        binding.childbasketcodeEdt.getEditText().requestFocus();
+                    }
+
                 }
 
 
@@ -232,21 +322,23 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
             } catch (ScannerUnavailableException e) {
                 e.printStackTrace();
             }
-            getView().setFocusableInTouchMode(true);
-            getView().requestFocus();
-            getView().setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                        // handle back button's click listener
-                        Navigation.findNavController(getView()).popBackStack(R.id.weldingSequence,true);
-
-
-                        return true;
-                    }
-                    return false;
-                }
-            });
+            changeTitle("Welding",(MainActivity) getActivity());
+            binding.stationcodeEdt.getEditText().requestFocus();
+//            getView().setFocusableInTouchMode(true);
+//            getView().requestFocus();
+//            getView().setOnKeyListener(new View.OnKeyListener() {
+//                @Override
+//                public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                        // handle back button's click listener
+//                        Navigation.findNavController(getView()).popBackStack(R.id.weldingSequence,true);
+//
+//
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
         }
     }
 
@@ -256,7 +348,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
+//            barcodeReader.release();
         }
     }
 

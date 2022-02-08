@@ -1,9 +1,12 @@
 package com.example.gbsbadrsf.data.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Pprcontainbaskets {
+public class Pprcontainbaskets implements Parcelable {
     @SerializedName("loadingSequenceID")
     @Expose
     private Integer loadingSequenceID;
@@ -85,6 +88,110 @@ public class Pprcontainbaskets {
     @SerializedName("loadingSequenceStatus")
     @Expose
     private Integer loadingSequenceStatus;
+
+    protected Pprcontainbaskets(Parcel in) {
+        if (in.readByte() == 0) {
+            loadingSequenceID = null;
+        } else {
+            loadingSequenceID = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            sequenceId = null;
+        } else {
+            sequenceId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            salesPlanID = null;
+        } else {
+            salesPlanID = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            jobOrderID = null;
+        } else {
+            jobOrderID = in.readInt();
+        }
+        jobOrderName = in.readString();
+        jobOrderDate = in.readString();
+        if (in.readByte() == 0) {
+            loadingSequenceNumber = null;
+        } else {
+            loadingSequenceNumber = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            parentID = null;
+        } else {
+            parentID = in.readInt();
+        }
+        parentCode = in.readString();
+        parentDescription = in.readString();
+        if (in.readByte() == 0) {
+            childID = null;
+        } else {
+            childID = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            operationId = null;
+        } else {
+            operationId = in.readInt();
+        }
+        operationEnName = in.readString();
+        if (in.readByte() == 0) {
+            productionStationtId = null;
+        } else {
+            productionStationtId = in.readInt();
+        }
+        productionStationCode = in.readString();
+        productionStationEnName = in.readString();
+        if (in.readByte() == 0) {
+            jobOrderQty = null;
+        } else {
+            jobOrderQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            loadingQty = null;
+        } else {
+            loadingQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            signInQty = null;
+        } else {
+            signInQty = in.readInt();
+        }
+        startDay = in.readString();
+        if (in.readByte() == 0) {
+            noOfDays = null;
+        } else {
+            noOfDays = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            signOutQty = null;
+        } else {
+            signOutQty = in.readInt();
+        }
+        loadingDate = in.readString();
+        if (in.readByte() == 0) {
+            availableloadingQty = null;
+        } else {
+            availableloadingQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            loadingSequenceStatus = null;
+        } else {
+            loadingSequenceStatus = in.readInt();
+        }
+    }
+
+    public static final Creator<Pprcontainbaskets> CREATOR = new Creator<Pprcontainbaskets>() {
+        @Override
+        public Pprcontainbaskets createFromParcel(Parcel in) {
+            return new Pprcontainbaskets(in);
+        }
+
+        @Override
+        public Pprcontainbaskets[] newArray(int size) {
+            return new Pprcontainbaskets[size];
+        }
+    };
 
     public Integer getLoadingSequenceID() {
         return loadingSequenceID;
@@ -300,5 +407,119 @@ public class Pprcontainbaskets {
 
     public void setLoadingSequenceStatus(Integer loadingSequenceStatus) {
         this.loadingSequenceStatus = loadingSequenceStatus;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (loadingSequenceID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(loadingSequenceID);
+        }
+        if (sequenceId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(sequenceId);
+        }
+        if (salesPlanID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(salesPlanID);
+        }
+        if (jobOrderID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderID);
+        }
+        dest.writeString(jobOrderName);
+        dest.writeString(jobOrderDate);
+        if (loadingSequenceNumber == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(loadingSequenceNumber);
+        }
+        if (parentID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(parentID);
+        }
+        dest.writeString(parentCode);
+        dest.writeString(parentDescription);
+        if (childID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(childID);
+        }
+        if (operationId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationId);
+        }
+        dest.writeString(operationEnName);
+        if (productionStationtId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(productionStationtId);
+        }
+        dest.writeString(productionStationCode);
+        dest.writeString(productionStationEnName);
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        if (loadingQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(loadingQty);
+        }
+        if (signInQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(signInQty);
+        }
+        dest.writeString(startDay);
+        if (noOfDays == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(noOfDays);
+        }
+        if (signOutQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(signOutQty);
+        }
+        dest.writeString(loadingDate);
+        if (availableloadingQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(availableloadingQty);
+        }
+        if (loadingSequenceStatus == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(loadingSequenceStatus);
+        }
     }
 }

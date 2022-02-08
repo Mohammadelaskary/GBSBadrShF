@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Manfacturing.machinesignoff;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -23,6 +24,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
@@ -75,6 +77,8 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         machinesignoffViewModel = ViewModelProviders.of(this, providerFactory).get(MachinesignoffViewModel.class);
         barcodeReader = MainActivity.getBarcodeObjectsequence();
         progressDialog= loadingProgressDialog(getContext());
+        binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
+        binding.saveBtn.setIconResource(R.drawable.ic__save);
         observeStatus();
         binding.machinecodeNewedttxt.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -195,28 +199,36 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 if(response.getData()!=null) {
-                    childCode = response.getData().getChildCode();
-                    binding.childesc.setText(response.getData().getChildDescription());
-                    binding.childcode.setText(response.getData().getChildCode());
-                    binding.jobordernum.setText(response.getData().getJobOrderName());
-                    binding.operation.setText(response.getData().getOperationEnName());
-                    binding.loadingqtn.setText(String.valueOf(response.getData().getLoadingQty()));
+                    int loadingQty = response.getData().getLoadingQty();
+                    if (loadingQty!=0) {
+                        binding.dataLayout.setVisibility(View.VISIBLE);
+                        childCode = response.getData().getChildCode();
+                        binding.childesc.setText(response.getData().getChildDescription());
+                        binding.jobordernum.setText(response.getData().getJobOrderName());
+                        binding.operation.setText(response.getData().getOperationEnName());
+//                        binding.loadingQty.setText(String.valueOf(loadingQty));
+//                        binding.signoffqty.setText(response.getData().get);
+                        binding.Joborderqtn.setText(String.valueOf(response.getData().getLoadingQty()));
+                    } else {
+                        binding.dataLayout.setVisibility(View.GONE);
+                        warningDialog(getContext(),"Error in loading quantity!");
+                    }
                 } else {
                     childCode = null;
+                    binding.dataLayout.setVisibility(View.GONE);
                     binding.childesc.setText("");
-                    binding.childcode.setText("");
                     binding.jobordernum.setText("");
                     binding.operation.setText("");
-                    binding.loadingqtn.setText("");
+                    binding.Joborderqtn.setText("");
                     binding.machinecodeEdt.setError(statusMessage);
                 }
             } else {
                 childCode = null;
+                binding.dataLayout.setVisibility(View.GONE);
                 binding.childesc.setText("");
-                binding.childcode.setText("");
                 binding.jobordernum.setText("");
                 binding.operation.setText("");
-                binding.loadingqtn.setText("");
+                binding.Joborderqtn.setText("");
             }
 
 
@@ -235,17 +247,20 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 }catch (Exception e){
                     c.setTotalQty(0);
                 }*/
-                if (childCode!=null) {
+                String machineCode = binding.machinecodeEdt.getEditText().getText().toString().trim();
+                if (!machineCode.isEmpty()) {
                     String childDesc = binding.childesc.getText().toString().trim();
-                    String loadingQty = binding.loadingqtn.getText().toString().trim();
+                    String loadingQty = binding.Joborderqtn.getText().toString().trim();
+//                    String loadingQty = binding.loadingQty.getText().toString();
                     Signoffitemsdialog dialog = new Signoffitemsdialog(getContext(), childDesc, loadingQty, (input, bulk) -> {
                         basketList = input;
                         isBulk = bulk;
                     }, isBulk, basketList,getActivity());
                     dialog.show();
+                    dialog.setCancelable(false);
                     dialog.setOnDismissListener(dialog1 -> {
                         if (basketList.isEmpty()){
-                            binding.signoffitemsBtn.setText("Add to baskets");
+                            binding.signoffitemsBtn.setText("Add baskets");
                             binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.appbarcolor));
                             binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
                         } else {
@@ -264,11 +279,12 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (childCode==null)
+                String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
+                if (machineCode.isEmpty())
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
-                if (basketList ==null)
+                if (basketList.isEmpty())
                     warningDialog(getContext(),"Please enter at least 1 basket code!");
-                if (childCode!=null&& basketList !=null) {
+                if (!machineCode.isEmpty()&& !basketList.isEmpty()) {
                     MachineSignoffBody machineSignoffBody = new MachineSignoffBody();
                     machineSignoffBody.setMachineCode(binding.machinecodeNewedttxt.getText().toString());
                     machineSignoffBody.setUserID(USER_ID );
@@ -367,7 +383,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 e.printStackTrace();
             }
         }
-        Log.d("lifeCycle","onResume()");
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 
     @Override

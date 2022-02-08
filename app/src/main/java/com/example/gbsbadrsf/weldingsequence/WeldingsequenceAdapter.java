@@ -25,6 +25,8 @@ import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
 import com.example.gbsbadrsf.databinding.WeldingsequenceRvBinding;
 import com.example.gbsbadrsf.productionsequence.productionsequenceadapter;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class WeldingsequenceAdapter extends RecyclerView.Adapter<WeldingsequenceAdapter.WeldingsequenceViewHolder> {
@@ -40,6 +42,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
 
     public void setPprList(List<PprWelding> pprList) {
         this.pprList = pprList;
+        Collections.sort(this.pprList,(o1, o2) -> o1.getLoadingSequenceNumber().compareTo(o2.getLoadingSequenceNumber()));
     }
 
     @NonNull
@@ -48,26 +51,25 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
         ProductionsequenceRvBinding productionsequenceRvBinding = ProductionsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new WeldingsequenceAdapter.WeldingsequenceViewHolder(productionsequenceRvBinding);
     }
-    int selectedPosition = -1;
+    int selectedSequenceNo = -1;
     @Override
     public void onBindViewHolder(@NonNull WeldingsequenceAdapter.WeldingsequenceViewHolder holder, int position) {
         holder.binding.sequenceNum.setText(pprList.get(position).getLoadingSequenceNumber().toString());
         holder.binding.childTxt.setText("Parent");
         holder.binding.childDesc.setText(pprList.get(position).getParentDescription());
         holder.binding.loadingQty.setText(pprList.get(position).getLoadingQty().toString());
-        holder.binding.operationName.setText(pprList.get(position).getOperationEnName().toString());
         holder.binding.jobOrderQty.setText(pprList.get(position).getJobOrderQty().toString());
-        if (position==selectedPosition)
+        if (pprList.get(position).getLoadingSequenceNumber()==selectedSequenceNo)
             activateItem(holder.itemView);
         else
             deactivateItem(holder.itemView);
         holder.itemView.setOnClickListener(v->{
-            selectedPosition = holder.getAdapterPosition();
-            if (selectedPosition==0) {
-                onWeldingCheckedChangedListener.onWeldingCheckedChanged(pprList.get(position));
+            selectedSequenceNo = pprList.get(position).getLoadingSequenceNumber();
+            if (selectedSequenceNo==1) {
+                onWeldingCheckedChangedListener.onWeldingCheckedChanged(pprList.get(position).getLoadingSequenceID());
                 notifyDataSetChanged();
             } else
-                warningDialog(v.getContext(), "You must select first ppr!");
+                warningDialog(v.getContext(), "You must select the ppr with sequence no equal 1!");
         });
     }
 
@@ -93,7 +95,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
 
     }
     public interface onWeldingCheckedChangedListener{
-        void onWeldingCheckedChanged(PprWelding item);
+        void onWeldingCheckedChanged(int id);
     }
 
 

@@ -1,7 +1,11 @@
 package com.example.gbsbadrsf;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -60,5 +64,11 @@ public class QualityScrapFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_qualityscraprequest, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 }

@@ -1,7 +1,11 @@
 package com.example.gbsbadrsf.Manfacturing.machineloading;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -9,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.FragmentMainmachineloadingBinding;
 import com.example.gbsbadrsf.databinding.FragmentPaintdstationBinding;
@@ -57,5 +62,11 @@ public class Mainmachineloading extends Fragment {
         });
 
 
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 }

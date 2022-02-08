@@ -2,6 +2,7 @@ package com.example.gbsbadrsf;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.Util.Constant.BASE_URL;
 
 import android.app.AlarmManager;
@@ -174,4 +175,9 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         System.exit(0);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Settings",(MainActivity) getActivity());
+    }
 }

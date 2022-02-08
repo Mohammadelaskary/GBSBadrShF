@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -65,5 +67,11 @@ public class ProductionMenuFragment extends Fragment {
 
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Production",(MainActivity) getActivity());
     }
 }

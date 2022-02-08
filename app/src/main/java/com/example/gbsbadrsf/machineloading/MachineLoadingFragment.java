@@ -249,9 +249,9 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
             binding.jobordernum.setText(ppr.getJobOrderName());
             binding.Joborderqtn.setText(String.valueOf(ppr.getJobOrderQty()));
             binding.childesc.setText(ppr.getChildDescription());
-            binding.childcode.setText(ppr.getChildCode());
             binding.loadingsequenceid.setText(String.valueOf(ppr.getLoadingSequenceID()));
-            binding.availableQty.setText(String.valueOf(ppr.getAvailableloadingQty()));
+            binding.loadingqtnEdt.getEditText().setText(String.valueOf(ppr.getLoadingQty()));
+            binding.operation.setText(ppr.getOperationEnName());
             remainQty = ppr.getAvailableloadingQty();
             loadingSequenceId = ppr.getLoadingSequenceID();
             requiredDieCode = ppr.getDieCode();

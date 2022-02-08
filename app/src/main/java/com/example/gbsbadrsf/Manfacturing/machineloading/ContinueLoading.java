@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Manfacturing.machineloading;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
@@ -284,20 +285,18 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 if (response.getData()!=null) {
                     childCode = response.getData().getChildCode();
                     binding.childesc.setText(response.getData().getChildDescription());
-                    binding.childcode.setText(response.getData().getChildCode());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
+                    binding.operation.setText(response.getData().getNextOperationName());
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                     qty = response.getData().getQty();
+                    binding.machinecodeEdt.getEditText().requestFocus();
                 } else {
                     binding.basketcodeEdt.setError(statusMessage);
-                    binding.childesc.setText("");
-                    binding.childcode.setText("");
-                    binding.jobordernum.setText("");
+                    binding.dataLayout.setVisibility(View.GONE);
                     qty=0;
                 }
             } else {
-                binding.childesc.setText("");
-                binding.childcode.setText("");
-                binding.jobordernum.setText("");
+                binding.dataLayout.setVisibility(View.GONE);
                 qty=0;
                 warningDialog(getContext(), "Error in getting data!");
             }
@@ -318,9 +317,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
 //                        Toast.makeText(getContext(), "Wrong basket code", Toast.LENGTH_SHORT).show();
                         binding.basketcodeEdt.setError("Wrong basket code");
-                        binding.childesc.setText("");
-                        binding.childcode.setText("");
-                        binding.jobordernum.setText("");
+                       binding.dataLayout.setVisibility(View.GONE);
                         break;
                     case
                             Savingdatasuccessfully:
@@ -332,12 +329,9 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
 //                        Toast.makeText(getContext(), "Wrong basket ", Toast.LENGTH_SHORT).show();
                             binding.basketcodeEdt.setError("Wrong basket");
-                            binding.childesc.setText("");
-                            binding.childcode.setText("");
-                            binding.jobordernum.setText("");
+                            binding.dataLayout.setVisibility(View.GONE);
                         break;
                         case wrongdie:
-
                             binding.diecodeEdt.setError("Wrong die code");
                         break;
                         case machinealreadyused:
@@ -413,6 +407,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
     @Override
     public void onResume() {
         super.onResume();
+        binding.basketcodeEdt.getEditText().requestFocus();
         if (barcodeReader != null) {
             try {
                 barcodeReader.claim();
@@ -420,6 +415,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 e.printStackTrace();
             }
         }
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 
     @Override

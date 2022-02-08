@@ -3,11 +3,13 @@ package com.example.gbsbadrsf.MyMethods;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -18,6 +20,12 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MyMethods {
     public static boolean containsOnlyDigits(String s) {
@@ -91,6 +99,43 @@ public class MyMethods {
         alphaAnimation.setFillAfter(true);
         alphaAnimation.setDuration(50);//duration in millisecond
         itemView.startAnimation(alphaAnimation);
+    }
+
+    public static long getRemainingTime(String expectedSignOut) {
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date d = null;
+        try {
+            d = sdf.parse(expectedSignOut);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return d.getTime() - currentDate.getTime();
+    }
+
+    public static void startRemainingTimeTimer(long remainingTime, TextView remainingTimeTv){
+        if (remainingTime>0) {
+            new CountDownTimer(remainingTime, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    remainingTimeTv.setText(convertToTimeFormat(millisUntilFinished));
+                }
+
+                @Override
+                public void onFinish() {
+                    remainingTimeTv.setText("Operation Finished");
+                }
+            }.start();
+        } else
+            remainingTimeTv.setText("Operation Finished");
+    }
+
+    public static String convertToTimeFormat(long millisUntilFinished) {
+        DateFormat formatter = new SimpleDateFormat("hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millisUntilFinished);
+        return formatter.format(millisUntilFinished);
     }
 
 }

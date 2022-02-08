@@ -37,8 +37,8 @@ public class WeldingsequenceViewModel extends ViewModel {
 
     }
 
-    void getWeldingsequence(int Userid,String Deviceserialnumber,String Joborddername){
-        disposable.add(apiInterface.getweldingsequence(Userid,Deviceserialnumber,Joborddername)
+    void getWeldingsequence(int Userid,String Deviceserialnumber){
+        disposable.add(apiInterface.getweldingsequence(Userid,Deviceserialnumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> status.postValue(Status.LOADING))

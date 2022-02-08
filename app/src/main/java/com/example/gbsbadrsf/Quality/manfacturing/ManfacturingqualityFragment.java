@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.FragmentManfacturingqualityBinding;
 
@@ -73,5 +76,11 @@ public class ManfacturingqualityFragment extends Fragment {
         });
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 }

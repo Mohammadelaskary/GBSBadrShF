@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gbsbadrsf.ChangeIpViewModel;
+import com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoViewModel;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoadingViewModel;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel;
 import com.example.gbsbadrsf.Paint.machineloadingpaint.SavepaintViewModel;
@@ -293,6 +294,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChangeIpViewModel.class)
     public abstract ViewModel bindChangeIpViewModel (ChangeIpViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(BasketInfoViewModel.class)
+    public abstract ViewModel bindBasketInfoViewModel (BasketInfoViewModel viewModel);
 
 
 

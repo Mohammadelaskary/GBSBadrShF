@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class RemainingTime {
+
     @SerializedName("ticks")
     @Expose
     private Long ticks;

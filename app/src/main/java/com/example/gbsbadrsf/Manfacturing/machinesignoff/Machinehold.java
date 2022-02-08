@@ -1,13 +1,18 @@
 package com.example.gbsbadrsf.Manfacturing.machinesignoff;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 
 /**
@@ -40,5 +45,11 @@ public class Machinehold extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_machinehold, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 }

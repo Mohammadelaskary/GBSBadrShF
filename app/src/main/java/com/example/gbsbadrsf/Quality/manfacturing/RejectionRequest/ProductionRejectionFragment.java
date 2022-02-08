@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
@@ -317,6 +319,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             if (oldBasketCodeFocused){
                 binding.oldBasketCode.getEditText().setText(scannedText);
+                getBasketData(oldBasketCode);
             } else if (newBasketCodeFocused){
                 binding.newBasketCode.getEditText().setText(scannedText);
             }
@@ -337,6 +340,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
     public void onResume() {
         super.onResume();
         barCodeReader.onResume();
+        changeTitle("Manufacturing",(MainActivity) getActivity());
     }
 
     @Override

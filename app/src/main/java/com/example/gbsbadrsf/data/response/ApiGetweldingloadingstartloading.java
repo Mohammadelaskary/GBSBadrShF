@@ -3,6 +3,8 @@ package com.example.gbsbadrsf.data.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ApiGetweldingloadingstartloading<T> {
     @SerializedName("responseStatus")
     @Expose
@@ -13,7 +15,7 @@ public class ApiGetweldingloadingstartloading<T> {
 
     @SerializedName("baskets")
     @Expose
-    private Baskets baskets;
+    private List<Baskets> baskets;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -31,11 +33,11 @@ public class ApiGetweldingloadingstartloading<T> {
         this.data = data;
     }
 
-    public Baskets getBaskets() {
+    public List<Baskets> getBaskets() {
         return baskets;
     }
 
-    public void setBaskets(Baskets baskets) {
+    public void setBaskets(List<Baskets> baskets) {
         this.baskets = baskets;
     }
 
