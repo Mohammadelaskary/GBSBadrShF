@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.QualitySignOff;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.getEditTextText;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -302,10 +303,9 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         parentDesc ="";
         operation = "";
         defectedQty = "";
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operation);
-        binding.defectqtn.setText(defectedQty);
+        binding.defectedData.qty.setText(defectedQty);
         qtyDefectsQtyDefectedList.clear();
         adapter.notifyDataSetChanged();
     }
@@ -327,10 +327,9 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
     }
 
     private void fillViews() {
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operation);
-        binding.defectqtn.setText(defectedQty);
+        binding.defectedData.qty.setText(defectedQty);
     }
 
 
@@ -390,6 +389,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
             case R.id.save_btn:{
                 String date = getTodayDate();
                 FinalQualityDecision finalQualityDecision = (FinalQualityDecision) binding.qfinaldesicionSpin.getSelectedItem();
+                basketCode = getEditTextText(binding.basketCode.getEditText());
                 int decisionId = finalQualityDecision.getFinalQualityDecisionId();
                 boolean checkListEnded;
                 if (!checkList.isEmpty())
@@ -398,7 +398,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     checkListEnded = true;
                 if (!parentCode.isEmpty()){
                     if (checkListEnded)
-                        viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,date,decisionId);
+                        viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,basketCode,date,decisionId);
                     else
                         warningDialog(getContext(),"Please finish mandatory check items first!");
                 } else

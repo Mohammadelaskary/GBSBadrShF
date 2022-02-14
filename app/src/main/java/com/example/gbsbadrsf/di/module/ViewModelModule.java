@@ -51,6 +51,7 @@ import com.example.gbsbadrsf.machineloading.MachineloadingViewModel;
 import com.example.gbsbadrsf.machinewip.MachinewipViewModel;
 import com.example.gbsbadrsf.productionsequence.ProductionsequenceViewModel;
 import com.example.gbsbadrsf.productionsequence.SelectedLoadinsequenceinfoViewModel;
+import com.example.gbsbadrsf.signin.ChangePasswordViewModel;
 import com.example.gbsbadrsf.signin.SignInViewModel;
 import com.example.gbsbadrsf.warhouse.counting.CountingViewModel;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseViewModel;
@@ -298,6 +299,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BasketInfoViewModel.class)
     public abstract ViewModel bindBasketInfoViewModel (BasketInfoViewModel viewModel);
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(ChangePasswordViewModel.class)
+//    public abstract ViewModel bindChangePasswordViewModel (ChangePasswordViewModel viewModel);
 
 
 

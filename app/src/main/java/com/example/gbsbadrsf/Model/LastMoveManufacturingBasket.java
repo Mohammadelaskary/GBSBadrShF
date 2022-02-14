@@ -28,6 +28,9 @@ public class LastMoveManufacturingBasket implements Parcelable {
     @SerializedName("jobOrderId")
     @Expose
     private Integer jobOrderId;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
     @SerializedName("jobOrderName")
     @Expose
     private String jobOrderName;
@@ -47,7 +50,7 @@ public class LastMoveManufacturingBasket implements Parcelable {
     public LastMoveManufacturingBasket() {
     }
 
-    public LastMoveManufacturingBasket(Parcel in) {
+    protected LastMoveManufacturingBasket(Parcel in) {
         if (in.readByte() == 0) {
             basketMoveId = null;
         } else {
@@ -70,6 +73,11 @@ public class LastMoveManufacturingBasket implements Parcelable {
             jobOrderId = null;
         } else {
             jobOrderId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            jobOrderQty = null;
+        } else {
+            jobOrderQty = in.readInt();
         }
         jobOrderName = in.readString();
         jobOrderDate = in.readString();
@@ -191,6 +199,22 @@ public class LastMoveManufacturingBasket implements Parcelable {
         this.isBulkQty = isBulkQty;
     }
 
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
+
+    public Boolean getBulkQty() {
+        return isBulkQty;
+    }
+
+    public void setBulkQty(Boolean bulkQty) {
+        isBulkQty = bulkQty;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -224,6 +248,12 @@ public class LastMoveManufacturingBasket implements Parcelable {
         } else {
             dest.writeByte((byte) 1);
             dest.writeInt(jobOrderId);
+        }
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
         }
         dest.writeString(jobOrderName);
         dest.writeString(jobOrderDate);

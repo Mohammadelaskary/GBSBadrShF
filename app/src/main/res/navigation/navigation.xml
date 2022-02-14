@@ -23,6 +23,10 @@
         <action android:id="@+id/action_fragment_main_menu_to_fragment_change_base_url"
             app:destination="@id/changeIpFragment"/>
     </fragment>
+    <fragment android:id="@+id/fragment_change_password"
+        android:label="fragment_change_password"
+        android:name="com.example.gbsbadrsf.signin.ChangePasswordFragment"
+        tools:layout="@layout/change_password_fragment"/>
     <fragment android:id="@+id/changeIpFragment"
         tools:layout="@layout/fragment_change_base_url"
         android:label="fragment_change_base_url"

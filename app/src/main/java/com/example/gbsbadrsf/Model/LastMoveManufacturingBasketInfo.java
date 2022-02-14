@@ -23,6 +23,9 @@ public class LastMoveManufacturingBasketInfo {
     @SerializedName("jobOrderId")
     @Expose
     private Integer jobOrderId;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
     @SerializedName("jobOrderName")
     @Expose
     private String jobOrderName;
@@ -204,4 +207,19 @@ public class LastMoveManufacturingBasketInfo {
         this.childDescription = childDescription;
     }
 
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
+
+    public Boolean getBulkQty() {
+        return isBulkQty;
+    }
+
+    public void setBulkQty(Boolean bulkQty) {
+        isBulkQty = bulkQty;
+    }
 }

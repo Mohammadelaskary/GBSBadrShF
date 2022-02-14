@@ -133,26 +133,30 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
                 if (responseMessage.equals(EXISTING_BASKET_CODE)) {
                     basketData = apiResponseGetBasketInfoForQuality_welding.getLastMoveWeldingBasket();
                     binding.basketCode.setError(null);
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                     fillViews();
                 } else {
                     binding.basketCode.setError(responseMessage);
+                    binding.dataLayout.setVisibility(View.GONE);
                     dischargeViews();
                 }
             } else  {
                 Toast.makeText(getContext(), "Error in Getting Data!", Toast.LENGTH_SHORT).show();
                 basketData = null;
+                binding.dataLayout.setVisibility(View.GONE);
                 dischargeViews();
             }
         });
     }
 
     private void dischargeViews() {
+
         parentCode ="";
         parentDesc = "";
         jobOrderName = "";
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
-        binding.jobOrderName.setText(jobOrderName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText("");
         binding.signoffQtnEdt.setText("");
         binding.operation.setText("");
     }
@@ -160,7 +164,6 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     int qnt,operationId;
     private void fillViews() {
 //        basketCode = basketData.getBasketCode();
-        parentCode = basketData.getParentCode();
         parentDesc = basketData.getParentDescription();
         jobOrderName = basketData.getJobOrderName();
         if (basketData.getSignOffQty()!=null) {
@@ -174,9 +177,12 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
         }else
             binding.operation.setText("");
 //        binding.basketCode.getEditText().setText(basketCode);
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
-        binding.jobOrderName.setText(jobOrderName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        if (basketData.getJobOrderQty()!=null)
+            binding.jobOrderData.Joborderqtn.setText(basketData.getJobOrderQty().toString());
+        else
+            binding.jobOrderData.Joborderqtn.setText("");
         binding.basketCode.setError(null);
     }
 
@@ -201,7 +207,7 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     boolean newSample;
     private void attachListener() {
         binding.addDefectButton.setOnClickListener(v -> {
-            sampleQty = binding.sampleQtnEdt.getText().toString().trim();
+            sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
             newSample = binding.newSample.isChecked();
             boolean validSampleQty = false;
             if (!parentCode.isEmpty()) {

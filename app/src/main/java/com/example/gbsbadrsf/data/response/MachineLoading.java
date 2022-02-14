@@ -16,6 +16,9 @@ public class MachineLoading  {
     @SerializedName("loadingQty")
     @Expose
     private Integer loadingQty;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
     @SerializedName("operationEnName")
     @Expose
     private String operationEnName;
@@ -60,4 +63,11 @@ public class MachineLoading  {
         this.operationEnName = operationEnName;
     }
 
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
 }

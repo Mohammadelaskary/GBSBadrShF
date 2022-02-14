@@ -394,6 +394,7 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
             case R.id.save_btn:{
                 String date = getTodayDate();
                 FinalQualityDecision finalQualityDecision = (FinalQualityDecision) binding.qfinaldesicionSpin.getSelectedItem();
+                basketCode = binding.basketCode.getEditText().getText().toString().trim();
                 int decisionId = finalQualityDecision.getFinalQualityDecisionId();
                 boolean checkListEnded;
                 if (!checkList.isEmpty())
@@ -402,7 +403,7 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
                     checkListEnded = true;
                 if (!parentCode.isEmpty()){
                     if (checkListEnded)
-                        viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,date,decisionId);
+                        viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,basketCode,date,decisionId);
                     else
                         warningDialog(getContext(),"Please finish mandatory check items first!");
                 } else

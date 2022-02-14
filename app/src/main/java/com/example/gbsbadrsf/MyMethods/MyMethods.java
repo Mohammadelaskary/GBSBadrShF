@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -87,6 +88,11 @@ public class MyMethods {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    public static void showKeyboard(Activity activity){
+        InputMethodManager imm = (InputMethodManager)   activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
     public static void activateItem(View itemView) {
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.9f,1.0f);
         alphaAnimation.setFillAfter(true);
@@ -137,5 +143,7 @@ public class MyMethods {
         calendar.setTimeInMillis(millisUntilFinished);
         return formatter.format(millisUntilFinished);
     }
-
+    public static String getEditTextText(EditText editText){
+        return editText.getText().toString().trim();
+    }
 }

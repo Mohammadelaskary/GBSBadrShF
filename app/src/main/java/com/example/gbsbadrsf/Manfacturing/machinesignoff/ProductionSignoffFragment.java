@@ -87,10 +87,10 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
                     String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
-                    if (!machineCode.isEmpty())
+                    if (machineCode.isEmpty())
                         binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
                     else
-                        machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, binding.machinecodeNewedttxt.getText().toString());
+                        machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, machineCode);
                     return true;
                 }
                 return false;
@@ -206,9 +206,10 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                         binding.childesc.setText(response.getData().getChildDescription());
                         binding.jobordernum.setText(response.getData().getJobOrderName());
                         binding.operation.setText(response.getData().getOperationEnName());
+                        binding.signOffQty.setText(response.getData().getLoadingQty().toString());
 //                        binding.loadingQty.setText(String.valueOf(loadingQty));
 //                        binding.signoffqty.setText(response.getData().get);
-                        binding.Joborderqtn.setText(String.valueOf(response.getData().getLoadingQty()));
+                        binding.Joborderqtn.setText(String.valueOf(response.getData().getJobOrderQty()));
                     } else {
                         binding.dataLayout.setVisibility(View.GONE);
                         warningDialog(getContext(),"Error in loading quantity!");

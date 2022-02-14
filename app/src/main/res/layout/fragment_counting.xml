@@ -60,42 +60,52 @@
 <!--                android:textColor="@color/black"-->
 
 <!--                />-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/barcodecode_edt"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/barcode_code_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
-                app:errorEnabled="true"
-                app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:startIconDrawable="@drawable/ic_barcode_icon">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/barcodenew_edt"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/barcodecode_edt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Barcode"
-                    android:imeOptions="actionGo"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/colorPrimary" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="horizontal"
+                    app:errorEnabled="true"
+                    app:errorTextColor="@android:color/holo_red_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_barcode_icon">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/barcodenew_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Barcode"
+                        android:imeOptions="actionGo"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/colorPrimary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/barcodecode_edt"
-                app:layout_constraintStart_toStartOf="@+id/barcodecode_edt"
-                app:layout_constraintTop_toBottomOf="@+id/barcodecode_edt">
+                app:layout_constraintEnd_toEndOf="@+id/barcode_code_layout"
+                app:layout_constraintStart_toStartOf="@+id/barcode_code_layout"
+                app:layout_constraintTop_toBottomOf="@+id/barcode_code_layout">
 
                 <TextView
                     android:id="@+id/parentdesc"

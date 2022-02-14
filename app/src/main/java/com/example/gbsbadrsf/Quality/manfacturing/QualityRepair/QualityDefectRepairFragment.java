@@ -126,10 +126,9 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         String operationName = basketData.getOperationEnName();
         String defectedQty   = defectsManufacturingList.get(0).getDeffectedQty().toString();
 
-        binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
         binding.operation.setText(operationName);
-        binding.defectQtn.setText(defectedQty);
+        binding.defectedData.qty.setText(defectedQty);
     }
 
     LastMoveManufacturingBasket basketData;

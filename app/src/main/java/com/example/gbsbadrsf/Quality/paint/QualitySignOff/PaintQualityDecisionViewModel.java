@@ -132,8 +132,8 @@ public class PaintQualityDecisionViewModel extends ViewModel {
                         }
                 ));
     }
-    public void saveQualityOperationSignOff(int userId,String deviceSerialNumber,String date,int finalQualityDecisionId){
-        disposable.add(apiInterface.QualityOperationSignOff_Painting(userId,deviceSerialNumber,date,finalQualityDecisionId)
+    public void saveQualityOperationSignOff(int userId,String deviceSerialNumber,String basketCode,String date,int finalQualityDecisionId){
+        disposable.add(apiInterface.QualityOperationSignOff_Painting(userId,deviceSerialNumber,basketCode,date,finalQualityDecisionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> saveQualityOperationSignOffStatus.postValue(Status.LOADING))

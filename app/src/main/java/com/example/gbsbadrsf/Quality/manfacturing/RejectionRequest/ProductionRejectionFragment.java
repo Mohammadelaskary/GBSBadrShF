@@ -174,7 +174,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
     }
 
     String childCode="",childDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,oldBasketCode;
-    int basketQty;
+    int basketQty,jobOrderQty;
     LastMoveManufacturingBasketInfo basketData;
 
     private void getBasketData(String oldBasketCode) {
@@ -197,22 +197,24 @@ public class ProductionRejectionFragment extends DaggerFragment implements View.
 
     private void fillViewsData() {
         if (basketData!=null) {
+            binding.dataLayout.setVisibility(View.VISIBLE);
             childCode = basketData.getChildCode();
             childDesc = basketData.getChildDescription();
             jobOrderName = basketData.getJobOrderName();
+            jobOrderQty = basketData.getJobOrderQty();
             basketQty = basketData.getQty();
-            binding.childcode.setText(childCode);
             binding.childdesc.setText(childDesc);
-            binding.jobordername.setText(jobOrderName);
+            binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
+            binding.jobOrderData.jobordernum.setText(jobOrderName);
             if (basketQty != 0)
-                binding.basketqtn.setText(String.valueOf(basketQty));
+                binding.basketQtyLayout.qty.setText(String.valueOf(basketQty));
             else
-                binding.basketqtn.setText("");
+                binding.basketQtyLayout.qty.setText("");
         } else {
-            binding.childcode.setText("");
+            binding.dataLayout.setVisibility(View.GONE);
             binding.childdesc.setText("");
-            binding.jobordername.setText("");
-            binding.basketqtn.setText("");
+            binding.jobOrderData.jobordernum.setText("");
+            binding.basketQtyLayout.qty.setText("");
         }
     }
 

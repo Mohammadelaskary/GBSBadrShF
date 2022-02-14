@@ -63,7 +63,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         binding = FragmentWeldingAddDefectsBinding.inflate(inflater, container, false);
         barCodeReader = new SetUpBarCodeReader(this,this);
         initViews();
@@ -139,7 +139,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
                     qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
                     adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
                     defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectqtnEdt.setText(String.valueOf(defectedQty));
+                    binding.defectedQtyEdt.getEditText().setText(String.valueOf(defectedQty));
                     adapter.notifyDataSetChanged();
                 } else {
                     showAlertDialog("Error in getting data!");
@@ -195,12 +195,10 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     }
 
     private void fillData() {
-        String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String qualityOperation = basketData.getOperationEnName();
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
-        binding.sampleQtyEdt.setText(String.valueOf(sampleQty));
+        binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.operation.setText(qualityOperation);
     }
 

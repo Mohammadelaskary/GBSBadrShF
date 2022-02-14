@@ -390,6 +390,7 @@ public interface ApiInterface {
     Single<ApiResponseSavingOperationSignOffDecision> saveQualityOperationSignOff(
             @Query("UserID") int UserID,
             @Query("DeviceSerialNo") String deviceSerialNumber,
+            @Query("BasketCode") String BasketCode,
             @Query("DT") String date,
             @Query("FinalQualityDecisionId") int FinalQualityDecisionId
     );
@@ -398,6 +399,7 @@ public interface ApiInterface {
     Single<ApiResponseQualityOperationSignOff_Welding> QualityOperationSignOff_Welding(
             @Query("UserID") int UserID,
             @Query("DeviceSerialNo") String deviceSerialNumber,
+            @Query("BasketCode") String BasketCode,
             @Query("DT") String date,
             @Query("FinalQualityDecisionId") int FinalQualityDecisionId
     );
@@ -406,6 +408,7 @@ public interface ApiInterface {
     Single<ApiResponseQualityOperationSignOff_Painting> QualityOperationSignOff_Painting(
             @Query("UserID") int UserID,
             @Query("DeviceSerialNo") String deviceSerialNumber,
+            @Query("BasketCode") String BasketCode,
             @Query("DT") String date,
             @Query("FinalQualityDecisionId") int FinalQualityDecisionId
     );

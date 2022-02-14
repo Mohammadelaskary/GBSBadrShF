@@ -141,7 +141,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
                     qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
                     adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
                     defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectqtnEdt.setText(String.valueOf(defectedQty));
+                    binding.defectedQtyEdt.getEditText().setText(String.valueOf(defectedQty));
                     adapter.notifyDataSetChanged();
                 } else {
                     showAlertDialog("Error in getting data!");
@@ -200,9 +200,8 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String qualityOperation = basketData.getOperationEnName();
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
-        binding.sampleQtyEdt.setText(String.valueOf(sampleQty));
+        binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.operation.setText(qualityOperation);
     }
 

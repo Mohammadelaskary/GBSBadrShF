@@ -57,7 +57,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
         initViewModel();
         if (viewModel.getBasketData()!=null){
             basketData = viewModel.getBasketData();
-            fillData(basketData.getParentDescription(),basketData.getParentCode(),basketData.getOperationEnName());
+            fillData(basketData.getParentDescription(),basketData.getOperationEnName());
         }
         setupRecyclerView();
         if (viewModel.getDefectsWeldingList()!=null&&viewModel.getBasketData()!=null){
@@ -67,7 +67,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();
             String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-            binding.defectQtn.setText(defectedQty);
+            binding.defectedData.qty.setText(defectedQty);
         }
         addTextWatcher();
         observeGettingBasketData();
@@ -136,15 +136,16 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
                         adapter.setDefectsWeldingList(defectsWeldingList);
                         qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
                         String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectQtn.setText(defectedQty);
+                        binding.defectedData.qty.setText(defectedQty);
+
                     }
                 } else {
-                    binding.defectQtn.setText("");
+                    binding.defectedData.qty.setText("");
                     qtyDefectsQtyDefectedList.clear();
                 }
             } else {
                 warningDialog(getContext(),"Error in getting data!");
-                binding.defectQtn.setText("");
+                binding.defectedData.qty.setText("");
                 qtyDefectsQtyDefectedList.clear();
             }
             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
@@ -219,24 +220,26 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     parentDesc = "";
                     parentCode = "";
                     operationName = "";
                     binding.basketCode.setError(statusMessage);
+                    binding.dataLayout.setVisibility(View.GONE);
                 }
             } else {
                 parentDesc = "";
                 parentCode = "";
                 operationName = "";
                 binding.basketCode.setError("Error in getting data!");
+                binding.dataLayout.setVisibility(View.GONE);
             }
-            fillData(parentDesc,parentCode,operationName);
+            fillData(parentDesc,operationName);
         });
     }
 
-    private void fillData(String parentDesc, String parentCode, String operationName) {
-        binding.parentCode.setText(parentCode);
+    private void fillData(String parentDesc, String operationName) {
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
     }

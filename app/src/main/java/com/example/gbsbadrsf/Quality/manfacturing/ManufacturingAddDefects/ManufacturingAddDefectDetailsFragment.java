@@ -130,8 +130,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     }
 
     private void fillData() {
-        binding.sampleQtnEdt.setText(String.valueOf(sampleQty));
-        binding.childcode.setText(childCode);
+        binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.childesc.setText(childDescription);
         binding.operation.setText(String.valueOf(operationId));
     }
@@ -168,7 +167,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         int id = v.getId();
         switch (id){
             case R.id.add_defect_button:{
-                String defectedQtyString = binding.defectedQtnEdt.getText().toString().trim();
+                String defectedQtyString = binding.defectedQtyEdt.getEditText().getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
 //                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
@@ -183,7 +182,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 }
                 AddManufacturingDefectData data = new AddManufacturingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
-                    defectedQty=Integer.parseInt(binding.defectedQtnEdt.getText().toString().trim());
+                    defectedQty=Integer.parseInt(binding.defectedQtyEdt.getEditText().getText().toString().trim());
                     data.setUserId(userId);
                     data.setDeviceSerialNo(deviceSerialNumber);
                     data.setJobOrderId(jobOrderId);

@@ -113,10 +113,9 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         String operationName = basketData.getOperationEnName();
         String defectedQty   = String.valueOf(defectsPaintingList.get(0).getDeffectedQty());
 
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
-        binding.defectQtn.setText(defectedQty);
+        binding.defectedQtnEdt.qty.setText(defectedQty);
     }
 
     LastMovePaintingBasket basketData;

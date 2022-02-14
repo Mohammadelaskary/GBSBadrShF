@@ -230,7 +230,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 List<Baskets> baskets = response.getBaskets();
                 if (statusMessage.equals("Data sent successfully")){
-                    if (baskets!=null){
+                    if (!baskets.isEmpty()){
                         Navigation.findNavController(getView()).navigate(R.id.action_weldingSequence_to_machineloadingweFragment);
                     } else
                         warningDialog(getContext(),"No baskets for this job order name!");

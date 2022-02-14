@@ -206,7 +206,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                         bundle.putParcelable(PAINT_PPR_KEY,clickedPprpaint);
                         Navigation.findNavController(getView()).navigate(R.id.action_paintdstation_to_machineLoadingpaintFragment, bundle);
                     } else
-                        warningDialog(getContext(), "There is no baskets for this machine!");
+                        warningDialog(getContext(), "There is no baskets for this job order!");
                 } else
                     binding.jobOrderName.setError(statusMessage);
             } else

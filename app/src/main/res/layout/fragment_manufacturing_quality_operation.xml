@@ -66,192 +66,140 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                app:startIconDrawable="@drawable/ic_barcode_icon"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/ic_barcode_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/basket_code"
                     android:imeOptions="actionGo"
-                    android:maxLines="1"
                     android:lines="1"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <TextView
-                android:id="@+id/child_txt"
-                style="@style/style_of_text_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif"
-                android:text="Child : "
-                app:layout_constraintStart_toStartOf="@id/basket_code"
-                app:layout_constraintTop_toBottomOf="@id/basket_code" />
-
-            <TextView
-                android:id="@+id/child_code"
-                style="@style/styleoftext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="@+id/child_txt"
-                app:layout_constraintStart_toEndOf="@id/child_txt"
-                app:layout_constraintTop_toTopOf="@id/child_txt" />
-
-            <TextView
-                android:id="@+id/child_desc"
-                style="@style/styleoftext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text=""
-                app:layout_constraintStart_toStartOf="@+id/child_code"
-                app:layout_constraintTop_toBottomOf="@+id/child_txt" />
-
-            <TextView
-                android:id="@+id/jop_order_name_txt"
-                style="@style/style_of_text_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif"
-                android:text="Jop Order:"
-                app:layout_constraintStart_toStartOf="@id/basket_code"
-                app:layout_constraintTop_toBottomOf="@id/child_desc" />
-
-            <TextView
-                android:id="@+id/job_order_name"
-                style="@style/styleoftext"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="4"
-                android:text=""
-                app:layout_constraintStart_toEndOf="@id/jop_order_name_txt"
-                app:layout_constraintTop_toTopOf="@id/jop_order_name_txt" />
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/basket_code"
+                app:layout_constraintStart_toStartOf="@+id/basket_code"
+                app:layout_constraintTop_toBottomOf="@+id/basket_code">
 
-            <TextView
-                android:id="@+id/operation_txt"
-                style="@style/style_of_text_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif"
-                android:text="Operation :"
-                app:layout_constraintStart_toStartOf="@id/basket_code"
-                app:layout_constraintTop_toBottomOf="@id/jop_order_name_txt" />
+                <TextView
+                    android:id="@+id/child_desc"
+                    style="@style/child_parent_desc_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/operation"
-                style="@style/styleoftext"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="4"
-                android:text=""
-                app:layout_constraintStart_toEndOf="@id/operation_txt"
-                app:layout_constraintTop_toTopOf="@id/operation_txt" />
-
-            <TextView
-                android:id="@+id/signoff_qtn_txt"
-                style="@style/style_of_text_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/sign_off_qty"
-                app:layout_constraintStart_toStartOf="@id/child_txt"
-                app:layout_constraintTop_toBottomOf="@id/operation_txt" />
-
-            <TextView
-                android:id="@+id/signoff_qtn_edt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/signoff_qtn_txt"
-                app:layout_constraintStart_toEndOf="@id/signoff_qtn_txt"
-                app:layout_constraintTop_toBottomOf="@id/operation_txt" />
+                <include
+                    android:id="@+id/job_order_data"
+                    layout="@layout/job_order_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                    app:layout_constraintStart_toStartOf="@+id/child_desc"
+                    app:layout_constraintTop_toBottomOf="@+id/child_desc" />
 
 
-            <TextView
-                android:id="@+id/sampleqtn_txt"
-                style="@style/style_of_text_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/sample_qty"
-                app:layout_constraintStart_toStartOf="@id/signoff_qtn_txt"
-                app:layout_constraintTop_toBottomOf="@id/signoff_qtn_txt" />
+                <TextView
+                    android:id="@+id/operation"
+                    style="@style/operation_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="operation"
+                    app:layout_constraintEnd_toEndOf="@+id/job_order_data"
+                    app:layout_constraintStart_toStartOf="@+id/job_order_data"
+                    app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
-            <EditText
-                android:id="@+id/sample_qtn_edt"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/edt_bg"
-                android:digits="0123456789"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/sampleqtn_txt"
-                app:layout_constraintStart_toEndOf="@+id/sampleqtn_txt"
-                app:layout_constraintTop_toTopOf="@+id/sampleqtn_txt" />
+                <include
+                    android:id="@+id/sign_off_data"
+                    layout="@layout/sign_off_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                    app:layout_constraintStart_toStartOf="@+id/child_desc"
+                    app:layout_constraintTop_toBottomOf="@+id/operation" />
 
-            <CheckBox
-                android:id="@+id/new_sample"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:checked="true"
-                android:text="@string/new_sample"
-                app:layout_constraintBottom_toBottomOf="@+id/sample_qtn_edt"
-                app:layout_constraintStart_toEndOf="@+id/sample_qtn_edt"
-                app:layout_constraintTop_toTopOf="@+id/sample_qtn_edt" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sample_qtn_edt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:hint="Sample Qty"
+                    android:orientation="horizontal"
+                    app:errorEnabled="true"
+                    app:errorTextColor="@android:color/holo_red_dark"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toStartOf="@+id/new_sample"
+                    app:layout_constraintStart_toStartOf="@id/child_desc"
+                    app:layout_constraintTop_toBottomOf="@id/sign_off_data">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edt_bg"
+                        android:digits="0123456789"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:textColor="@color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_defect_button"
-                style="@style/styleoftextinbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/appbarcolor"
-                android:text="@string/add_defects"
-                android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt" />
+                <CheckBox
+                    android:id="@+id/new_sample"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/new_sample"
+                    app:layout_constraintBottom_toBottomOf="@+id/sample_qtn_edt"
+                    app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                    app:layout_constraintTop_toTopOf="@+id/sample_qtn_edt" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/without_defect_button"
-                style="@style/styleoftextinbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/appbarcolor"
-                android:text="@string/without_defect"
-                android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_defect_button" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_defect_button"
+                    style="@style/styleoftextinbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/appbarcolor"
+                    android:text="@string/add_defects"
+                    android:textColor="@color/white"
+                    app:cornerRadius="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/without_defect_button"
+                    style="@style/styleoftextinbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/appbarcolor"
+                    android:text="@string/without_defect"
+                    android:textColor="@color/white"
+                    app:cornerRadius="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/add_defect_button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 

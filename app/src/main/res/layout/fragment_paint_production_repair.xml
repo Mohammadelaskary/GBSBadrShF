@@ -47,14 +47,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
                     android:layout_marginTop="15dp"
-                    app:startIconDrawable="@drawable/ic_barcode_icon"
+                    android:layout_marginEnd="15dp"
                     app:errorEnabled="true"
                     app:errorTextColor="@android:color/holo_red_dark"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_barcode_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -62,154 +62,118 @@
                         android:hint="@string/basket_code"
                         android:imeOptions="actionGo"
                         android:lines="1"
-                        android:singleLine="true"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/parent_txt"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/data_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/child"
-                    style="@style/style_of_text_bold"
-                    app:layout_constraintStart_toStartOf="@id/basket_code"
-                    app:layout_constraintTop_toBottomOf="@id/basket_code"
-                    android:layout_marginTop="20dp"
-                    />
-
-                <TextView
-                    android:id="@+id/parent_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_marginStart="2dp"
-                    style="@style/styleoftext"
-                    app:layout_constraintStart_toEndOf="@id/parent_txt"
-                    app:layout_constraintTop_toTopOf="@id/parent_txt"
-                    android:layout_marginTop="2dp"
-                    />
-
-                <TextView
-                    android:id="@+id/parent_code"
-                    style="@style/styleoftext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    app:layout_constraintStart_toStartOf="@+id/parent_desc"
-                    app:layout_constraintTop_toBottomOf="@+id/parent_desc" />
-
-
-                <TextView
-                    android:id="@+id/defect_qtn_txt"
-                    style="@style/style_of_text_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Defected Qty : "
-                    app:layout_constraintStart_toStartOf="@id/parent_txt"
-                    app:layout_constraintTop_toBottomOf="@+id/operation_txt" />
-
-                <TextView
-                    android:id="@+id/defect_qtn"
-                    style="@style/styleoftext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text=""
-                    app:layout_constraintBottom_toBottomOf="@+id/defect_qtn_txt"
-                    app:layout_constraintStart_toEndOf="@id/defect_qtn_txt"
-                    app:layout_constraintTop_toTopOf="@id/defect_qtn_txt" />
-
-                <TextView
-                    android:id="@+id/operation_txt"
-                    style="@style/style_of_text_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="@string/operation_txt"
-                    app:layout_constraintStart_toStartOf="@id/defect_qtn_txt"
-                    app:layout_constraintTop_toBottomOf="@+id/parent_code" />
-
-                <TextView
-                    android:id="@+id/operation"
-                    style="@style/styleoftext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text=""
-                    app:layout_constraintBottom_toBottomOf="@+id/operation_txt"
-                    app:layout_constraintStart_toEndOf="@id/operation_txt"
-                    app:layout_constraintTop_toTopOf="@id/operation_txt" />
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/add_repair"
-                    style="@style/styleoftextinbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:backgroundTint="@color/appbarcolor"
-                    android:text="@string/add_repair"
-                    android:textColor="@color/white"
-                    app:cornerRadius="25dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/defects_details_list" />
-
-                <TextView
-                    android:id="@+id/defects_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="15dp"
-                    android:text="@string/defects_details"
-                    style="@style/style_of_text_bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/basket_code"
                     app:layout_constraintStart_toStartOf="@+id/basket_code"
-                    app:layout_constraintTop_toBottomOf="@+id/defect_qtn_txt" />
-                <LinearLayout
-                    android:id="@+id/constraint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/defects_list">
+                    app:layout_constraintTop_toBottomOf="@+id/basket_code">
 
                     <TextView
-                        android:id="@+id/defectname_txt"
-                        style="@style/styleoftextbold"
+                        android:id="@+id/parent_desc"
+                        style="@style/child_parent_desc_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Child Quantity"
+                        android:text=""
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/sampleqty_txt"
-                        style="@style/styleoftextbold"
+                    <include
+                        android:id="@+id/defected_data"
+                        layout="@layout/defected_qty_data"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Defects Quantity"
-                        app:layout_constraintStart_toEndOf="@+id/defectname_txt"
-                        app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
-                </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/defects_details_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="15dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraint" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/operation" />
+
+                    <TextView
+                        android:id="@+id/operation"
+                        style="@style/styleoftext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text=""
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/parent_desc" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/add_repair"
+                        style="@style/styleoftextinbtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:backgroundTint="@color/appbarcolor"
+                        android:text="@string/add_repair"
+                        android:textColor="@color/white"
+                        app:cornerRadius="25dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/defects_details_list" />
+
+                    <TextView
+                        android:id="@+id/defects_list"
+                        style="@style/style_of_text_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/defects_details"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/defected_data" />
+
+                    <LinearLayout
+                        android:id="@+id/constraint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/defects_list">
+
+                        <TextView
+                            android:id="@+id/defectname_txt"
+                            style="@style/styleoftextbold"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Child Quantity"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/sampleqty_txt"
+                            style="@style/styleoftextbold"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Defects Quantity"
+                            app:layout_constraintStart_toEndOf="@+id/defectname_txt"
+                            app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/defects_details_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraint" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

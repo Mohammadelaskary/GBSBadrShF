@@ -188,6 +188,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 ResponseStatus responseStatus = apiResponseLastMovePainting.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                     lastMovePainting = apiResponseLastMovePainting.getLastMoveWelding();
                     parentCode = lastMovePainting.getParentCode().toString();
                     jobOrderName = lastMovePainting.getJobOrderName().toString();
@@ -202,6 +203,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                     binding.machineDieCode.setError(null);
                     Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                 } else {
+                    binding.dataLayout.setVisibility(View.GONE);
                     parentCode = "";
                     jobOrderName = "";
                     notes = "";
@@ -214,6 +216,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                     binding.machineDieCode.setError(statusMessage);
                 }
             } else {
+                binding.dataLayout.setVisibility(View.GONE);
                 parentCode = "";
                 jobOrderName = "";
                 notes = "";
@@ -234,28 +237,24 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
     int loadingQty, parentId,sampleQty,defectedQty,jobOrderQty;
     private void fillData() {
 
-        binding.parentId.setText(String.valueOf(parentId));
         binding.parentDesc.setText(parentCode);
-        binding.jobOrderName.setText(jobOrderName);
-        binding.jobOrderQty.setText(String.valueOf(jobOrderQty));
-        binding.loadingQty.setText(String.valueOf(loadingQty));
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
+        binding.loadingQtyEdt.qty.setText(String.valueOf(loadingQty));
         binding.operation.setText(operationName);
         if (sampleQty!=0)
             binding.sampleQty.getEditText().setText(String.valueOf(sampleQty));
         else
             binding.sampleQty.getEditText().setText("");
         if (loadingQty!=0)
-            binding.loadingQty.setText(String.valueOf(loadingQty));
+            binding.loadingQtyEdt.qty.setText(String.valueOf(loadingQty));
         else
-            binding.loadingQty.setText("");
-        if (parentId !=0)
-            binding.parentId.setText(String.valueOf(parentId));
-        else
-            binding.parentId.setText("");
+            binding.loadingQtyEdt.qty.setText("");
+
         if (jobOrderQty!=0)
-            binding.jobOrderQty.setText(String.valueOf(jobOrderQty));
+            binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
         else
-            binding.jobOrderQty.setText("");
+            binding.jobOrderData.Joborderqtn.setText("");
         if (defectedQty!=0)
             binding.defectedQty.getEditText().setText(String.valueOf(defectedQty));
         else

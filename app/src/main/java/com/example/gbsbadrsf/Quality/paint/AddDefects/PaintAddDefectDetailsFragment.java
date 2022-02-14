@@ -129,10 +129,10 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     }
 
     private void fillData() {
-        binding.sampleQtnEdt.setText(String.valueOf(sampleQty));
-        binding.parentCode.setText(parentCode);
+        binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.parentDesc.setText(parentDescription);
-        binding.jobOrderName.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
     }
     boolean newSample = false;
     int remainingQty;
@@ -145,6 +145,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
             jobOrderId       = basketData.getJobOrderId();
             operationId      = basketData.getOperationId();
             jobOrderName     = basketData.getJobOrderName();
+            jobOrderQty      = basketData.getJobOrderQty();
             sampleQty        = getArguments().getInt("sampleQty");
             newSample        = getArguments().getBoolean("newSample");
             remainingQty     = getArguments().getInt(REMAINING_QTY);
@@ -161,13 +162,14 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
             jobOrderId,
             operationId,
             sampleQty,
+            jobOrderQty,
             userId=USER_ID;
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
             case R.id.add_defect_button:{
-                String defectedQtyString = binding.defectedQtnEdt.getText().toString().trim();
+                String defectedQtyString = binding.defectedQtyEdt.getEditText().getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
                     warningDialog(getContext(),"Please enter defected quantity!");
@@ -181,7 +183,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
                 }
                 AddPaintingDefectData data = new AddPaintingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
-                    defectedQty=Integer.parseInt(binding.defectedQtnEdt.getText().toString().trim());
+                    defectedQty=Integer.parseInt(binding.defectedQtyEdt.getEditText().getText().toString().trim());
                     data.setUserId(userId);
                     data.setDeviceSerialNo(deviceSerialNumber);
                     data.setJobOrderId(jobOrderId);

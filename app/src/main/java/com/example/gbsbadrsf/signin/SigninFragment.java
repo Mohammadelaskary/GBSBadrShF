@@ -41,6 +41,7 @@ public class SigninFragment extends DaggerFragment {
     SignInViewModel signinviewmodel;
     ProgressDialog progressDialog;
     public static int USER_ID = -1;
+
     public SigninFragment() {
         // Required empty public constructor
     }
@@ -70,6 +71,7 @@ public class SigninFragment extends DaggerFragment {
         progressDialog = loadingProgressDialog(getContext());
         observeSignInStatus();
         obderveUserId();
+        observereUserName();
         subscribeRequest();
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
 
@@ -93,7 +95,9 @@ public class SigninFragment extends DaggerFragment {
 
     }
 
-
+    private void observereUserName() {
+        signinviewmodel.getUserName().observe(getViewLifecycleOwner(),userName->MainActivity.USER_NAME = userName);
+    }
 
 
     @Override

@@ -143,19 +143,20 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
         parentCode ="";
         parentDesc = "";
         jobOrderName = "";
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
-        binding.jobOrderName.setText(jobOrderName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
         binding.signoffQtnEdt.setText("");
         binding.operation.setText("");
     }
     String parentCode ="",parentDesc,jobOrderName,basketCode;
-    int qnt,operationId;
+    int qnt,operationId,jobOrderQty;
     private void fillViews() {
 //        basketCode = basketData.getBasketCode();
         parentCode = basketData.getParentCode();
         parentDesc = basketData.getParentDescription();
+        jobOrderQty = basketData.getJobOrderQty();
         jobOrderName = basketData.getJobOrderName();
+
         if (basketData.getSignOffQty()!=null) {
             qnt = basketData.getSignOffQty();
             binding.signoffQtnEdt.setText(String.valueOf(qnt));
@@ -166,10 +167,10 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
             binding.operation.setText(String.valueOf(operationId));
         }else
             binding.operation.setText("");
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
 //        binding.basketCode.getEditText().setText(basketCode);
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
-        binding.jobOrderName.setText(jobOrderName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
         binding.basketCode.setError(null);
     }
 
@@ -194,7 +195,7 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
     boolean newSample;
     private void attachListener() {
         binding.addDefectButton.setOnClickListener(v -> {
-            sampleQty = binding.sampleQtnEdt.getText().toString().trim();
+            sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
             newSample = binding.newSample.isChecked();
             boolean validSampleQty = false;
             if (!parentCode.isEmpty()) {

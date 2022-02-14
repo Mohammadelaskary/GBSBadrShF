@@ -73,7 +73,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         barCodeReader = new SetUpBarCodeReader(this,this);
 //        checkConnectivity();
         initViewModel();
-        if (viewModel.getBasketData()!=null){
+        if (viewModel.getBasketData().getBasketCode()!=null){
             basketData = viewModel.getBasketData();
             binding.basketCode.getEditText().setText(basketData.getBasketCode());
             fillViews();
@@ -157,34 +157,36 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     }
 
     private void dischargeViews() {
+        binding.dataLayout.setVisibility(View.GONE);
         childCode ="";
         childDesc = "";
         jobOrderName = "";
-        binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
-        binding.jobOrderName.setText(jobOrderName);
-        binding.signoffQtnEdt.setText("");
+        binding.jobOrderData.jobordernum.setText("");
+        binding.signOffData.qty.setText("");
         binding.operation.setText("");
     }
     String childCode="",childDesc,jobOrderName;
     int qnt,operationId;
     private void fillViews() {
+        binding.dataLayout.setVisibility(View.VISIBLE);
         childCode = basketData.getChildCode();
         childDesc = basketData.getChildDescription();
         jobOrderName = basketData.getJobOrderName();
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+//        binding.jobOrderData.Joborderqtn.setText(basketData.getJobOrderQty());
         if (basketData.getSignOffQty()!=null) {
             qnt = basketData.getSignOffQty();
-            binding.signoffQtnEdt.setText(String.valueOf(qnt));
+            binding.signOffData.qty.setText(basketData.getSignOffQty().toString());
         }else
-            binding.signoffQtnEdt.setText("");
+            binding.signOffData.qty.setText("");
         if (basketData.getOperationId()!=null) {
             operationId = basketData.getOperationId();
-            binding.operation.setText(String.valueOf(operationId));
+            binding.operation.setText(String.valueOf(basketData.getOperationEnName()));
         }else
             binding.operation.setText("");
-        binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
-        binding.jobOrderName.setText(jobOrderName);
+        binding.signOffData.qty.setText(jobOrderName);
         binding.basketCode.setError(null);
     }
 
@@ -213,7 +215,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     boolean newSample;
     private void attachListener() {
         binding.addDefectButton.setOnClickListener(v -> {
-            sampleQty = binding.sampleQtnEdt.getText().toString().trim();
+            sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
             newSample = binding.newSample.isChecked();
             boolean validSampleQty = false;
             if (childCode!=null) {

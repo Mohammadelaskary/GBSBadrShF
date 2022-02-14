@@ -32,6 +32,7 @@ public class QualityDecisionViewModel extends ViewModel {
     MutableLiveData<ApiResponseSaveCheckList> apiResponseSaveCheckListLiveData;
     MutableLiveData<Status> apiResponseSaveCheckListStatus;
     List<DefectsManufacturing> defectsManufacturingList;
+    String basketCode = "";
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -123,8 +124,8 @@ public class QualityDecisionViewModel extends ViewModel {
                         }
                 ));
     }
-    public void saveQualityOperationSignOff(int userId,String deviceSerialNumber,String date,int finalQualityDecisionId){
-        disposable.add(apiInterface.saveQualityOperationSignOff(userId,deviceSerialNumber,date,finalQualityDecisionId)
+    public void saveQualityOperationSignOff(int userId,String deviceSerialNumber,String basketCode,String date,int finalQualityDecisionId){
+        disposable.add(apiInterface.saveQualityOperationSignOff(userId,deviceSerialNumber,basketCode,date,finalQualityDecisionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> saveQualityOperationSignOffStatus.postValue(Status.LOADING))
@@ -191,5 +192,13 @@ public class QualityDecisionViewModel extends ViewModel {
 
     public void setDefectsManufacturingList(List<DefectsManufacturing> defectsManufacturingList) {
         this.defectsManufacturingList = defectsManufacturingList;
+    }
+
+    public String getBasketCode() {
+        return basketCode;
+    }
+
+    public void setBasketCode(String basketCode) {
+        this.basketCode = basketCode;
     }
 }

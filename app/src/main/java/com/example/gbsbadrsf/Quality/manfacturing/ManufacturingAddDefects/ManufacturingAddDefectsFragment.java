@@ -146,14 +146,16 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     private void getDefectsManufacturingList(String basketCode) {
         viewModel.getDefectsManufacturingViewModel(basketCode);
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing ->  {
-                if (apiResponseDefectsManufacturing.getData()!=null) {
-                    defectsManufacturingList.clear();
-                    defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
-                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                    defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectqtnEdt.setText(String.valueOf(defectedQty));
-                    adapter.notifyDataSetChanged();
+                if (apiResponseDefectsManufacturing!=null) {
+                    if (apiResponseDefectsManufacturing.getData()!=null) {
+                        defectsManufacturingList.clear();
+                        defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
+                        qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+                        adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                        defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                        binding.defectedQtyEdt.getEditText().setText(String.valueOf(defectedQty));
+                        adapter.notifyDataSetChanged();
+                    }
                 } else
                     showAlertDialog("Error in getting data!");
         });
@@ -207,12 +209,10 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     }
 
     private void fillData() {
-        String childCode = basketData.getChildCode();
         String childDesc = basketData.getChildDescription();
         String qualityOperation = basketData.getOperationEnName();
-        binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
-        binding.sampleQtyEdt.setText(String.valueOf(sampleQty));
+        binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.operation.setText(qualityOperation);
     }
 

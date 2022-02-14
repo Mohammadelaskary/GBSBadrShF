@@ -63,7 +63,7 @@
     android:id="@+id/data_layout"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:visibility="visible"
+    android:visibility="gone"
     app:layout_constraintEnd_toEndOf="@+id/basketcode_edt"
     app:layout_constraintStart_toStartOf="@id/basketcode_edt"
     app:layout_constraintTop_toBottomOf="@id/basketcode_edt" >
@@ -79,20 +79,99 @@
                 app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
                 app:layout_constraintStart_toStartOf="@id/machinecode_edt"
                 app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qty_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-16dp"
+        android:background="@drawable/job_order_data_background"
+        android:padding="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/childesc"
+        app:layout_constraintStart_toStartOf="@+id/childesc"
+        app:layout_constraintTop_toBottomOf="@id/loading_qty_title">
 
-            <TextView
-                android:id="@+id/jobordernum"
-                style="@style/job_order_style"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:visibility="visible"
-                android:gravity="center"
-                android:text="@string/job_order_name"
-                app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
-                app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
-                app:layout_constraintTop_toBottomOf="@+id/childesc" />
-            <TextView
+
+        <TextView
+            android:id="@+id/loading_qty"
+            style="@style/details_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/loading_qty_title"
+        style="@style/styleoftextbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/remaining_qty_title_background"
+        android:text="Loading Qty"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+        app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+        app:layout_constraintTop_toBottomOf="@id/job_order_data" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/job_order_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-16dp"
+        android:background="@drawable/job_order_data_background"
+        android:padding="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
+        app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
+        app:layout_constraintTop_toBottomOf="@id/jobordernum_txt">
+
+
+        <TextView
+            android:id="@+id/jobordernum"
+            style="@style/details_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/Joborderqtn"
+            style="@style/details_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/jobordernum"
+            app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/jobordernum_txt"
+        style="@style/styleoftextbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/job_order_txt_background"
+        android:text="Job Order"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/childesc"
+        app:layout_constraintStart_toStartOf="@+id/childesc"
+        app:layout_constraintTop_toBottomOf="@id/childesc" />
+
+    <TextView
                 android:id="@+id/operation"
                 style="@style/operation_style"
                 android:layout_width="0dp"
@@ -102,7 +181,7 @@
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/machinecode_edt"
                 app:layout_constraintStart_toStartOf="@+id/machinecode_edt"
-                app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
+                app:layout_constraintTop_toBottomOf="@+id/qty_data" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/machinecode_edt"
@@ -148,7 +227,7 @@
                     android:hint="@string/die_code"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.button.MaterialButton

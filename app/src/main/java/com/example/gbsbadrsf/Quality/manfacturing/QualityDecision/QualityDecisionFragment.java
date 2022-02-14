@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityDecision;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.getEditTextText;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -76,6 +77,8 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         addBasketCodeEditTextWatcher();
         initViewModel();
         initRecyclerView();
+        if (!viewModel.getBasketCode().isEmpty())
+            binding.basketCode.getEditText().setText(viewModel.getBasketCode());
         if (!viewModel.getDefectsManufacturingList().isEmpty()){
             setBasketData(viewModel.getDefectsManufacturingList().get(0));
             qtyDefectsQtyDefectedList = groupDefectsById(viewModel.getDefectsManufacturingList());
@@ -193,11 +196,11 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         NavController navController = NavHostFragment.findNavController(QualityDecisionFragment.this);
         viewModel.getSaveQualityOperationSignOffLiveData().observe(getViewLifecycleOwner(),apiResponseSavingOperationSignOffDecision -> {
             String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
-            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-            if (statusMessage.equals("Done successfully"))
+            if (statusMessage.equals("Done successfully")) {
                 navController.popBackStack();
-            else
                 Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+            } else
+                binding.basketCode.setError(statusMessage);
         });
     }
 
@@ -298,10 +301,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         childDesc="";
         operation = "";
         defectedQty = "";
-        binding.childcode.setText(childCode);
         binding.childesc.setText(childDesc);
         binding.operation.setText(operation);
-        binding.defectqtn.setText(defectedQty);
+        binding.defectedData.qty.setText(defectedQty);
         qtyDefectsQtyDefectedList.clear();
         adapter.notifyDataSetChanged();
     }
@@ -323,10 +325,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     }
 
     private void fillViews() {
-        binding.childcode.setText(childCode);
         binding.childesc.setText(childDesc);
         binding.operation.setText(operation);
-        binding.defectqtn.setText(defectedQty);
+        binding.defectedData.qty.setText(defectedQty);
     }
 
 
@@ -378,7 +379,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         }
         return String.valueOf(sum);
     }
-
+    String basketCode;
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -388,13 +389,14 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                 FinalQualityDecision finalQualityDecision = (FinalQualityDecision) binding.qfinaldesicionSpin.getSelectedItem();
                 int decisionId = finalQualityDecision.getFinalQualityDecisionId();
                 boolean checkListEnded;
+                basketCode = binding.basketCode.getEditText().getText().toString().trim();
                 if (!checkList.isEmpty())
                     checkListEnded = isCheckListFinished(checkList,savedCheckList);
                 else
                     checkListEnded = true;
-                if (!childCode.isEmpty()){
+                if (!basketCode.isEmpty()){
                     if (checkListEnded)
-                        viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,date,decisionId);
+                        viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,basketCode,date,decisionId);
                     else
                         warningDialog(getContext(),"Please finish mandatory check items first!");
                 } else
@@ -447,7 +449,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     }
 
     private String getTodayDate() {
-        return new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
+        return new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
 
     @Override
@@ -455,6 +457,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         getActivity().runOnUiThread(() -> {
             // update UI to reflect the data
             String scannedText = setUpBarCodeReader.scannedData(barcodeReadEvent);
+            binding.basketCode.getEditText().setText(scannedText);
             Log.d("===scannedText",scannedText);
             getBasketData(scannedText);
         });
@@ -500,6 +503,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        basketCode = getEditTextText(binding.basketCode.getEditText());
+        if (!basketCode.isEmpty())
+            viewModel.setBasketCode(basketCode);
         if (!defectsManufacturingList.isEmpty()){
             viewModel.setDefectsManufacturingList(defectsManufacturingList);
         }

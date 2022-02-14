@@ -123,10 +123,9 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
         String operationName = basketData.getOperationEnName();
         String defectedQty   = String.valueOf(defectsWeldingList.get(0).getDeffectedQty());
 
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
-        binding.defectQtn.setText(defectedQty);
+        binding.defectedData.qty.setText(defectedQty);
     }
 
     LastMoveWeldingBasket basketData;

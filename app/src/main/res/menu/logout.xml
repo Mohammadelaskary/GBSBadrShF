@@ -5,4 +5,8 @@
         android:title="Logout"
         android:enabled="true"
         app:showAsAction="always"/>
+    <item android:id="@+id/change_password"
+        android:title="Change password"
+        android:enabled="true"
+        app:showAsAction="never"/>
 </menu>

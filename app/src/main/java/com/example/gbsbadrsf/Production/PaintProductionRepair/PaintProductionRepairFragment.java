@@ -132,14 +132,14 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                         adapter.setDefectsPaintingList(defectsPaintingList);
                         qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
                         String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectQtn.setText(defectedQty);
+                        binding.defectedData.qty.setText(defectedQty);
                     }
                 } else {
-                    binding.defectQtn.setText("");
+                    binding.defectedData.qty.setText("");
                     qtyDefectsQtyDefectedList.clear();
                 }
             } else {
-                binding.defectQtn.setText("");
+                binding.defectedData.qty.setText("");
                 qtyDefectsQtyDefectedList.clear();
 //                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
                 warningDialog(getContext(),"Error in getting data!");
@@ -215,17 +215,20 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                 ResponseStatus responseStatus = apiResponseLastMovePaintingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
                     binding.basketCode.setError(null);
                 } else {
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                     parentDesc = "";
                     parentCode = "";
                     operationName = "";
                     binding.basketCode.setError(statusMessage);
                 }
             } else {
+                binding.dataLayout.setVisibility(View.VISIBLE);
                 parentDesc = "";
                 parentCode = "";
                 operationName = "";
@@ -236,7 +239,6 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
     }
 
     private void fillData(String parentDesc, String parentCode, String operationName) {
-        binding.parentCode.setText(parentCode);
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
     }

@@ -57,7 +57,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
         holder.binding.sequenceNum.setText(pprList.get(position).getLoadingSequenceNumber().toString());
         holder.binding.childTxt.setText("Parent");
         holder.binding.childDesc.setText(pprList.get(position).getParentDescription());
-        holder.binding.loadingQty.setText(pprList.get(position).getLoadingQty().toString());
+        holder.binding.remainingQty.setText(pprList.get(position).getAvailableloadingQty().toString());
         holder.binding.jobOrderQty.setText(pprList.get(position).getJobOrderQty().toString());
         if (pprList.get(position).getLoadingSequenceNumber()==selectedSequenceNo)
             activateItem(holder.itemView);

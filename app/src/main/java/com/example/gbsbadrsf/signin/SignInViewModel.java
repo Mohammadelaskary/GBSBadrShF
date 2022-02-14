@@ -29,6 +29,7 @@ public class SignInViewModel extends ViewModel {
     private MutableLiveData<Status> status;
     private MutableLiveData<Usertype> usertype;
     private MutableLiveData<Integer>  userId;
+    private MutableLiveData<String>  userName;
 
     private CompositeDisposable disposable = new CompositeDisposable();
     String pass;
@@ -40,11 +41,13 @@ public class SignInViewModel extends ViewModel {
         status = new MutableLiveData<>(Status.IDLE);
         usertype = new MutableLiveData<>(Usertype.PlanningUser);
         userId = new MutableLiveData<>();
+        userName = new MutableLiveData<>();
         this.repository=authenticationRepository;
     }
 
     void login(String Username,String pass){
-        disposable.add(repository.Login(Username,pass).doOnSubscribe(__ -> status.postValue(Status.LOADING)).subscribe(userInfoAPIResponseSignin -> {
+        disposable.add(repository.Login(Username,pass).doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe(userInfoAPIResponseSignin -> {
             if (userInfoAPIResponseSignin != null) {
                 if (userInfoAPIResponseSignin.getData().getIsPlanningUser() &&
                         userInfoAPIResponseSignin.getData().getIsProductionUser() &&
@@ -108,6 +111,7 @@ public class SignInViewModel extends ViewModel {
                 }
                 status.postValue(Status.SUCCESS);
                 userId.postValue(userInfoAPIResponseSignin.getData().getUserId());
+                userName.postValue(userInfoAPIResponseSignin.getData().getEmployeeName());
             } else {
                 usertype.postValue(Usertype.CONNECTION_ERROR);
             }
@@ -134,5 +138,9 @@ public class SignInViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getUserId() {
         return userId;
+    }
+
+    public MutableLiveData<String> getUserName() {
+        return userName;
     }
 }

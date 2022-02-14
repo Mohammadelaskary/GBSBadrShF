@@ -185,13 +185,17 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
                 if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)) {
                     basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
                     binding.oldBasketCode.setError(null);
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     binding.oldBasketCode.setError(statusMessage);
                     basketData = null;
+                    binding.dataLayout.setVisibility(View.GONE);
                 }
                 fillViewsData();
-            } else
-                warningDialog(getContext(),"Error in getting data!");
+            } else {
+                warningDialog(getContext(), "Error in getting data!");
+                binding.dataLayout.setVisibility(View.GONE);
+            }
         });
     }
 
@@ -201,18 +205,16 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
             parentDesc = basketData.getParentDescription();
             jobOrderName = basketData.getJobOrderName();
             basketQty = basketData.getSignOffQty();
-            binding.parentCode.setText(parentCode);
             binding.parentDesc.setText(parentDesc);
-            binding.jobordername.setText(jobOrderName);
+            binding.jobOrderData.jobordernum.setText(jobOrderName);
             if (basketQty != 0)
-                binding.basketqtn.setText(String.valueOf(basketQty));
+                binding.loadingQtyData.qty.setText(String.valueOf(basketQty));
             else
-                binding.basketqtn.setText("");
+                binding.loadingQtyData.qty.setText("");
         } else {
-            binding.parentCode.setText("");
             binding.parentDesc.setText("");
-            binding.jobordername.setText("");
-            binding.basketqtn.setText("");
+            binding.jobOrderData.jobordernum.setText("");
+            binding.loadingQtyData.qty.setText("");
         }
     }
 

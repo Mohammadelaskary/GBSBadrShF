@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.app.FragmentTransaction;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity  {
     public static  String DEVICE_SERIAL_NO;
     private AidcManager manager;
     public static String IP;
+    public static String USER_NAME = "";
 
 
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity  {
                         barcodeReader = manager.createBarcodeReader();
                         barcodeReaderSequence = manager.createBarcodeReader();
             try {
-                DEVICE_SERIAL_NO = barcodeReader.getInfo().getScannerId();
+                    DEVICE_SERIAL_NO = barcodeReader.getInfo().getScannerId();
             } catch (ScannerUnavailableException e) {
                 e.printStackTrace();
             }
@@ -144,6 +146,11 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.logout:{
                 finish();
                 startActivity(getIntent());
+            } break;
+            case R.id.change_password:{
+                NavController navController = Navigation.findNavController(this, R.id.myNavhostfragment);
+                navController.navigateUp();
+                navController.navigate(R.id.fragment_change_password);
             } break;
         }
         return super.onOptionsItemSelected(item);

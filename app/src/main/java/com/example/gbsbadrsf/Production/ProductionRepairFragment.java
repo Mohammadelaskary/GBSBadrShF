@@ -129,14 +129,14 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
                         adapter.setDefectsManufacturingList(defectsManufacturingList);
                         qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
                         String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectQtn.setText(defectedQty);
+                        binding.defectedData.qty.setText(defectedQty);
                     }
                 } else {
-                    binding.defectQtn.setText("");
+                    binding.defectedData.qty.setText("");
                     qtyDefectsQtyDefectedList.clear();
                 }
             } else {
-                binding.defectQtn.setText("");
+                binding.defectedData.qty.setText("");
                 qtyDefectsQtyDefectedList.clear();
 //                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
                 warningDialog(getContext(),"Error in getting data!");
@@ -228,7 +228,6 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     }
 
     private void fillData(String childDesc, String childCode, String operationName) {
-        binding.childCode.setText(childCode);
         binding.childDesc.setText(childDesc);
         binding.operation.setText(operationName);
     }

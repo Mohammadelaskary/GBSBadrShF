@@ -48,6 +48,7 @@ import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.machineloading.MachineLoadingFragment;
 import com.example.gbsbadrsf.machinewip.MachineWipMainFragment;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
+import com.example.gbsbadrsf.signin.ChangePasswordFragment;
 import com.example.gbsbadrsf.signin.SigninFragment;
 import com.example.gbsbadrsf.warhouse.counting.CountingFragment;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseFragment;
@@ -176,6 +177,8 @@ public abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector
     abstract BasketInfoFragment contributeBasketInfoFragment ();
+    @ContributesAndroidInjector
+    abstract ChangePasswordFragment contributeChangePasswordFragment ();
 
 
 

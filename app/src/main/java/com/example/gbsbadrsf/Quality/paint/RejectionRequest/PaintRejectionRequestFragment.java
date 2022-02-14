@@ -171,7 +171,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     }
 
     String parentCode ="", parentDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,oldBasketCode,newBasketCode;
-    int basketQty;
+    int basketQty,jobOrderQty;
     LastMovePaintingBasket basketData;
 
     private void getBasketData(String oldBasketCode) {
@@ -182,9 +182,11 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
             if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
                 basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
                 binding.oldBasketCode.setError(null);
+                binding.dataLayout.setVisibility(View.VISIBLE);
             } else {
                 binding.oldBasketCode.setError(statusMessage);
                 basketData = null;
+                binding.dataLayout.setVisibility(View.GONE);
             }
             fillViewsData();
         });
@@ -192,22 +194,25 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
 
     private void fillViewsData() {
         if (basketData!=null) {
+            binding.dataLayout.setVisibility(View.VISIBLE);
             parentCode = basketData.getParentCode();
             parentDesc = basketData.getParentDescription();
             jobOrderName = basketData.getJobOrderName();
+            jobOrderQty  = basketData.getJobOrderQty();
             basketQty = basketData.getSignOffQty();
-            binding.parentCode.setText(parentCode);
             binding.parentDesc.setText(parentDesc);
-            binding.jobordername.setText(jobOrderName);
+            binding.jobOrderData.jobordernum.setText(jobOrderName);
+            binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
             if (basketQty != 0)
-                binding.basketqtn.setText(String.valueOf(basketQty));
+                binding.loadingQtyData.qty.setText(String.valueOf(basketQty));
             else
-                binding.basketqtn.setText("");
+                binding.loadingQtyData.qty.setText("");
         } else {
-            binding.parentCode.setText("");
+            binding.dataLayout.setVisibility(View.GONE);
             binding.parentDesc.setText("");
-            binding.jobordername.setText("");
-            binding.basketqtn.setText("");
+            binding.jobOrderData.jobordernum.setText("");
+            binding.jobOrderData.Joborderqtn.setText("");
+            binding.loadingQtyData.qty.setText("");
         }
     }
 

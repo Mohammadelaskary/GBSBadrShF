@@ -16,6 +16,7 @@ public class LastMoveManufacturingBasketInfo {
     private String childDescription;
     private Integer qty;
     private Integer jobOrderId;
+    private Integer jobOrderQty;
     private String jobOrderName;
     private Integer pprLoadingId;
     private Integer lastOperationId;
@@ -191,4 +192,23 @@ public class LastMoveManufacturingBasketInfo {
         this.additionalProperties.put(name, value);
     }
 
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
+
+    public Boolean getBulkQty() {
+        return isBulkQty;
+    }
+
+    public void setBulkQty(Boolean bulkQty) {
+        isBulkQty = bulkQty;
+    }
+
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
 }

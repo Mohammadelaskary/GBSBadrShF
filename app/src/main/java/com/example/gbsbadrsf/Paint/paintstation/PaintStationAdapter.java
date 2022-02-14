@@ -52,7 +52,7 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
         int currentPosition = holder.getAdapterPosition();
         holder.binding.sequenceNum.setText(paintsequenceresponse.get(currentPosition).getLoadingSequenceNumber().toString());
         holder.binding.childDesc.setText(paintsequenceresponse.get(position).getParentDescription());
-        holder.binding.loadingQty.setText(paintsequenceresponse.get(currentPosition).getLoadingQty().toString());
+        holder.binding.remainingQty.setText(paintsequenceresponse.get(currentPosition).getAvailableloadingQty().toString());
         holder.binding.jobOrderQty.setText(paintsequenceresponse.get(currentPosition).getJobOrderQty().toString());
         holder.binding.childTxt.setText("Parent");
         if (currentPosition==selectedPosition)

@@ -98,17 +98,18 @@
         app:layout_constraintTop_toBottomOf="@id/machinecode_edt"
         app:layout_constraintStart_toStartOf="@id/machinecode_edt"
         app:layout_constraintEnd_toEndOf="@id/machinecode_edt">
-            <TextView
-                android:id="@+id/childesc"
-                style="@style/child_parent_desc_style"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Child Description"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/childesc"
+            style="@style/child_parent_desc_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Child Description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/job_order_data"
@@ -142,11 +143,12 @@
                 style="@style/details_text_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/jobordernum"
-                tools:layout_editor_absoluteY="70dp" />
+                app:layout_constraintTop_toTopOf="@+id/jobordernum" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -163,16 +165,59 @@
             app:layout_constraintStart_toStartOf="@+id/childesc"
             app:layout_constraintTop_toBottomOf="@id/childesc" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/remaining_qty_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-16dp"
+
+            android:background="@drawable/job_order_data_background"
+            android:padding="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="18dp"
+            app:layout_constraintEnd_toEndOf="@+id/childesc"
+            app:layout_constraintStart_toStartOf="@+id/childesc"
+            app:layout_constraintTop_toBottomOf="@+id/sign_off_qty_title">
+
+
+            <TextView
+                android:id="@+id/sign_off_qty"
+                style="@style/details_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/sign_off_qty_title"
+            style="@style/styleoftextbold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/remaining_qty_title_background"
+            android:text="Sign off Qty"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/childesc"
+            app:layout_constraintTop_toBottomOf="@id/job_order_data" />
+
         <TextView
             android:id="@+id/operation"
             style="@style/operation_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/operation"
             android:layout_marginTop="5dp"
+            android:text="@string/operation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
+            app:layout_constraintTop_toBottomOf="@+id/remaining_qty_data" />
             <TextView
                 android:id="@+id/totalqtn"
                 android:layout_width="wrap_content"

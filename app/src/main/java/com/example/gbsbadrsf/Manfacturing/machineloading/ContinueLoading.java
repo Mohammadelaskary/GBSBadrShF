@@ -116,10 +116,11 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
             @Override
             public void onClick(View v) {
                 String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
+                String basketCode  = binding.basketcodeEdt.getEditText().getText().toString().trim();
                 String dieCode     = binding.diecodeEdt.getEditText().getText().toString().trim();
 //                String loadingQty  = binding.loadingQty.getEditText().getText().toString().trim();
                 Log.d("=====qty",qty+"");
-                if (childCode==null)
+                if (basketCode.isEmpty())
                     binding.basketcodeEdt.setError("Please enter or scan a valid basket code!");
                 if (machineCode.isEmpty())
                     binding.machinecodeEdt.setError("Please enter or scan a valid machine code!");
@@ -134,12 +135,12 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 //                } else
 //                    binding.loadingQty.setError("Please set loading quantity!");
                 if (
-                        childCode!=null &&
+                        !basketCode.isEmpty() &&
                                 !machineCode.isEmpty()
 //                                &&!dieCode.isEmpty()
 //                        && !loadingQty.isEmpty()&&containsOnlyDigits(loadingQty)&&Integer.parseInt(loadingQty)<=qty&&Integer.parseInt(loadingQty)>0
                 )
-                continueLoadingViewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString(), binding.machinecodeNewedttxt.getText().toString(), binding.newdiecodeEdt.getText().toString(),String.valueOf(qty));
+                continueLoadingViewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, basketCode, machineCode, dieCode,String.valueOf(qty));
 
             }
         });
@@ -284,12 +285,16 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 if (response.getData()!=null) {
                     childCode = response.getData().getChildCode();
+                    qty = response.getData().getQty();
                     binding.childesc.setText(response.getData().getChildDescription());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
+                    binding.Joborderqtn.setText(response.getData().getJobOrderQty().toString());
                     binding.operation.setText(response.getData().getNextOperationName());
+                    binding.loadingQty.setText(String.valueOf(qty));
                     binding.dataLayout.setVisibility(View.VISIBLE);
-                    qty = response.getData().getQty();
                     binding.machinecodeEdt.getEditText().requestFocus();
+                    if (response.getData().getDieId()==0||response.getData().getDieId()==null)
+                        binding.diecodeEdt.getEditText().setEnabled(false);
                 } else {
                     binding.basketcodeEdt.setError(statusMessage);
                     binding.dataLayout.setVisibility(View.GONE);
