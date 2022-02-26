@@ -45,8 +45,6 @@ public class InfoForSelectedStationViewModel extends ViewModel {
         status = new MutableLiveData<>(Status.IDLE);
         baskets= new MutableLiveData<>();
         statustype = new MutableLiveData<>(Staustype.global);
-
-
     }
     void getselectedweldingsequence(int UserID,String DeviceSerialNo,String loadingsequenceid){
         disposable.add(apiinterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid)

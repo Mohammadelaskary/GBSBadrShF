@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Quality.manfacturing.QualityDecision;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.getEditTextText;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -198,7 +199,8 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
             String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
             if (statusMessage.equals("Done successfully")) {
                 navController.popBackStack();
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                showSuccessAlerter(statusMessage,getActivity());
+//                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
             } else
                 binding.basketCode.setError(statusMessage);
         });
@@ -247,7 +249,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(QualityDecisionViewModel.class);
     }
-    int userId = USER_ID,operationId,childId,jobOrderId,lastMoveId,pprLoadingId;
+    int userId = USER_ID,operationId,childId,jobOrderId,lastMoveId,pprLoadingId,jobOrderQty;
     String deviceSerialNumber = DEVICE_SERIAL_NO,defectedQty;
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     List<DefectsManufacturing> defectsManufacturingList = new ArrayList<>();
@@ -316,7 +318,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         operation = defectsManufacturing.getOperationEnName();
         operationId = defectsManufacturing.getOperationId();
         lastMoveId = defectsManufacturing.getLastMoveId();
+        jobOrderName = defectsManufacturing.getJobOrderName();
         pprLoadingId = defectsManufacturing.getPprLoadingId();
+        jobOrderQty = defectsManufacturing.getJobOrderQty();
         defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
         basketData = new LastMoveManufacturingBasket();
         basketData.setChildCode(childCode);
@@ -328,6 +332,8 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         binding.childesc.setText(childDesc);
         binding.operation.setText(operation);
         binding.defectedData.qty.setText(defectedQty);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
     }
 
 

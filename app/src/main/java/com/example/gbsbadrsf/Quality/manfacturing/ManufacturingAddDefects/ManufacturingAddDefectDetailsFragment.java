@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 
@@ -99,8 +100,11 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 String responseMessage = response.getResponseStatus().getStatusMessage();
                 if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
                     navController.popBackStack();
+                    showSuccessAlerter(responseMessage,getActivity());
+                } else {
+                    warningDialog(getContext(),responseMessage);
                 }
-                Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
             } else
 //                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
                      warningDialog(getContext(),"Error in connection");
@@ -132,18 +136,19 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     private void fillData() {
         binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.childesc.setText(childDescription);
-        binding.operation.setText(String.valueOf(operationId));
+        binding.operation.setText(operationName);
     }
     boolean newSample = false;
     int remainingQty;
     private void getReceivedData() {
         if (getArguments()!=null) {
             basketData = getArguments().getParcelable("basketData");
+            operationId = basketData.getOperationId();
             childCode        = basketData.getChildCode();
             childDescription = basketData.getChildDescription();
             childId          = basketData.getChildId();
             jobOrderId       = basketData.getJobOrderId();
-            operationId      = basketData.getOperationId();
+            operationName      = basketData.getOperationEnName();
             sampleQty        = getArguments().getInt("sampleQty");
             newSample        = getArguments().getBoolean("newSample");
             remainingQty     = getArguments().getInt(REMAINING_QTY);
@@ -154,7 +159,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String childCode,childDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO ;
+    String childCode,childDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO,operationName ;
     int     childId,
             defectedQty,
             jobOrderId,
@@ -171,12 +176,14 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
 //                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
-                    warningDialog(getContext(),"Please enter defected quantity!");
+                    binding.defectedQtyEdt.setError("Please enter defected quantity!");
+//                    warningDialog(getContext(),"Please enter defected quantity!");
                 else {
                     validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
+                    binding.defectedQtyEdt.setError("Total defected Quantity must be less than or equal sample quantity!");
+//                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
                 if (defectsIds.isEmpty()){
                     warningDialog(getContext(),"Please Select the found defects!");
                 }
@@ -197,15 +204,15 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                     viewModel.addManufacturingDefectResponseViewModel(data);
                 }
             } break;
-            case R.id.defects_list_layout:{
-                if(binding.defectsSelectList.getVisibility()==View.VISIBLE){
-                    binding.listDownArrow.setRotation(0);
-                    binding.defectsSelectList.setVisibility(View.GONE);
-                } else {
-                    binding.listDownArrow.setRotation(180);
-                    binding.defectsSelectList.setVisibility(View.VISIBLE);
-                }
-            } break;
+//            case R.id.defects_list_layout:{
+//                if(binding.defectsSelectList.getVisibility()==View.VISIBLE){
+//                    binding.listDownArrow.setRotation(0);
+//                    binding.defectsSelectList.setVisibility(View.GONE);
+//                } else {
+//                    binding.listDownArrow.setRotation(180);
+//                    binding.defectsSelectList.setVisibility(View.VISIBLE);
+//                }
+//            } break;
         }
     }
 

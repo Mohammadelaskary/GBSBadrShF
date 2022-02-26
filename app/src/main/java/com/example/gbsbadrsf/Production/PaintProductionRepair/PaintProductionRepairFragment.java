@@ -68,6 +68,12 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         observeGettingDefectsPainting();
         initViews();
         setupRecyclerView();
+        if (viewModel.getBasketData()!=null){
+            LastMovePaintingBasket basketData = viewModel.getBasketData();
+            adapter.setBasketData(basketData);
+            fillData(basketData.getParentDescription(),basketData.getJobOrderName(), basketData.getOperationEnName(),basketData.getJobOrderQty());
+            getBasketDefectsPainting(userId,deviceSerialNo,basketData.getBasketCode());
+        }
         return binding.getRoot();
     }
 
@@ -203,8 +209,8 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
     }
 
     LastMovePaintingBasket basketData;
-    String parentDesc, parentCode = "", operationName;
-
+    String parentDesc, parentCode = "", operationName,jobOrderName;
+    int jobOrderQty;
     private void getBasketData(int userId, String deviceSerialNo, String basketCode) {
         binding.basketCode.setError(null);
         viewModel.getBasketDataViewModel(userId, deviceSerialNo, basketCode);
@@ -219,6 +225,8 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
+                    jobOrderName  = basketData.getJobOrderName();
+                    jobOrderQty = basketData.getJobOrderQty();
                     binding.basketCode.setError(null);
                 } else {
                     binding.dataLayout.setVisibility(View.VISIBLE);
@@ -234,13 +242,15 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                 operationName = "";
                 binding.basketCode.setError("Error in getting data!");
             }
-            fillData(parentDesc, parentCode, operationName);
+            fillData(parentDesc, jobOrderName, operationName,jobOrderQty);
         });
     }
 
-    private void fillData(String parentDesc, String parentCode, String operationName) {
+    private void fillData(String parentDesc, String jobOrderName, String operationName,int jobOrderQty) {
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
     }
 
 
@@ -284,5 +294,13 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
     public void onPause() {
         super.onPause();
         barCodeReader.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (basketData!=null){
+            viewModel.setBasketData(basketData);
+        }
     }
 }

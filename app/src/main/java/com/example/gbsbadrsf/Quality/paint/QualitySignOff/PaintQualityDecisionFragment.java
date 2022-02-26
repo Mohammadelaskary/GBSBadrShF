@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.QualitySignOff;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -200,7 +201,8 @@ public class PaintQualityDecisionFragment extends DaggerFragment implements SetO
                 if (statusMessage.equals("Done successfully"))
                     navController.popBackStack();
                 else
-                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                    showSuccessAlerter(statusMessage,getActivity());
             } else {
                 warningDialog(getContext(),"Error in saving data!");
             }

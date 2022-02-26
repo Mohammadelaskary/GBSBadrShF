@@ -58,7 +58,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         if (viewModel.getBasketData()!=null){
             LastMoveManufacturingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
-            fillData(basketData.getChildDescription(), basketData.getOperationEnName());
+            fillData(basketData.getChildDescription(), basketData.getOperationEnName(),basketData.getJobOrderName(),basketData.getJobOrderQty());
             getBasketDefectsManufacturing(basketData.getBasketCode());
         }
         addTextWatcher();
@@ -199,7 +199,8 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
     }
 
     LastMoveManufacturingBasket basketData;
-    String childDesc,operationName;
+    String childDesc,operationName,jobOrderName;
+    int jobOrderQty;
     private void getBasketData(String basketCode) {
         viewModel.getBasketDataViewModel(basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveManufacturingBasket -> {
@@ -211,6 +212,8 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
                     childDesc = basketData.getChildDescription();
                     operationName = basketData.getOperationEnName();
+                    jobOrderName = basketData.getJobOrderName();
+                    jobOrderQty = basketData.getJobOrderQty();
                     binding.basketCode.setError(null);
                 } else {
                     childDesc = "";
@@ -222,13 +225,15 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
                 operationName = "";
                 binding.basketCode.setError("Error in getting data!");
             }
-            fillData(childDesc,operationName);
+            fillData(childDesc,operationName,jobOrderName,jobOrderQty);
         });
     }
 
-    private void fillData(String childDesc, String operationName) {
+    private void fillData(String childDesc, String operationName,String jobOrderName,int jobOrderQty) {
         binding.childDesc.setText(childDesc);
         binding.operation.setText(operationName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
     }
 
 

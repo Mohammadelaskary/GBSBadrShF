@@ -16,6 +16,13 @@ public class SetUpBarCodeReader {
     private BarcodeReader barcodeReader;
     private BarcodeReader.BarcodeListener barcodeListener;
     private BarcodeReader.TriggerListener triggerListener;
+    public static SetUpBarCodeReader barCodeReader;
+    public static SetUpBarCodeReader getInstance(BarcodeReader.BarcodeListener barcodeListener,BarcodeReader.TriggerListener triggerListener){
+        if (barCodeReader==null){
+            barCodeReader = new SetUpBarCodeReader(barcodeListener,triggerListener);
+        }
+        return barCodeReader;
+    }
     public SetUpBarCodeReader(BarcodeReader.BarcodeListener barcodeListener,BarcodeReader.TriggerListener triggerListener) {
         barcodeReader = MainActivity.getBarcodeObject();
         this.barcodeListener = barcodeListener;
@@ -94,6 +101,7 @@ public class SetUpBarCodeReader {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
             barcodeReader.release();
+            barcodeReader.close();
         }
     }
     public String scannedData(BarcodeReadEvent barcodeReadEvent){

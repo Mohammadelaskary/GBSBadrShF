@@ -62,7 +62,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         if (viewModel.getBasketData()!=null){
             LastMoveManufacturingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
-            fillData(basketData.getChildDescription(),basketData.getChildCode(), basketData.getOperationEnName());
+            fillData(basketData.getChildDescription(),basketData.getJobOrderName(), basketData.getOperationEnName(),basketData.getJobOrderQty());
             getBasketDefectsManufacturing(basketData.getBasketCode());
         }
         addTextWatcher();
@@ -197,7 +197,8 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         viewModel = ViewModelProviders.of(this,provider).get(ProductionRepairViewModel.class);
     }
     LastMoveManufacturingBasket basketData = new LastMoveManufacturingBasket();
-    String childDesc,childCode = "",operationName;
+    String childDesc,childCode = "",operationName,jobOrderName;
+    int jobOrderQty;
     private void getBasketData(String basketCode) {
         viewModel.getBasketDataViewModel(basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
@@ -210,26 +211,33 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
                     childDesc = basketData.getChildDescription();
                     childCode = basketData.getChildCode();
                     operationName = basketData.getOperationEnName();
+                    jobOrderName = basketData.getJobOrderName();
+                    jobOrderQty = basketData.getJobOrderQty();
                     binding.basketCode.setError(null);
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     childDesc = "";
                     childCode = "";
                     operationName = "";
+                    binding.dataLayout.setVisibility(View.GONE);
                     binding.basketCode.setError(statusMessage);
                 }
             } else {
                 childDesc = "";
                 childCode = "";
                 operationName = "";
+                binding.dataLayout.setVisibility(View.GONE);
                 binding.basketCode.setError("Error in getting data!");
             }
-            fillData(childDesc,childCode,operationName);
+            fillData(childDesc,jobOrderName,operationName,jobOrderQty);
         });
     }
 
-    private void fillData(String childDesc, String childCode, String operationName) {
+    private void fillData(String childDesc, String jobOrderName, String operationName,int jobOrderQty) {
         binding.childDesc.setText(childDesc);
         binding.operation.setText(operationName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
     }
 
 

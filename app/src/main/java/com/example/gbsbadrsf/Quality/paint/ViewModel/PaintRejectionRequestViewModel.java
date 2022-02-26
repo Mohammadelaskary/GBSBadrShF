@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
+import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Painting;
 import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseRejectionRequest_Painting;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
@@ -11,6 +14,8 @@ import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseReject
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,6 +32,9 @@ public class PaintRejectionRequestViewModel extends ViewModel {
 
     MutableLiveData<ApiResponseRejectionRequest_Painting> apiResponseSaveRejectionRequestLiveData;
     MutableLiveData<Status> apiResponseSaveRejectionRequestStatus;
+
+    MutableLiveData<ApiResponseDefectsList<List<Defect>>> apiResponseDefectsListPerOperation;
+    MutableLiveData<Status> apiResponseDefectsListPerOperationStatus;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -44,6 +52,8 @@ public class PaintRejectionRequestViewModel extends ViewModel {
         apiResponseBasketDataStatus   = new MutableLiveData<>();
         apiResponseSaveRejectionRequestStatus = new MutableLiveData<>();
         apiResponseSaveRejectionRequestLiveData = new MutableLiveData<>();
+        apiResponseDefectsListPerOperation = new MutableLiveData<>();
+        apiResponseDefectsListPerOperationStatus = new MutableLiveData<>();
     }
 
     public void getBasketDataViewModel(int userId,String deviceSerial,String basketCode){
@@ -72,13 +82,21 @@ public class PaintRejectionRequestViewModel extends ViewModel {
                         }
                 ));
     }
-    public void saveRejectionRequest(int userId,
-                                     String deviceSerialNo,
-                                     String oldBasketCode,
-                                     String newBasketCode,
-                                     int rejectionQty,
-                                     int departmentID){
-        disposable.add(apiInterface.RejectionRequest_Painting(userId,deviceSerialNo,oldBasketCode,newBasketCode,rejectionQty,departmentID)
+    public void getDefectsList(int operationId){
+        disposable.add(apiInterface.getDefectsListPerOperation(operationId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> apiResponseDefectsListPerOperationStatus.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {apiResponseDefectsListPerOperation.postValue(response);
+                            apiResponseDefectsListPerOperationStatus.postValue(Status.SUCCESS); },
+                        throwable -> {
+                            apiResponseDefectsListPerOperationStatus.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void saveRejectionRequest(SaveRejectionRequestBody body){
+        disposable.add(apiInterface.RejectionRequest_Painting(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseSaveRejectionRequestStatus.postValue(Status.LOADING))
@@ -113,5 +131,13 @@ public class PaintRejectionRequestViewModel extends ViewModel {
 
     public MutableLiveData<Status> getApiResponseSaveRejectionRequestStatus() {
         return apiResponseSaveRejectionRequestStatus;
+    }
+
+    public MutableLiveData<ApiResponseDefectsList<List<Defect>>> getApiResponseDefectsListPerOperation() {
+        return apiResponseDefectsListPerOperation;
+    }
+
+    public MutableLiveData<Status> getApiResponseDefectsListPerOperationStatus() {
+        return apiResponseDefectsListPerOperationStatus;
     }
 }

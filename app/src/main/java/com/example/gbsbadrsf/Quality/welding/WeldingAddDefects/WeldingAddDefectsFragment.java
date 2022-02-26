@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.AlertDialog;
@@ -235,7 +236,8 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
                 viewModel.getAddWeldingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
                     String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
                     if (responseMessage.equals("Added successfully")) {
-                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+                        showSuccessAlerter(responseMessage,getActivity());
+//                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
                         navController.popBackStack();
                     } else {
                         binding.basketCode.setError(responseMessage);

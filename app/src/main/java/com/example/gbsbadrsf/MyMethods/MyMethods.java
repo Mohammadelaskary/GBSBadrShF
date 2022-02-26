@@ -21,6 +21,7 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
 import com.google.android.material.textfield.TextInputLayout;
+import com.tapadoo.alerter.Alerter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -145,5 +146,16 @@ public class MyMethods {
     }
     public static String getEditTextText(EditText editText){
         return editText.getText().toString().trim();
+    }
+
+    public static void showSuccessAlerter(String message,Activity activity){
+       Alerter.create(activity).setText(message)
+                .setIcon(R.drawable.ic_done)
+                .setBackgroundColorInt(activity.getResources().getColor(R.color.alerter_success_color))
+                .setDuration(1000)
+                .setTextAppearance(R.style.alerter_text_appearance)
+                .setEnterAnimation(R.anim.alerter_slide_in_from_top)
+                .setExitAnimation(R.anim.alerter_slide_out_to_top)
+                .show();
     }
 }

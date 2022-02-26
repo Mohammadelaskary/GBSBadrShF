@@ -3,9 +3,11 @@ package com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ApiReponse.ApiResponsePaintingRepair_Production;
 import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Painting;
 import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseGetPaintingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
@@ -25,7 +27,7 @@ public class PaintProductionRepairViewModel extends ViewModel {
     MutableLiveData<Status> defectsPaintingListStatus;
     MutableLiveData<ApiResponsePaintingRepair_Production> addPaintingRepairProduction;
     MutableLiveData<Status> addPaintingRepairProductionStatus;
-
+    LastMovePaintingBasket basketData;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -96,5 +98,13 @@ public class PaintProductionRepairViewModel extends ViewModel {
 
     public MutableLiveData<Status> getAddPaintingRepairProductionStatus() {
         return addPaintingRepairProductionStatus;
+    }
+
+    public LastMovePaintingBasket getBasketData() {
+        return basketData;
+    }
+
+    public void setBasketData(LastMovePaintingBasket basketData) {
+        this.basketData = basketData;
     }
 }

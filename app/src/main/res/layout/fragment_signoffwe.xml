@@ -86,7 +86,7 @@
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/station_edt"
                 app:layout_constraintStart_toStartOf="@+id/station_edt"
                 app:layout_constraintTop_toBottomOf="@+id/station_edt">
@@ -224,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/job_order_txt_background"
+                    android:background="@drawable/remaining_qty_title_background"
                     android:text="Qty"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"

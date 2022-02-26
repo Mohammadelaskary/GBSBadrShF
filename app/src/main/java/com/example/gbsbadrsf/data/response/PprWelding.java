@@ -65,6 +65,9 @@ public class PprWelding implements Parcelable {
     @SerializedName("jobOrderQty")
     @Expose
     private Integer jobOrderQty;
+    @SerializedName("pprQty")
+    @Expose
+    private Integer pprQty;
     @SerializedName("loadingQty")
     @Expose
     private Integer loadingQty;
@@ -89,6 +92,9 @@ public class PprWelding implements Parcelable {
     @SerializedName("loadingSequenceStatus")
     @Expose
     private Integer loadingSequenceStatus;
+    @SerializedName("incrementalSignOutQty")
+    @Expose
+    private Integer incrementalSignOutQty;
 
     protected PprWelding(Parcel in) {
         if (in.readByte() == 0) {
@@ -149,6 +155,11 @@ public class PprWelding implements Parcelable {
             jobOrderQty = in.readInt();
         }
         if (in.readByte() == 0) {
+            pprQty = null;
+        } else {
+            pprQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
             loadingQty = null;
         } else {
             loadingQty = in.readInt();
@@ -179,6 +190,11 @@ public class PprWelding implements Parcelable {
             loadingSequenceStatus = null;
         } else {
             loadingSequenceStatus = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            incrementalSignOutQty = null;
+        } else {
+            incrementalSignOutQty = in.readInt();
         }
     }
 
@@ -346,6 +362,14 @@ public class PprWelding implements Parcelable {
         this.jobOrderQty = jobOrderQty;
     }
 
+    public Integer getPprQty() {
+        return pprQty;
+    }
+
+    public void setPprQty(Integer pprQty) {
+        this.pprQty = pprQty;
+    }
+
     public Integer getLoadingQty() {
         return loadingQty;
     }
@@ -408,6 +432,14 @@ public class PprWelding implements Parcelable {
 
     public void setLoadingSequenceStatus(Integer loadingSequenceStatus) {
         this.loadingSequenceStatus = loadingSequenceStatus;
+    }
+
+    public Integer getIncrementalSignOutQty() {
+        return incrementalSignOutQty;
+    }
+
+    public void setIncrementalSignOutQty(Integer incrementalSignOutQty) {
+        this.incrementalSignOutQty = incrementalSignOutQty;
     }
 
     @Override
@@ -484,6 +516,12 @@ public class PprWelding implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(jobOrderQty);
         }
+        if (pprQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprQty);
+        }
         if (loadingQty == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -521,6 +559,12 @@ public class PprWelding implements Parcelable {
         } else {
             dest.writeByte((byte) 1);
             dest.writeInt(loadingSequenceStatus);
+        }
+        if (incrementalSignOutQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(incrementalSignOutQty);
         }
     }
 }

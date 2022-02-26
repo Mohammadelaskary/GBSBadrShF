@@ -68,7 +68,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
         if (viewModel.getBasketData()!=null){
             LastMoveWeldingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
-            fillData(basketData.getParentDescription(),basketData.getParentCode(), basketData.getOperationEnName());
+            fillData(basketData.getParentDescription(),basketData.getJobOrderName(), basketData.getOperationEnName(),basketData.getJobOrderQty());
             getBasketDefectsWelding(userId,deviceSerialNo,basketData.getBasketCode());
         }
         return binding.getRoot();
@@ -206,8 +206,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
     }
 
     LastMoveWeldingBasket basketData;
-    String parentDesc, parentCode = "", operationName;
-
+    String parentDesc, parentCode = "", operationName,jobOrderName;
+    int jobOrderQty;
     private void getBasketData(int userId, String deviceSerialNo, String basketCode) {
         binding.basketCode.setError(null);
         viewModel.getBasketDataViewModel(userId, deviceSerialNo, basketCode);
@@ -222,6 +222,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
+                    jobOrderName  =basketData.getJobOrderName();
+                    jobOrderQty   = basketData.getJobOrderQty();
                     binding.basketCode.setError(null);
                 } else {
                     binding.dataLayout.setVisibility(View.GONE);
@@ -237,13 +239,15 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
                 operationName = "";
                 binding.basketCode.setError("Error in getting data!");
             }
-            fillData(parentDesc, parentCode, operationName);
+            fillData(parentDesc, jobOrderName, operationName,jobOrderQty);
         });
     }
 
-    private void fillData(String parentDesc, String parentCode, String operationName) {
+    private void fillData(String parentDesc, String jobOrderName, String operationName,int jobOrderQty) {
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
     }
 
 

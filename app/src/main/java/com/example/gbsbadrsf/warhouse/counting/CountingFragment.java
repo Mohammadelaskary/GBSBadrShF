@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.warhouse.counting;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -178,7 +179,8 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
                 if (statusMessage.equals("Getting data successfully")) {
                     binding.parentdesc.setText(response.getData().getParentDescription());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
-                    binding.paintSignOffQty.setText(response.getData().getLoadingQty().toString());
+                    binding.paintSignOffQty.setText(response.getData().getSignOutQty().toString());
+                    binding.jobOrderQty.setText(response.getData().getJobOrderQty().toString());
                     if (response.getData().getCountingQty().equals(0))
                         binding.qty.getEditText().setText("");
                     else
@@ -261,7 +263,8 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
                 switch (statusMessage){
                     case "Done successfully":
                     case "Updated successfully":
-                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                        showSuccessAlerter(statusMessage,getActivity());
+//                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                         back(CountingFragment.this);
                         break;
                     case "Wrong Barcode or No data found!":

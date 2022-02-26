@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import com.example.gbsbadrsf.CustomChoiceDialog;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.databinding.SignoffcustomdialogBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -31,21 +33,38 @@ import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
-public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeListener,
+public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener, OnBasketRemoved {
     private String childDesc;
     private String loadingQty;
     private OnInputSelected onInputSelected;
     private boolean isBulk;
     Activity activity;
+    public static Signoffitemsdialog signoffitemsdialog;
+    public static Signoffitemsdialog getInstance(@NonNull Context context, String childDesc, String loadingQty, OnInputSelected onInputSelected, boolean isBulk, List<Basketcodelst> basketList, Activity activity){
+        if (signoffitemsdialog==null){
+            signoffitemsdialog = new Signoffitemsdialog(context,childDesc,loadingQty,onInputSelected,isBulk,basketList,activity);
+        }
+        return signoffitemsdialog;
+    }
 
-    public Signoffitemsdialog(@NonNull Context context,String childDesc,String loadingQty,OnInputSelected onInputSelected,boolean isBulk,List<Basketcodelst> basketList,Activity activity) {
+    public Signoffitemsdialog(@NonNull Context context, String childDesc, String loadingQty, OnInputSelected onInputSelected, boolean isBulk, List<Basketcodelst> basketList, Activity activity) {
         super(context);
         this.activity = activity;
         this.childDesc = childDesc;
         this.loadingQty = loadingQty;
         this.onInputSelected = onInputSelected;
         this.isBulk = isBulk;
+        this.basketList = basketList;
+        barCodeReader = SetUpBarCodeReader.getInstance(this,this);
+        barCodeReader.onResume();
+    }
+
+    public void setBulk(boolean bulk) {
+        isBulk = bulk;
+    }
+
+    public void setBasketList(List<Basketcodelst> basketList) {
         this.basketList = basketList;
     }
 
@@ -77,8 +96,8 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
             setBulkViews();
         else
             setUnBulkViews();
-        barCodeReader = new SetUpBarCodeReader(this,this);
-        barCodeReader.onResume();
+//        barCodeReader = SetUpBarCodeReader.getInstance(this,this);
+//        barCodeReader.onResume();
         basketCodes.clear();
         for (Basketcodelst basketcodelst:basketList){
             basketCodes.add(basketcodelst.getBasketcode());
@@ -187,7 +206,7 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                     && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
             {
-                handleBasketEditTextActionGo();
+                handleBasketEditTextActionGo(binding.basketcodeEdt.getEditText().getText().toString().trim());
                 return true;
             }
             return false;
@@ -198,12 +217,16 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
                     if (calculateTotalAddedQty(basketList) == Integer.parseInt(loadingQty)) {
                         onInputSelected.sendlist(basketList, isBulk);
                         dismiss();
+//                        cancel();
+//                        barCodeReader.onPause();
                     } else {
                         warningDialog(getContext(), "Please add all loading qty to baskets!");
                     }
                 } else {
                     onInputSelected.sendlist(basketList, true);
                     dismiss();
+//                    cancel();
+//                    barCodeReader.onPause();
                 }
             } else {
                 warningDialog(getContext(),"Please add at least 1 basket!");
@@ -230,9 +253,10 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
         });
     }
     List<String> basketCodes = new ArrayList<>();
-    private void handleBasketEditTextActionGo() {
+    private void handleBasketEditTextActionGo(String basketCode) {
+
+
         String basketQty  = binding.basketQty.getEditText().getText().toString().trim();
-        String basketCode = binding.basketcodeEdt.getEditText().getText().toString().trim();
         if (!basketQty.isEmpty()){
             if (containsOnlyDigits(basketQty)){
                 if (!isBulk) {
@@ -240,8 +264,8 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
                         if (!basketCode.isEmpty()) {
                             Basketcodelst basketcodelst = new Basketcodelst(basketCode, Integer.parseInt(basketQty));
                             if (basketList.isEmpty()) {
-                                basketList.add(basketcodelst);
                                 basketCodes.add(basketCode);
+                                basketList.add(basketcodelst);
                                 handleTableTitle();
                                 adapter.setBulk(isBulk);
                                 adapter.notifyDataSetChanged();
@@ -249,8 +273,8 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
                                 binding.basketcodeEdt.getEditText().setText("");
                             } else {
                                 if (!basketCodes.contains(basketCode))  {
-                                        basketList.add(basketcodelst);
-                                        basketCodes.add(basketCode);
+                                    basketCodes.add(basketCode);
+                                    basketList.add(basketcodelst);
                                         handleTableTitle();
                                         adapter.setBulk(isBulk);
                                         adapter.notifyDataSetChanged();
@@ -268,21 +292,22 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
                         binding.basketQty.setError("Basket quantity must be equal or less than remaining quantity and more than 0!");
                         binding.basketcodeEdt.getEditText().setText("");
                     }
-                } else {
+                }
+                else  {
                     if (!basketCode.isEmpty()) {
                         Basketcodelst basketcodelst = new Basketcodelst(basketCode, Integer.parseInt(basketQty));
                         if (basketList.isEmpty()) {
-                            basketList.add(basketcodelst);
                             basketCodes.add(basketCode);
+                            basketList.add(basketcodelst);
                             handleTableTitle();
                             adapter.setBulk(isBulk);
                             adapter.notifyDataSetChanged();
                             binding.basketcodeEdt.getEditText().setText("");
                         } else {
-
                                 if (!basketCodes.contains(basketCode)) {
-                                    basketList.add(basketcodelst);
                                     basketCodes.add(basketCode);
+                                    basketList.add(basketcodelst);
+                                    Log.d("barcodeError",adapter.getItemCount()+"");
                                     handleTableTitle();
                                     adapter.setBulk(isBulk);
                                     adapter.notifyDataSetChanged();
@@ -339,7 +364,7 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
         activity.runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketcodeEdt.getEditText().setText(scannedText);
-            handleBasketEditTextActionGo();
+            handleBasketEditTextActionGo(scannedText);
         });
     }
 
@@ -365,5 +390,4 @@ public class Signoffitemsdialog extends Dialog implements BarcodeReader.BarcodeL
         };
         binding.basketcodeRv.setLayoutManager(manager);
     }
-
 }

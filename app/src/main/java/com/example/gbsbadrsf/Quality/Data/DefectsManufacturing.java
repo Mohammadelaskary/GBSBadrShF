@@ -46,6 +46,9 @@ public class DefectsManufacturing implements Parcelable {
     @SerializedName("jobOrderName")
     @Expose
     private String jobOrderName;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
     @SerializedName("jobOrderDate")
     @Expose
     private String jobOrderDate;
@@ -95,7 +98,6 @@ public class DefectsManufacturing implements Parcelable {
     @Expose
     private Integer defectStatusReject;
 
-
     protected DefectsManufacturing(Parcel in) {
         if (in.readByte() == 0) {
             manufacturingDefectsId = null;
@@ -142,6 +144,11 @@ public class DefectsManufacturing implements Parcelable {
             jobOrderId = in.readInt();
         }
         jobOrderName = in.readString();
+        if (in.readByte() == 0) {
+            jobOrderQty = null;
+        } else {
+            jobOrderQty = in.readInt();
+        }
         jobOrderDate = in.readString();
         if (in.readByte() == 0) {
             operationId = null;
@@ -200,6 +207,140 @@ public class DefectsManufacturing implements Parcelable {
         }
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (manufacturingDefectsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(manufacturingDefectsId);
+        }
+        if (defectsManufacturingDetailsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectsManufacturingDetailsId);
+        }
+        if (defectId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectId);
+        }
+        dest.writeString(defectCode);
+        dest.writeString(defectDescription);
+        if (childId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(childId);
+        }
+        dest.writeString(childCode);
+        dest.writeString(childDescription);
+        if (deffectedQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(deffectedQty);
+        }
+        if (pprLoadingId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprLoadingId);
+        }
+        if (lastMoveId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(lastMoveId);
+        }
+        if (jobOrderId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderId);
+        }
+        dest.writeString(jobOrderName);
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        dest.writeString(jobOrderDate);
+        if (operationId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationId);
+        }
+        dest.writeString(operationEnName);
+        dest.writeString(dateProductionRepair);
+        dest.writeString(dateQualityApprove);
+        dest.writeString(dateQualityReject);
+        dest.writeString(dateQualityRepair);
+        if (qtyRepaired == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRepaired);
+        }
+        if (qtyDefected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyDefected);
+        }
+        if (qtyRejected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRejected);
+        }
+        if (qtyApproved == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyApproved);
+        }
+        if (defectStatus == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatus);
+        }
+        if (defectStatusProduction == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusProduction);
+        }
+        if (defectStatusQc == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusQc);
+        }
+        if (defectStatusApprove == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusApprove);
+        }
+        if (defectStatusReject == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusReject);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     public static final Creator<DefectsManufacturing> CREATOR = new Creator<DefectsManufacturing>() {
         @Override
         public DefectsManufacturing createFromParcel(Parcel in) {
@@ -211,6 +352,14 @@ public class DefectsManufacturing implements Parcelable {
             return new DefectsManufacturing[size];
         }
     };
+
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
 
     public Integer getManufacturingDefectsId() {
         return manufacturingDefectsId;
@@ -444,131 +593,4 @@ public class DefectsManufacturing implements Parcelable {
         this.lastMoveId = lastMoveId;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (manufacturingDefectsId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(manufacturingDefectsId);
-        }
-        if (defectsManufacturingDetailsId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectsManufacturingDetailsId);
-        }
-        if (defectId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectId);
-        }
-        dest.writeString(defectCode);
-        dest.writeString(defectDescription);
-        if (childId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(childId);
-        }
-        dest.writeString(childCode);
-        dest.writeString(childDescription);
-        if (deffectedQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(deffectedQty);
-        }
-        if (pprLoadingId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(pprLoadingId);
-        }
-        if (lastMoveId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(lastMoveId);
-        }
-        if (jobOrderId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderId);
-        }
-        dest.writeString(jobOrderName);
-        dest.writeString(jobOrderDate);
-        if (operationId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(operationId);
-        }
-        dest.writeString(operationEnName);
-        dest.writeString(dateProductionRepair);
-        dest.writeString(dateQualityApprove);
-        dest.writeString(dateQualityReject);
-        dest.writeString(dateQualityRepair);
-        if (qtyRepaired == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyRepaired);
-        }
-        if (qtyDefected == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyDefected);
-        }
-        if (qtyRejected == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyRejected);
-        }
-        if (qtyApproved == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyApproved);
-        }
-        if (defectStatus == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatus);
-        }
-        if (defectStatusProduction == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusProduction);
-        }
-        if (defectStatusQc == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusQc);
-        }
-        if (defectStatusApprove == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusApprove);
-        }
-        if (defectStatusReject == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusReject);
-        }
-    }
 }

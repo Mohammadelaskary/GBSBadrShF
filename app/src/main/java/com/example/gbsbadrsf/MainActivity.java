@@ -17,9 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.ProductionRejectionFragment;
 import com.example.gbsbadrsf.Util.Constant;
 import com.example.gbsbadrsf.databinding.ActivityMainBinding;
 import com.example.gbsbadrsf.signin.SigninFragment;
@@ -120,23 +122,23 @@ public class MainActivity extends AppCompatActivity  {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (barcodeReader != null) {
-            // close BarcodeReader to clean up resources.
-            barcodeReader.close();
-            barcodeReader = null;
-        }
-        if (barcodeReaderSequence != null) {
-            // close BarcodeReader to clean up resources.
-            barcodeReaderSequence.close();
-            barcodeReaderSequence = null;
-        }
-
-
-        if (manager != null) {
-//            // close AidcManager to disconnect from the scanner service.
-            // once closed, the object can no longer be used.
-            manager.close();
-        }
+//        if (barcodeReader != null) {
+//            // close BarcodeReader to clean up resources.
+//            barcodeReader.close();
+//            barcodeReader = null;
+//        }
+//        if (barcodeReaderSequence != null) {
+//            // close BarcodeReader to clean up resources.
+//            barcodeReaderSequence.close();
+//            barcodeReaderSequence = null;
+//        }
+//
+//
+//        if (manager != null) {
+////            // close AidcManager to disconnect from the scanner service.
+//            // once closed, the object can no longer be used.
+//            manager.close();
+//        }
   }
 
     @Override
@@ -162,6 +164,5 @@ public class MainActivity extends AppCompatActivity  {
         inflater.inflate(R.menu.logout, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
 }

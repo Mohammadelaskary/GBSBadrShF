@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.AddDefects;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -239,7 +240,8 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
                     if (apiResponseAddManufacturingDefectedChildToBasket!=null) {
                         String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
                         if (responseMessage.equals("Added successfully")) {
-                            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+                            showSuccessAlerter(responseMessage,getActivity());
+//                            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
                             navController.popBackStack();
                         } else {
                             binding.basketCode.setError(responseMessage);

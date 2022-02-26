@@ -299,10 +299,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BasketInfoViewModel.class)
     public abstract ViewModel bindBasketInfoViewModel (BasketInfoViewModel viewModel);
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(ChangePasswordViewModel.class)
-//    public abstract ViewModel bindChangePasswordViewModel (ChangePasswordViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChangePasswordViewModel.class)
+    public abstract ViewModel bindChangePasswordViewModel (ChangePasswordViewModel viewModel);
 
 
 

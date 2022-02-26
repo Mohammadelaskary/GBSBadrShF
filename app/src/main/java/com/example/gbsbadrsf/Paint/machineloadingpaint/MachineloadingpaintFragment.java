@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Paint.machineloadingpaint;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Paint.paintstation.Paintdstation.PAINT_PPR_KEY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -165,6 +166,8 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
             paintStationCode = ppr.getProductionStationCode();
             loadingSequenceId = ppr.getLoadingSequenceID();
             loadingQty = ppr.getLoadingQty();
+            binding.jobOrderData.jobordernum.setText(ppr.getJobOrderName());
+            binding.jobOrderData.Joborderqtn.setText(String.valueOf(ppr.getJobOrderQty()));
             binding.parentdesc.setText(ppr.getParentDescription());
             binding.operation.setText(ppr.getOperationEnName());
             binding.loadingQty.setText(ppr.getLoadingQty().toString());
@@ -214,7 +217,8 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 switch (statusMessage){
                     case "Saving data successfully":
-                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                        showSuccessAlerter(statusMessage,getActivity());
+//                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                         back(MachineloadingpaintFragment.this);
                         break;
                     default:

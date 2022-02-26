@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -104,7 +105,8 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
             navController.popBackStack();
 //                        }
 
-            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+            showSuccessAlerter(responseMessage,getActivity());
         });
     }
 
@@ -174,12 +176,14 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
                 String defectedQtyString = binding.defectedQtyEdt.getEditText().getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
-                    warningDialog(getContext(),"Please enter defected quantity!");
+                    binding.defectedQtyEdt.setError("Please enter defected quantity!");
+//                    warningDialog(getContext(),"Please enter defected quantity!");
                 else {
                     validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
+                    binding.defectedQtyEdt.setError("Total defected Quantity must be less than or equal sample quantity!");
+//                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
                 if (defectsIds.isEmpty()){
                     warningDialog(getContext(),"Please Select the found defects!");
                 }
@@ -199,15 +203,15 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
                     viewModel.addWeldingDefectResponseViewModel(data);
                 }
             } break;
-            case R.id.defects_list_layout:{
-                if(binding.defectsSelectList.getVisibility()==View.VISIBLE){
-                    binding.listDownArrow.setRotation(0);
-                    binding.defectsSelectList.setVisibility(View.GONE);
-                } else {
-                    binding.listDownArrow.setRotation(180);
-                    binding.defectsSelectList.setVisibility(View.VISIBLE);
-                }
-            } break;
+//            case R.id.defects_list_layout:{
+//                if(binding.defectsSelectList.getVisibility()==View.VISIBLE){
+//                    binding.listDownArrow.setRotation(0);
+//                    binding.defectsSelectList.setVisibility(View.GONE);
+//                } else {
+//                    binding.listDownArrow.setRotation(180);
+//                    binding.defectsSelectList.setVisibility(View.VISIBLE);
+//                }
+//            } break;
         }
     }
 

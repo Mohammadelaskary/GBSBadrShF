@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
 import android.app.AlertDialog;
@@ -251,7 +252,8 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
                 viewModel.getAddManufacturingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
                     String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
                     if (responseMessage.equals("Added successfully")) {
-                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+                        showSuccessAlerter(responseMessage,getActivity());
                         navController.popBackStack();
                     } else {
                         binding.basketCode.setError(responseMessage);

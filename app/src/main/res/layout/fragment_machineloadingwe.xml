@@ -43,6 +43,15 @@
                 app:layout_constraintStart_toStartOf="@id/stationcode_edt"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <include
+                android:id="@+id/job_order_data"
+                layout="@layout/job_order_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/parentdesc"
+                app:layout_constraintStart_toStartOf="@+id/parentdesc"
+                app:layout_constraintTop_toBottomOf="@+id/parentdesc" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/sign_off_data"
                 android:layout_width="0dp"
@@ -59,16 +68,65 @@
 
 
                 <TextView
-                    android:id="@+id/loading_qty"
+                    android:id="@+id/ppr_qty"
                     style="@style/details_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:gravity="center"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView17"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ppr"
+                    style="@style/style_of_text_bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/ppr_qty"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ppr_qty" />
+
+                <TextView
+                    android:id="@+id/signed_off_qty"
+                    style="@style/details_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    app:layout_constraintEnd_toEndOf="@+id/ppr_qty"
+                    app:layout_constraintStart_toEndOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/ppr_qty" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Signed off"
+                    style="@style/style_of_text_bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/signed_off_qty"
+                    app:layout_constraintStart_toStartOf="@+id/textView14"
+                    app:layout_constraintTop_toTopOf="@+id/signed_off_qty" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign off"
+                    style="@style/style_of_text_bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/sign_off_qty"
+                    app:layout_constraintStart_toStartOf="@+id/textView17"
+                    app:layout_constraintTop_toTopOf="@+id/sign_off_qty" />
+
+                <TextView
+                    android:id="@+id/sign_off_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    style="@style/details_text_style"
+                    app:layout_constraintEnd_toEndOf="@+id/signed_off_qty"
+                    app:layout_constraintStart_toStartOf="@+id/signed_off_qty"
+                    app:layout_constraintTop_toBottomOf="@+id/signed_off_qty" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,11 +137,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/remaining_qty_title_background"
-                android:text="Loading Qty"
+                android:text="Quantity"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/parentdesc" />
+                app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
             <!--            <TextView-->
 <!--                android:id="@+id/stationcode_txt"-->
@@ -120,7 +178,7 @@
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sign_off_data"
+                app:layout_constraintTop_toBottomOf="@+id/operation"
                 app:startIconDrawable="@drawable/ic_barcode_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -140,10 +198,10 @@
                 style="@style/operation_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/stationcode_edt"
                 app:layout_constraintStart_toStartOf="@+id/stationcode_edt"
-                app:layout_constraintTop_toBottomOf="@+id/stationcode_edt" />
+                app:layout_constraintTop_toBottomOf="@+id/sign_off_data" />
 
 <!--            <TextView-->
 <!--                android:id="@+id/childbasketcode_txt"-->
@@ -179,7 +237,7 @@
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/operation"
+                app:layout_constraintTop_toBottomOf="@+id/stationcode_edt"
                 app:startIconDrawable="@drawable/ic_barcode_icon">
 
                 <com.google.android.material.textfield.TextInputEditText

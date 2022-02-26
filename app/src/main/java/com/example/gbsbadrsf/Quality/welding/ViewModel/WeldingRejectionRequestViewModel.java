@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ApiResponseSaveRejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
@@ -73,13 +74,8 @@ public class WeldingRejectionRequestViewModel extends ViewModel {
                         }
                 ));
     }
-    public void saveRejectionRequest(int userId,
-                                     String deviceSerialNo,
-                                     String oldBasketCode,
-                                     String newBasketCode,
-                                     int rejectionQty,
-                                     int departmentID){
-        disposable.add(apiInterface.RejectionRequest_Welding(userId,deviceSerialNo,oldBasketCode,newBasketCode,rejectionQty,departmentID)
+    public void saveRejectionRequest(SaveRejectionRequestBody body){
+        disposable.add(apiInterface.RejectionRequest_Welding(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseSaveRejectionRequestStatus.postValue(Status.LOADING))

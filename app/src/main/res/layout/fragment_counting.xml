@@ -216,7 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/job_order_txt_background"
+                    android:background="@drawable/remaining_qty_title_background"
                     android:text="Paint sign off qty"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="@+id/job_order_data"

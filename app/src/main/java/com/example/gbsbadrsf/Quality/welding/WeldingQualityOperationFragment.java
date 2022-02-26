@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Quality.welding;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -141,7 +142,8 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
                     dischargeViews();
                 }
             } else  {
-                Toast.makeText(getContext(), "Error in Getting Data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in Getting Data!");
+//                Toast.makeText(getContext(), "Error in Getting Data!", Toast.LENGTH_SHORT).show();
                 basketData = null;
                 binding.dataLayout.setVisibility(View.GONE);
                 dischargeViews();

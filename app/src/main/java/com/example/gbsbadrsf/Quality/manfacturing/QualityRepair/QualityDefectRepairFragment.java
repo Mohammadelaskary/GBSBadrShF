@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.QualityRepair;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -94,7 +95,8 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         viewModel.getAddManufacturingRepairQuality().observe(getViewLifecycleOwner(),response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
-                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                showSuccessAlerter(statusMessage,getActivity());
+//                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
                 updateRecyclerView();
             } else
                 warningDialog(getContext(),statusMessage);

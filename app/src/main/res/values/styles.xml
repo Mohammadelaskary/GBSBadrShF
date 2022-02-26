@@ -14,6 +14,9 @@
         <item name="android:textSize">@dimen/black_text_size</item>
         <item name="textAllCaps">false</item>
     </style>
+    <style name="alerter_text_appearance">
+        <item name="android:textColor">#fff</item>
+    </style>
     <style name="style_of_text_bold">
         <item name="android:textColor">#122455</item>
         <item name="android:textSize">@dimen/black_text_size</item>
@@ -39,6 +42,12 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/done</item>
         <item name="android:gravity">center</item>
+    </style>
+    <style name="defect_style">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/done</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="operation_style">
         <item name="android:textSize">20sp</item>

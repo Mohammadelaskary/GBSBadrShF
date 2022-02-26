@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.warhouse.warehouse;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -167,11 +168,15 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     binding.locator.setText(response.getData().getLocatorDesc());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
-                    binding.paintSignOffQty.setText(response.getData().getCountingQty().toString());
+                    binding.paintSignOffQty.setText(response.getData().getSignOutQty().toString());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
                     binding.Joborderqtn.setText(response.getData().getJobOrderQty().toString());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
-                    binding.handlingQty.setText(response.getData().getCountingQty());
+                    if (response.getData().getCountingQty()!=0) {
+                        binding.handlingQty.setText(response.getData().getCountingQty().toString());
+                    } else {
+                        binding.handlingQty.setText("");
+                    }
                     receivingQty = response.getData().getReceivingQty();
                     if (!response.getData().getReceivingQty().equals(0)){
                         binding.qty.getEditText().setText(response.getData().getReceivingQty().toString());
@@ -181,11 +186,12 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                         binding.qty.getEditText().setText("");
                     }
                 } else {
-                    binding.dataLayout.setVisibility(View.VISIBLE);
+                    binding.dataLayout.setVisibility(View.GONE);
                     binding.barcodecodeEdt.setError(statusMessage);
                 }
             } else {
                 warningDialog(getContext(),"Error in getting data!");
+                binding.dataLayout.setVisibility(View.GONE);
             }
             //fragmentCountingBinding.paintqtn.setText(response.getLoadingQty().toString());
 
@@ -216,7 +222,8 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                 switch (statusMessage){
                     case "Done successfully":
                     case "Updated successfully":
-                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                        showSuccessAlerter(statusMessage,getActivity());
+//                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                         back(WarehouseFragment.this);
                         break;
                     case "Wrong Barcode or No data found!":

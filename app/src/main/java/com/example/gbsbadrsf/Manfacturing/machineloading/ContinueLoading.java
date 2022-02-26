@@ -6,6 +6,7 @@ import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -192,7 +193,8 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 String statusMessage = responseStatus.getStatusMessage();
                 switch (statusMessage){
                     case "Saving data successfully":
-                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                        showSuccessAlerter(statusMessage,getActivity());
                         back(ContinueLoading.this);
                         break;
                     case "The machine has already been used":
@@ -285,6 +287,10 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 if (response.getData()!=null) {
                     childCode = response.getData().getChildCode();
+                    if (response.getData().getDieId()!=0)
+                        binding.diecodeEdt.getEditText().setEnabled(true);
+                    else
+                        binding.diecodeEdt.getEditText().setEnabled(false);
                     qty = response.getData().getQty();
                     binding.childesc.setText(response.getData().getChildDescription());
                     binding.jobordernum.setText(response.getData().getJobOrderName());

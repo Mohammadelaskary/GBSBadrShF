@@ -3,6 +3,8 @@ package com.example.gbsbadrsf;
 import static android.content.Context.MODE_PRIVATE;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Util.Constant.BASE_URL;
 
 import android.app.AlarmManager;
@@ -32,9 +34,21 @@ import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentChangeBaseUrlBinding;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.URL;
+
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class ChangeBaseUrlFragment extends DaggerFragment {
@@ -71,6 +85,7 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         return binding.getRoot();
     }
     String newBaseUrl;
+    ProgressDialog progressDialog;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -79,18 +94,55 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         addTextWatcher();
         initViewModel();
         observeCheckingConnectivity();
-
+        progressDialog = loadingProgressDialog(getContext());
         binding.save.setOnClickListener(v->{
             newBaseUrl = binding.newIp.getEditText().getText().toString().trim();
+            progressDialog.show();
             if (newBaseUrl.isEmpty())
                 binding.newIp.setError("Please enter new valid ip!");
             if (!newBaseUrl.isEmpty()){
-                saveBaseUrl(newBaseUrl);
+//                saveBaseUrl(newBaseUrl);
+                hasInternetConnection(newBaseUrl).subscribe((hasInternet) -> {
+                        Log.d("isOnline",hasInternet?"Online":"Offline");
+                });
             }
 
         });
     }
+    public Single<Boolean> hasInternetConnection(String newBaseUrl) {
+        return Single.fromCallable(() -> {
+            boolean isOnline = false;
+            try {
+                URL url = new URL("http://"+newBaseUrl+"/api/GBSShopFloor/");
 
+                HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                urlc.setRequestProperty("User-Agent", "Android Application:"+android.os.Build.VERSION.SDK_INT);
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1000 * 30); // mTimeout is in seconds
+                urlc.connect();
+
+                if (urlc.getResponseCode() == 200) {
+                    isOnline = true;
+                }
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+                isOnline = false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                isOnline = false;
+            }
+
+            return isOnline;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnEvent((aBoolean, throwable) -> {
+            progressDialog.dismiss();
+            if (aBoolean)
+                saveBaseUrl(newBaseUrl);
+            else
+                warningDialog(getContext(),"Wrong ip");
+        });
+
+
+    }
     private void addTextWatcher() {
         binding.newIp.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -119,7 +171,6 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         progressDialog.setCancelable(false);
     }
 
-    ProgressDialog progressDialog;
     private void observeCheckingConnectivity() {
         viewModel.getTestApiStatus().observe(getViewLifecycleOwner(),status -> {
             if (status== Status.LOADING)
@@ -167,12 +218,16 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
     }
 
     private void restartApp() {
-        Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
-        int mPendingIntentId = 123456;
-        PendingIntent mPendingIntent = PendingIntent.getActivity(getContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-        System.exit(0);
+//        Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
+//        int mPendingIntentId = 123456;
+//        PendingIntent mPendingIntent = PendingIntent.getActivity(getContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+//        AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+//        System.exit(0);
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     @Override

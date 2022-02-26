@@ -4,6 +4,7 @@ import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -210,7 +211,10 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                 ppr = response.getData();
                 binding.parentdesc.setText(ppr.getParentDescription());
                 binding.operation.setText(ppr.getOperationEnName());
-                binding.loadingQty.setText(String.valueOf(ppr.getLoadingQty()));
+                binding.pprQty.setText(String.valueOf(ppr.getPprQty()));
+                String signedOffText = ppr.getIncrementalSignOutQty()+" / "+ppr.getPprQty();
+                binding.signedOffQty.setText(signedOffText);
+                binding.signedOffQty.setText(String.valueOf(ppr.getSignOutQty()));
                 currentStationCode = ppr.getProductionStationCode();
 //                binding.childqtn.setText(response.getBaskets().get(0).getBasketCode());
                 for(Baskets baskets: response.getBaskets()){
@@ -245,7 +249,8 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 switch (statusMessage) {
                     case "Saving data successfully": {
-                        Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
+                        showSuccessAlerter(statusMessage,getActivity());
+//                        Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
                         back(MachineloadingweFragment.this);
                     }
                     break;

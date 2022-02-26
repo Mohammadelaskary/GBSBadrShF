@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:behavior_hideable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/alert_dialog_background"
@@ -11,6 +13,14 @@
     android:layout_height="wrap_content"
     android:background="@drawable/alert_dialog_background">
 
+    <ImageView
+        android:id="@+id/drag_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_drag_handle"
+        app:layout_constraintEnd_toEndOf="@+id/childdesc"
+        app:layout_constraintStart_toStartOf="@+id/childdesc"
+        tools:layout_editor_absoluteY="10dp" />
     <TextView
         android:id="@+id/childdesc"
         style="@style/child_parent_desc_style"
@@ -19,9 +29,10 @@
         android:text="Child Description"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/drag_icon" />
 
     <TextView
         android:id="@+id/signoffqty_txt"

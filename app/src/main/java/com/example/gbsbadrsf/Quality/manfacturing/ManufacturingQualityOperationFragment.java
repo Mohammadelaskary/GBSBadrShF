@@ -174,7 +174,16 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         childDesc = basketData.getChildDescription();
         jobOrderName = basketData.getJobOrderName();
         binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(basketData.getJobOrderQty().toString());
 //        binding.jobOrderData.Joborderqtn.setText(basketData.getJobOrderQty());
+
+        if (basketData.getIsBulkQty()){
+            binding.signOffData.signOffQtyTitle.setText("Sign off qty");
+            binding.signOffData.signOffQtyTitle.setText("Sign off qty");
+        } else {
+            binding.signOffData.signOffQtyTitle.setText("Basket qty");
+            binding.signOffData.signOffQtyTitle.setText("Sign off qty");
+        }
         if (basketData.getSignOffQty()!=null) {
             qnt = basketData.getSignOffQty();
             binding.signOffData.qty.setText(basketData.getSignOffQty().toString());
@@ -186,7 +195,6 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         }else
             binding.operation.setText("");
         binding.childDesc.setText(childDesc);
-        binding.signOffData.qty.setText(jobOrderName);
         binding.basketCode.setError(null);
     }
 

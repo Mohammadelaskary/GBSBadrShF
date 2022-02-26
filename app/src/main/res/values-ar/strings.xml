@@ -160,4 +160,13 @@
     <string name="paint_qty">Paint Qty</string>
     <string name="parent_quantity">Parent Quantity</string>
     <string name="check_your_connection">Check your connection!</string>
+    <string name="old_basket_code">Old Basket Code</string>
+    <string name="new_basket_code">New Basket Code</string>
+    <string name="reason_defects">Reason Defects</string>
+    <string name="ppr_remaining_qty">Ppr Remaining Qty</string>
+    <string name="job_order">Job Order</string>
+    <string name="name">Name</string>
+    <string name="time">Time</string>
+    <string name="machine_name">Machine name:</string>
+    <string name="die_name">Die name:</string>
 </resources>

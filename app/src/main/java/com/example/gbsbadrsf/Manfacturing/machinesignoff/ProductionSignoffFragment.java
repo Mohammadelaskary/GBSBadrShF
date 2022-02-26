@@ -4,6 +4,7 @@ import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.StrictMode;
 import android.text.Editable;
@@ -35,6 +37,7 @@ import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.MachineSignoffBody;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionSignoffBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -80,6 +83,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
         binding.saveBtn.setIconResource(R.drawable.ic__save);
         observeStatus();
+        setupBasketsBottomSheet();
         binding.machinecodeNewedttxt.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -164,6 +168,25 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
 
         return binding.getRoot();
     }
+    BottomSheetBehavior bottomSheetBehavior ;
+    private void setupBasketsBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.basketsBottomSheet.getRoot());
+        binding.basketsBottomSheet.childdesc.setText(childDesc);
+        setupBasketsRecyclerview();
+    }
+
+    private void setupBasketsRecyclerview() {
+        adapter = new ProductionSignoffAdapter(basketList,this,isBulk);
+        binding.basketsBottomSheet.basketcodeRv.setAdapter(adapter);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        binding.basketsBottomSheet.basketcodeRv.setLayoutManager(manager);
+    }
+
 
     private void addTextWatcher() {
         binding.machinecodeEdt.getEditText().addTextChangedListener(new TextWatcher() {
@@ -193,7 +216,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         });
     }
 
-    String childCode;
+    String childDesc;
     public void getdata() {
         machinesignoffViewModel.getApiResponseMachineLoadingData().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
@@ -202,7 +225,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     int loadingQty = response.getData().getLoadingQty();
                     if (loadingQty!=0) {
                         binding.dataLayout.setVisibility(View.VISIBLE);
-                        childCode = response.getData().getChildCode();
+                        childDesc = response.getData().getChildDescription();
                         binding.childesc.setText(response.getData().getChildDescription());
                         binding.jobordernum.setText(response.getData().getJobOrderName());
                         binding.operation.setText(response.getData().getOperationEnName());
@@ -215,7 +238,6 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                         warningDialog(getContext(),"Error in loading quantity!");
                     }
                 } else {
-                    childCode = null;
                     binding.dataLayout.setVisibility(View.GONE);
                     binding.childesc.setText("");
                     binding.jobordernum.setText("");
@@ -224,7 +246,6 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     binding.machinecodeEdt.setError(statusMessage);
                 }
             } else {
-                childCode = null;
                 binding.dataLayout.setVisibility(View.GONE);
                 binding.childesc.setText("");
                 binding.jobordernum.setText("");
@@ -269,7 +290,6 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                             binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.done));
                             binding.signoffitemsBtn.setIconResource(R.drawable.ic_edit);
                         }
-
                     });
                 } else {
                     binding.machinecodeEdt.setError("Please scan or enter a valid machine code and press enter!");
@@ -308,7 +328,8 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 String statusMessage = responseStatus.getStatusMessage();
                 switch (statusMessage) {
                     case "Done successfully":
-                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
+                        showSuccessAlerter(statusMessage,getActivity());
+//                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         back(ProductionSignoffFragment.this);
                         break;
                     case "This machine has not been loaded with anything":
@@ -318,11 +339,9 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
 //                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
                         // 3ashan btest
                         binding.machinecodeEdt.setError(statusMessage);
-                        childCode = null;
                         break;
                     default:
                         warningDialog(getContext(),statusMessage);
-                        childCode = null;
                         break;
                 }
             }
@@ -344,7 +363,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
        getActivity().runOnUiThread(new Runnable() {
            @Override
            public void run() {
-               String scannedText = barcodeReadEvent.getBarcodeData();
+               String scannedText = barcodeReadEvent.getBarcodeData().trim();
                binding.machinecodeNewedttxt.setText(scannedText);
                machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
                MyMethods.hideKeyboard(getActivity());

@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequest;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -21,6 +22,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.Department;
+import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.DefectBottomSheet;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.DefectsListAdapter;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRejectionRequestViewModel;
 import com.example.gbsbadrsf.R;
@@ -29,6 +34,7 @@ import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintRejectionRequestBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -41,7 +47,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class PaintRejectionRequestFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class PaintRejectionRequestFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener, PaintDefectsListAdapter.SetOnItemClicked {
     private static final String GETTING_DATA_SUCCESSFULLY = "Data sent successfully";
     PaintRejectionRequestViewModel viewModel;
     @Inject
@@ -62,6 +68,8 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     }
     FragmentPaintRejectionRequestBinding binding;
     SetUpBarCodeReader barCodeReader;
+    BottomSheetBehavior bottomSheetBehavior;
+    PaintDefectsListAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,8 +84,21 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         attachButtonsToListener();
         addTextWatchers();
         checkFocus();
+        setUpBottomSheet();
         observeSavingRejectionRequest();
         return binding.getRoot();
+    }
+    private void setUpBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.defectsListBottomSheet.getRoot());
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        setUpRecyclerView();
+        binding.defectsListBottomSheet.save.setOnClickListener(v->{
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        });
+    }
+    private void setUpRecyclerView() {
+        adapter = new PaintDefectsListAdapter(getContext(),this);
+        binding.defectsListBottomSheet.defectsCheckList.setAdapter(adapter);
     }
     boolean oldBasketCodeFocused,newBasketCodeFocused;
     private void checkFocus() {
@@ -166,8 +187,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
 
     private void attachButtonsToListener() {
         binding.saveBtn.setOnClickListener(this);
-        binding.existingdefBtn.setOnClickListener(this);
-        binding.newdefBtn.setOnClickListener(this);
+        binding.reasonDefBtn.setOnClickListener(this);
     }
 
     String parentCode ="", parentDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,oldBasketCode,newBasketCode;
@@ -207,6 +227,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                 binding.loadingQtyData.qty.setText(String.valueOf(basketQty));
             else
                 binding.loadingQtyData.qty.setText("");
+            getDefectsList(basketData.getOperationId());
         } else {
             binding.dataLayout.setVisibility(View.GONE);
             binding.parentDesc.setText("");
@@ -263,6 +284,23 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(PaintRejectionRequestViewModel.class);
     }
+    List<Defect> defectList = new ArrayList<>();
+    private void getDefectsList(int operationId) {
+        viewModel.getDefectsList(operationId);
+        viewModel.getApiResponseDefectsListPerOperation().observe(getViewLifecycleOwner(),response -> {
+            if (response!=null){
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Data sent successfully")){
+                    defectList.clear();
+                    defectList.addAll(response.getDefectsList());
+                    adapter.setDefects(defectList);
+                } else
+                    warningDialog(getContext(),statusMessage);
+            } else {
+                warningDialog(getContext(),"Error in getting data");
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -290,23 +328,36 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                 } else {
                     warningDialog(getContext(),"Please Select A Responsibility!");
                 }
-                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!parentCode.isEmpty()){
-                    saveRejectedRequest(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId);
+                if (oldBasketCode.isEmpty())
+                    binding.oldBasketCode.setError("Please scan or enter old basket code!");
+                if (selectedIds.isEmpty())
+                    warningDialog(getContext(),"Please select at least one defect!");
+                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&!selectedIds.isEmpty()){
+                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedIds);
+                    saveRejectedRequest(body);
                 }
             } break;
-
+            case R.id.reason_def_btn:
+                if (!defectList.isEmpty()){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    adapter.setSelectedDefectsIds(selectedIds);
+                } else {
+                    warningDialog(getContext(),"No Stored defects for this operation!");
+                }
+                break;
         }
     }
 
-    private void saveRejectedRequest(int userId, String deviceSerial,String oldBasketCode, String newBasketCode, int rejectedQty, int departmentId) {
+    private void saveRejectedRequest(SaveRejectionRequestBody body) {
         NavController navController = NavHostFragment.findNavController(this);
         binding.newBasketCode.setError(null);
-        viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
+        viewModel.saveRejectionRequest(body);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             if (apiResponseSaveRejectionRequest!=null) {
                 String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
                 if (statusMessage.equals("Saved successfully")) {
-                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                    showSuccessAlerter(statusMessage,getActivity());
                     navController.popBackStack();
                 } else {
                     binding.newBasketCode.setError(statusMessage);
@@ -349,6 +400,16 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     public void onPause() {
         super.onPause();
 //        barCodeReader.onPause();
+    }
+    List<Integer> selectedIds = new ArrayList<>();
+    @Override
+    public void OnItemSelected(int id) {
+        selectedIds.add(id);
+    }
+
+    @Override
+    public void OnItemDeselected(int id) {
+        selectedIds.remove(Integer.valueOf(id));
     }
     //    private void showDialog(String s) {
 //       new AlertDialog.Builder(getContext())

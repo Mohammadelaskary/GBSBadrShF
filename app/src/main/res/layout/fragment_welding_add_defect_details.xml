@@ -85,7 +85,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:gravity="center"
                     app:errorEnabled="true"
                     app:errorTextColor="@android:color/holo_red_dark"

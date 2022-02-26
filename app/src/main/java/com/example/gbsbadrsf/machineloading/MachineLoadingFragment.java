@@ -4,6 +4,7 @@ import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.productionsequence.ProductionSequence.PPR_KEY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -249,7 +250,6 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
             binding.jobordernum.setText(ppr.getJobOrderName());
             binding.Joborderqtn.setText(String.valueOf(ppr.getJobOrderQty()));
             binding.childesc.setText(ppr.getChildDescription());
-            binding.loadingsequenceid.setText(String.valueOf(ppr.getLoadingSequenceID()));
             binding.loadingqtnEdt.getEditText().setText(String.valueOf(ppr.getAvailableloadingQty()));
             binding.remainingQty.setText(ppr.getAvailableloadingQty().toString());
             binding.operation.setText(ppr.getOperationEnName());
@@ -264,7 +264,8 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
             switch (statusMessage)
             {
                 case "Saving data successfully":
-                    Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
+                   showSuccessAlerter(statusMessage,getActivity());
                     back(MachineLoadingFragment.this);
                     break;
                 case "The machine has already been used":

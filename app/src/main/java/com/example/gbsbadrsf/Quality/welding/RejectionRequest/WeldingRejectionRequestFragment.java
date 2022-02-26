@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.Model.Department;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRejectionRequestViewModel;
 import com.example.gbsbadrsf.R;
@@ -29,8 +30,9 @@ import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.databinding.FragmentProductionRejectionBinding;
+
 import com.example.gbsbadrsf.databinding.WeldingRejectionRequestFragmentBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -43,7 +45,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class WeldingRejectionRequestFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class WeldingRejectionRequestFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener, WeldingDefectsListAdapter.SetOnItemClicked {
     private static final String GETTING_DATA_SUCCESSFULLY = "Data sent successfully";
     WeldingRejectionRequestViewModel viewModel;
     @Inject
@@ -64,6 +66,8 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
     }
     WeldingRejectionRequestFragmentBinding binding;
     SetUpBarCodeReader barCodeReader;
+    BottomSheetBehavior bottomSheetBehavior;
+    WeldingDefectsListAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         attachButtonsToListener();
         addTextWatchers();
         checkFocus();
+        setUpBottomSheet();
         observeSavingRejectionRequest();
         return binding.getRoot();
     }
@@ -285,6 +290,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
 //                String newBasketCode = "Bskt10";
                 if (newBasketCode.isEmpty())
                     binding.newBasketCode.setError("Please scan or enter new basket code!");
+
                 boolean validResponsibility = binding.responsibledepSpin.getSelectedItemPosition()>=0&&binding.responsibledepSpin.getSelectedItemPosition()<departments.size();
                 if (validResponsibility){
                     Department department = departments.get(binding.responsibledepSpin.getSelectedItemPosition());
@@ -292,18 +298,23 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
                 } else {
                     warningDialog(getContext(),"Please Select A Responsibility!");
                 }
-                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!parentCode.isEmpty()){
-                    saveRejectedRequest(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId);
+                if (oldBasketCode.isEmpty())
+                    binding.oldBasketCode.setError("Please scan or enter old basket code!");
+                if (selectedIds.isEmpty())
+                    warningDialog(getContext(),"Please select at least one defect!");
+                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&!selectedIds.isEmpty()){
+                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedIds);
+                    saveRejectedRequest(body);
                 }
             } break;
 
         }
     }
 
-    private void saveRejectedRequest(int userId, String deviceSerial,String oldBasketCode, String newBasketCode, int rejectedQty, int departmentId) {
+    private void saveRejectedRequest(SaveRejectionRequestBody body) {
         NavController navController = NavHostFragment.findNavController(this);
         binding.newBasketCode.setError(null);
-        viewModel.saveRejectionRequest(userId,deviceSerial,oldBasketCode,newBasketCode,rejectedQty,departmentId);
+        viewModel.saveRejectionRequest(body);
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
             if (statusMessage.equals("Saved successfully")) {
@@ -348,6 +359,28 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
     public void onPause() {
         super.onPause();
 //        barCodeReader.onPause();
+    }
+    private void setUpBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.defectsListBottomSheet.getRoot());
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        setUpRecyclerView();
+        binding.defectsListBottomSheet.save.setOnClickListener(v->{
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        });
+    }
+    private void setUpRecyclerView() {
+        adapter = new WeldingDefectsListAdapter(getContext(),this);
+        binding.defectsListBottomSheet.defectsCheckList.setAdapter(adapter);
+    }
+    List<Integer> selectedIds = new ArrayList<>();
+    @Override
+    public void OnItemSelected(int id) {
+        selectedIds.add(id);
+    }
+
+    @Override
+    public void OnItemDeselected(int id) {
+        selectedIds.remove(Integer.valueOf(id));
     }
     //    private void showDialog(String s) {
 //       new AlertDialog.Builder(getContext())

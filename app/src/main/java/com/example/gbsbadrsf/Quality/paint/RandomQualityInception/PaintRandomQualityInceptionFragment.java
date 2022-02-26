@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.RandomQualityInception;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -156,7 +157,8 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 Toast.makeText(getContext(), SAVED_SUCCESSFULLY, Toast.LENGTH_SHORT).show();
                 navController.popBackStack();
             } else {
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                showSuccessAlerter(statusMessage,getActivity());
+//                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -226,7 +228,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 sampleQty = 0;
                 defectedQty = 0;
                 jobOrderQty = 0;
-                binding.machineDieCode.setError("Error in getting data!");
+//                binding.machineDieCode.setError("Error in getting data!");
                 warningDialog(getContext(),"Error in getting data!");
             }
             fillData();

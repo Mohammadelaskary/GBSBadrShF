@@ -88,7 +88,7 @@
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/basket_code"
                 app:layout_constraintStart_toStartOf="@+id/basket_code"
                 app:layout_constraintTop_toBottomOf="@+id/basket_code">
@@ -99,7 +99,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text=""
+                    android:text="Child Description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/new_sample"
+                    android:text="Add to sample"
                     app:layout_constraintBottom_toBottomOf="@+id/sample_qtn_edt"
                     app:layout_constraintEnd_toEndOf="@+id/child_desc"
                     app:layout_constraintTop_toTopOf="@+id/sample_qtn_edt" />

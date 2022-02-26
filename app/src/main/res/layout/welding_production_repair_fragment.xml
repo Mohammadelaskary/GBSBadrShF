@@ -95,17 +95,25 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/operation" />
+                    <include
+                        android:id="@+id/job_order_data"
+                        layout="@layout/job_order_data"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                        app:layout_constraintStart_toStartOf="@+id/parent_desc"
+                        app:layout_constraintTop_toBottomOf="@+id/parent_desc" />
 
                     <TextView
                         android:id="@+id/operation"
-                        style="@style/styleoftext"
+                        style="@style/operation_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text=""
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/parent_desc" />
+                        app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
 
                     <com.google.android.material.button.MaterialButton
@@ -117,6 +125,7 @@
                         android:text="@string/add_repair"
                         android:textColor="@color/white"
                         app:cornerRadius="25dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -127,17 +136,28 @@
                         style="@style/style_of_text_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:text="@string/defects_details"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/defected_data" />
-
+                    <TextView
+                        android:id="@+id/hint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select the defects to be repaired"
+                        android:textColor="#717171"
+                        android:gravity="center"
+                        android:layout_marginTop="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/defects_list" />
                     <LinearLayout
                         android:id="@+id/constraint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@id/defects_list">
+                        app:layout_constraintTop_toBottomOf="@id/hint">
 
                         <TextView
                             android:id="@+id/defectname_txt"
@@ -146,7 +166,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Child Quantity"
+                            android:text="Parent Quantity"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

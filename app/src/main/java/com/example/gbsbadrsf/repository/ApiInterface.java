@@ -24,6 +24,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveRandomQualityInception;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSavingOperationSignOffDecision;
 import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
 import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseAddPaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseAddPaintingDefectedChildToBasket;
@@ -82,6 +83,7 @@ import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetRejectionRequestList;
+import com.example.gbsbadrsf.signin.ApiResponseChangePassword;
 import com.example.gbsbadrsf.weldingsequence.StationSignIn;
 
 import java.util.List;
@@ -366,14 +368,9 @@ public interface ApiInterface {
             @Query("Notes") String Notes
     );
 
-    @GET("SaveRejectionRequest")
+    @POST("SaveRejectionRequest")
     Single<ApiResponseSaveRejectionRequest> SaveRejectionRequest(
-            @Query("UserID") int userId,
-            @Query("DeviceSerialNo") String deviceSerialNumber,
-            @Query("OldBasketCode") String oldBasketCode,
-            @Query("NewBasketCode") String newBasketCode,
-            @Query("RejectionQty") int RejectionQty,
-            @Query("DepartmentID") int DepartmentID
+            @Body SaveRejectionRequestBody body
     );
 
     @GET("GetDepartmentsList")
@@ -626,28 +623,25 @@ public interface ApiInterface {
             @Query("QtyRepaired") int QtyRepaired
     );
 
-    @GET("SaveRejectionRequest_Welding")
-    Single<ApiResponseRejectionRequest_Welding> RejectionRequest_Welding(
-            @Query("UserID") int userId,
-            @Query("DeviceSerialNo") String deviceSerialNumber,
-            @Query("OldBasketCode") String oldBasketCode,
-            @Query("NewBasketCode") String newBasketCode,
-            @Query("RejectionQty") int RejectionQty,
-            @Query("DepartmentID") int DepartmentID
-    );
 
-    @GET("SaveRejectionRequest_Painting")
-    Single<ApiResponseRejectionRequest_Painting> RejectionRequest_Painting(
-            @Query("UserID") int userId,
-            @Query("DeviceSerialNo") String deviceSerialNumber,
-            @Query("OldBasketCode") String oldBasketCode,
-            @Query("NewBasketCode") String newBasketCode,
-            @Query("RejectionQty") int RejectionQty,
-            @Query("DepartmentID") int DepartmentID
-    );
 
+  @POST("SaveRejectionRequest_Welding")
+  Single<ApiResponseRejectionRequest_Welding> RejectionRequest_Welding(
+          @Body SaveRejectionRequestBody body
+  );
+  @POST("SaveRejectionRequest_Painting")
+  Single<ApiResponseRejectionRequest_Painting> RejectionRequest_Painting(
+          @Body SaveRejectionRequestBody body
+  );
     @GET("test")
     Single<ApiResponseTestConnectivity> Test_Connectivity(
             @Query("text") String text
     );
+  @GET("ChangePassword")
+  Single<ApiResponseChangePassword> changePassword(
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("OldPass") String OldPass,
+          @Query("NewPass") String NewPass
+  );
 }

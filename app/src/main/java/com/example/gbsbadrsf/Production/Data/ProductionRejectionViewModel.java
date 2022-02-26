@@ -5,9 +5,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
+import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,6 +29,8 @@ public class ProductionRejectionViewModel extends ViewModel {
 
     MutableLiveData<ApiResponseSaveRejectionRequest> apiResponseSaveRejectionRequestLiveData;
     MutableLiveData<Status> apiResponseSaveRejectionRequestStatus;
+    MutableLiveData<ApiResponseDefectsList<List<Defect>>> defectsListMutableLiveData;
+    MutableLiveData<Status> defectsListStatus;
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
@@ -41,6 +48,8 @@ public class ProductionRejectionViewModel extends ViewModel {
         apiResponseBasketDataStatus   = new MutableLiveData<>();
         apiResponseSaveRejectionRequestStatus = new MutableLiveData<>();
         apiResponseSaveRejectionRequestLiveData = new MutableLiveData<>();
+        defectsListMutableLiveData = new MutableLiveData<>();
+        defectsListStatus = new MutableLiveData<>();
     }
 
     public void getBasketDataViewModel(int userId,String deviceSerial,String basketCode){
@@ -69,13 +78,21 @@ public class ProductionRejectionViewModel extends ViewModel {
                         }
                 ));
     }
-    public void saveRejectionRequest(int userId,
-                                     String deviceSerialNo,
-                                     String oldBasketCode,
-                                     String newBasketCode,
-                                     int rejectionQty,
-                                     int departmentID){
-        disposable.add(apiInterface.SaveRejectionRequest(userId,deviceSerialNo,oldBasketCode,newBasketCode,rejectionQty,departmentID)
+    public void getDefectsList(int operationId){
+        disposable.add(apiInterface.getDefectsListPerOperation(operationId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> defectsListStatus.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {defectsListMutableLiveData.postValue(response);
+                            defectsListStatus.postValue(Status.SUCCESS); },
+                        throwable -> {
+                            defectsListStatus.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void saveRejectionRequest(SaveRejectionRequestBody body){
+        disposable.add(apiInterface.SaveRejectionRequest(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseSaveRejectionRequestStatus.postValue(Status.LOADING))
@@ -109,5 +126,13 @@ public class ProductionRejectionViewModel extends ViewModel {
 
     public MutableLiveData<Status> getApiResponseSaveRejectionRequestStatus() {
         return apiResponseSaveRejectionRequestStatus;
+    }
+
+    public MutableLiveData<ApiResponseDefectsList<List<Defect>>> getDefectsListMutableLiveData() {
+        return defectsListMutableLiveData;
+    }
+
+    public MutableLiveData<Status> getDefectsListStatus() {
+        return defectsListStatus;
     }
 }
