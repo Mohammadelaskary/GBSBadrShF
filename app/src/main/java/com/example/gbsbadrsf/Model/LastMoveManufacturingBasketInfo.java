@@ -35,6 +35,9 @@ public class LastMoveManufacturingBasketInfo {
     @SerializedName("lastOperationId")
     @Expose
     private Integer lastOperationId;
+    @SerializedName("lastOperationName")
+    @Expose
+    private String lastOperationName;
     @SerializedName("machineId")
     @Expose
     private Integer machineId;
@@ -221,5 +224,13 @@ public class LastMoveManufacturingBasketInfo {
 
     public void setBulkQty(Boolean bulkQty) {
         isBulkQty = bulkQty;
+    }
+
+    public String getLastOperationName() {
+        return lastOperationName;
+    }
+
+    public void setLastOperationName(String lastOperationName) {
+        this.lastOperationName = lastOperationName;
     }
 }

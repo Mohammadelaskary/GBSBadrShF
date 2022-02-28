@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/job_order_data_background"
+    xmlns:android="http://schemas.android.com/apk/res/android">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="start"
-            android:layout_margin="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="2dp">
 
             <ImageView
                 android:id="@+id/status_icon"
@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Done"
+                android:layout_marginStart="15dp"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
         <LinearLayout
@@ -160,7 +161,7 @@
                     style="@style/styleoftextbold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/job_order_txt_background"
+                    android:background="@drawable/remaining_qty_title_background"
                     android:text="Qty"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -221,7 +222,7 @@
                     style="@style/styleoftextbold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/job_order_txt_background"
+                    android:background="@drawable/operation_text_background"
                     android:text="Operation"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -289,7 +290,7 @@
                     style="@style/styleoftextbold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/job_order_txt_background"
+                    android:background="@drawable/time_text_background"
                     android:text="Time"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -299,4 +300,3 @@
         </LinearLayout>
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>

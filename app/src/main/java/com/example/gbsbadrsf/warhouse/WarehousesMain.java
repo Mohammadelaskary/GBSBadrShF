@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.ProductionMenuFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.FragmentProductionMenuBinding;
@@ -49,6 +51,9 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyMethods.changeTitle("Warehouse",(MainActivity) getActivity());
+    }
 }

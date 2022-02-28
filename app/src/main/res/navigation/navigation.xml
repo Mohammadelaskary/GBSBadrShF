@@ -158,7 +158,7 @@
 
         <action
             android:id="@+id/action_weldingMenuFragment_to_qualityscraplistweFragment"
-            app:destination="@id/qualityscraplistweFragment" />
+            app:destination="@id/fragment_welding_rejection_requests_list" />
 
         <action
             android:id="@+id/action_weldingMenuFragment_to_weldingwip"
@@ -775,7 +775,7 @@
             app:destination="@id/productionscrapFragment" />
         <action
             android:id="@+id/action_mainScrapmanagment_to_scraprequestlist"
-            app:destination="@id/qualityscraplistFragment" />
+            app:destination="@id/productionscraplistinqualityFragment" />
 
     </fragment>
     <fragment

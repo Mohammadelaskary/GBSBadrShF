@@ -1,12 +1,14 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequest;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -84,6 +86,24 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         checkFocus();
         setUpBottomSheet();
         observeSavingRejectionRequest();
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState){
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        binding.disableColor.setVisibility(View.GONE);
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        binding.disableColor.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                binding.disableColor.setVisibility(View.GONE);
+            }
+        });
         return binding.getRoot();
     }
     boolean oldBasketCodeFocused,newBasketCodeFocused;
@@ -318,7 +338,8 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
             if (statusMessage.equals("Saved successfully")) {
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                showSuccessAlerter(statusMessage,getActivity());
                 navController.popBackStack();
             } else {
                 binding.newBasketCode.setError(statusMessage);

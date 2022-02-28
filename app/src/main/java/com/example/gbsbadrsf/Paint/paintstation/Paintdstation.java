@@ -89,22 +89,23 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
         progressDialog = loadingProgressDialog(getContext());
         addTextWatcher();
         barcodeReader = MainActivity.getBarcodeObject();
-        binding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-                {
-                    String jobOrderName = binding.barcodeEdt.getText().toString().trim();
-                    if (jobOrderName.isEmpty())
-                        binding.jobOrderName.setError(null);
-                    else
-                        viewModel.getpaintsequence(USER_ID,DEVICE_SERIAL_NO, binding.barcodeEdt.getText().toString());
-                    return true;
-                }
-                return false;
-            }
-        });
+        viewModel.getpaintsequence(USER_ID,DEVICE_SERIAL_NO);
+//        binding.barcodeEdt.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+//                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+//                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+//                {
+//                    String jobOrderName = binding.barcodeEdt.getText().toString().trim();
+//                    if (jobOrderName.isEmpty())
+//                        binding.jobOrderName.setError(null);
+//                    else
+//
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 //        fragmentPaintdstationBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -286,7 +287,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
                 if (jobOrderName.isEmpty())
                     binding.jobOrderName.setError(null);
                 else
-                    viewModel.getpaintsequence(USER_ID,DEVICE_SERIAL_NO, binding.barcodeEdt.getText().toString());
+                    viewModel.getpaintsequence(USER_ID,DEVICE_SERIAL_NO);
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
 
 

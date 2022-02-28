@@ -107,10 +107,9 @@ public interface ApiInterface {
                                                                               @Query("DeviceSerialNo") String deviceserialnumber);
 
     //get paint station by job order
-    @GET("GetPaintingLoadingSequenceByJobOrder")
+    @GET("GetPaintingLoadingSequence")
     Single<ApiPaintstation<List<Pprpaint>>> getpaintsequence(@Query("UserID") int userid,
-                                                             @Query("DeviceSerialNo") String deviceserialnumber,
-                                                             @Query("JobOrderName") String jobordername);
+                                                             @Query("DeviceSerialNo") String deviceserialnumber);
 
     //getinfo for selected station
 //@GET("GetInfoForSelectedStation")
@@ -643,5 +642,9 @@ public interface ApiInterface {
           @Query("DeviceSerialNo") String DeviceSerialNo,
           @Query("OldPass") String OldPass,
           @Query("NewPass") String NewPass
+  );
+  @GET("CheckBasketEmpty")
+  Single<ApiResponseChangePassword> checkBasketStatus(
+          @Query("BasketCode") String BasketCode
   );
 }

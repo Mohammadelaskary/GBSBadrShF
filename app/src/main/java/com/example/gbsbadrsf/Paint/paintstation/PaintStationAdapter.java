@@ -19,6 +19,7 @@ import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
 import com.example.gbsbadrsf.databinding.WeldingsequenceRvBinding;
 import com.example.gbsbadrsf.weldingsequence.WeldingsequenceAdapter;
 
+import java.util.Collections;
 import java.util.List;
 
 public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapter.PaintStationViewHolder> {
@@ -35,6 +36,7 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
     public void getpaintsequencelist(List<Pprpaint> paintsequencelst){
         paintsequenceresponse.clear();
         paintsequenceresponse.addAll(paintsequencelst);
+        Collections.sort(this.paintsequenceresponse,(o1, o2) -> o1.getLoadingSequenceNumber().compareTo(o2.getLoadingSequenceNumber()));
         notifyDataSetChanged();
     }
 

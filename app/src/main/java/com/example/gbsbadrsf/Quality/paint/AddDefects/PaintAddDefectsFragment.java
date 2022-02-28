@@ -53,7 +53,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMovePaintingBasket basketData;
-    int jobOrderId,parentId=3,sampleQty,userId = USER_ID;
+    int jobOrderId,parentId,sampleQty,userId = USER_ID;
     String basketCode,deviceSerialNo = DEVICE_SERIAL_NO;
     boolean newSample = false ;
     PaintAddDefectsViewModel viewModel;

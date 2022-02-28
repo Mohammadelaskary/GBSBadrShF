@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
 
 
     LastMoveManufacturingBasket basketData;
-    int childId,jobOrderId,parentId=3,sampleQty;
+    int childId,jobOrderId,parentId,sampleQty;
     String basketCode;
     boolean newSample = false ;
     ManufacturingAddDefectsViewModel viewModel;
@@ -225,6 +226,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
             childId = basketData.getChildId();
             jobOrderId = basketData.getJobOrderId();
             basketCode   = basketData.getBasketCode();
+            parentId     = basketData.getParentId();
         }
 
     }
@@ -286,7 +288,8 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
-            getDefectsManufacturingList(scannedText);
+            binding.basketCode.getEditText().setText(scannedText.trim());
+
         });
     }
 

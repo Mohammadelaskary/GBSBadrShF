@@ -152,6 +152,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
             sampleQty        = getArguments().getInt("sampleQty");
             newSample        = getArguments().getBoolean("newSample");
             remainingQty     = getArguments().getInt(REMAINING_QTY);
+            parentId       = basketData.getParentId();
         }
     }
 
@@ -164,7 +165,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
             defectedQty,
             jobOrderId,
             operationId,
-            parentId=3,
+            parentId,
             sampleQty,
             userId=1;
     @Override

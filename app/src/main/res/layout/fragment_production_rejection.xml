@@ -31,9 +31,7 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productionscrap_txt"
-
-        >
+        app:layout_constraintTop_toBottomOf="@id/productionscrap_txt">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -70,8 +68,8 @@
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:paddingBottom="20dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/old_basket_code"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/old_basket_code"
@@ -106,9 +104,18 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/operation_name" />
+
+                <TextView
+                    android:id="@+id/operation_name"
+                    style="@style/operation_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="operation_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/job_order_data" />
-
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/rejected_qty_edt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -222,6 +229,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
     <View
         android:id="@+id/disable_color"
         android:layout_width="match_parent"

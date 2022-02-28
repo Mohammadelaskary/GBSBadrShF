@@ -85,6 +85,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
             qtyDefectsQtyDefectedList = groupDefectsById(viewModel.getDefectsManufacturingList());
             adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();
+            binding.dataLayout.setVisibility(View.VISIBLE);
             fillViews();
         }
         initProgressDialog();
@@ -271,12 +272,15 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     getCheckList();
                     getSavedCheckedItems();
                     fillViews();
+                    binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     binding.basketCode.setError(statusMessage);
                     dischargeViews();
+                    binding.dataLayout.setVisibility(View.GONE);
                 }
             } else {
                 binding.basketCode.setError("Error in getting data!");
+                binding.dataLayout.setVisibility(View.GONE);
                 dischargeViews();
             }
         });

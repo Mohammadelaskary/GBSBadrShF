@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".welding.weldingsignoff.SignoffweFragment"
+    android:background="@drawable/background">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -86,7 +94,7 @@
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/station_edt"
                 app:layout_constraintStart_toStartOf="@+id/station_edt"
                 app:layout_constraintTop_toBottomOf="@+id/station_edt">
@@ -305,3 +313,6 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/signoffcustomdialog"
+        android:id="@+id/baskets_bottom_sheet"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

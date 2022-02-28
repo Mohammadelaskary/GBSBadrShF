@@ -51,7 +51,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMoveWeldingBasket basketData;
-    int jobOrderId,parentId=3,sampleQty,userId = USER_ID;
+    int jobOrderId,parentId,sampleQty,userId = USER_ID;
     String basketCode,deviceSerialNo = DEVICE_SERIAL_NO;
     boolean newSample = false ;
     WeldingAddDefectsViewModel viewModel;

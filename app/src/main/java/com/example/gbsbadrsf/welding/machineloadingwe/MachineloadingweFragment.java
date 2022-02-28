@@ -209,11 +209,13 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
         infoForSelectedStationViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 ppr = response.getData();
+                binding.jobOrderData.jobordernum.setText(ppr.getJobOrderName());
+                binding.jobOrderData.Joborderqtn.setText(ppr.getJobOrderQty().toString());
                 binding.parentdesc.setText(ppr.getParentDescription());
                 binding.operation.setText(ppr.getOperationEnName());
                 binding.pprQty.setText(String.valueOf(ppr.getPprQty()));
                 String signedOffText = ppr.getIncrementalSignOutQty()+" / "+ppr.getPprQty();
-                binding.signedOffQty.setText(signedOffText);
+                binding.signOffQty.setText(signedOffText);
                 binding.signedOffQty.setText(String.valueOf(ppr.getSignOutQty()));
                 currentStationCode = ppr.getProductionStationCode();
 //                binding.childqtn.setText(response.getBaskets().get(0).getBasketCode());

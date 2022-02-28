@@ -16,9 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
@@ -91,8 +96,44 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                 }
             }
         });
+        binding.childbasketcodeEdt.getEditText().addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        binding.childbasketcodeEdt.setError(null);
+                    }
 
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        binding.childbasketcodeEdt.setError(null);
+                    }
 
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        binding.childbasketcodeEdt.setError(null);
+                    }
+                });
+                binding.childbasketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                        if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                                && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            String basketCode = binding.childbasketcodeEdt.getEditText().getText().toString().trim();
+                            binding.childbasketcodeNewedttxt.setText(basketCode);
+                            if (addedBasketCodes.contains(basketCode))
+                                binding.childbasketcodeEdt.setError("Basket code added before!");
+                            if (!basketsCodes.contains(basketCode))
+                                binding.childbasketcodeEdt.setError("Basket code doesn't match stored basket codes!");
+                            if (!addedBasketCodes.contains(basketCode) &&
+                                    basketsCodes.contains(basketCode)) {
+                                addedBasketCodes.add(basketCode);
+                                adapter.notifyDataSetChanged();
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                });
         getdata();
         if (barcodeReader != null) {
 

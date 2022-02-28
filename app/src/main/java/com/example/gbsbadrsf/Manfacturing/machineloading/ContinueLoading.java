@@ -375,7 +375,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
 
                 }
                 else if (binding.basketcodeEdt.getEditText().isFocused()){
-                    String scannedText = barcodeReadEvent.getBarcodeData();
+                    String scannedText = barcodeReadEvent.getBarcodeData().trim();
                     binding.basketcodeEdt.getEditText().setText(scannedText);
                     if (scannedText.isEmpty())
                         binding.basketcodeEdt.setError("Please enter or scan a valid basket code");

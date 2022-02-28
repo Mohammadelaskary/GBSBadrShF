@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Random Quality Inception"
+        android:text="Random Quality Inspection"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

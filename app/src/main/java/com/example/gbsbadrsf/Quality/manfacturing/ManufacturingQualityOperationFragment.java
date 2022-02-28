@@ -73,7 +73,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         barCodeReader = new SetUpBarCodeReader(this,this);
 //        checkConnectivity();
         initViewModel();
-        if (viewModel.getBasketData().getBasketCode()!=null){
+        if (viewModel.getBasketData()!=null){
             basketData = viewModel.getBasketData();
             binding.basketCode.getEditText().setText(basketData.getBasketCode());
             fillViews();

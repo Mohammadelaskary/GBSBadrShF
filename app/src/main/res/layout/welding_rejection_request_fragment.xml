@@ -241,6 +241,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    <View
+        android:id="@+id/disable_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
     <include layout="@layout/defects_list_bottom_sheet"
         android:id="@+id/defects_list_bottom_sheet"/>

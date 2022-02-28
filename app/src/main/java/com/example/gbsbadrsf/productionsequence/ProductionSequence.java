@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.productionsequence;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
@@ -82,7 +83,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         selectedLoadinsequenceinfoViewModel=ViewModelProviders.of(this,provider).get(SelectedLoadinsequenceinfoViewModel.class);
         progressDialog = loadingProgressDialog(getContext());
         observeGettingProductionSequence();
-
+        clearInputLayoutError(binding.jobOrderName);
 //        fragmentProductionSequenceBinding.barcodeEdt.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -319,7 +320,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
             public void run() {
                 // update UI to reflect the data
                 hideKeyboard(getActivity());
-                String scannedText = barcodeReadEvent.getBarcodeData();
+                String scannedText = barcodeReadEvent.getBarcodeData().trim();
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
                 if (scannedText.isEmpty())
                     binding.jobOrderName.setError(ENTER_VALID_JOB_ORDER_NAME);

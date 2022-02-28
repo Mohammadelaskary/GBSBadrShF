@@ -142,6 +142,7 @@
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
         android:text="Reopen Defect"
+        android:visibility="gone"
         android:textColor="@color/white"
         app:cornerRadius="40dp"
         app:layout_constraintEnd_toEndOf="parent"

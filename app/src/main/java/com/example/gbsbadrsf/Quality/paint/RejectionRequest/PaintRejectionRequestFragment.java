@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -86,6 +87,24 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         checkFocus();
         setUpBottomSheet();
         observeSavingRejectionRequest();
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState){
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        binding.disableColor.setVisibility(View.GONE);
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        binding.disableColor.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                binding.disableColor.setVisibility(View.GONE);
+            }
+        });
         return binding.getRoot();
     }
     private void setUpBottomSheet() {

@@ -111,7 +111,6 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
         return binding.getRoot();
     }
     BottomSheetBehavior bottomSheetBehavior;
-    DefectBottomSheet defectBottomSheet;
     DefectsListAdapter adapter;
     private void setUpBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.defectsListBottomSheet.getRoot());
@@ -217,7 +216,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
         binding.reasonDefBtn.setOnClickListener(this);
     }
 
-    String oldBasketCode="",childDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO;
+    String oldBasketCode="",childDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,operationName;
     int basketQty,jobOrderQty,operationId;
     LastMoveManufacturingBasketInfo basketData;
 
@@ -247,10 +246,12 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
             jobOrderName = basketData.getJobOrderName();
             jobOrderQty = basketData.getJobOrderQty();
             basketQty = basketData.getQty();
-            operationId = basketData.getLastOperationId();
+            operationName = basketData.getNextOperationName().toString();
+            operationId = basketData.getNextOperationId();
             binding.childdesc.setText(childDesc);
             binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
             binding.jobOrderData.jobordernum.setText(jobOrderName);
+            binding.operationName.setText(operationName);
             if (basketQty != 0)
                 binding.basketQtyLayout.qty.setText(String.valueOf(basketQty));
             else

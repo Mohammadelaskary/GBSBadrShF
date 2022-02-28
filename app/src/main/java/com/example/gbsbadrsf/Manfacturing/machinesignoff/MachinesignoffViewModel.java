@@ -35,7 +35,7 @@ public class MachinesignoffViewModel extends ViewModel {
     private MutableLiveData<Apigetmachinecode<MachineLoading>>apiResponseMachineLoadingData;
 
     private MutableLiveData<Machinsignoffcases>machinesignoffcases;
-
+    private MutableLiveData<ResponseStatus> checkBasketEmpty ;
 
     private MutableLiveData<Status> status;
     @Inject
@@ -49,6 +49,7 @@ public class MachinesignoffViewModel extends ViewModel {
         machinesignoffcases=new MutableLiveData<>(Machinsignoffcases.fake);
 
         status = new MutableLiveData<>(Status.IDLE);
+        checkBasketEmpty = new MutableLiveData<>();
         this.repository=productionsequencerepository;
     }
     public void getmachinesignoff(MachineSignoffBody object, Context context){
@@ -111,6 +112,15 @@ public class MachinesignoffViewModel extends ViewModel {
                 }));
 
     }
+    void checkBasketEmpty(String basketCode){
+        disposable.add(apiInterface.checkBasketStatus(basketCode)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((response, throwable) -> {
+                    checkBasketEmpty.postValue(response.getResponseStatus());
+                    status.postValue(Status.SUCCESS);
+                }));
+
+    }
 
 
 
@@ -127,5 +137,9 @@ public class MachinesignoffViewModel extends ViewModel {
 
     public MutableLiveData<Apigetmachinecode<MachineLoading>> getApiResponseMachineLoadingData() {
         return apiResponseMachineLoadingData;
+    }
+
+    public MutableLiveData<ResponseStatus> getCheckBasketEmpty() {
+        return checkBasketEmpty;
     }
 }

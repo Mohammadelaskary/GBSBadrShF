@@ -158,7 +158,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
         binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String parentCode,parentDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName;
+    String parentCode,parentDescription,notes ,deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName;
     int     parentId,
             defectedQty,
             jobOrderId,

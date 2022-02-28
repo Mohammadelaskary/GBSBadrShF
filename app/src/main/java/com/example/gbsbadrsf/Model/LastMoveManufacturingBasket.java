@@ -13,6 +13,9 @@ public class LastMoveManufacturingBasket implements Parcelable {
     @SerializedName("childId")
     @Expose
     private Integer childId;
+    @SerializedName("parentId")
+    @Expose
+    private Integer parentId;
     @SerializedName("childCode")
     @Expose
     private String childCode;
@@ -50,6 +53,7 @@ public class LastMoveManufacturingBasket implements Parcelable {
     public LastMoveManufacturingBasket() {
     }
 
+
     protected LastMoveManufacturingBasket(Parcel in) {
         if (in.readByte() == 0) {
             basketMoveId = null;
@@ -60,6 +64,11 @@ public class LastMoveManufacturingBasket implements Parcelable {
             childId = null;
         } else {
             childId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            parentId = null;
+        } else {
+            parentId = in.readInt();
         }
         childCode = in.readString();
         childDescription = in.readString();
@@ -89,6 +98,64 @@ public class LastMoveManufacturingBasket implements Parcelable {
         operationEnName = in.readString();
         byte tmpIsBulkQty = in.readByte();
         isBulkQty = tmpIsBulkQty == 0 ? null : tmpIsBulkQty == 1;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (basketMoveId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(basketMoveId);
+        }
+        if (childId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(childId);
+        }
+        if (parentId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(parentId);
+        }
+        dest.writeString(childCode);
+        dest.writeString(childDescription);
+        if (signOffQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(signOffQty);
+        }
+        dest.writeString(basketCode);
+        if (jobOrderId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderId);
+        }
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        dest.writeString(jobOrderName);
+        dest.writeString(jobOrderDate);
+        if (operationId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationId);
+        }
+        dest.writeString(operationEnName);
+        dest.writeByte((byte) (isBulkQty == null ? 0 : isBulkQty ? 1 : 2));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<LastMoveManufacturingBasket> CREATOR = new Creator<LastMoveManufacturingBasket>() {
@@ -215,55 +282,11 @@ public class LastMoveManufacturingBasket implements Parcelable {
         isBulkQty = bulkQty;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (basketMoveId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(basketMoveId);
-        }
-        if (childId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(childId);
-        }
-        dest.writeString(childCode);
-        dest.writeString(childDescription);
-        if (signOffQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(signOffQty);
-        }
-        dest.writeString(basketCode);
-        if (jobOrderId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderId);
-        }
-        if (jobOrderQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderQty);
-        }
-        dest.writeString(jobOrderName);
-        dest.writeString(jobOrderDate);
-        if (operationId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(operationId);
-        }
-        dest.writeString(operationEnName);
-        dest.writeByte((byte) (isBulkQty == null ? 0 : isBulkQty ? 1 : 2));
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 }

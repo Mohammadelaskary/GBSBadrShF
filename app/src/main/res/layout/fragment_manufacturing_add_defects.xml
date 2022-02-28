@@ -133,14 +133,25 @@
                 android:text="@string/defects_details"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sample_qty_edt" />
+            <TextView
+                android:id="@+id/hint"
+                style="@style/details_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif"
+                android:text="Press add to add defects to be repaired"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/defected_details_txt" />
 
             <LinearLayout
                 android:id="@+id/constraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/defected_details_txt">
+                app:layout_constraintTop_toBottomOf="@id/hint">
 
                 <TextView
                     android:id="@+id/defectname_txt"

@@ -20,11 +20,11 @@
         android:src="@drawable/ic_drag_handle"
         app:layout_constraintEnd_toEndOf="@+id/childdesc"
         app:layout_constraintStart_toStartOf="@+id/childdesc"
-        tools:layout_editor_absoluteY="10dp" />
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/childdesc"
         style="@style/child_parent_desc_style"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Child Description"
         android:layout_marginStart="15dp"

@@ -22,6 +22,9 @@ public class Stationcodeloading {
     @SerializedName("signOutQty")
     @Expose
     private Integer signOutQty;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
     @SerializedName("basketCode")
     @Expose
     private String basketCode;
@@ -80,5 +83,13 @@ public class Stationcodeloading {
 
     public void setBasketCode(String basketCode) {
         this.basketCode = basketCode;
+    }
+
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
     }
 }

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".warhouse.warehouse.WarehouseFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".warhouse.warehouse.WarehouseFragment">
     <TextView
         android:id="@+id/productionsignoff_txt"
@@ -11,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Warehouse reciving"
+        android:text="Warehouse receiving"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +24,7 @@
         />
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/productionsignoff_txt"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,9 +34,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="15dp"
-
             >
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/barcodecode_edt"
@@ -86,13 +89,21 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/barcodecode_edt"
                 app:layout_constraintStart_toStartOf="@id/barcodecode_edt"
                 app:layout_constraintTop_toBottomOf="@id/barcodecode_edt">
-
+                <TextView
+                    android:id="@+id/parentdesc"
+                    style="@style/child_parent_desc_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/job_order_data"
@@ -141,9 +152,10 @@
                     android:background="@drawable/job_order_txt_background"
                     android:text="Job Order"
                     android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/parentdesc" />
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/qty_data"
                     android:layout_width="0dp"
@@ -223,8 +235,6 @@
                         style="@style/details_text_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="235dp"
-                        android:layout_marginLeft="235dp"
                         android:layout_marginTop="15dp"
                         android:gravity="center"
                         android:visibility="visible"
@@ -258,7 +268,7 @@
                         style="@style/style_of_text_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Subinventory"
+                        android:text="Sub-inventory"
                         app:layout_constraintBottom_toBottomOf="@+id/sub_inventory"
                         app:layout_constraintStart_toStartOf="@+id/textView6"
                         app:layout_constraintTop_toTopOf="@+id/sub_inventory" />
@@ -278,7 +288,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
 
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/qty"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -294,8 +303,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Actual Qty"
                         android:gravity="center"
+                        android:hint="Warehouse Qty"
                         android:imeOptions="actionDone"
                         android:lines="1"
                         android:maxLines="1"
@@ -315,7 +324,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
 
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/qty" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
@@ -324,3 +333,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

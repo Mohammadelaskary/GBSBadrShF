@@ -52,7 +52,6 @@ public class ManufacturingQualityOperationViewModel extends ViewModel {
         defectsListStatus = new MutableLiveData<>();
         addManufacturingDefectsResponse = new MutableLiveData<>();
         addManufacturingDefectsStatus = new MutableLiveData<>();
-        basketData = new LastMoveManufacturingBasket();
     }
 
     public void getBasketDataViewModel(String basketCode){

@@ -238,7 +238,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Actual Qty"
+                        android:hint="Handling Qty"
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:lines="1"

@@ -33,7 +33,7 @@ public class SignoffweViewModel extends ViewModel {
     private MutableLiveData<Stationcodeloading>stationcodeloadingMutableLiveData;
     private MutableLiveData<Status> status;
     private MutableLiveData<Weldingsignoffcases>weldingsignoffcases;
-
+    private MutableLiveData<ResponseStatus> checkBasketEmpty ;
     private MutableLiveData<Apiinfoforstationcode<Stationcodeloading>> getStationData;
     private MutableLiveData<ApiWeldingsignoff<ResponseStatus>> saveSignOffResponse;
 
@@ -49,6 +49,7 @@ public class SignoffweViewModel extends ViewModel {
         status = new MutableLiveData<>();
         getStationData = new MutableLiveData<>();
         saveSignOffResponse = new MutableLiveData<>();
+        checkBasketEmpty = new MutableLiveData<>();
         this.repository=weldingSignoffrepository;
 
 
@@ -71,6 +72,15 @@ public class SignoffweViewModel extends ViewModel {
 //                    }
 //
                     getStationData.postValue(getinfoforstationcode);
+                    status.postValue(Status.SUCCESS);
+                }));
+
+    }
+    void checkBasketEmpty(String basketCode){
+        disposable.add(apiInterface.checkBasketStatus(basketCode)
+                .doOnSubscribe(__ -> status.postValue(Status.LOADING))
+                .subscribe((response, throwable) -> {
+                    checkBasketEmpty.postValue(response.getResponseStatus());
                     status.postValue(Status.SUCCESS);
                 }));
 
@@ -129,5 +139,8 @@ public class SignoffweViewModel extends ViewModel {
 
     public MutableLiveData<ApiWeldingsignoff<ResponseStatus>> getSaveSignOffResponse() {
         return saveSignOffResponse;
+    }
+    public MutableLiveData<ResponseStatus> getCheckBasketEmpty() {
+        return checkBasketEmpty;
     }
 }

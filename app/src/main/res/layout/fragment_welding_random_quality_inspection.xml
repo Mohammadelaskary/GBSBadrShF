@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Random Quality Inception"
+        android:text="Random Quality Inspection"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
                 android:id="@+id/data_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/machine_die_code"
                 app:layout_constraintStart_toStartOf="@+id/machine_die_code"
                 app:layout_constraintTop_toBottomOf="@+id/machine_die_code">

@@ -36,13 +36,13 @@ public class PaintstationViewModel extends ViewModel {
 
     }
 
-    void getpaintsequence(int Userid,String Deviceserialnumber,String Joborddername){
-        disposable.add(apiInterface.getpaintsequence(Userid,Deviceserialnumber,Joborddername)
+    void getpaintsequence(int Userid,String Deviceserialnumber){
+        disposable.add(apiInterface.getpaintsequence(Userid,Deviceserialnumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
-                        cuisines -> {paintsequenceResponse.postValue(cuisines.getData());
+                        cuisines -> {paintsequenceResponse.postValue(cuisines.getPprList());
                             status.postValue(Status.SUCCESS);},
                         throwable -> {
                             status.postValue(Status.ERROR);

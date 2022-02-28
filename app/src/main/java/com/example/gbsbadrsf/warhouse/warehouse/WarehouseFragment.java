@@ -167,6 +167,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                 if (statusMessage.equals("Getting data successfully")) {
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     binding.locator.setText(response.getData().getLocatorDesc());
+                    binding.parentdesc.setText(response.getData().getParentDescription());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
                     binding.paintSignOffQty.setText(response.getData().getSignOutQty().toString());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
