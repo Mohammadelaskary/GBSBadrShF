@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +53,8 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     FragmentWeldingAddDefectsBinding binding;
     LastMoveWeldingBasket basketData;
     int jobOrderId,parentId,sampleQty,userId = USER_ID;
-    String basketCode,deviceSerialNo = DEVICE_SERIAL_NO;
-    boolean newSample = false ;
+    String basketCode,deviceSerialNo = DEVICE_SERIAL_NO,newBasketCode;
+//    boolean newSample = false ;
     WeldingAddDefectsViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
@@ -72,7 +73,12 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
         addTextWatchers();
         fillData();
         initViewModel();
-        getDefectsManufacturingList(userId,deviceSerialNo,basketCode);
+//        getDefectsManufacturingList(userId,deviceSerialNo,basketCode);
+        if (viewModel.getNewBasketCode()!=null){
+            binding.basketCode.getEditText().setText(viewModel.getNewBasketCode());
+            getDefectsManufacturingList(userId,deviceSerialNo,viewModel.getNewBasketCode());
+        }
+
         observeGettingDefectsManufacturingList();
         setUpRecyclerView();
         observeSavingDefectsToNewBasket();
@@ -106,6 +112,19 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
                 binding.basketCode.setError(null);
             }
         });
+        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                {
+                    newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
+                    getDefectsManufacturingList(userId,deviceSerialNo,newBasketCode);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     ProgressDialog progressDialog;
@@ -133,15 +152,17 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     private void getDefectsManufacturingList(int userId,String deviceSerialNo,String basketCode) {
         viewModel.getWeldingDefects(userId,deviceSerialNo,basketCode);
         viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding ->  {
-            if (apiResponseDefectsWelding.getDefectsWelding()!=null) {
+            if (apiResponseDefectsWelding!=null) {
                     String statusMessage = apiResponseDefectsWelding.getResponseStatus().getStatusMessage();
-                    defectsWeldingList.clear();
-                    defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
-                    adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
-                    defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                    binding.defectedQtyEdt.getEditText().setText(String.valueOf(defectedQty));
-                    adapter.notifyDataSetChanged();
+                    if (apiResponseDefectsWelding.getDefectsWelding()!=null) {
+                        defectsWeldingList.clear();
+                        defectsWeldingList.addAll(apiResponseDefectsWelding.getDefectsWelding());
+                        qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+                        adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
+                        defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                        binding.defectedQtyEdt.getEditText().setText(String.valueOf(defectedQty));
+                        adapter.notifyDataSetChanged();
+                    }
                 } else {
                     showAlertDialog("Error in getting data!");
                 }
@@ -201,13 +222,15 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
         binding.parentDesc.setText(parentDesc);
         binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.operation.setText(qualityOperation);
+        binding.jobOrderData.jobordernum.setText(basketData.getJobOrderName());
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(basketData.getJobOrderQty()));
     }
 
     private void getReceivedData() {
         if (getArguments()!=null) {
             basketData = getArguments().getParcelable("basketData");
             sampleQty  = getArguments().getInt("sampleQty");
-            newSample  = getArguments().getBoolean("newSample");
+//            newSample  = getArguments().getBoolean("newSample");
             parentId = basketData.getParentId();
             jobOrderId = basketData.getJobOrderId();
             basketCode   = basketData.getBasketCode();
@@ -223,28 +246,28 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
                 bundle.putParcelable("basketData", basketData);
                 bundle.putInt(REMAINING_QTY, remainingQty);
                 bundle.putInt("sampleQty", sampleQty);
-                bundle.putBoolean("newSample", newSample);
+//                bundle.putBoolean("newSample", newSample);
                 Navigation.findNavController(v).navigate(R.id.action_fragment_welding_add_defects_to_fragment_welding_add_defect_details, bundle);
             }
         });
-        binding.saveBtn.setOnClickListener(v -> {
-            String newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
-            if (newBasketCode.isEmpty())
-                binding.basketCode.setError("Please scan or enter basket code!");
-            else {
-                viewModel.addWeldingDefectsToNewBasketViewModel(userId,deviceSerialNo,jobOrderId, parentId, basketCode, newBasketCode);
-                viewModel.getAddWeldingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
-                    String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
-                    if (responseMessage.equals("Added successfully")) {
-                        showSuccessAlerter(responseMessage,getActivity());
-//                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
-                        navController.popBackStack();
-                    } else {
-                        binding.basketCode.setError(responseMessage);
-                    }
-                });
-            }
-        });
+//        binding.saveBtn.setOnClickListener(v -> {
+//            String newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
+//            if (newBasketCode.isEmpty())
+//                binding.basketCode.setError("Please scan or enter basket code!");
+//            else {
+//                viewModel.addWeldingDefectsToNewBasketViewModel(userId,deviceSerialNo,jobOrderId, parentId, basketCode, newBasketCode);
+//                viewModel.getAddWeldingDefectsToNewBasket().observe(getActivity(), apiResponseAddManufacturingDefectedChildToBasket -> {
+//                    String responseMessage = apiResponseAddManufacturingDefectedChildToBasket.getResponseStatus().getStatusMessage();
+//                    if (responseMessage.equals("Added successfully")) {
+//                        showSuccessAlerter(responseMessage,getActivity());
+////                        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
+//                        navController.popBackStack();
+//                    } else {
+//                        binding.basketCode.setError(responseMessage);
+//                    }
+//                });
+//            }
+//        });
 
     }
 
@@ -269,8 +292,9 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     @Override
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         getActivity().runOnUiThread(()->{
-            String scannedText = barCodeReader.scannedData(barcodeReadEvent);
+            String scannedText = barCodeReader.scannedData(barcodeReadEvent).trim();
             binding.basketCode.getEditText().setText(scannedText);
+            getDefectsManufacturingList(userId,deviceSerialNo,scannedText);
         });
     }
 
@@ -295,5 +319,13 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
         super.onPause();
 //        barCodeReader.onPause();
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        newBasketCode = binding.basketCode.getEditText().getText().toString().trim();
+        if (!newBasketCode.isEmpty())
+            viewModel.setNewBasketCode(newBasketCode);
     }
 }

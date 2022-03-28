@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -26,7 +27,6 @@ import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentWeldingQualityOperationBinding;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.gson.Gson;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -159,23 +159,23 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
         binding.parentDesc.setText(parentDesc);
         binding.jobOrderData.jobordernum.setText(jobOrderName);
         binding.jobOrderData.Joborderqtn.setText("");
-        binding.signoffQtnEdt.setText("");
+        binding.signOffData.qty.setText("");
         binding.operation.setText("");
     }
     String parentCode ="",parentDesc,jobOrderName,basketCode;
-    int qnt,operationId;
+    int signOffQty,operationId;
     private void fillViews() {
 //        basketCode = basketData.getBasketCode();
         parentDesc = basketData.getParentDescription();
         jobOrderName = basketData.getJobOrderName();
         if (basketData.getSignOffQty()!=null) {
-            qnt = basketData.getSignOffQty();
-            binding.signoffQtnEdt.setText(String.valueOf(qnt));
+            signOffQty = basketData.getSignOffQty();
+            binding.signOffData.qty.setText(String.valueOf(signOffQty));
         }else
-            binding.signoffQtnEdt.setText("");
+            binding.signOffData.qty.setText("");
         if (basketData.getOperationId()!=null) {
             operationId = basketData.getOperationId();
-            binding.operation.setText(String.valueOf(operationId));
+            binding.operation.setText(basketData.getOperationEnName());
         }else
             binding.operation.setText("");
 //        binding.basketCode.getEditText().setText(basketCode);
@@ -186,8 +186,32 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
         else
             binding.jobOrderData.Joborderqtn.setText("");
         binding.basketCode.setError(null);
+        handleSample();
     }
 
+    private void handleSample() {
+        if (sampleQty==null){
+            binding.sampleQtnEdt.getEditText().setEnabled(true);
+            binding.newSample.setChecked(true);
+            binding.newSample.setEnabled(false);
+        } else {
+            binding.sampleQtnEdt.getEditText().setEnabled(false);
+            binding.newSample.setChecked(false);
+            binding.newSample.setEnabled(true);
+        }
+        binding.newSample.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    binding.sampleQtnEdt.getEditText().setEnabled(true);
+                    binding.sampleQtnEdt.getEditText().setText("");
+                } else {
+                    binding.sampleQtnEdt.getEditText().setEnabled(false);
+                    binding.sampleQtnEdt.getEditText().setText(sampleQty);
+                }
+            }
+        });
+    }
 
     private void initViewModel() {
         viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityOperationViewModel.class);
@@ -205,39 +229,50 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
             }
         });
     }
-    String sampleQty;
+    String sampleQty,enteredSampleQty;
     boolean newSample;
     private void attachListener() {
-        binding.addDefectButton.setOnClickListener(v -> {
-            sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
-            newSample = binding.newSample.isChecked();
-            boolean validSampleQty = false;
-            if (!parentCode.isEmpty()) {
-                if (sampleQty.isEmpty())
-                    Toast.makeText(getContext(), "Please enter sample quantity!", Toast.LENGTH_SHORT).show();
-                else {
-                    if (containsOnlyDigits(sampleQty)) {
-                        validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
-                        if (!validSampleQty)
-                            Toast.makeText(getContext(), "Sample Quantity should be less than or equal sign off Quantity!", Toast.LENGTH_SHORT).show();
-                        if (Integer.parseInt(sampleQty) > 0)
-                            Toast.makeText(getContext(), "Sample Quantity should be more than 0!", Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getContext(), "Sample Quantity should be only digits!", Toast.LENGTH_SHORT).show();
-                }
-                if (!sampleQty.isEmpty() && validSampleQty &&containsOnlyDigits(sampleQty)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("basketData", basketData);
-                    bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
-                    bundle.putBoolean("newSample", newSample);
-                    Navigation.findNavController(v).navigate(R.id.action_welding_quality_operation_fragment_to_welding_add_defect_fragment, bundle);
-                }
-            } else {
-                binding.basketCode.setError("Please enter a valid basket code and press enter!");
-            }
-        });
+//        binding.addDefectButton.setOnClickListener(v -> {
+//            basketCode = binding.basketCode.getEditText().getText().toString().trim();
+//            enteredSampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
+//            int actualSampleQty=0;
+//            newSample = binding.newSample.isChecked();
+//            boolean validSampleQty = false;
+//            if (!basketCode.isEmpty()) {
+//                if (enteredSampleQty.isEmpty())
+//                    binding.sampleQtnEdt.setError("Please enter sample quantity!");
+//                else {
+//                    if (containsOnlyDigits(enteredSampleQty)) {
+//                        if (newSample){
+//                            if (sampleQty!=null) {
+//                                actualSampleQty = Integer.parseInt(sampleQty) + Integer.parseInt(enteredSampleQty);
+//                                if (Integer.parseInt(sampleQty) <= 0)
+//                                    binding.sampleQtnEdt.setError("Sample Quantity should be more than 0!");
+//                            }else
+//                                actualSampleQty = Integer.parseInt(enteredSampleQty);
+//                        } else {
+//                            actualSampleQty = Integer.parseInt(enteredSampleQty);
+//                        }
+//                        validSampleQty = actualSampleQty <= basketData.getSignOffQty();
+//                        if (!validSampleQty)
+//                            binding.sampleQtnEdt.setError("Sample Quantity should be less than or equal sign off Quantity!");
+//
+//                    } else
+//                        binding.sampleQtnEdt.setError("Sample Quantity should be only digits!");
+//                }
+//                if (!enteredSampleQty.isEmpty() && validSampleQty && containsOnlyDigits(enteredSampleQty)) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putParcelable("basketData", basketData);
+//                    bundle.putInt("sampleQty", actualSampleQty);
+//                    bundle.putBoolean("newSample", newSample);
+//                    Navigation.findNavController(v).navigate(R.id.action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment, bundle);
+//                }
+//            } else {
+//                binding.basketCode.setError("Please enter a valid basket code and press enter!");
+//            }
+//
+//        });
     }
-
 
     @Override
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {

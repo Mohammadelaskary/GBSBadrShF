@@ -26,6 +26,7 @@ public class PaintAddDefectsViewModel extends ViewModel {
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
 
+    String newBasketCode;
 
     @Inject
     Gson gson;
@@ -92,5 +93,13 @@ public class PaintAddDefectsViewModel extends ViewModel {
 
     public MutableLiveData<Status> getAddPaintingDefectsToNewBasketStatus() {
         return addPaintingDefectsToNewBasketStatus;
+    }
+
+    public String getNewBasketCode() {
+        return newBasketCode;
+    }
+
+    public void setNewBasketCode(String newBasketCode) {
+        this.newBasketCode = newBasketCode;
     }
 }

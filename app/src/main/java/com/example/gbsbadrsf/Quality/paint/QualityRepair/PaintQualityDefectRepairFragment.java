@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -9,12 +10,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
-import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintQualityDefectRepairBinding;
@@ -45,7 +44,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     FragmentPaintQualityDefectRepairBinding binding;
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     PaintQualityRepairViewModel viewModel;
-    PaintRepairProductionQualityAdapter adapter;
+    PaintRepairQualityAdapter adapter;
 
 
     @Override
@@ -84,8 +83,10 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                 updateRecyclerView();
-            }
-            showSuccessAlerter(statusMessage,getActivity());
+                showSuccessAlerter(statusMessage,getActivity());
+                binding.approvedQty.getEditText().setText("");
+            }else
+                warningDialog(getContext(),statusMessage);
 //            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
         });
     }
@@ -106,7 +107,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     }
 
     private void setUpRecyclerView() {
-        adapter = new PaintRepairProductionQualityAdapter(this);
+        adapter = new PaintRepairQualityAdapter(this);
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -142,18 +143,21 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
             case R.id.save_btn:{
                 if (defectsWeldingDetailsId !=-1){
                     approvedQty = binding.approvedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()&&Integer.parseInt(approvedQty)<=repairedQty){
-                        viewModel.addPaintingRepairQuality(
-                                userId,
-                                deviceSerialNumber,
-                                defectsWeldingDetailsId,
-                                notes,
-                                defectStatus,
-                                Integer.parseInt(approvedQty)
-                        );
-                    } else {
-                        binding.approvedQty.setError("Please enter valid approved Quantity");
-                    }
+                    if (repairedQty!=0) {
+                        if (containsOnlyDigits(approvedQty) && !approvedQty.isEmpty() && Integer.parseInt(approvedQty) <= repairedQty) {
+                            viewModel.addPaintingRepairQuality(
+                                    userId,
+                                    deviceSerialNumber,
+                                    defectsWeldingDetailsId,
+                                    notes,
+                                    defectStatus,
+                                    Integer.parseInt(approvedQty)
+                            );
+                        } else {
+                            binding.approvedQty.setError("Please enter valid approved Quantity");
+                        }
+                    } else
+                        binding.approvedQty.setError("The selected defect doesn't repaired yet!");
                 } else {
                     binding.approvedQty.setError("Please first select defect to repair!");
                 }

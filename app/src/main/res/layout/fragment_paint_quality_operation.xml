@@ -151,14 +151,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Add to sample"
+                        android:text="New sample"
                         app:layout_constraintBottom_toBottomOf="@+id/sample_qtn_edt"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/sample_qtn_edt" />
 
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/add_defect_button"
+                        android:id="@+id/quality_pass"
                         style="@style/styleoftextinbtn"
                         android:layout_width="wrap_content"
                         android:layout_height="55dp"
@@ -183,7 +183,7 @@
                         app:cornerRadius="25dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/add_defect_button" />
+                        app:layout_constraintTop_toBottomOf="@id/quality_pass" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

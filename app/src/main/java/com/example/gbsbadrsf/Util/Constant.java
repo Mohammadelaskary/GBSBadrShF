@@ -9,6 +9,7 @@ public class Constant {
     public static final String LANG = "LANGUAGE";
     public static final String SCREEN_MODE = "SCREEN_MODEL";
     public static final String PASSED_OBJECT = "PASSED_OBJECT";
+    public static final double tolerance = .1;
     public static int totalQtyVar;
 
     public final int getTotalQtyVar() {

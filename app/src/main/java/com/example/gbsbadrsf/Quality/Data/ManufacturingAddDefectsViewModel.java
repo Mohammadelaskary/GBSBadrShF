@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
+import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfoLocateInQuality;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -15,10 +16,11 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ManufacturingAddDefectsViewModel extends ViewModel {
-    MutableLiveData<ApiResponseDefectsManufacturing> defectsManufacturingListLiveData;
+    MutableLiveData<ApiResponseGetBasketInfoLocateInQuality> defectsManufacturingListLiveData;
     MutableLiveData<Status> defectsManufacturingListStatus;
     MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> addManufacturingDefectsToNewBasket;
     MutableLiveData<Status> addManufacturingDefectsToNewBasketStatus;
+    String newBasketCode;
     @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
@@ -39,7 +41,7 @@ public class ManufacturingAddDefectsViewModel extends ViewModel {
 
 
     public void getDefectsManufacturingViewModel(String basketCode){
-        disposable.add(apiInterface.getManufacturingDefectedQtyByBasketCode(basketCode)
+        disposable.add(apiInterface.GetBasketInfoLocateInQuality(basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> defectsManufacturingListStatus.postValue(Status.LOADING))
@@ -76,7 +78,7 @@ public class ManufacturingAddDefectsViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<ApiResponseDefectsManufacturing> getDefectsManufacturingListLiveData() {
+    public MutableLiveData<ApiResponseGetBasketInfoLocateInQuality> getDefectsManufacturingListLiveData() {
         return defectsManufacturingListLiveData;
     }
 
@@ -90,5 +92,13 @@ public class ManufacturingAddDefectsViewModel extends ViewModel {
 
     public MutableLiveData<Status> getAddManufacturingDefectsToNewBasketStatus() {
         return addManufacturingDefectsToNewBasketStatus;
+    }
+
+    public String getNewBasketCode() {
+        return newBasketCode;
+    }
+
+    public void setNewBasketCode(String newBasketCode) {
+        this.newBasketCode = newBasketCode;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Production.PaintProductionRepair;
+package com.example.gbsbadrsf.Production;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,19 +8,18 @@ import android.view.animation.AlphaAnimation;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
-import com.example.gbsbadrsf.Quality.paint.QualityRepair.SetOnPaintingRepairItemClicked;
-import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
+import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
+import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
-public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<PaintRepairProductionQualityAdapter.RepairProductionQualityViewHolder> {
-    List<DefectsPainting> defectsPaintingList;
-    SetOnPaintingRepairItemClicked onPaintingRepairItemClicked;
+public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProductionAdapter.RepairProductionQualityViewHolder> {
+    List<DefectsManufacturing> defectsManufacturingList;
+    SetOnRepairItemClicked onRepairItemClicked;
 
-    public PaintRepairProductionQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
-        this.onPaintingRepairItemClicked = onPaintingRepairItemClicked;
+    public RepairProductionAdapter(SetOnRepairItemClicked onRepairItemClicked) {
+        this.onRepairItemClicked = onRepairItemClicked;
     }
 
     @NonNull
@@ -32,23 +31,27 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
     int currentPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull RepairProductionQualityViewHolder holder, int position) {
-        DefectsPainting defectsPainting = defectsPaintingList.get(position);
-        String defectName = defectsPainting.getDefectDescription();
-        int defectedQty   = defectsPainting.getDeffectedQty();
-        int repairedQty   = defectsPainting.getQtyRepaired();
-        int approvedQty   = defectsPainting.getQtyApproved();
+        DefectsManufacturing defectsManufacturing = defectsManufacturingList.get(position);
+        String defectName = defectsManufacturing.getDefectDescription();
+        int defectedQty   = defectsManufacturing.getQtyDefected();
+        int repairedQty   = defectsManufacturing.getQtyRepaired();
+        int approvedQty   = defectsManufacturing.getQtyApproved();
+        int pendingRepair = defectedQty-repairedQty-approvedQty;
+        int pendingApprove = repairedQty - approvedQty;
         boolean isRepaired = repairedQty!=0;
         boolean isApproved = approvedQty!=0;
         holder.binding.defectName.setText(defectName);
-        holder.binding.pendingRepairQty.setText(String.valueOf(defectedQty));
+        holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
         if (!isRepaired) {
             holder.binding.repairedQty.setText("Waiting for repair");
             holder.binding.pendingQcApproveQty.setText("Waiting for repair");
             holder.binding.qualityApprovedQty.setText("Waiting for repair");
         } else {
+            holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
             holder.binding.repairedQty.setText(repairedQty+"");
-            holder.binding.pendingQcApproveQty.setText(repairedQty+"");
+            holder.binding.pendingQcApproveQty.setText(pendingApprove+"");
             if (isApproved) {
+                holder.binding.pendingQcApproveQty.setText(String.valueOf(pendingApprove));
                 holder.binding.qualityApprovedQty.setText(approvedQty+"");
             } else {
                 holder.binding.qualityApprovedQty.setText("Waiting for Quality Approval");
@@ -62,13 +65,13 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
         }
         holder.itemView.setOnClickListener(v -> {
             currentPosition = holder.getAdapterPosition();
-            onPaintingRepairItemClicked.onPaintingRepairItemClicked(defectsPainting,position);
+            onRepairItemClicked.onRepairItemClicked(defectsManufacturing,currentPosition,pendingRepair);
             notifyDataSetChanged();
         });
     }
 
-    public void setDefectsPaintingList(List<DefectsPainting> defectsPaintingList) {
-        this.defectsPaintingList = defectsPaintingList;
+    public void setDefectsManufacturingList(List<DefectsManufacturing> defectsManufacturingList) {
+        this.defectsManufacturingList = defectsManufacturingList;
     }
 
     private void activateItem(View itemView) {
@@ -88,7 +91,7 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
 
     @Override
     public int getItemCount() {
-        return defectsPaintingList ==null?0: defectsPaintingList.size();
+        return defectsManufacturingList==null?0:defectsManufacturingList.size();
     }
 
     static class RepairProductionQualityViewHolder extends RecyclerView.ViewHolder{

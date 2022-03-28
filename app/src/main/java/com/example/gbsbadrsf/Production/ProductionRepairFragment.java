@@ -1,8 +1,10 @@
 package com.example.gbsbadrsf.Production;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -151,7 +153,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         for (DefectsManufacturing defectsManufacturing:defectsManufacturingListLocal){
             if (defectsManufacturing.getManufacturingDefectsId()!=id){
                 int currentId = defectsManufacturing.getManufacturingDefectsId();
-                int defectedQty = defectsManufacturing.getDeffectedQty();
+                int defectedQty = defectsManufacturing.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId,defectedQty,getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;
@@ -200,14 +202,14 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     String childDesc,childCode = "",operationName,jobOrderName;
     int jobOrderQty;
     private void getBasketData(String basketCode) {
-        viewModel.getBasketDataViewModel(basketCode);
+        viewModel.getBasketDataViewModel(USER_ID,DEVICE_SERIAL_NO,basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
             if (apiResponseLastMoveManufacturingBasket!=null) {
-                basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
-                adapter.setBasketData(basketData);
                 ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBaskets().get(0);
+                    adapter.setBasketData(basketData);
                     childDesc = basketData.getChildDescription();
                     childCode = basketData.getChildCode();
                     operationName = basketData.getOperationEnName();
@@ -256,8 +258,8 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         getActivity().runOnUiThread(()->{
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
-            getBasketDefectsManufacturing(scannedText);
-            getBasketDefectsManufacturing(scannedText);
+            getBasketData(scannedText.trim());
+            getBasketDefectsManufacturing(scannedText.trim());
         });
     }
 

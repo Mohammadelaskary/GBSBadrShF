@@ -43,7 +43,6 @@ public class WeldingQualityRepairViewModel extends ViewModel {
         defectsWeldingListStatus = new MutableLiveData<>();
         addWeldingRepairQuality = new MutableLiveData<>();
         addWeldingRepairQualityStatus = new MutableLiveData<>();
-        basketData = new LastMoveWeldingBasket();
     }
 
     public void getBasketData(int userId,String deviceSerialNo,String basketCode){

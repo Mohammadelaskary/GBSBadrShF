@@ -1,5 +1,8 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -51,7 +54,7 @@ public class QualityRepairViewModel extends ViewModel {
     }
 
     public void getBasketDataViewModel(String basketCode){
-        disposable.add(apiInterface.getBasketData(basketCode)
+        disposable.add(apiInterface.getBasketData(USER_ID,DEVICE_SERIAL_NO,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseBasketDataStatus.postValue(Status.LOADING))

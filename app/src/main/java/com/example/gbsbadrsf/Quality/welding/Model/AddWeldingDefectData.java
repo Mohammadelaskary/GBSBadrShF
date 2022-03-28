@@ -11,10 +11,25 @@ public class AddWeldingDefectData {
     private int QtyDefected;
     private String Notes;
     private int SampleQty;
-    private boolean IsNewSampleQty;
+    private String basketCode;
+    private String newBasketCode;
     private List<Integer> DefectList;
 
     public AddWeldingDefectData() {
+    }
+
+    public AddWeldingDefectData(int userId, String deviceSerialNo, int jobOrderId, int parentID, int operationID, int qtyDefected, String notes, int sampleQty, String basketCode, String newBasketCode, List<Integer> defectList) {
+        UserId = userId;
+        DeviceSerialNo = deviceSerialNo;
+        JobOrderId = jobOrderId;
+        ParentID = parentID;
+        OperationID = operationID;
+        QtyDefected = qtyDefected;
+        Notes = notes;
+        SampleQty = sampleQty;
+        this.basketCode = basketCode;
+        this.newBasketCode = newBasketCode;
+        DefectList = defectList;
     }
 
     public int getUserId() {
@@ -82,12 +97,12 @@ public class AddWeldingDefectData {
         SampleQty = sampleQty;
     }
 
-    public boolean isNewSampleQty() {
-        return IsNewSampleQty;
+    public String getNewBasketCode() {
+        return newBasketCode;
     }
 
-    public void setNewSampleQty(boolean newSampleQty) {
-        IsNewSampleQty = newSampleQty;
+    public void setNewBasketCode(String newBasketCode) {
+        this.newBasketCode = newBasketCode;
     }
 
     public List<Integer> getDefectList() {

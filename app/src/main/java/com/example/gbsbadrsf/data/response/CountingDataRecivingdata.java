@@ -67,6 +67,9 @@ public class CountingDataRecivingdata {
     @SerializedName("locatorDesc")
     @Expose
     private String locatorDesc;
+    @SerializedName("totalSignOutQty")
+    @Expose
+    private String totalSignOutQty;
 
     public Integer getLoadingSequenceID() {
         return loadingSequenceID;
@@ -236,4 +239,11 @@ public class CountingDataRecivingdata {
         this.locatorDesc = locatorDesc;
     }
 
+    public String getTotalSignOutQty() {
+        return totalSignOutQty;
+    }
+
+    public void setTotalSignOutQty(String totalSignOutQty) {
+        this.totalSignOutQty = totalSignOutQty;
+    }
 }

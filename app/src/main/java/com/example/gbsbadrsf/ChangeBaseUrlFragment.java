@@ -218,16 +218,16 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
     }
 
     private void restartApp() {
-//        Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
-//        int mPendingIntentId = 123456;
-//        PendingIntent mPendingIntent = PendingIntent.getActivity(getContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-//        AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-//        System.exit(0);
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        getActivity().finish();
+        Intent mStartActivity = new Intent(getActivity(), MainActivity.class);
+        int mPendingIntentId = 123456;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(getContext(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+//        Intent intent = new Intent(getContext(), MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//        getActivity().finish();
     }
 
     @Override

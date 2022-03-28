@@ -995,12 +995,29 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment">
+                            <entry key="action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_details_fragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_manufacturing_quality_operation_fragment_to_manufacturing_sign_off_baskets_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="manufacturing_sign_off_baskets_fragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

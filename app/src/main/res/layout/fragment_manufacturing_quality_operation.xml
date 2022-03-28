@@ -141,11 +141,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:hint="Sample Qty"
-                    android:orientation="horizontal"
                     app:errorEnabled="true"
                     app:errorTextColor="@android:color/holo_red_dark"
                     app:hintTextColor="@color/colorPrimary"
-                    app:layout_constraintEnd_toStartOf="@+id/new_sample"
+                    app:layout_constraintEnd_toEndOf="@+id/sign_off_data"
                     app:layout_constraintStart_toStartOf="@id/child_desc"
                     app:layout_constraintTop_toBottomOf="@id/sign_off_data">
 
@@ -154,49 +153,173 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/edt_bg"
                         android:digits="0123456789"
-                        android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="number"
                         android:textColor="@color/black" />
+
+
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <CheckBox
-                    android:id="@+id/new_sample"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/defects_list_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/child_desc"
+                    app:layout_constraintStart_toStartOf="@+id/child_desc"
+                    app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt">
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/child_qty_title"-->
+<!--                        style="@style/style_of_text_bold"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="@string/child_qty"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/defects_title"-->
+<!--                        app:layout_constraintHorizontal_bias="0.5"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/defects_title"-->
+<!--                        style="@style/style_of_text_bold"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="@string/defects"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintHorizontal_bias="0.5"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/child_qty_title"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        tools:layout_editor_absoluteY="0dp" />-->
+                    <include
+                        android:id="@+id/manufacturing_defects_per_qty_title"
+                        layout="@layout/defects_per_qty_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/defects_per_qty"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="@+id/manufacturing_defects_per_qty_title"
+                        app:layout_constraintStart_toStartOf="@+id/manufacturing_defects_per_qty_title"
+                        app:layout_constraintTop_toBottomOf="@+id/manufacturing_defects_per_qty_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_defects"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#ACABAB"
+                    android:text="@string/add_defects"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconGravity="textStart"
+                    app:layout_constraintEnd_toEndOf="@+id/sample_qtn_edt"
+                    app:layout_constraintStart_toStartOf="@+id/sample_qtn_edt"
+                    app:layout_constraintTop_toBottomOf="@+id/defects_list_layout" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/defeced_qty"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:enabled="false"
+                    android:hint="@string/defect_qty"
+                    app:layout_constraintEnd_toStartOf="@+id/rejected_qty"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/sample_qtn_edt"
+                    app:layout_constraintTop_toBottomOf="@+id/add_defects">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/rejected_qty"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:enabled="false"
+                    android:hint="@string/rejected_qty"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/defeced_qty"
+                    app:layout_constraintTop_toBottomOf="@+id/add_defects">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/full_inspection_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Add to sample"
-                    app:layout_constraintBottom_toBottomOf="@+id/sample_qtn_edt"
-                    app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                    android:layout_marginTop="-19dp"
+                    android:layout_weight="1"
+                    android:text="@string/full_inspection"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/sample_qtn_edt" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/add_defect_button"
+                    android:id="@+id/quality_pass"
                     style="@style/styleoftextinbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/appbarcolor"
-                    android:text="@string/add_defects"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/quality_pass"
                     android:textColor="@color/white"
                     app:cornerRadius="25dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sample_qtn_edt" />
+                    app:layout_constraintEnd_toEndOf="@+id/sample_qtn_edt"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/quality_ok"
+                    app:layout_constraintTop_toBottomOf="@+id/rejected_qty" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/without_defect_button"
+                    android:id="@+id/quality_ok"
                     style="@style/styleoftextinbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/appbarcolor"
-                    android:text="@string/without_defect"
-                    android:textColor="@color/white"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/quality_ok"
+                    app:cornerRadius="25dp"
+                    app:layout_constraintEnd_toStartOf="@+id/quality_pass"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/sample_qtn_edt"
+                    app:layout_constraintTop_toBottomOf="@+id/defeced_qty" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sign_off_baskets"
+                    style="@style/styleoftextinbtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:enabled="false"
+                    android:text="Sign off Baskets"
                     app:cornerRadius="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_defect_button" />
+                    app:layout_constraintTop_toBottomOf="@+id/quality_ok" />
+
+
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

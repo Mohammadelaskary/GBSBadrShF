@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.Model.Department;
+import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRejectionRequestViewModel;
@@ -193,7 +194,7 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
 
     private void attachButtonsToListener() {
         binding.saveBtn.setOnClickListener(this);
-        binding.existingdefBtn.setOnClickListener(this);
+        binding.reasonDefBtn.setOnClickListener(this);
         binding.newdefBtn.setOnClickListener(this);
     }
 
@@ -236,13 +237,30 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
                 binding.loadingQtyData.qty.setText(String.valueOf(basketQty));
             else
                 binding.loadingQtyData.qty.setText("");
+            getDefectsList(basketData.getOperationId());
         } else {
             binding.parentDesc.setText("");
             binding.jobOrderData.jobordernum.setText("");
             binding.loadingQtyData.qty.setText("");
         }
     }
-
+    List<Defect> defectList = new ArrayList<>();
+    private void getDefectsList(int operationId) {
+        viewModel.getDefectsList(operationId);
+        viewModel.getDefectsListMutableLiveData().observe(getViewLifecycleOwner(),response -> {
+            if (response!=null){
+                String statusMessage = response.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Data sent successfully")){
+                    defectList.clear();
+                    defectList.addAll(response.getDefectsList());
+                    adapter.setDefects(defectList);
+                } else
+                    warningDialog(getContext(),statusMessage);
+            } else {
+                warningDialog(getContext(),"Error in getting data");
+            }
+        });
+    }
     private void observeGettingDepartments() {
         viewModel.getApiResponseDepartmentsListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
@@ -327,7 +345,14 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
                     saveRejectedRequest(body);
                 }
             } break;
-
+            case R.id.reason_def_btn:
+                if (!defectList.isEmpty()){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    adapter.setSelectedDefectsIds(selectedIds);
+                } else {
+                    warningDialog(getContext(),"No Stored defects for this operation!");
+                }
+                break;
         }
     }
 

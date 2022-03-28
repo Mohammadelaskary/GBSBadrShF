@@ -43,6 +43,9 @@ public class CountingData {
     @SerializedName("signOutQty")
     @Expose
     private Integer signOutQty;
+    @SerializedName("totalSignOutQty")
+    @Expose
+    private Integer totalSignOutQty;
     @SerializedName("countingQty")
     @Expose
     private Integer countingQty;
@@ -159,6 +162,13 @@ public class CountingData {
         this.countingQty = countingQty;
     }
 
+    public Integer getTotalSignOutQty() {
+        return totalSignOutQty;
+    }
+
+    public void setTotalSignOutQty(Integer totalSignOutQty) {
+        this.totalSignOutQty = totalSignOutQty;
+    }
 }
 
 

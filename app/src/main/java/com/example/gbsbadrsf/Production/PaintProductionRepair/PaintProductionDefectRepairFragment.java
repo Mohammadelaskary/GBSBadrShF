@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,7 +20,6 @@ import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.QualityRepair.SetOnPaintingRepairItemClicked;
-import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
@@ -56,7 +54,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
 
     }
     FragmentPaintProductionDefectRepairBinding binding;
-    PaintRepairProductionQualityAdapter adapter;
+    PaintRepairProductionAdapter adapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -116,7 +114,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
     }
 
     private void setUpRecyclerView() {
-        adapter = new PaintRepairProductionQualityAdapter(this);
+        adapter = new PaintRepairProductionAdapter(this);
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {

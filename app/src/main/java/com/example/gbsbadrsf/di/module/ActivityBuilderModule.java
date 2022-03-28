@@ -23,6 +23,7 @@ import com.example.gbsbadrsf.Quality.manfacturing.QualityDecision.QualityDecisio
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityRepairFragment;
 import com.example.gbsbadrsf.Quality.manfacturing.RandomQualityInception.RandomQualityInceptionFragment;
+import com.example.gbsbadrsf.Quality.manfacturing.SignOffBaskets.SignOffBasketsFragment;
 import com.example.gbsbadrsf.Quality.paint.AddDefects.PaintAddDefectDetailsFragment;
 import com.example.gbsbadrsf.Quality.paint.AddDefects.PaintAddDefectsFragment;
 import com.example.gbsbadrsf.Quality.paint.AddDefects.PaintDisplayDefectDetailsFragment;
@@ -179,6 +180,8 @@ public abstract class ActivityBuilderModule {
     abstract BasketInfoFragment contributeBasketInfoFragment ();
     @ContributesAndroidInjector
     abstract ChangePasswordFragment contributeChangePasswordFragment ();
+    @ContributesAndroidInjector
+    abstract SignOffBasketsFragment contributeSignOffBasketsFragment ();
 
 
 

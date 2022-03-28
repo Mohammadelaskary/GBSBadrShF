@@ -266,6 +266,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
         getActivity().runOnUiThread(() -> {
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
+            getBasketData(userId, deviceSerialNo, scannedText.trim());
+            getBasketDefectsWelding(userId, deviceSerialNo, basketCode);
         });
     }
 

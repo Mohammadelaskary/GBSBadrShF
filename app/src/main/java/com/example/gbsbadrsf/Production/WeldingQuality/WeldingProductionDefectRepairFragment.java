@@ -15,22 +15,16 @@ import androidx.lifecycle.ViewModelProviders;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
-import com.example.gbsbadrsf.Production.RepairProductionQualityAdapter;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionDefectRepairViewModel;
-import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.databinding.FragmentProductionDefectRepairBinding;
 import com.example.gbsbadrsf.databinding.WeldingProductionDefectRepairFragmentBinding;
-import com.example.gbsbadrsf.databinding.WeldingQualityDefectRepairFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +55,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
 
     }
     WeldingProductionDefectRepairFragmentBinding binding;
-    WeldingRepairProductionQualityAdapter adapter;
+    WeldingRepairProductionAdapter adapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -121,7 +115,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
     }
 
     private void setUpRecyclerView() {
-        adapter = new WeldingRepairProductionQualityAdapter(this);
+        adapter = new WeldingRepairProductionAdapter(this);
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -154,6 +148,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         binding.repairedQty.getEditText().setText(String.valueOf(defectsWelding.getDeffectedQty()));
         defectsManufacturingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
         defectStatus = defectsWelding.getDefectStatus();
+        defectedQty = defectsWelding.getQtyDefected();
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,repairedQty;

@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.NEW_BASKET_CODE;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -11,28 +12,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
-import com.example.gbsbadrsf.Quality.Data.AddManufacturingDefectData;
 import com.example.gbsbadrsf.Quality.Data.Defect;
-import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
-import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityOperationViewModel;
-import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.databinding.FragmentManufacturingAddDefectDetailsBinding;
 import com.example.gbsbadrsf.databinding.FragmentWeldingAddDefectDetailsBinding;
 
 import java.util.ArrayList;
@@ -100,13 +94,18 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
 
     private void observeAddingManufacturingDefectsResponse() {
         viewModel.getAddManufacturingDefectsResponse().observe(getViewLifecycleOwner(), response -> {
-            String responseMessage = response.getResponseStatus().getStatusMessage();
-//                        if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
-            navController.popBackStack();
-//                        }
+            if (response!=null) {
+                String responseMessage = response.getResponseStatus().getStatusMessage();
+                if (responseMessage.equals("Added successfully") || responseMessage.equals("Updated successfully")) {
+                    navController.popBackStack();
 
 //            Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
-            showSuccessAlerter(responseMessage,getActivity());
+                    showSuccessAlerter(responseMessage, getActivity());
+                } else {
+                    warningDialog(getContext(), responseMessage);
+                }
+            } else
+                warningDialog(getContext(),"Error in getting data!");
         });
     }
 
@@ -124,7 +123,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
 
 
     private void setUpDefectsRecyclerView() {
-        adapter = new DefectsListAdapter(false,this);
+        adapter = new DefectsListAdapter(getContext(),this);
         binding.defectsSelectList.setAdapter(adapter);
     }
 
@@ -150,17 +149,19 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
             operationId      = basketData.getOperationId();
             jobOrderName     = basketData.getJobOrderName();
             jobOrderQty      = basketData.getJobOrderQty();
+            basketCode       = basketData.getBasketCode();
+            newBasketCode    = getArguments().getString(NEW_BASKET_CODE);
             sampleQty        = getArguments().getInt("sampleQty");
-            newSample        = getArguments().getBoolean("newSample");
+//            newSample        = getArguments().getBoolean("newSample");
             remainingQty     = getArguments().getInt(REMAINING_QTY);
         }
     }
 
     private void attachListeners() {
-        binding.addDefectButton.setOnClickListener(this);
+//        binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String parentCode,parentDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName;
+    String parentCode,parentDescription,notes = "ghi",deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName,basketCode,newBasketCode;
     int     parentId,
             defectedQty,
             jobOrderId,
@@ -172,7 +173,7 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.add_defect_button:{
+            case R.id.quality_pass:{
                 String defectedQtyString = binding.defectedQtyEdt.getEditText().getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
@@ -187,19 +188,10 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
                 if (defectsIds.isEmpty()){
                     warningDialog(getContext(),"Please Select the found defects!");
                 }
-                AddWeldingDefectData data = new AddWeldingDefectData();
+
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
                     defectedQty=Integer.parseInt(binding.defectedQtyEdt.getEditText().getText().toString().trim());
-                    data.setUserId(userId);
-                    data.setDeviceSerialNo(deviceSerialNumber);
-                    data.setJobOrderId(jobOrderId);
-                    data.setParentID(parentId);
-                    data.setOperationID(operationId);
-                    data.setQtyDefected(defectedQty);
-                    data.setNotes(notes);
-                    data.setSampleQty(sampleQty);
-                    data.setDefectList(defectsIds);
-                    data.setNewSampleQty(newSample);
+                    AddWeldingDefectData data = new AddWeldingDefectData(userId,deviceSerialNumber,jobOrderId,parentId,operationId,defectedQty,notes,sampleQty,basketCode,newBasketCode,defectsIds);
                     viewModel.addWeldingDefectResponseViewModel(data);
                 }
             } break;

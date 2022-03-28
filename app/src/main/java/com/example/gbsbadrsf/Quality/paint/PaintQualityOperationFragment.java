@@ -13,21 +13,18 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintQualityOperationBinding;
-import com.example.gbsbadrsf.databinding.FragmentWeldingQualityOperationBinding;
 import com.google.gson.Gson;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -172,7 +169,31 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
         binding.parentDesc.setText(parentDesc);
         binding.jobOrderData.jobordernum.setText(jobOrderName);
         binding.basketCode.setError(null);
+//        handleSample();
     }
+//    private void handleSample() {
+//        if (sampleQty==null){
+//            binding.sampleQtnEdt.getEditText().setEnabled(true);
+//            binding.newSample.setChecked(true);
+//            binding.newSample.setEnabled(false);
+//        } else {
+//            binding.sampleQtnEdt.getEditText().setEnabled(false);
+//            binding.newSample.setChecked(false);
+//            binding.newSample.setEnabled(true);
+//        }
+//        binding.newSample.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked){
+//                    binding.sampleQtnEdt.getEditText().setEnabled(true);
+//                    binding.sampleQtnEdt.getEditText().setText("");
+//                } else {
+//                    binding.sampleQtnEdt.getEditText().setEnabled(false);
+//                    binding.sampleQtnEdt.getEditText().setText(sampleQty);
+//                }
+//            }
+//        });
+//    }
 
 
     private void initViewModel() {
@@ -191,39 +212,53 @@ public class PaintQualityOperationFragment extends DaggerFragment implements  Ba
             }
         });
     }
-    String sampleQty;
-    boolean newSample;
+    String  sampleQty;
+//    boolean newSample;
     private void attachListener() {
-        binding.addDefectButton.setOnClickListener(v -> {
-            sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
-            newSample = binding.newSample.isChecked();
-            boolean validSampleQty = false;
-            if (!parentCode.isEmpty()) {
-                if (sampleQty.isEmpty())
-                    warningDialog(getContext(),"Please enter sample quantity!");
-                else {
-                    if (containsOnlyDigits(sampleQty)) {
-                        validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
-                        if (!validSampleQty)
-                            warningDialog(getContext(),"Sample Quantity should be less than or equal sign off Quantity!");
-                        if (Integer.parseInt(sampleQty) <= 0)
-                            warningDialog(getContext(),"Sample Quantity should be more than 0!");
-                    } else
-                        warningDialog(getContext(),"Sample Quantity should be only digits!");
-                }
-                if (!sampleQty.isEmpty() && validSampleQty&&containsOnlyDigits(sampleQty)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("basketData", basketData);
-                    bundle.putInt("sampleQty", Integer.parseInt(sampleQty));
-                    bundle.putBoolean("newSample", newSample);
-                    Navigation.findNavController(v).navigate(R.id.action_paint_quality_operation_fragment_to_paint_add_defect_fragment, bundle);
-                }
-            } else {
-                binding.basketCode.setError("Please enter a valid basket code!");
-            }
-        });
+//        binding.addDefectButton.setOnClickListener(v -> {
+//            basketCode = binding.basketCode.getEditText().getText().toString().trim();
+//            sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
+//            int actualSampleQty=0;
+////            newSample = binding.newSample.isChecked();
+//            boolean validSampleQty = false;
+//            if (!basketCode.isEmpty()) {
+//                if (sampleQty.isEmpty())
+//                    warningDialog(getContext(),"Please enter sample quantity!");
+//                else {
+//                    if (containsOnlyDigits(sampleQty)) {
+////                        if (newSample){
+////                            if (sampleQty!=null) {
+////                                actualSampleQty = Integer.parseInt(sampleQty) + Integer.parseInt(sampleQty);
+////                                if (Integer.parseInt(sampleQty) <= 0)
+////                                    binding.sampleQtnEdt.setError("Sample Quantity should be more than 0!");
+////                            } else
+////
+////                                actualSampleQty = Integer.parseInt(sampleQty);
+////                        } else {
+////                            actualSampleQty = Integer.parseInt(sampleQty);
+////                        }
+//                        validSampleQty = Integer.parseInt(sampleQty) <= basketData.getSignOffQty();
+//                        if (!validSampleQty)
+//                            binding.sampleQtnEdt.setError("Sample Quantity should be less than or equal sign off Quantity!");
+//                        if (Integer.parseInt(sampleQty) <= 0)
+//                            binding.sampleQtnEdt.setError("Sample Quantity should be more than 0!");
+//
+//                    } else
+//                        binding.sampleQtnEdt.setError("Sample Quantity should be only digits!");
+//                }
+//                if (!sampleQty.isEmpty() && validSampleQty && containsOnlyDigits(sampleQty)) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putParcelable("basketData", basketData);
+//                    bundle.putInt("sampleQty", actualSampleQty);
+////                    bundle.putBoolean("newSample", newSample);
+//                    Navigation.findNavController(v).navigate(R.id.action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment, bundle);
+//                }
+//            } else {
+//                binding.basketCode.setError("Please enter a valid basket code and press enter!");
+//            }
+//
+//        });
     }
-
 
     @Override
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {

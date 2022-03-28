@@ -11,10 +11,25 @@ public class AddPaintingDefectData {
     private int QtyDefected;
     private String Notes;
     private int SampleQty;
-    private boolean IsNewSampleQty;
     private List<Integer> DefectList;
+    private String BasketCode;
+    private String NewBasketCode;
 
     public AddPaintingDefectData() {
+    }
+
+    public AddPaintingDefectData(int userId, String deviceSerialNo, int jobOrderId, int parentID, int operationID, int qtyDefected, String notes, int sampleQty, List<Integer> defectList, String basketCode, String newBasketCode) {
+        UserId = userId;
+        DeviceSerialNo = deviceSerialNo;
+        JobOrderId = jobOrderId;
+        ParentID = parentID;
+        OperationID = operationID;
+        QtyDefected = qtyDefected;
+        Notes = notes;
+        SampleQty = sampleQty;
+        DefectList = defectList;
+        BasketCode = basketCode;
+        NewBasketCode = newBasketCode;
     }
 
     public int getUserId() {
@@ -82,19 +97,27 @@ public class AddPaintingDefectData {
         SampleQty = sampleQty;
     }
 
-    public boolean isNewSampleQty() {
-        return IsNewSampleQty;
-    }
-
-    public void setNewSampleQty(boolean newSampleQty) {
-        IsNewSampleQty = newSampleQty;
-    }
-
     public List<Integer> getDefectList() {
         return DefectList;
     }
 
     public void setDefectList(List<Integer> defectList) {
         DefectList = defectList;
+    }
+
+    public String getNewBasketCode() {
+        return NewBasketCode;
+    }
+
+    public void setNewBasketCode(String newBasketCode) {
+        NewBasketCode = newBasketCode;
+    }
+
+    public String getBasketCode() {
+        return BasketCode;
+    }
+
+    public void setBasketCode(String basketCode) {
+        BasketCode = basketCode;
     }
 }

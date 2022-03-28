@@ -47,7 +47,9 @@ public class LastMovePaintingBasket implements Parcelable {
     @SerializedName("isBulkQty")
     @Expose
     private Boolean isBulkQty;
-
+    @SerializedName("SampleQty")
+    @Expose
+    private String SampleQty;
     public LastMovePaintingBasket() {
     }
 
@@ -91,6 +93,60 @@ public class LastMovePaintingBasket implements Parcelable {
         operationEnName = in.readString();
         byte tmpIsBulkQty = in.readByte();
         isBulkQty = tmpIsBulkQty == 0 ? null : tmpIsBulkQty == 1;
+        SampleQty = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (basketMoveId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(basketMoveId);
+        }
+        if (parentId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(parentId);
+        }
+        dest.writeString(parentCode);
+        dest.writeString(parentDescription);
+        if (signOffQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(signOffQty);
+        }
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        dest.writeString(basketCode);
+        if (jobOrderId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderId);
+        }
+        dest.writeString(jobOrderName);
+        dest.writeString(jobOrderDate);
+        if (operationId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationId);
+        }
+        dest.writeString(operationEnName);
+        dest.writeByte((byte) (isBulkQty == null ? 0 : isBulkQty ? 1 : 2));
+        dest.writeString(SampleQty);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<LastMovePaintingBasket> CREATOR = new Creator<LastMovePaintingBasket>() {
@@ -209,55 +265,4 @@ public class LastMovePaintingBasket implements Parcelable {
         this.isBulkQty = isBulkQty;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (basketMoveId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(basketMoveId);
-        }
-        if (parentId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(parentId);
-        }
-        dest.writeString(parentCode);
-        dest.writeString(parentDescription);
-        if (signOffQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(signOffQty);
-        }
-        if (jobOrderQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderQty);
-        }
-        dest.writeString(basketCode);
-        if (jobOrderId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderId);
-        }
-        dest.writeString(jobOrderName);
-        dest.writeString(jobOrderDate);
-        if (operationId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(operationId);
-        }
-        dest.writeString(operationEnName);
-        dest.writeByte((byte) (isBulkQty == null ? 0 : isBulkQty ? 1 : 2));
-    }
 }

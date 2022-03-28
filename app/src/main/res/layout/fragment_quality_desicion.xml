@@ -73,6 +73,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:text="Operation"
                     app:layout_constraintEnd_toEndOf="@+id/childesc"
                     app:layout_constraintStart_toStartOf="@+id/childesc"
                     app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
@@ -82,6 +83,7 @@
                     style="@style/child_parent_desc_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="Child description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

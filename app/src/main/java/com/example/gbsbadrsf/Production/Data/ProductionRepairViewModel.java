@@ -45,8 +45,8 @@ public class ProductionRepairViewModel extends ViewModel {
         addManufacturingRepairProductionStatus = new MutableLiveData<>();
     }
 
-    public void getBasketDataViewModel(String basketCode){
-        disposable.add(apiInterface.getBasketData(basketCode)
+    public void getBasketDataViewModel(int userId,String deviceSerialNo,String basketCode){
+        disposable.add(apiInterface.getBasketData(userId,deviceSerialNo,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseBasketDataStatus.postValue(Status.LOADING))

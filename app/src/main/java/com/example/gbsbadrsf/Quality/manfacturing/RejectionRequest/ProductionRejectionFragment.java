@@ -32,6 +32,7 @@ import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
 import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.welding.RejectionRequest.WeldingDefectsListAdapter;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -74,6 +75,8 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
     }
     FragmentProductionRejectionBinding binding;
     SetUpBarCodeReader barCodeReader;
+    BottomSheetBehavior bottomSheetBehavior;
+    DefectsListAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,8 +113,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
         });
         return binding.getRoot();
     }
-    BottomSheetBehavior bottomSheetBehavior;
-    DefectsListAdapter adapter;
+
     private void setUpBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.defectsListBottomSheet.getRoot());
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);

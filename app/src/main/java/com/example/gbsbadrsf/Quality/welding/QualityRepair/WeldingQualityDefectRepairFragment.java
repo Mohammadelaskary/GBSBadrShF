@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
@@ -54,7 +55,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     WeldingQualityRepairViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
-    WeldingRepairProductionQualityAdapter adapter;
+    WeldingRepairQualityAdapter adapter;
 
 
     @Override
@@ -93,8 +94,11 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
             String statusMessage = response.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(SAVED_SUCCESSFULLY)){
                updateRecyclerView();
-            }
-            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                MyMethods.showSuccessAlerter(statusMessage,getActivity());
+                binding.approvedQty.getEditText().setText("");
+            } else
+                MyMethods.warningDialog(getContext(),statusMessage);
+//            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -114,7 +118,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     }
 
     private void setUpRecyclerView() {
-        adapter = new WeldingRepairProductionQualityAdapter(this);
+        adapter = new WeldingRepairQualityAdapter(this);
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -134,7 +138,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
             defectsWeldingList = getArguments().getParcelableArrayList("selectedDefectsWelding");
-            adapter.setDefectsManufacturingList(defectsWeldingList);
+            adapter.setDefectsWeldingList(defectsWeldingList);
             adapter.notifyDataSetChanged();
         }
     }
@@ -150,17 +154,21 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
             case R.id.save_btn:{
                 if (defectsWeldingDetailsId !=-1){
                     approvedQty = binding.approvedQty.getEditText().getText().toString().trim();
-                    if (containsOnlyDigits(approvedQty)&&!approvedQty.isEmpty()&&Integer.parseInt(approvedQty)<=repairedQty){
-                        viewModel.addWeldingRepairQuality(
-                                userId,
-                                deviceSerialNumber,
-                                defectsWeldingDetailsId,
-                                notes,
-                                defectStatus,
-                                Integer.parseInt(approvedQty)
-                        );
+                    if (repairedQty!=0) {
+                        if (containsOnlyDigits(approvedQty) && !approvedQty.isEmpty() && Integer.parseInt(approvedQty) <= repairedQty) {
+                            viewModel.addWeldingRepairQuality(
+                                    userId,
+                                    deviceSerialNumber,
+                                    defectsWeldingDetailsId,
+                                    notes,
+                                    defectStatus,
+                                    Integer.parseInt(approvedQty)
+                            );
+                        } else {
+                            binding.approvedQty.setError("Please enter valid approved Quantity");
+                        }
                     } else {
-                        binding.approvedQty.setError("Please enter valid approved Quantity");
+                        binding.approvedQty.setError("The selected defect isn't repaired yet!");
                     }
                 } else {
                     binding.approvedQty.setError("Please first select defect to repair!");

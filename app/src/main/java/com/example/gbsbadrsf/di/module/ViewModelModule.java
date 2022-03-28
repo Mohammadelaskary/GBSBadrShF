@@ -27,6 +27,7 @@ import com.example.gbsbadrsf.Quality.Data.RandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.manfacturing.SignOffBaskets.SignOffBasketsViewModel;
 import com.example.gbsbadrsf.Quality.paint.QualitySignOff.PaintQualityDecisionViewModel;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsViewModel;
@@ -303,6 +304,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChangePasswordViewModel.class)
     public abstract ViewModel bindChangePasswordViewModel (ChangePasswordViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignOffBasketsViewModel.class)
+    public abstract ViewModel bindSignOffBasketsViewModel (SignOffBasketsViewModel viewModel);
 
 
 

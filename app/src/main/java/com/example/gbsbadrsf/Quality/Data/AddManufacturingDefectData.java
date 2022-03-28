@@ -12,10 +12,31 @@ public class AddManufacturingDefectData {
     private int QtyDefected;
     private String Notes;
     private int SampleQty;
-    private boolean IsNewSampleQty;
+//    private boolean IsNewSampleQty;
     private List<Integer> DefectList;
-
+    private String BasketCode;
+//    private String NewBasketCode;
+    private boolean isRejected;
+    private boolean isBulkGroup;
+    private boolean isSaved;
     public AddManufacturingDefectData() {
+    }
+
+    public AddManufacturingDefectData(int userId, String deviceSerialNo, int jobOrderId, int parentID, int childId, int operationID, int qtyDefected, String notes, int sampleQty, List<Integer> defectList, String basketCode, boolean isRejected, boolean isBulkGroup,boolean isSaved) {
+        UserId = userId;
+        DeviceSerialNo = deviceSerialNo;
+        JobOrderId = jobOrderId;
+        ParentID = parentID;
+        ChildId = childId;
+        OperationID = operationID;
+        QtyDefected = qtyDefected;
+        Notes = notes;
+        SampleQty = sampleQty;
+        DefectList = defectList;
+        BasketCode = basketCode;
+        this.isRejected = isRejected;
+        this.isBulkGroup = isBulkGroup;
+        this.isSaved = isSaved;
     }
 
     public int getUserId() {
@@ -98,11 +119,20 @@ public class AddManufacturingDefectData {
         DefectList = defectList;
     }
 
-    public boolean isNewSampleQty() {
-        return IsNewSampleQty;
+//    public boolean isNewSampleQty() {
+//        return IsNewSampleQty;
+//    }
+//
+//    public void setNewSampleQty(boolean newSampleQty) {
+//        IsNewSampleQty = newSampleQty;
+//    }
+
+    public String getBasketCode() {
+        return BasketCode;
     }
 
-    public void setNewSampleQty(boolean newSampleQty) {
-        IsNewSampleQty = newSampleQty;
+    public void setBasketCode(String basketCode) {
+        BasketCode = basketCode;
     }
+
 }

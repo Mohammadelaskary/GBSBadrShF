@@ -25,7 +25,7 @@ public class WeldingAddDefectsViewModel extends ViewModel {
     @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
-
+    String newBasketCode;
 
     @Inject
     Gson gson;
@@ -89,5 +89,13 @@ public class WeldingAddDefectsViewModel extends ViewModel {
 
     public MutableLiveData<Status> getAddWeldingDefectsToNewBasketStatus() {
         return addWeldingDefectsToNewBasketStatus;
+    }
+
+    public String getNewBasketCode() {
+        return newBasketCode;
+    }
+
+    public void setNewBasketCode(String newBasketCode) {
+        this.newBasketCode = newBasketCode;
     }
 }

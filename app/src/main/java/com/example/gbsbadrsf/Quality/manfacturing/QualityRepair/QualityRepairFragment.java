@@ -151,7 +151,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         for (DefectsManufacturing defectsManufacturing : defectsManufacturingListLocal) {
             if (defectsManufacturing.getManufacturingDefectsId() != id) {
                 int currentId = defectsManufacturing.getManufacturingDefectsId();
-                int defectedQty = defectsManufacturing.getDeffectedQty();
+                int defectedQty = defectsManufacturing.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;
@@ -205,11 +205,12 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         viewModel.getBasketDataViewModel(basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveManufacturingBasket -> {
             if (apiResponseLastMoveManufacturingBasket!=null) {
-                basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
-                adapter.setBasketData(basketData);
+
                 ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBaskets().get(0);
+                    adapter.setBasketData(basketData);
                     childDesc = basketData.getChildDescription();
                     operationName = basketData.getOperationEnName();
                     jobOrderName = basketData.getJobOrderName();

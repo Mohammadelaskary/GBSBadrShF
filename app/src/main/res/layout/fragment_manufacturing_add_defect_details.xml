@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Quality.paint.Adddefectpaint.PaintAddDefectDetailsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,6 +19,9 @@
             android:text="@string/add_defects_details"
             style="@style/styleoftextinappbar"
             android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -39,14 +41,22 @@
                     style="@style/child_parent_desc_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Child Description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <include
+                    android:id="@+id/job_order_data"
+                    layout="@layout/job_order_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@+id/childesc"
+                    app:layout_constraintStart_toStartOf="@+id/childesc"
+                    app:layout_constraintTop_toBottomOf="@+id/childesc" />
                 <TextView
                     android:id="@+id/operation"
                     style="@style/operation_style"
@@ -57,7 +67,7 @@
                     android:text="operation"
                     app:layout_constraintEnd_toEndOf="@+id/childesc"
                     app:layout_constraintStart_toStartOf="@+id/childesc"
-                    app:layout_constraintTop_toBottomOf="@+id/childesc" />
+                    app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/sample_qty_edt"
@@ -85,32 +95,46 @@
                         android:singleLine="true"
                         android:textColor="@color/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/defected_qty_edt"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent="0.49"
                     android:layout_marginTop="15dp"
                     android:enabled="true"
+                    android:gravity="start"
                     app:errorEnabled="true"
-                    android:gravity="center"
                     app:errorTextColor="@android:color/holo_red_dark"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/operation">
+                    app:layout_constraintTop_toBottomOf="@id/operation"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.49">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="start"
                         android:hint="Defected qty"
                         android:imeOptions="actionDone"
-                        android:gravity="center"
                         android:lines="1"
                         android:maxLines="1"
                         android:singleLine="true"
+                        android:inputType="number"
+                        android:digits="0123456789"
                         android:textColor="@color/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <CheckBox
+                    android:id="@+id/is_rejected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rejected"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/defected_qty_edt" />
 
                 <LinearLayout
                     android:id="@+id/defects_list_layout"
@@ -149,7 +173,7 @@
                     app:layout_constraintTop_toBottomOf="@id/defects_list_layout" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/add_defect_button"
+                    android:id="@+id/add_defects"
                     style="@style/styleoftextinbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

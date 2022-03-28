@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseLastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Model.ApiResponseQualityOk;
+import com.example.gbsbadrsf.Model.ApiResponseQualityPass;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
@@ -29,6 +31,10 @@ public class ManufacturingQualityOperationViewModel extends ViewModel {
 
     MutableLiveData<ApiResponseAddingManufacturingDefect> addManufacturingDefectsResponse;
     MutableLiveData<Status> addManufacturingDefectsStatus;
+    MutableLiveData<ApiResponseQualityOk> qualityOkResponse;
+    MutableLiveData<ApiResponseQualityPass> qualityPassResponse;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseDeleteManufacturingDefect> deleteManufacturingDefectResponse;
     LastMoveManufacturingBasket basketData;
     @Inject
     ApiInterface apiInterface;
@@ -52,10 +58,15 @@ public class ManufacturingQualityOperationViewModel extends ViewModel {
         defectsListStatus = new MutableLiveData<>();
         addManufacturingDefectsResponse = new MutableLiveData<>();
         addManufacturingDefectsStatus = new MutableLiveData<>();
+
+        qualityOkResponse = new MutableLiveData<>();
+        qualityPassResponse = new MutableLiveData<>();
+        deleteManufacturingDefectResponse = new MutableLiveData<>();
+        status = new MutableLiveData<>();
     }
 
-    public void getBasketDataViewModel(String basketCode){
-        disposable.add(apiInterface.getBasketData(basketCode)
+    public void getBasketDataViewModel(int userId,String deviceSerialNo,String basketCode){
+        disposable.add(apiInterface.getBasketData(userId,deviceSerialNo,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> basketDataStatus.postValue(Status.LOADING))
@@ -66,6 +77,54 @@ public class ManufacturingQualityOperationViewModel extends ViewModel {
                             },
                         throwable -> {
                             basketDataStatus.postValue(Status.ERROR);
+                        }
+                ));
+    }
+
+    public void qualityOk(int userId,String deviceSerialNo,String basketCode,String dt,int sampleQty){
+        disposable.add(apiInterface.QualityOk(userId,deviceSerialNo,basketCode,dt,sampleQty)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            qualityOkResponse.postValue(response);
+                            status.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void qualityPass(int userId,String deviceSerialNo,String basketCode,String dt,int sampleQty){
+        disposable.add(apiInterface.QualityPass(userId,deviceSerialNo,basketCode,dt
+//                ,sampleQty
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            qualityPassResponse.postValue(response);
+                            status.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void DeleteManufacturingDefects(int userId,String deviceSerialNo,int DefectGroupId){
+        disposable.add(apiInterface.DeleteManufacturingDefect(userId,deviceSerialNo,DefectGroupId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            deleteManufacturingDefectResponse.postValue(response);
+                            status.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
                         }
                 ));
     }
@@ -93,5 +152,21 @@ public class ManufacturingQualityOperationViewModel extends ViewModel {
 
     public void setBasketData(LastMoveManufacturingBasket basketData) {
         this.basketData = basketData;
+    }
+
+    public MutableLiveData<ApiResponseQualityOk> getQualityOkResponse() {
+        return qualityOkResponse;
+    }
+
+    public MutableLiveData<Status> getStatus() {
+        return status;
+    }
+
+    public MutableLiveData<ApiResponseDeleteManufacturingDefect> getDeleteManufacturingDefectResponse() {
+        return deleteManufacturingDefectResponse;
+    }
+
+    public MutableLiveData<ApiResponseQualityPass> getQualityPassResponse() {
+        return qualityPassResponse;
     }
 }

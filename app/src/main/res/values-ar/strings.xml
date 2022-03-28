@@ -169,4 +169,10 @@
     <string name="time">Time</string>
     <string name="machine_name">Machine name:</string>
     <string name="die_name">Die name:</string>
+    <string name="quality_ok">Quality ok</string>
+    <string name="quality_pass">Quality pass</string>
+    <string name="full_inspection">Full inspection</string>
+    <string name="child_qty">Child Qty</string>
+    <string name="defects">Defects</string>
+    <string name="ok_baskets">OK baskets</string>
 </resources>

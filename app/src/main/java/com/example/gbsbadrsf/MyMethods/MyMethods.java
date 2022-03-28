@@ -18,6 +18,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.CustomDialog;
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.Model.DefectsPerQty;
+import com.example.gbsbadrsf.Model.ManufacturingDefect;
+import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
 import com.google.android.material.textfield.TextInputLayout;
@@ -26,8 +29,11 @@ import com.tapadoo.alerter.Alerter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 public class MyMethods {
     public static boolean containsOnlyDigits(String s) {
@@ -158,4 +164,79 @@ public class MyMethods {
                 .setExitAnimation(R.anim.alerter_slide_out_to_top)
                 .show();
     }
+    public static String getCurrentDate() {
+        return new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
+    }
+
+    public static <T> boolean compareList(List<T> list1, List<T> list2) {
+        return new HashSet<>(list1).equals(new HashSet<>(list2));
+    }
+
+    public static List<DefectsPerQty> getDefectsPerQtyList(List<ManufacturingDefect> manufacturingDefects) {
+        List<DefectsPerQty> defects = new ArrayList<>();
+        int id = -1 ;
+        for (ManufacturingDefect manufacturingDefect:manufacturingDefects){
+            if (manufacturingDefect.getDefectGroupId()!=id){
+                int currentId = manufacturingDefect.getDefectGroupId();
+                int defectedQty;
+                if (!manufacturingDefect.getIsRejectedQty())
+                    defectedQty = manufacturingDefect.getQtyDefected();
+                else
+                    defectedQty = manufacturingDefect.getQtyRejected();
+                boolean isRejected = manufacturingDefect.getIsRejectedQty();
+                DefectsPerQty qtyDefectsQtyDefected = new DefectsPerQty(currentId,defectedQty,getDefectsNames(currentId,manufacturingDefects),getDefectsIds(currentId,manufacturingDefects),isRejected);
+                defects.add(qtyDefectsQtyDefected);
+                id = currentId;
+            }
+        }
+        return defects;
+    }
+    //    private int qty=0;
+//    private List<DefectsPerQty> groupDefectsByDefectsList(List<DefectsPerQty>defects){
+//        List<DefectsPerQty> resultDefectsList = new ArrayList<>();
+//        List<String> defectsList = new ArrayList<>();
+//        DefectsPerQty defectsPerQty1 = null;
+//        for (int i = 0; i < defects.size() ; i++) {
+//            if (defectsPerQty1==null) {
+//                qty = defects.get(i).getQty();
+//               defectsPerQty1 = new DefectsPerQty(defects.get(i).getId(),qty,defects.get(i).getDefects(),defects.get(i).isRejected());
+//            } else {
+//                if (!compareList(defects.get(i).getDefects(), defectsList)) {
+//                    resultDefectsList.add(defectsPerQty1);
+//                    qty = defects.get(i).getQty();
+//                    defectsPerQty1 = new DefectsPerQty(defects.get(i).getId(),qty,defects.get(i).getDefects(),defects.get(i).isRejected());
+//                } else {
+//                    qty+=defects.get(i).getQty();
+//                    if (i==defects.size()-1){
+//                        defectsPerQty1.setQty(qty);
+//                        resultDefectsList.add(defectsPerQty1);
+//                    } else {
+//                        defectsPerQty1.setQty(qty);
+//                    }
+//                }
+//            }
+//        }
+//        return resultDefectsList;
+//    }
+    public static List<String> getDefectsNames(int currentId,List<ManufacturingDefect> manufacturingDefects) {
+        List<String> defectsNames = new ArrayList<>();
+        for (ManufacturingDefect defectsManufacturing:manufacturingDefects){
+            if (defectsManufacturing.getDefectGroupId()==currentId) {
+                Defect defect = new Defect(defectsManufacturing.getDefectId(),defectsManufacturing.getDefectDescription());
+                defectsNames.add(defect.getName());
+            }
+        }
+        return  defectsNames;
+    }
+    public static List<Integer> getDefectsIds(int currentId,List<ManufacturingDefect> manufacturingDefects) {
+        List<Integer> defectsIds = new ArrayList<>();
+        for (ManufacturingDefect defectsManufacturing:manufacturingDefects){
+            if (defectsManufacturing.getDefectGroupId()==currentId) {
+                Defect defect = new Defect(defectsManufacturing.getDefectId(),defectsManufacturing.getDefectDescription());
+                defectsIds.add(defect.getId());
+            }
+        }
+        return  defectsIds;
+    }
+
 }

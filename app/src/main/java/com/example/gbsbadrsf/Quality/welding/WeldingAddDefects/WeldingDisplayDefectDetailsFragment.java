@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
+import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.databinding.FragmentWeldingDisplayDefectDetailsBinding;
@@ -51,7 +52,12 @@ public class WeldingDisplayDefectDetailsFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        adapter = new DefectsListAdapter(true);
+        adapter = new DefectsListAdapter(getContext(), new SetOnManufacturingAddDefectDetailsButtonClicked() {
+            @Override
+            public void onManufacturingAddDefectDetailsButtonClicked(List<Integer> defectsIds) {
+
+            }
+        });
         binding.defectsSelectList.setAdapter(adapter);
     }
     int defectedQty;
@@ -78,13 +84,15 @@ public class WeldingDisplayDefectDetailsFragment extends Fragment {
     }
 
     private void fillData(LastMoveWeldingBasket basketData) {
-        String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        binding.parentCode.setText(parentCode);
+        String jobOrderName  = basketData.getJobOrderName();
+        int jobOrderQty = basketData.getJobOrderQty();
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
-        binding.defectedQtnEdt.setText(String.valueOf(defectedQty));
-        binding.sampleQtnEdt.setText(String.valueOf(sampleQty));
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
+        binding.defectedQty.getEditText().setText(String.valueOf(defectedQty));
+        binding.sampleQty.getEditText().setText(String.valueOf(sampleQty));
     }
 }

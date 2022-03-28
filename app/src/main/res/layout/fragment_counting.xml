@@ -192,20 +192,27 @@
 
 
                     <TextView
-                        android:id="@+id/paint_sign_off_qty"
+                        android:id="@+id/total_paint_sign_off_qty"
                         style="@style/details_text_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
-
+                    <TextView
+                        android:id="@+id/current_sign_off_qty"
+                        style="@style/details_text_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/total_paint_sign_off_qty" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

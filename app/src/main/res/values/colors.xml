@@ -10,4 +10,7 @@
     <color name="done">#43A047</color>
     <color name="text_details">#0A6183</color>
     <color name="alerter_success_color">#007FAC</color>
+    <color name="line_color">#B3B0B0</color>
+    <color name="red">#7C0909</color>
+    <color name="disable">#686767</color>
 </resources>

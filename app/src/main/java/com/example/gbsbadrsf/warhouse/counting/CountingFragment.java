@@ -179,7 +179,8 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
                 if (statusMessage.equals("Getting data successfully")) {
                     binding.parentdesc.setText(response.getData().getParentDescription());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
-                    binding.paintSignOffQty.setText(response.getData().getSignOutQty().toString());
+                    binding.totalPaintSignOffQty.setText(response.getData().getTotalSignOutQty().toString());
+                    binding.currentSignOffQty.setText(response.getData().getSignOutQty().toString());
                     binding.jobOrderQty.setText(response.getData().getJobOrderQty().toString());
                     if (response.getData().getCountingQty().equals(0))
                         binding.qty.getEditText().setText("");

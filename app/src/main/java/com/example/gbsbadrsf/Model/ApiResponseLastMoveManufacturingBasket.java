@@ -4,13 +4,18 @@ import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ApiResponseLastMoveManufacturingBasket {
     @SerializedName("responseStatus")
     @Expose
     private ResponseStatus responseStatus;
-    @SerializedName("lastMoveManufacturingBasket")
+    @SerializedName("lastMoveManufacturingBaskets")
     @Expose
-    private LastMoveManufacturingBasket lastMoveManufacturingBasket;
+    private List<LastMoveManufacturingBasket> lastMoveManufacturingBaskets = null;
+    @SerializedName("manufacturingDefects")
+    @Expose
+    private List<ManufacturingDefect> manufacturingDefects = null;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -20,13 +25,19 @@ public class ApiResponseLastMoveManufacturingBasket {
         this.responseStatus = responseStatus;
     }
 
-    public LastMoveManufacturingBasket getLastMoveManufacturingBasket() {
-        return lastMoveManufacturingBasket;
+    public List<LastMoveManufacturingBasket> getLastMoveManufacturingBaskets() {
+        return lastMoveManufacturingBaskets;
     }
 
-    public void setLastMoveManufacturingBasket(LastMoveManufacturingBasket lastMoveManufacturingBasket) {
-        this.lastMoveManufacturingBasket = lastMoveManufacturingBasket;
+    public void setLastMoveManufacturingBaskets(List<LastMoveManufacturingBasket> lastMoveManufacturingBaskets) {
+        this.lastMoveManufacturingBaskets = lastMoveManufacturingBaskets;
     }
 
+    public List<ManufacturingDefect> getManufacturingDefects() {
+        return manufacturingDefects;
+    }
 
+    public void setManufacturingDefects(List<ManufacturingDefect> manufacturingDefects) {
+        this.manufacturingDefects = manufacturingDefects;
+    }
 }

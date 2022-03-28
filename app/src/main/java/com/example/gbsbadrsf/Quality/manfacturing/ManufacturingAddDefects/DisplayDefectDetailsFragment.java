@@ -50,7 +50,12 @@ public class DisplayDefectDetailsFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        adapter = new DefectsListAdapter(true);
+        adapter = new DefectsListAdapter(getContext(), new SetOnManufacturingAddDefectDetailsButtonClicked() {
+            @Override
+            public void onManufacturingAddDefectDetailsButtonClicked(List<Integer> defectsIds) {
+
+            }
+        });
         binding.defectsSelectList.setAdapter(adapter);
     }
     int defectedQty;
@@ -66,10 +71,10 @@ public class DisplayDefectDetailsFragment extends Fragment {
                 defect.setName(defectName);
                 if (!foundDefects.contains(defect)) {
                     foundDefects.add(defect);
-                    defectedQty = defectsManufacturing.getDeffectedQty();
+                    defectedQty = defectsManufacturing.getQtyDefected();
                 }
                 LastMoveManufacturingBasket basketData = getArguments().getParcelable("basketData");
-                fillData(basketData);
+            fillData(basketData);
             }
             adapter.setDefectList(foundDefects);
             adapter.notifyDataSetChanged();
@@ -77,13 +82,15 @@ public class DisplayDefectDetailsFragment extends Fragment {
     }
 
     private void fillData(LastMoveManufacturingBasket basketData) {
-        String childCode = basketData.getChildCode();
         String childDesc = basketData.getChildDescription();
         String operationName = basketData.getOperationEnName();
-        binding.childcode.setText(childCode);
+        String jobOrderName  = basketData.getJobOrderName();
+        int    jonOrderQty   = basketData.getJobOrderQty();
         binding.childesc.setText(childDesc);
         binding.operation.setText(operationName);
-        binding.defectedQtnEdt.setText(String.valueOf(defectedQty));
-        binding.sampleQtnEdt.setText(String.valueOf(sampleQty));
+        binding.defectedQty.getEditText().setText(String.valueOf(defectedQty));
+        binding.sampleQty.getEditText().setText(String.valueOf(sampleQty));
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jonOrderQty));
     }
 }

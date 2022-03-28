@@ -16,48 +16,51 @@ public class DefectsManufacturing implements Parcelable {
     @SerializedName("defectId")
     @Expose
     private Integer defectId;
-    @SerializedName("defectCode")
-    @Expose
-    private String defectCode;
     @SerializedName("defectDescription")
     @Expose
     private String defectDescription;
     @SerializedName("childId")
     @Expose
     private Integer childId;
-    @SerializedName("childCode")
+    @SerializedName("jobOrderQty")
     @Expose
-    private String childCode;
-    @SerializedName("childDescription")
-    @Expose
-    private String childDescription;
-    @SerializedName("deffectedQty")
-    @Expose
-    private Integer deffectedQty;
-    @SerializedName("pprLoadingId")
-    @Expose
-    private Integer pprLoadingId;
+    private Integer jobOrderQty;
     @SerializedName("lastMoveId")
     @Expose
     private Integer lastMoveId;
+    @SerializedName("childCode")
+    @Expose
+    private String childCode;
+    @SerializedName("childDisplayName")
+    @Expose
+    private String childDisplayName;
+    @SerializedName("totalDeffectedQty")
+    @Expose
+    private Integer totalDeffectedQty;
+    @SerializedName("totalQtyRejected")
+    @Expose
+    private Integer totalQtyRejected;
+    @SerializedName("totalQtyOk")
+    @Expose
+    private Integer totalQtyOk;
     @SerializedName("jobOrderId")
     @Expose
     private Integer jobOrderId;
     @SerializedName("jobOrderName")
     @Expose
     private String jobOrderName;
-    @SerializedName("jobOrderQty")
+    @SerializedName("pprLoadingId")
     @Expose
-    private Integer jobOrderQty;
-    @SerializedName("jobOrderDate")
-    @Expose
-    private String jobOrderDate;
+    private Integer pprLoadingId;
     @SerializedName("operationId")
     @Expose
     private Integer operationId;
     @SerializedName("operationEnName")
     @Expose
     private String operationEnName;
+    @SerializedName("sampleQty")
+    @Expose
+    private Integer sampleQty;
     @SerializedName("dateProductionRepair")
     @Expose
     private String dateProductionRepair;
@@ -98,6 +101,7 @@ public class DefectsManufacturing implements Parcelable {
     @Expose
     private Integer defectStatusReject;
 
+
     protected DefectsManufacturing(Parcel in) {
         if (in.readByte() == 0) {
             manufacturingDefectsId = null;
@@ -114,29 +118,38 @@ public class DefectsManufacturing implements Parcelable {
         } else {
             defectId = in.readInt();
         }
-        defectCode = in.readString();
         defectDescription = in.readString();
         if (in.readByte() == 0) {
             childId = null;
         } else {
             childId = in.readInt();
         }
-        childCode = in.readString();
-        childDescription = in.readString();
         if (in.readByte() == 0) {
-            deffectedQty = null;
+            jobOrderQty = null;
         } else {
-            deffectedQty = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            pprLoadingId = null;
-        } else {
-            pprLoadingId = in.readInt();
+            jobOrderQty = in.readInt();
         }
         if (in.readByte() == 0) {
             lastMoveId = null;
         } else {
             lastMoveId = in.readInt();
+        }
+        childCode = in.readString();
+        childDisplayName = in.readString();
+        if (in.readByte() == 0) {
+            totalDeffectedQty = null;
+        } else {
+            totalDeffectedQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            totalQtyRejected = null;
+        } else {
+            totalQtyRejected = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            totalQtyOk = null;
+        } else {
+            totalQtyOk = in.readInt();
         }
         if (in.readByte() == 0) {
             jobOrderId = null;
@@ -145,17 +158,21 @@ public class DefectsManufacturing implements Parcelable {
         }
         jobOrderName = in.readString();
         if (in.readByte() == 0) {
-            jobOrderQty = null;
+            pprLoadingId = null;
         } else {
-            jobOrderQty = in.readInt();
+            pprLoadingId = in.readInt();
         }
-        jobOrderDate = in.readString();
         if (in.readByte() == 0) {
             operationId = null;
         } else {
             operationId = in.readInt();
         }
         operationEnName = in.readString();
+        if (in.readByte() == 0) {
+            sampleQty = null;
+        } else {
+            sampleQty = in.readInt();
+        }
         dateProductionRepair = in.readString();
         dateQualityApprove = in.readString();
         dateQualityReject = in.readString();
@@ -227,7 +244,6 @@ public class DefectsManufacturing implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(defectId);
         }
-        dest.writeString(defectCode);
         dest.writeString(defectDescription);
         if (childId == null) {
             dest.writeByte((byte) 0);
@@ -235,25 +251,37 @@ public class DefectsManufacturing implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(childId);
         }
-        dest.writeString(childCode);
-        dest.writeString(childDescription);
-        if (deffectedQty == null) {
+        if (jobOrderQty == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(deffectedQty);
-        }
-        if (pprLoadingId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(pprLoadingId);
+            dest.writeInt(jobOrderQty);
         }
         if (lastMoveId == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
             dest.writeInt(lastMoveId);
+        }
+        dest.writeString(childCode);
+        dest.writeString(childDisplayName);
+        if (totalDeffectedQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalDeffectedQty);
+        }
+        if (totalQtyRejected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalQtyRejected);
+        }
+        if (totalQtyOk == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalQtyOk);
         }
         if (jobOrderId == null) {
             dest.writeByte((byte) 0);
@@ -262,13 +290,12 @@ public class DefectsManufacturing implements Parcelable {
             dest.writeInt(jobOrderId);
         }
         dest.writeString(jobOrderName);
-        if (jobOrderQty == null) {
+        if (pprLoadingId == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderQty);
+            dest.writeInt(pprLoadingId);
         }
-        dest.writeString(jobOrderDate);
         if (operationId == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -276,6 +303,12 @@ public class DefectsManufacturing implements Parcelable {
             dest.writeInt(operationId);
         }
         dest.writeString(operationEnName);
+        if (sampleQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(sampleQty);
+        }
         dest.writeString(dateProductionRepair);
         dest.writeString(dateQualityApprove);
         dest.writeString(dateQualityReject);
@@ -353,14 +386,6 @@ public class DefectsManufacturing implements Parcelable {
         }
     };
 
-    public Integer getJobOrderQty() {
-        return jobOrderQty;
-    }
-
-    public void setJobOrderQty(Integer jobOrderQty) {
-        this.jobOrderQty = jobOrderQty;
-    }
-
     public Integer getManufacturingDefectsId() {
         return manufacturingDefectsId;
     }
@@ -383,14 +408,6 @@ public class DefectsManufacturing implements Parcelable {
 
     public void setDefectId(Integer defectId) {
         this.defectId = defectId;
-    }
-
-    public String getDefectCode() {
-        return defectCode;
-    }
-
-    public void setDefectCode(String defectCode) {
-        this.defectCode = defectCode;
     }
 
     public String getDefectDescription() {
@@ -417,20 +434,36 @@ public class DefectsManufacturing implements Parcelable {
         this.childCode = childCode;
     }
 
-    public String getChildDescription() {
-        return childDescription;
+    public String getChildDisplayName() {
+        return childDisplayName;
     }
 
-    public void setChildDescription(String childDescription) {
-        this.childDescription = childDescription;
+    public void setChildDisplayName(String childDisplayName) {
+        this.childDisplayName = childDisplayName;
     }
 
-    public Integer getDeffectedQty() {
-        return deffectedQty;
+    public Integer getTotalDeffectedQty() {
+        return totalDeffectedQty;
     }
 
-    public void setDeffectedQty(Integer deffectedQty) {
-        this.deffectedQty = deffectedQty;
+    public void setTotalDeffectedQty(Integer totalDeffectedQty) {
+        this.totalDeffectedQty = totalDeffectedQty;
+    }
+
+    public Integer getTotalQtyRejected() {
+        return totalQtyRejected;
+    }
+
+    public void setTotalQtyRejected(Integer totalQtyRejected) {
+        this.totalQtyRejected = totalQtyRejected;
+    }
+
+    public Integer getTotalQtyOk() {
+        return totalQtyOk;
+    }
+
+    public void setTotalQtyOk(Integer totalQtyOk) {
+        this.totalQtyOk = totalQtyOk;
     }
 
     public Integer getJobOrderId() {
@@ -449,12 +482,12 @@ public class DefectsManufacturing implements Parcelable {
         this.jobOrderName = jobOrderName;
     }
 
-    public String getJobOrderDate() {
-        return jobOrderDate;
+    public Integer getPprLoadingId() {
+        return pprLoadingId;
     }
 
-    public void setJobOrderDate(String jobOrderDate) {
-        this.jobOrderDate = jobOrderDate;
+    public void setPprLoadingId(Integer pprLoadingId) {
+        this.pprLoadingId = pprLoadingId;
     }
 
     public Integer getOperationId() {
@@ -471,6 +504,14 @@ public class DefectsManufacturing implements Parcelable {
 
     public void setOperationEnName(String operationEnName) {
         this.operationEnName = operationEnName;
+    }
+
+    public Integer getSampleQty() {
+        return sampleQty;
+    }
+
+    public void setSampleQty(Integer sampleQty) {
+        this.sampleQty = sampleQty;
     }
 
     public String getDateProductionRepair() {
@@ -577,12 +618,12 @@ public class DefectsManufacturing implements Parcelable {
         this.defectStatusReject = defectStatusReject;
     }
 
-    public Integer getPprLoadingId() {
-        return pprLoadingId;
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
     }
 
-    public void setPprLoadingId(Integer pprLoadingId) {
-        this.pprLoadingId = pprLoadingId;
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
     }
 
     public Integer getLastMoveId() {
@@ -592,5 +633,4 @@ public class DefectsManufacturing implements Parcelable {
     public void setLastMoveId(Integer lastMoveId) {
         this.lastMoveId = lastMoveId;
     }
-
 }

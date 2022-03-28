@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qty_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-16dp"
+        android:background="@drawable/job_order_data_background"
+        android:padding="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loading_qty_title">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_defeced_basket"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="#999"
+            app:layout_constraintBottom_toBottomOf="@+id/defected_text"
+            app:layout_constraintEnd_toStartOf="@+id/defected_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/defected_text" />
+
+        <TextView
+            android:id="@+id/defected_text"
+            style="@style/style_of_text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Defected basket"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/defected_qty"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/add_defeced_basket"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/defected_qty"
+            style="@style/details_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="qty"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/defected_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/defected_text"
+            app:layout_constraintTop_toTopOf="@+id/defected_text"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".2" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_rejected_basket"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="#999"
+            app:layout_constraintBottom_toBottomOf="@+id/rejected_text"
+            app:layout_constraintEnd_toStartOf="@+id/rejected_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rejected_text" />
+
+        <TextView
+            android:id="@+id/rejected_text"
+            style="@style/style_of_text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Rejected basket"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/rejected_qty"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/add_defeced_basket"
+            app:layout_constraintTop_toBottomOf="@id/defected_text" />
+
+        <TextView
+            android:id="@+id/rejected_qty"
+            style="@style/details_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="qty"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/rejected_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/rejected_text"
+            app:layout_constraintTop_toTopOf="@+id/rejected_text"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".2" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_ok_basket"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="#999"
+            app:layout_constraintBottom_toBottomOf="@+id/ok_text"
+            app:layout_constraintEnd_toStartOf="@+id/ok_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ok_text" />
+
+        <TextView
+            android:id="@+id/ok_text"
+            style="@style/style_of_text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/ok_baskets"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/ok_qty"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/add_ok_basket"
+            app:layout_constraintTop_toBottomOf="@id/rejected_text" />
+
+        <TextView
+            android:id="@+id/ok_qty"
+            style="@style/details_text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="qty"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ok_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ok_text"
+            app:layout_constraintTop_toTopOf="@+id/ok_text"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/loading_qty_title"
+        style="@style/styleoftextbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/sign_off_baskets_title_background"
+        android:text="Sign off baskets"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

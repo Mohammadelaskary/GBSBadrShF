@@ -169,7 +169,8 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                     binding.locator.setText(response.getData().getLocatorDesc());
                     binding.parentdesc.setText(response.getData().getParentDescription());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
-                    binding.paintSignOffQty.setText(response.getData().getSignOutQty().toString());
+                    binding.totalSignOffQty.setText(response.getData().getTotalSignOutQty());
+                    binding.currentSignOutQty.setText(response.getData().getSignOutQty().toString());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
                     binding.Joborderqtn.setText(response.getData().getJobOrderQty().toString());
                     binding.jobordernum.setText(response.getData().getJobOrderName());

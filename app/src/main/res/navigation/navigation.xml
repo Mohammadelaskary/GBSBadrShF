@@ -380,13 +380,26 @@
         tools:layout="@layout/fragment_quality_defect_repair"
         android:label="fragment_quality_defect_repair"
         android:name="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment"/>
+    <fragment android:id="@+id/manufacturing_sign_off_baskets_fragment"
+        tools:layout="@layout/manufacturing_sign_off_baskets_fragment"
+        android:label="fragment_manufacturing_sign_off_baskets"
+        android:name="com.example.gbsbadrsf.Quality.manfacturing.SignOffBaskets.SignOffBasketsFragment">
+        <action app:destination="@id/manfacturingqualityFragment"
+            android:id="@+id/action_manufacturing_sign_off_baskets_to_manufacturing_quality_operation_fragment"/>
+    </fragment>
 
     <fragment android:id="@+id/manufacturing_quality_operation_fragment"
         android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment"
         android:label="manufacturing_quality_operation"
         tools:layout="@layout/fragment_manufacturing_quality_operation">
-        <action android:id="@+id/action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_fragment"
-            app:destination="@id/manufacturing_add_defects_fragment"
+        <action android:id="@+id/action_manufacturing_quality_operation_fragment_to_manufacturing_add_defect_details_fragment"
+            app:destination="@id/manufacturing_add_defects_details_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/action_manufacturing_quality_operation_fragment_to_manufacturing_sign_off_baskets_fragment"
+            app:destination="@id/manufacturing_sign_off_baskets_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -402,7 +415,8 @@
         tools:layout="@layout/fragment_manufacturing_add_defects" >
         <action
             android:id="@+id/action_manufacturing_add_defects_to_manufacturing_add_defects_details"
-            app:destination="@id/manufacturing_add_defects_details_fragment" />
+            app:destination="@id/manufacturing_add_defects_details_fragment"
+            />
         <action
             android:id="@+id/action_manufacturing_add_defects_fragment_to_display_defect_details_fragment"
             app:destination="@id/fragment_display_defect_details"/>
@@ -533,7 +547,8 @@
         android:label="fragment_paint_add_defects"
         tools:layout="@layout/fragment_paint_add_defects" >
         <action android:id="@+id/action_fragment_paint_add_defects_to_fragment_paint_add_defect_details"
-            app:destination="@id/fragment_paint_add_defect_details"/>
+            app:destination="@id/fragment_paint_add_defect_details"
+            app:popUpTo="@id/paintqualityFragment"/>
         <action android:id="@+id/action_fragment_paint_add_defects_to_fragment_paint_display_defects"
             app:destination="@id/fragment_paint_display_defect_details"/>
     </fragment>
@@ -547,7 +562,8 @@
         android:label="fragment_welding_add_defects"
         tools:layout="@layout/fragment_welding_add_defects" >
         <action android:id="@+id/action_fragment_welding_add_defects_to_fragment_welding_add_defect_details"
-            app:destination="@id/fragment_welding_add_defect_details"/>
+            app:destination="@id/fragment_welding_add_defect_details"
+            app:popUpTo="@id/qualityweldingFragment"/>
         <action android:id="@+id/action_fragment_welding_add_defects_to_fragment_welding_display_defects"
             app:destination="@id/fragment_welding_display_defect_details"/>
     </fragment>

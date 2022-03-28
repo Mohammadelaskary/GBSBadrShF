@@ -318,7 +318,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         jobOrderId = defectsManufacturing.getJobOrderId();
         childId   = defectsManufacturing.getChildId();
         childCode = defectsManufacturing.getChildCode();
-        childDesc = defectsManufacturing.getChildDescription();
+        childDesc = defectsManufacturing.getChildDisplayName();
         operation = defectsManufacturing.getOperationEnName();
         operationId = defectsManufacturing.getOperationId();
         lastMoveId = defectsManufacturing.getLastMoveId();
@@ -348,7 +348,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         for (DefectsManufacturing defectsManufacturing:defectsManufacturingListLocal){
             if (defectsManufacturing.getManufacturingDefectsId()!=id){
                 int currentId = defectsManufacturing.getManufacturingDefectsId();
-                int defectedQty = defectsManufacturing.getDeffectedQty();
+                int defectedQty = defectsManufacturing.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId,defectedQty,getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;

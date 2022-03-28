@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/background"
-    tools:context=".Quality.paint.AddDefects.PaintDisplayDefectDetailsFragment">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
         style="@style/styleoftextinappbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/add_defects_details"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,107 +21,84 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <TextView
-        android:id="@+id/parent_txt"
-        style="@style/style_of_text_bold"
-        android:layout_width="wrap_content"
+        android:id="@+id/parent_desc"
+        style="@style/child_parent_desc_style"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="parent desc"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
-    <TextView
-        android:id="@+id/parent_code"
-        style="@style/styleoftext"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/job_order_data"
+        layout="@layout/job_order_data"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:text=""
-        app:layout_constraintStart_toEndOf="@id/parent_txt"
-        app:layout_constraintTop_toTopOf="@id/parent_txt" />
-
-    <TextView
-        android:id="@+id/parent_desc"
-        style="@style/styleoftext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="2dp"
-        android:text=""
-        app:layout_constraintStart_toEndOf="@id/parent_txt"
-        app:layout_constraintTop_toBottomOf="@id/parent_code" />
-
-    <TextView
-        android:id="@+id/operation_txt"
-        style="@style/style_of_text_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/operation"
-        app:layout_constraintStart_toStartOf="@id/parent_txt"
-        app:layout_constraintTop_toBottomOf="@id/parent_desc" />
+        android:layout_marginEnd="10dp" />
 
     <TextView
         android:id="@+id/operation"
-        style="@style/styleoftext"
-        android:layout_width="0dp"
+        style="@style/operation_style"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_weight="4"
-        android:text=""
+        android:text="operation"
         app:layout_constraintStart_toEndOf="@id/operation_txt"
         app:layout_constraintTop_toTopOf="@id/operation_txt" />
 
-    <TextView
-        android:id="@+id/sampleqtn_txt"
-        style="@style/style_of_text_bold"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/sample_qty"
-        app:layout_constraintStart_toStartOf="@id/parent_txt"
-        app:layout_constraintTop_toBottomOf="@id/operation_txt" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/sample_qtn_edt"
-        android:layout_width="155dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@id/parent_txt"
-        app:layout_constraintTop_toBottomOf="@id/sampleqtn_txt" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sample_qty"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:hint="Sample Qty">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/defectedqtn_txt"
-        style="@style/style_of_text_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/defected_qty"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/sampleqtn_txt" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/defected_qty"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:hint="Defected Qty">
 
-    <TextView
-        android:id="@+id/defected_qtn_edt"
-        android:layout_width="155dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@id/defectedqtn_txt"
-        app:layout_constraintTop_toBottomOf="@id/defectedqtn_txt" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/defects_list_layout"
@@ -158,7 +135,6 @@
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:background="#ddd"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -166,4 +142,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/defects_list_layout" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

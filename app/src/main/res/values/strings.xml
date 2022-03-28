@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GBSBadrSF</string>
+    <string name="app_name">Ghabbour shop floor</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_pass">please enter password</string>
     <string name="signin_text">Sign in</string>
@@ -175,5 +175,11 @@
     <string name="time">Time</string>
     <string name="machine_name">Machine name:</string>
     <string name="die_name">Die name:</string>
+    <string name="quality_ok">Quality ok</string>
+    <string name="quality_pass">Quality pass</string>
+    <string name="full_inspection">Full inspection</string>
+    <string name="child_qty">Child Qty</string>
+    <string name="defects">Defects</string>
+    <string name="ok_baskets">OK baskets</string>
 
 </resources>

@@ -8,47 +8,50 @@ import android.view.animation.AlphaAnimation;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
-public class WeldingRepairProductionQualityAdapter extends RecyclerView.Adapter<WeldingRepairProductionQualityAdapter.RepairProductionQualityViewHolder> {
+public class WeldingRepairProductionAdapter extends RecyclerView.Adapter<WeldingRepairProductionAdapter.RepairProductionViewHolder> {
     List<DefectsWelding> defectsWeldingList;
     SetOnWeldingRepairItemClicked onWeldingRepairItemClicked;
 
-    public WeldingRepairProductionQualityAdapter(SetOnWeldingRepairItemClicked onWeldingRepairItemClicked) {
+    public WeldingRepairProductionAdapter(SetOnWeldingRepairItemClicked onWeldingRepairItemClicked) {
         this.onWeldingRepairItemClicked = onWeldingRepairItemClicked;
     }
 
     @NonNull
     @Override
-    public RepairProductionQualityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RepairProductionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RepairDefectItemBinding binding = RepairDefectItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new RepairProductionQualityViewHolder(binding);
+        return new RepairProductionViewHolder(binding);
     }
     int currentPosition = -1;
     @Override
-    public void onBindViewHolder(@NonNull RepairProductionQualityViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RepairProductionViewHolder holder, int position) {
         DefectsWelding defectsWelding = defectsWeldingList.get(position);
         String defectName = defectsWelding.getDefectDescription();
         int defectedQty   = defectsWelding.getDeffectedQty();
         int repairedQty   = defectsWelding.getQtyRepaired();
         int approvedQty   = defectsWelding.getQtyApproved();
+        int pendingRepair = defectedQty-repairedQty-approvedQty;
+        int pendingApprove = repairedQty - approvedQty;
         boolean isRepaired = repairedQty!=0;
         boolean isApproved = approvedQty!=0;
         holder.binding.defectName.setText(defectName);
-        holder.binding.pendingRepairQty.setText(String.valueOf(defectedQty));
+        holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
         if (!isRepaired) {
             holder.binding.repairedQty.setText("Waiting for repair");
             holder.binding.pendingQcApproveQty.setText("Waiting for repair");
             holder.binding.qualityApprovedQty.setText("Waiting for repair");
         } else {
+            holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
             holder.binding.repairedQty.setText(repairedQty+"");
             holder.binding.pendingQcApproveQty.setText(repairedQty+"");
             if (isApproved) {
+                holder.binding.pendingQcApproveQty.setText(String.valueOf(pendingApprove));
                 holder.binding.qualityApprovedQty.setText(approvedQty+"");
             } else {
                 holder.binding.qualityApprovedQty.setText("Waiting for Quality Approval");
@@ -91,9 +94,9 @@ public class WeldingRepairProductionQualityAdapter extends RecyclerView.Adapter<
         return defectsWeldingList ==null?0: defectsWeldingList.size();
     }
 
-    static class RepairProductionQualityViewHolder extends RecyclerView.ViewHolder{
+    static class RepairProductionViewHolder extends RecyclerView.ViewHolder{
         RepairDefectItemBinding binding;
-        public RepairProductionQualityViewHolder(@NonNull RepairDefectItemBinding binding) {
+        public RepairProductionViewHolder(@NonNull RepairDefectItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             changeItemsOpacity();

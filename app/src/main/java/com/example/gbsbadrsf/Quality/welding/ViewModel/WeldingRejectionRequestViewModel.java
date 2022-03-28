@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ApiResponseSaveRejectionRequest;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
+import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
@@ -13,6 +15,8 @@ import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -32,7 +36,8 @@ public class WeldingRejectionRequestViewModel extends ViewModel {
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
-
+    MutableLiveData<ApiResponseDefectsList<List<Defect>>> defectsListMutableLiveData;
+    MutableLiveData<Status> defectsListStatus;
 
     @Inject
     Gson gson;
@@ -46,6 +51,8 @@ public class WeldingRejectionRequestViewModel extends ViewModel {
         apiResponseBasketDataStatus   = new MutableLiveData<>();
         apiResponseSaveRejectionRequestStatus = new MutableLiveData<>();
         apiResponseSaveRejectionRequestLiveData = new MutableLiveData<>();
+        defectsListMutableLiveData = new MutableLiveData<>();
+        defectsListStatus = new MutableLiveData<>();
     }
 
     public void getBasketDataViewModel(int userId,String deviceSerial,String basketCode){
@@ -87,6 +94,19 @@ public class WeldingRejectionRequestViewModel extends ViewModel {
                         }
                 ));
     }
+    public void getDefectsList(int operationId){
+        disposable.add(apiInterface.getDefectsListPerOperation(operationId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> defectsListStatus.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {defectsListMutableLiveData.postValue(response);
+                            defectsListStatus.postValue(Status.SUCCESS); },
+                        throwable -> {
+                            defectsListStatus.postValue(Status.ERROR);
+                        }
+                ));
+    }
 
     public MutableLiveData<ApiResponseDepartmentsList> getApiResponseDepartmentsListLiveData() {
         return apiResponseDepartmentsListLiveData;
@@ -110,5 +130,13 @@ public class WeldingRejectionRequestViewModel extends ViewModel {
 
     public MutableLiveData<Status> getApiResponseSaveRejectionRequestStatus() {
         return apiResponseSaveRejectionRequestStatus;
+    }
+
+    public MutableLiveData<ApiResponseDefectsList<List<Defect>>> getDefectsListMutableLiveData() {
+        return defectsListMutableLiveData;
+    }
+
+    public MutableLiveData<Status> getDefectsListStatus() {
+        return defectsListStatus;
     }
 }

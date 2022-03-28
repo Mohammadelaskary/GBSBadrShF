@@ -13,11 +13,11 @@ import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
-public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<PaintRepairProductionQualityAdapter.WeldingRepairProductionQualityViewHolder> {
+public class PaintRepairQualityAdapter extends RecyclerView.Adapter<PaintRepairQualityAdapter.WeldingRepairProductionQualityViewHolder> {
     List<DefectsPainting> defectsPaintingList;
     SetOnPaintingRepairItemClicked onPaintingRepairItemClicked;
 
-    public PaintRepairProductionQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
+    public PaintRepairQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
         this.onPaintingRepairItemClicked = onPaintingRepairItemClicked;
     }
 
@@ -39,17 +39,21 @@ public class PaintRepairProductionQualityAdapter extends RecyclerView.Adapter<Pa
         int approvedQty = defectsPainting.getQtyApproved();
         boolean isRepaired = repairedQty != 0;
         boolean isApproved = approvedQty != 0;
+        int pendingRepair = defectedQty-repairedQty-approvedQty;
+        int pendingApprove = repairedQty - approvedQty;
         holder.binding.defectName.setText(defectName);
-        holder.binding.pendingRepairQty.setText(String.valueOf(defectedQty));
+        holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
         if (!isRepaired) {
             holder.binding.repairedQty.setText("Waiting for repair");
             holder.binding.pendingQcApproveQty.setText("Waiting for repair");
             holder.binding.qualityApprovedQty.setText("Waiting for repair");
         } else {
-            holder.binding.repairedQty.setText(repairedQty + "");
-            holder.binding.pendingQcApproveQty.setText(repairedQty + "");
+            holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
+            holder.binding.repairedQty.setText(repairedQty+"");
+            holder.binding.pendingQcApproveQty.setText(repairedQty+"");
             if (isApproved) {
-                holder.binding.qualityApprovedQty.setText(approvedQty + "");
+                holder.binding.pendingQcApproveQty.setText(String.valueOf(pendingApprove));
+                holder.binding.qualityApprovedQty.setText(approvedQty+"");
             } else {
                 holder.binding.qualityApprovedQty.setText("Waiting for Quality Approval");
             }

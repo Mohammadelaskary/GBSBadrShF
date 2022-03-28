@@ -21,7 +21,8 @@ public class ManufacturingAddDefectsDetailsViewModel extends ViewModel {
     MutableLiveData<Status> defectsListStatus;
 
     MutableLiveData<ApiResponseAddingManufacturingDefect> addManufacturingDefectsResponse;
-    MutableLiveData<Status> addManufacturingDefectsStatus;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseUpdateManufacturingDefects> updateManufacturingDefectsResponse;
 
     @Inject
     Gson gson;
@@ -32,7 +33,8 @@ public class ManufacturingAddDefectsDetailsViewModel extends ViewModel {
         defectsListLiveData = new MutableLiveData<>();
         defectsListStatus = new MutableLiveData<>();
         addManufacturingDefectsResponse = new MutableLiveData<>();
-        addManufacturingDefectsStatus = new MutableLiveData<>();
+        updateManufacturingDefectsResponse = new MutableLiveData<>();
+        status = new MutableLiveData<>();
     }
 
     public void getDefectsListViewModel(int operationId){
@@ -53,13 +55,28 @@ public class ManufacturingAddDefectsDetailsViewModel extends ViewModel {
         disposable.add(apiInterface.AddManufacturingDefect(addManufacturingDefectData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addManufacturingDefectsStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(apiResponseAddingDefectsManufacturing -> {
-                            addManufacturingDefectsStatus.postValue(Status.SUCCESS);
+                            status.postValue(Status.SUCCESS);
                             addManufacturingDefectsResponse.postValue(apiResponseAddingDefectsManufacturing);
                         },
                         throwable ->
-                                addManufacturingDefectsStatus.postValue(Status.ERROR)
+                                status.postValue(Status.ERROR)
+
+                ));
+    }
+
+    public void updateManufacturingDefectResponseViewModel(UpdateManufacturingDefectsData data){
+        disposable.add(apiInterface.UpdateManufacturingDefect(data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(apiResponseUpdatingDefectsManufacturing -> {
+                            status.postValue(Status.SUCCESS);
+                            updateManufacturingDefectsResponse.postValue(apiResponseUpdatingDefectsManufacturing);
+                        },
+                        throwable ->
+                                status.postValue(Status.ERROR)
 
                 ));
     }
@@ -76,7 +93,11 @@ public class ManufacturingAddDefectsDetailsViewModel extends ViewModel {
         return addManufacturingDefectsResponse;
     }
 
-    public MutableLiveData<Status> getAddManufacturingDefectsStatus() {
-        return addManufacturingDefectsStatus;
+    public MutableLiveData<Status> getStatus() {
+        return status;
+    }
+
+    public MutableLiveData<ApiResponseUpdateManufacturingDefects> getUpdateManufacturingDefectsResponse() {
+        return updateManufacturingDefectsResponse;
     }
 }

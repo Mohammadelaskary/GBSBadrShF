@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Quality.welding.QualitySignOff;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.getEditTextText;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -83,6 +84,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
             adapter.setDefectsManufacturingList(qtyDefectsQtyDefectedList);
             adapter.notifyDataSetChanged();
             fillViews();
+
         }
         getFinalQualityDecisionsList(userId);
         setUpFinalQualityDecisionSpinner();
@@ -193,10 +195,10 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         NavController navController = NavHostFragment.findNavController(WeldingQualityDecisionFragment.this);
         viewModel.getSaveQualityOperationSignOffLiveData().observe(getViewLifecycleOwner(),apiResponseSavingOperationSignOffDecision -> {
             String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
-            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-            if (statusMessage.equals("Done successfully"))
+            if (statusMessage.equals("Done successfully")) {
                 navController.popBackStack();
-            else
+                showSuccessAlerter(statusMessage,getActivity());
+            } else
                 warningDialog(getContext(),statusMessage);
         });
     }
@@ -299,6 +301,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
     }
 
     private void dischargeViews() {
+        binding.dataLayout.setVisibility(View.GONE);
         parentCode = "";
         parentDesc ="";
         operation = "";
@@ -327,6 +330,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
     }
 
     private void fillViews() {
+        binding.dataLayout.setVisibility(View.VISIBLE);
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operation);
         binding.defectedData.qty.setText(defectedQty);
@@ -497,7 +501,8 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     savedCheckList.add(saveCheckListResponse);
                 }
             } else {
-                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),"Error in getting data!");
+//                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });
     }

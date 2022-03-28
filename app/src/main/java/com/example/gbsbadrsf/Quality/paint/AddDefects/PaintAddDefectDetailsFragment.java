@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Quality.paint.AddDefects;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.NEW_BASKET_CODE;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.ManufacturingAddDefectsFragment.REMAINING_QTY;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -11,23 +12,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Quality.Data.Defect;
-import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.DefectsListAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnManufacturingAddDefectDetailsButtonClicked;
 import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintAddDefectsDetailsViewModel;
-import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
-import com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment;
-import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -122,7 +117,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
 
 
     private void setUpDefectsRecyclerView() {
-        adapter = new DefectsListAdapter(false,this);
+        adapter = new DefectsListAdapter(getContext(),this);
         binding.defectsSelectList.setAdapter(adapter);
     }
 
@@ -148,17 +143,19 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
             operationId      = basketData.getOperationId();
             jobOrderName     = basketData.getJobOrderName();
             jobOrderQty      = basketData.getJobOrderQty();
+            basketCode = basketData.getBasketCode();
             sampleQty        = getArguments().getInt("sampleQty");
             newSample        = getArguments().getBoolean("newSample");
             remainingQty     = getArguments().getInt(REMAINING_QTY);
+            newBasketCode    = getArguments().getString(NEW_BASKET_CODE);
         }
     }
 
     private void attachListeners() {
-        binding.addDefectButton.setOnClickListener(this);
+//        binding.addDefectButton.setOnClickListener(this);
         binding.defectsListLayout.setOnClickListener(this);
     }
-    String parentCode,parentDescription,notes ,deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName;
+    String parentCode,parentDescription,notes ,deviceSerialNumber=DEVICE_SERIAL_NO,jobOrderName,basketCode,newBasketCode;
     int     parentId,
             defectedQty,
             jobOrderId,
@@ -170,7 +167,7 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.add_defect_button:{
+            case R.id.quality_pass:{
                 String defectedQtyString = binding.defectedQtyEdt.getEditText().getText().toString().trim();
                 boolean validDefectedQty = false;
                 if (defectedQtyString.isEmpty())
@@ -185,19 +182,9 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
                 if (defectsIds.isEmpty()){
                     warningDialog(getContext(),"Please Select the found defects!");
                 }
-                AddPaintingDefectData data = new AddPaintingDefectData();
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
                     defectedQty=Integer.parseInt(binding.defectedQtyEdt.getEditText().getText().toString().trim());
-                    data.setUserId(userId);
-                    data.setDeviceSerialNo(deviceSerialNumber);
-                    data.setJobOrderId(jobOrderId);
-                    data.setParentID(parentId);
-                    data.setOperationID(operationId);
-                    data.setQtyDefected(defectedQty);
-                    data.setNotes(notes);
-                    data.setSampleQty(sampleQty);
-                    data.setDefectList(defectsIds);
-                    data.setNewSampleQty(newSample);
+                    AddPaintingDefectData data = new AddPaintingDefectData(userId,deviceSerialNumber,jobOrderId,parentId,operationId,defectedQty,notes,sampleQty,defectsIds,basketCode,newBasketCode);
                     viewModel.addPaintingDefectResponseViewModel(data);
                 }
             } break;
