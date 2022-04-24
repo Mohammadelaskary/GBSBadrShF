@@ -1,0 +1,191 @@
+Index: app/src/main/java/com/example/gbsbadrsf/Production/PaintProductionRepair/PaintProductionRepairFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.gbsbadrsf.Production.PaintProductionRepair;\r\n\r\nimport static com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment.EXISTING_BASKET_CODE;\r\n\r\nimport android.app.ProgressDialog;\r\nimport android.os.Bundle;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.view.KeyEvent;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.lifecycle.ViewModelProviders;\r\n\r\nimport com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;\r\nimport com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionRepairViewModel;\r\nimport com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;\r\nimport com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;\r\nimport com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;\r\nimport com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;\r\nimport com.example.gbsbadrsf.SetUpBarCodeReader;\r\nimport com.example.gbsbadrsf.Util.ViewModelProviderFactory;\r\nimport com.example.gbsbadrsf.data.response.ResponseStatus;\r\nimport com.example.gbsbadrsf.data.response.Status;\r\nimport com.example.gbsbadrsf.databinding.FragmentPaintProductionRepairBinding;\r\nimport com.honeywell.aidc.BarcodeFailureEvent;\r\nimport com.honeywell.aidc.BarcodeReadEvent;\r\nimport com.honeywell.aidc.BarcodeReader;\r\nimport com.honeywell.aidc.TriggerStateChangeEvent;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.IllegalFormatCodePointException;\r\nimport java.util.List;\r\n\r\nimport javax.inject.Inject;\r\n\r\nimport dagger.android.support.DaggerFragment;\r\n\r\npublic class PaintProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {\r\n\r\n    FragmentPaintProductionRepairBinding binding;\r\n    List<DefectsPainting> defectsPaintingList = new ArrayList<>();\r\n    PaintProductionRepairChildsQtyDefectsQtyAdapter adapter;\r\n    PaintProductionRepairViewModel viewModel;\r\n    private static final String SUCCESS = \"Data sent successfully\";\r\n\r\n    @Inject\r\n    ViewModelProviderFactory provider;\r\n    ProgressDialog progressDialog;\r\n    SetUpBarCodeReader barCodeReader;\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        binding = FragmentPaintProductionRepairBinding.inflate(inflater, container, false);\r\n        setUpProgressDialog();\r\n        initViewModel();\r\n        barCodeReader = new SetUpBarCodeReader(this, this);\r\n\r\n        addTextWatcher();\r\n        observeGettingBasketData();\r\n\r\n        observeGettingDefectsPainting();\r\n        initViews();\r\n        setupRecyclerView();\r\n        return binding.getRoot();\r\n    }\r\n\r\n    int userId = 1;\r\n    String deviceSerialNo = \"S1\",basketCode;\r\n\r\n    private void addTextWatcher() {\r\n        binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {\r\n            @Override\r\n            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {\r\n                binding.basketCode.setError(null);\r\n            }\r\n\r\n            @Override\r\n            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {\r\n                binding.basketCode.setError(null);\r\n            }\r\n\r\n            @Override\r\n            public void afterTextChanged(Editable editable) {\r\n                binding.basketCode.setError(null);\r\n            }\r\n        });\r\n        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {\r\n            @Override\r\n            public boolean onKey(View v, int keyCode, KeyEvent event) {\r\n                if (event.getAction() == KeyEvent.ACTION_DOWN\r\n                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)\r\n                {\r\n                    basketCode = binding.basketCode.getEditText().getText().toString().trim();\r\n                    getBasketData(userId, deviceSerialNo, basketCode);\r\n                    getBasketDefectsPainting(userId, deviceSerialNo, basketCode);\r\n                    return true;\r\n                }\r\n                return false;\r\n            }\r\n        });\r\n    }\r\n\r\n    private void observeGettingDefectsPainting() {\r\n        viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {\r\n            if (status == Status.LOADING)\r\n                progressDialog.show();\r\n            else\r\n                progressDialog.dismiss();\r\n        });\r\n    }\r\n\r\n    List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();\r\n\r\n    private void getBasketDefectsPainting(int userId, String deviceSerialNo, String basketCode) {\r\n        viewModel.getDefectsPaintingViewModel(userId, deviceSerialNo, basketCode);\r\n        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {\r\n            if (apiResponseDefectsWelding!=null) {\r\n                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();\r\n                String statusMessage = responseStatus.getStatusMessage();\r\n                if (statusMessage.equals(SUCCESS)) {\r\n                    if (apiResponseDefectsWelding.getDefectsPainting() != null) {\r\n                        defectsPaintingList.clear();\r\n                        List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsWelding.getDefectsPainting();\r\n                        defectsPaintingList.addAll(defectsPaintingListLocal);\r\n                        adapter.setDefectsPaintingList(defectsPaintingList);\r\n                        qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);\r\n                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);\r\n                        binding.defectQtn.setText(defectedQty);\r\n                    }\r\n                } else {\r\n                    binding.defectQtn.setText(\"\");\r\n                    qtyDefectsQtyDefectedList.clear();\r\n                }\r\n            } else {\r\n                binding.defectQtn.setText(\"\");\r\n                qtyDefectsQtyDefectedList.clear();\r\n                Toast.makeText(getContext(), \"Error in getting data!\", Toast.LENGTH_SHORT).show();\r\n            }\r\n            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);\r\n            adapter.notifyDataSetChanged();\r\n        });\r\n    }\r\n\r\n    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsPainting> defectsPaintingListLocal) {\r\n        List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();\r\n        int id = -1;\r\n        for (DefectsPainting defectsPainting : defectsPaintingListLocal) {\r\n            if (defectsPainting.getPaintingDefectsId() != id) {\r\n                int currentId = defectsPainting.getPaintingDefectsId();\r\n                int defectedQty = defectsPainting.getDeffectedQty();\r\n                QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));\r\n                qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);\r\n                id = currentId;\r\n            }\r\n        }\r\n        return qtyDefectsQtyDefectedListLocal;\r\n    }\r\n\r\n    private int getDefectsQty(int currentId) {\r\n        int defectNo = 0;\r\n        for (DefectsPainting defectsPainting : defectsPaintingList) {\r\n            if (defectsPainting.getPaintingDefectsId() == currentId)\r\n                defectNo++;\r\n        }\r\n        return defectNo;\r\n    }\r\n\r\n\r\n    private String calculateDefectedQty(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {\r\n        int sum = 0;\r\n        for (QtyDefectsQtyDefected qtyDefectsQtyDefected : qtyDefectsQtyDefectedList) {\r\n            sum += qtyDefectsQtyDefected.getDefectedQty();\r\n        }\r\n        return String.valueOf(sum);\r\n    }\r\n\r\n    private void setUpProgressDialog() {\r\n        progressDialog = new ProgressDialog(getContext());\r\n        progressDialog.setMessage(\"Loading...\");\r\n        progressDialog.setCancelable(false);\r\n    }\r\n\r\n    private void observeGettingBasketData() {\r\n        viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {\r\n            if (status == Status.LOADING) {\r\n                progressDialog.show();\r\n            } else {\r\n                progressDialog.dismiss();\r\n            }\r\n        });\r\n    }\r\n\r\n    private void initViewModel() {\r\n        viewModel = ViewModelProviders.of(this, provider).get(PaintProductionRepairViewModel.class);\r\n    }\r\n\r\n    LastMovePaintingBasket basketData;\r\n    String parentDesc, parentCode = \"\", operationName;\r\n\r\n    private void getBasketData(int userId, String deviceSerialNo, String basketCode) {\r\n        binding.basketCode.setError(null);\r\n        viewModel.getBasketDataViewModel(userId, deviceSerialNo, basketCode);\r\n        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMovePaintingBasket -> {\r\n            if (apiResponseLastMovePaintingBasket!=null) {\r\n                basketData = apiResponseLastMovePaintingBasket.getLastMovePaintingBasket();\r\n                adapter.setBasketData(basketData);\r\n                ResponseStatus responseStatus = apiResponseLastMovePaintingBasket.getResponseStatus();\r\n                String statusMessage = responseStatus.getStatusMessage();\r\n                if (statusMessage.equals(EXISTING_BASKET_CODE)) {\r\n                    parentDesc = basketData.getParentDescription();\r\n                    parentCode = basketData.getParentCode();\r\n                    operationName = basketData.getOperationEnName();\r\n                } else {\r\n                    parentDesc = \"\";\r\n                    parentCode = \"\";\r\n                    operationName = \"\";\r\n                    binding.basketCode.setError(statusMessage);\r\n                }\r\n            } else {\r\n                parentDesc = \"\";\r\n                parentCode = \"\";\r\n                operationName = \"\";\r\n                binding.basketCode.setError(\"Error in getting data!\");\r\n            }\r\n            fillData(parentDesc, parentCode, operationName);\r\n        });\r\n    }\r\n\r\n    private void fillData(String parentDesc, String parentCode, String operationName) {\r\n        binding.parentCode.setText(parentCode);\r\n        binding.parentDesc.setText(parentDesc);\r\n        binding.operation.setText(operationName);\r\n    }\r\n\r\n\r\n    private void setupRecyclerView() {\r\n        adapter = new PaintProductionRepairChildsQtyDefectsQtyAdapter();\r\n        binding.defectsDetailsList.setAdapter(adapter);\r\n    }\r\n\r\n    private void initViews() {\r\n\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {\r\n        getActivity().runOnUiThread(() -> {\r\n            String scannedText = barCodeReader.scannedData(barcodeReadEvent);\r\n            binding.basketCode.getEditText().setText(scannedText);\r\n            getBasketData(userId, deviceSerialNo, scannedText);\r\n            getBasketDefectsPainting(userId, deviceSerialNo, scannedText);\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onFailureEvent(BarcodeFailureEvent barcodeFailureEvent) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onTriggerEvent(TriggerStateChangeEvent triggerStateChangeEvent) {\r\n        barCodeReader.onTrigger(triggerStateChangeEvent);\r\n    }\r\n\r\n    @Override\r\n    public void onResume() {\r\n        super.onResume();\r\n        barCodeReader.onResume();\r\n    }\r\n\r\n    @Override\r\n    public void onPause() {\r\n        super.onPause();\r\n        barCodeReader.onPause();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/gbsbadrsf/Production/PaintProductionRepair/PaintProductionRepairFragment.java b/app/src/main/java/com/example/gbsbadrsf/Production/PaintProductionRepair/PaintProductionRepairFragment.java
+--- a/app/src/main/java/com/example/gbsbadrsf/Production/PaintProductionRepair/PaintProductionRepairFragment.java	
++++ b/app/src/main/java/com/example/gbsbadrsf/Production/PaintProductionRepair/PaintProductionRepairFragment.java	
+@@ -214,6 +214,7 @@
+                     parentDesc = basketData.getParentDescription();
+                     parentCode = basketData.getParentCode();
+                     operationName = basketData.getOperationEnName();
++                    binding.basketCode.setError(null);
+                 } else {
+                     parentDesc = "";
+                     parentCode = "";
+Index: app/src/main/res/layout/fragment_paint_menu.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    tools:context=\".Paint.PaintMenuFragment\"\r\n    android:background=\"@drawable/background\"\r\n    >\r\n    <TextView\r\n        android:id=\"@+id/paintmenu_txt\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_centerVertical=\"true\"\r\n        style=\"@style/styleoftextinappbar\"\r\n        android:text=\"@string/paint_menu\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        android:layout_marginTop=\"15dp\"\r\n        />\r\n\r\n    <androidx.core.widget.NestedScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/paintmenu_txt\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        android:fillViewport=\"true\"\r\n\r\n        >\r\n        <androidx.constraintlayout.widget.ConstraintLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            >\r\n    <com.google.android.material.button.MaterialButton\r\n        android:id=\"@+id/machineloading_btn\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"75dp\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        android:layout_marginTop=\"25dp\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        android:layout_marginStart=\"35dp\"\r\n        android:layout_marginEnd=\"35dp\"\r\n        android:backgroundTint=\"@color/appbarcolor\"\r\n        app:cornerRadius=\"25dp\"\r\n        android:text=\"@string/paint_station_loading\"\r\n        style=\"@style/styleoftextinbtn\"\r\n        />\r\n    <com.google.android.material.button.MaterialButton\r\n        android:id=\"@+id/paintwip_btn\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"75dp\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/machineloading_btn\"\r\n        android:layout_marginTop=\"25dp\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        android:layout_marginStart=\"35dp\"\r\n        android:layout_marginEnd=\"35dp\"\r\n        android:backgroundTint=\"@color/appbarcolor\"\r\n        app:cornerRadius=\"25dp\"\r\n        android:text=\"Paint Wip\"\r\n        style=\"@style/styleoftextinbtn\"\r\n        />\r\n    <com.google.android.material.button.MaterialButton\r\n        android:id=\"@+id/colorverification_btn\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"75dp\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/paintwip_btn\"\r\n        android:layout_marginTop=\"25dp\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        android:layout_marginStart=\"35dp\"\r\n        android:layout_marginEnd=\"35dp\"\r\n        android:backgroundTint=\"@color/appbarcolor\"\r\n        app:cornerRadius=\"25dp\"\r\n        android:text=\"@string/color_verification\"\r\n        style=\"@style/styleoftextinbtn\"\r\n        />\r\n\r\n\r\n    <com.google.android.material.button.MaterialButton\r\n        android:id=\"@+id/productionrepair_btn\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"75dp\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/colorverification_btn\"\r\n        android:layout_marginTop=\"25dp\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        android:layout_marginStart=\"35dp\"\r\n        android:layout_marginEnd=\"35dp\"\r\n        android:backgroundTint=\"@color/appbarcolor\"\r\n        android:visibility=\"gone\"\r\n        app:cornerRadius=\"25dp\"\r\n        android:text=\"@string/production_repair\"\r\n        style=\"@style/styleoftextinbtn\"\r\n        />\r\n            <com.google.android.material.button.MaterialButton\r\n                android:id=\"@+id/rejection_request_btn\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"75dp\"\r\n                app:layout_constraintTop_toBottomOf=\"@id/productionrepair_btn\"\r\n                android:layout_marginTop=\"25dp\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                android:layout_marginStart=\"35dp\"\r\n                android:layout_marginEnd=\"35dp\"\r\n                android:backgroundTint=\"@color/appbarcolor\"\r\n                app:cornerRadius=\"25dp\"\r\n                android:text=\"@string/rejection_request\"\r\n                style=\"@style/styleoftextinbtn\"\r\n                />\r\n        </androidx.constraintlayout.widget.ConstraintLayout>\r\n    </androidx.core.widget.NestedScrollView>\r\n\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_paint_menu.xml b/app/src/main/res/layout/fragment_paint_menu.xml
+--- a/app/src/main/res/layout/fragment_paint_menu.xml	
++++ b/app/src/main/res/layout/fragment_paint_menu.xml	
+@@ -87,7 +87,7 @@
+         android:layout_marginStart="35dp"
+         android:layout_marginEnd="35dp"
+         android:backgroundTint="@color/appbarcolor"
+-        android:visibility="gone"
++        android:visibility="visible"
+         app:cornerRadius="25dp"
+         android:text="@string/production_repair"
+         style="@style/styleoftextinbtn"
+Index: app/src/main/java/com/example/gbsbadrsf/Production/ProductionRepairFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.gbsbadrsf.Production;\r\n\r\nimport static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;\r\n\r\nimport android.app.ProgressDialog;\r\nimport android.os.Bundle;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.lifecycle.ViewModelProviders;\r\n\r\nimport com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;\r\nimport com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;\r\nimport com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;\r\nimport com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;\r\nimport com.example.gbsbadrsf.SetUpBarCodeReader;\r\nimport com.example.gbsbadrsf.Util.ViewModelProviderFactory;\r\nimport com.example.gbsbadrsf.data.response.ResponseStatus;\r\nimport com.example.gbsbadrsf.data.response.Status;\r\nimport com.example.gbsbadrsf.databinding.FragmentProductionRepairBinding;\r\nimport com.honeywell.aidc.BarcodeFailureEvent;\r\nimport com.honeywell.aidc.BarcodeReadEvent;\r\nimport com.honeywell.aidc.BarcodeReader;\r\nimport com.honeywell.aidc.TriggerStateChangeEvent;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport javax.inject.Inject;\r\n\r\nimport dagger.android.support.DaggerFragment;\r\n\r\npublic class ProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {\r\n\r\n    FragmentProductionRepairBinding binding;\r\n    List<DefectsManufacturing>  defectsManufacturingList = new ArrayList<>();\r\n    ProductionRepairChildsQtyDefectsQtyAdapter adapter;\r\n    ProductionRepairViewModel viewModel;\r\n    private static final String SUCCESS = \"Data sent successfully\";\r\n\r\n    @Inject\r\n    ViewModelProviderFactory provider;\r\n    ProgressDialog progressDialog;\r\n    SetUpBarCodeReader barCodeReader;\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        binding = FragmentProductionRepairBinding.inflate(inflater, container, false);\r\n        setUpProgressDialog();\r\n        initViewModel();\r\n        barCodeReader = new SetUpBarCodeReader(this,this);\r\n        setupRecyclerView();\r\n        if (viewModel.getBasketData()!=null){\r\n            LastMoveManufacturingBasket basketData = viewModel.getBasketData();\r\n            adapter.setBasketData(basketData);\r\n            fillData(basketData.getChildDescription(),basketData.getChildCode(), basketData.getOperationEnName());\r\n            getBasketDefectsManufacturing(basketData.getBasketCode());\r\n        }\r\n        addTextWatcher();\r\n        observeGettingBasketData();\r\n        observeGettingDefectsManufacturing();\r\n        initViews();\r\n\r\n        return binding.getRoot();\r\n    }\r\n\r\n    private void addTextWatcher() {\r\n        binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {\r\n            @Override\r\n            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {\r\n                binding.basketCode.setError(null);\r\n            }\r\n\r\n            @Override\r\n            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {\r\n                getBasketData(charSequence.toString());\r\n                getBasketDefectsManufacturing(charSequence.toString());\r\n            }\r\n\r\n            @Override\r\n            public void afterTextChanged(Editable editable) {\r\n                binding.basketCode.setError(null);\r\n            }\r\n        });\r\n    }\r\n\r\n    private void observeGettingDefectsManufacturing() {\r\n        viewModel.getDefectsManufacturingListStatus().observe(getViewLifecycleOwner(),status -> {\r\n            if (status == Status.LOADING)\r\n                progressDialog.show();\r\n            else\r\n                progressDialog.dismiss();\r\n        });\r\n    }\r\n    List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();\r\n    private void getBasketDefectsManufacturing(String basketCode) {\r\n        viewModel.getDefectsManufacturingViewModel(basketCode);\r\n        viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {\r\n            ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();\r\n            String statusMessage = responseStatus.getStatusMessage();\r\n            if (statusMessage.equals(SUCCESS)){\r\n                if (apiResponseDefectsManufacturing.getData()!=null){\r\n                    defectsManufacturingList.clear();\r\n                    List<DefectsManufacturing> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();\r\n                    defectsManufacturingList.addAll(defectsManufacturingListLocal);\r\n                    adapter.setDefectsManufacturingList(defectsManufacturingList);\r\n                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);\r\n                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);\r\n                    binding.defectQtn.setText(defectedQty);\r\n                }\r\n            } else {\r\n                binding.defectQtn.setText(\"\");\r\n                qtyDefectsQtyDefectedList.clear();\r\n            }\r\n            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);\r\n            adapter.notifyDataSetChanged();\r\n        });\r\n    }\r\n    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsManufacturing> defectsManufacturingListLocal) {\r\n        List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();\r\n        int id = -1 ;\r\n        for (DefectsManufacturing defectsManufacturing:defectsManufacturingListLocal){\r\n            if (defectsManufacturing.getManufacturingDefectsId()!=id){\r\n                int currentId = defectsManufacturing.getManufacturingDefectsId();\r\n                int defectedQty = defectsManufacturing.getDeffectedQty();\r\n                QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId,defectedQty,getDefectsQty(currentId));\r\n                qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);\r\n                id = currentId;\r\n            }\r\n        }\r\n        return qtyDefectsQtyDefectedListLocal;\r\n    }\r\n\r\n    private int getDefectsQty(int currentId) {\r\n        int defectNo = 0;\r\n        for (DefectsManufacturing defectsManufacturing:defectsManufacturingList){\r\n            if (defectsManufacturing.getManufacturingDefectsId()==currentId)\r\n                defectNo++;\r\n        }\r\n        return  defectNo;\r\n    }\r\n\r\n\r\n    private String calculateDefectedQty(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {\r\n        int sum = 0;\r\n        for (QtyDefectsQtyDefected qtyDefectsQtyDefected : qtyDefectsQtyDefectedList){\r\n            sum +=qtyDefectsQtyDefected.getDefectedQty();\r\n        }\r\n        return String.valueOf(sum);\r\n    }\r\n    private void setUpProgressDialog() {\r\n        progressDialog = new ProgressDialog(getContext());\r\n        progressDialog.setMessage(\"Loading...\");\r\n        progressDialog.setCancelable(false);\r\n    }\r\n\r\n    private void observeGettingBasketData() {\r\n        viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(),status -> {\r\n            if (status== Status.LOADING){\r\n                progressDialog.show();\r\n            } else {\r\n                progressDialog.dismiss();\r\n            }\r\n        });\r\n    }\r\n\r\n    private void initViewModel() {\r\n        viewModel = ViewModelProviders.of(this,provider).get(ProductionRepairViewModel.class);\r\n    }\r\n    LastMoveManufacturingBasket basketData = new LastMoveManufacturingBasket();\r\n    String childDesc,childCode = \"\",operationName;\r\n    private void getBasketData(String basketCode) {\r\n        viewModel.getBasketDataViewModel(basketCode);\r\n        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {\r\n            basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();\r\n            adapter.setBasketData(basketData);\r\n            ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();\r\n            String statusMessage = responseStatus.getStatusMessage();\r\n            if (statusMessage.equals(EXISTING_BASKET_CODE)){\r\n                childDesc = basketData.getChildDescription();\r\n                childCode = basketData.getChildCode();\r\n                operationName = basketData.getOperationEnName();\r\n            } else {\r\n                childDesc = \"\";\r\n                childCode = \"\";\r\n                operationName = \"\";\r\n                binding.basketCode.setError(statusMessage);\r\n            }\r\n            fillData(childDesc,childCode,operationName);\r\n        });\r\n    }\r\n\r\n    private void fillData(String childDesc, String childCode, String operationName) {\r\n        binding.childCode.setText(childCode);\r\n        binding.childDesc.setText(childDesc);\r\n        binding.operation.setText(operationName);\r\n    }\r\n\r\n\r\n    private void setupRecyclerView() {\r\n        adapter = new ProductionRepairChildsQtyDefectsQtyAdapter();\r\n        binding.defectsDetailsList.setAdapter(adapter);\r\n    }\r\n\r\n    private void initViews() {\r\n\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {\r\n        getActivity().runOnUiThread(()->{\r\n            String scannedText = barCodeReader.scannedData(barcodeReadEvent);\r\n            binding.basketCode.getEditText().setText(scannedText);\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onFailureEvent(BarcodeFailureEvent barcodeFailureEvent) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onTriggerEvent(TriggerStateChangeEvent triggerStateChangeEvent) {\r\n        barCodeReader.onTrigger(triggerStateChangeEvent);\r\n    }\r\n\r\n    @Override\r\n    public void onResume() {\r\n        super.onResume();\r\n        barCodeReader.onResume();\r\n    }\r\n\r\n    @Override\r\n    public void onPause() {\r\n        super.onPause();\r\n        barCodeReader.onPause();\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        if (basketData!=null){\r\n            viewModel.setBasketData(basketData);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/gbsbadrsf/Production/ProductionRepairFragment.java b/app/src/main/java/com/example/gbsbadrsf/Production/ProductionRepairFragment.java
+--- a/app/src/main/java/com/example/gbsbadrsf/Production/ProductionRepairFragment.java	
++++ b/app/src/main/java/com/example/gbsbadrsf/Production/ProductionRepairFragment.java	
+@@ -7,9 +7,11 @@
+ import android.text.Editable;
+ import android.text.TextWatcher;
+ import android.util.Log;
++import android.view.KeyEvent;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.Toast;
+ 
+ import androidx.lifecycle.ViewModelProviders;
+ 
+@@ -67,7 +69,7 @@
+ 
+         return binding.getRoot();
+     }
+-
++    String basketCode;
+     private void addTextWatcher() {
+         binding.basketCode.getEditText().addTextChangedListener(new TextWatcher() {
+             @Override
+@@ -77,8 +79,7 @@
+ 
+             @Override
+             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+-                getBasketData(charSequence.toString());
+-                getBasketDefectsManufacturing(charSequence.toString());
++                binding.basketCode.setError(null);
+             }
+ 
+             @Override
+@@ -86,6 +87,20 @@
+                 binding.basketCode.setError(null);
+             }
+         });
++        binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
++            @Override
++            public boolean onKey(View v, int keyCode, KeyEvent event) {
++                if (event.getAction() == KeyEvent.ACTION_DOWN
++                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
++                {
++                    basketCode = binding.basketCode.getEditText().getText().toString().trim();
++                    getBasketData(basketCode);
++                    getBasketDefectsManufacturing(basketCode);
++                    return true;
++                }
++                return false;
++            }
++        });
+     }
+ 
+     private void observeGettingDefectsManufacturing() {
+@@ -100,21 +115,27 @@
+     private void getBasketDefectsManufacturing(String basketCode) {
+         viewModel.getDefectsManufacturingViewModel(basketCode);
+         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {
+-            ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();
+-            String statusMessage = responseStatus.getStatusMessage();
+-            if (statusMessage.equals(SUCCESS)){
+-                if (apiResponseDefectsManufacturing.getData()!=null){
+-                    defectsManufacturingList.clear();
+-                    List<DefectsManufacturing> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();
+-                    defectsManufacturingList.addAll(defectsManufacturingListLocal);
+-                    adapter.setDefectsManufacturingList(defectsManufacturingList);
+-                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+-                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+-                    binding.defectQtn.setText(defectedQty);
+-                }
+-            } else {
+-                binding.defectQtn.setText("");
+-                qtyDefectsQtyDefectedList.clear();
++            if (apiResponseDefectsManufacturing!=null) {
++                ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();
++                String statusMessage = responseStatus.getStatusMessage();
++                if (statusMessage.equals(SUCCESS)) {
++                    if (apiResponseDefectsManufacturing.getData() != null) {
++                        defectsManufacturingList.clear();
++                        List<DefectsManufacturing> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();
++                        defectsManufacturingList.addAll(defectsManufacturingListLocal);
++                        adapter.setDefectsManufacturingList(defectsManufacturingList);
++                        qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
++                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
++                        binding.defectQtn.setText(defectedQty);
++                    }
++                } else {
++                    binding.defectQtn.setText("");
++                    qtyDefectsQtyDefectedList.clear();
++                }
++            } else {
++                binding.defectQtn.setText("");
++                qtyDefectsQtyDefectedList.clear();
++                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+             }
+             adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+             adapter.notifyDataSetChanged();
+@@ -176,19 +197,26 @@
+     private void getBasketData(String basketCode) {
+         viewModel.getBasketDataViewModel(basketCode);
+         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
+-            basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
+-            adapter.setBasketData(basketData);
+-            ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
+-            String statusMessage = responseStatus.getStatusMessage();
+-            if (statusMessage.equals(EXISTING_BASKET_CODE)){
+-                childDesc = basketData.getChildDescription();
+-                childCode = basketData.getChildCode();
+-                operationName = basketData.getOperationEnName();
+-            } else {
+-                childDesc = "";
+-                childCode = "";
+-                operationName = "";
+-                binding.basketCode.setError(statusMessage);
++            if (apiResponseLastMoveManufacturingBasket!=null) {
++                basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasket();
++                adapter.setBasketData(basketData);
++                ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
++                String statusMessage = responseStatus.getStatusMessage();
++                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
++                    childDesc = basketData.getChildDescription();
++                    childCode = basketData.getChildCode();
++                    operationName = basketData.getOperationEnName();
++                } else {
++                    childDesc = "";
++                    childCode = "";
++                    operationName = "";
++                    binding.basketCode.setError(statusMessage);
++                }
++            } else {
++                childDesc = "";
++                childCode = "";
++                operationName = "";
++                binding.basketCode.setError("Error in getting data!");
+             }
+             fillData(childDesc,childCode,operationName);
+         });
+@@ -216,6 +244,8 @@
+         getActivity().runOnUiThread(()->{
+             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
+             binding.basketCode.getEditText().setText(scannedText);
++            getBasketData(basketCode);
++            getBasketDefectsManufacturing(basketCode);
+         });
+     }
+ 
