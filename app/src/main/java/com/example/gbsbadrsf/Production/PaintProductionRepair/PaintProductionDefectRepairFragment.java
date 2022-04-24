@@ -19,6 +19,7 @@ import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintPro
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.QualityRepair.SetOnPaintingRepairItemClicked;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -121,7 +122,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        String defectedQty   = defectsPaintingList.get(0).getDeffectedQty().toString();
+        String defectedQty   = defectsPaintingList.get(0).getQtyDefected().toString();
 
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
@@ -129,7 +130,7 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
     }
 
     LastMovePaintingBasket basketData;
-    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
+    List<PaintingDefect> defectsPaintingList = new ArrayList<>();
     private void getReceivedData() {
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
@@ -139,12 +140,12 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         }
     }
     int position,defectedQty;
-    DefectsPainting defectsPainting;
+    PaintingDefect defectsPainting;
     @Override
-    public void onPaintingRepairItemClicked(DefectsPainting defectsPainting,int position) {
+    public void onPaintingRepairItemClicked(PaintingDefect defectsPainting,int position) {
         this.defectsPainting = defectsPainting;
         this.position = position;
-        binding.repairedQty.getEditText().setText(String.valueOf(defectsPainting.getDeffectedQty()));
+        binding.repairedQty.getEditText().setText(String.valueOf(defectsPainting.getQtyDefected()));
         defectsManufacturingDetailsId = defectsPainting.getDefectsPaintingDetailsId();
         defectStatus = defectsPainting.getDefectStatus();
         defectedQty = defectsPainting.getQtyDefected();

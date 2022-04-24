@@ -82,7 +82,7 @@ FragmentWeldingMenuBinding fragmentWeldingMenuBinding;
         fragmentWeldingMenuBinding.scraprequestBtn.setOnClickListener(__->{
             Navigation.findNavController(getView()).navigate(R.id.action_quality_welding_fragment_to_fragment_welding_rejection_request);
         });
-
+        fragmentWeldingMenuBinding.itemsReceiving.setOnClickListener(v-> Navigation.findNavController(v).navigate(R.id.action_quality_welding_fragment_to_items_receiving_fragment));
 
 
 

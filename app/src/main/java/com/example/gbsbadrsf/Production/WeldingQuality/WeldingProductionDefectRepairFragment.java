@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionDefectRepairViewModel;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
@@ -122,7 +123,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        String defectedQty   = defectsWeldingList.get(0).getDeffectedQty().toString();
+        String defectedQty   = defectsWeldingList.get(0).getQtyDefected().toString();
 
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
@@ -130,7 +131,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
     }
 
     LastMoveWeldingBasket basketData;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<WeldingDefect> defectsWeldingList = new ArrayList<>();
     private void getReceivedData() {
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
@@ -139,13 +140,13 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
             adapter.notifyDataSetChanged();
         }
     }
-    DefectsWelding defectsWelding;
+    WeldingDefect defectsWelding;
     int position,defectedQty;
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
+    public void onWeldingRepairItemClicked(WeldingDefect defectsWelding, int position) {
         this.defectsWelding =defectsWelding;
         this.position = position;
-        binding.repairedQty.getEditText().setText(String.valueOf(defectsWelding.getDeffectedQty()));
+        binding.repairedQty.getEditText().setText(String.valueOf(defectsWelding.getQtyDefected()));
         defectsManufacturingDetailsId = defectsWelding.getDefectsWeldingDetailsId();
         defectStatus = defectsWelding.getDefectStatus();
         defectedQty = defectsWelding.getQtyDefected();

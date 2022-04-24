@@ -49,7 +49,7 @@ public class PaintQualityRepairViewModel extends ViewModel {
         defectsPaintingListStatus = new MutableLiveData<>();
         addPaintingRepairQuality = new MutableLiveData<>();
         addPaintingRepairQualityStatus = new MutableLiveData<>();
-        basketData = new LastMovePaintingBasket();
+//        basketData = new LastMovePaintingBasket();
     }
 
     public void getBasketData(int userId,String deviceSerialNo,String basketCode){

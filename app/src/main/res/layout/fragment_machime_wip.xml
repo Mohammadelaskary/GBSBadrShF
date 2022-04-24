@@ -15,7 +15,7 @@
 
 
             <TextView
-                android:id="@+id/child_desc"
+                android:id="@+id/parent_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -34,8 +34,8 @@
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@id/jobordernum_txt">
 
 
@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name"
-                    android:textSize="17dp"
+                    android:textSize="17sp"
                     app:layout_constraintTop_toTopOf="@id/jobordernum"
                     app:layout_constraintBottom_toBottomOf="@id/jobordernum"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -95,9 +95,9 @@
                 android:layout_margin="5dp"
                 android:text="@string/job_order"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
-                app:layout_constraintTop_toBottomOf="@id/child_desc" />
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
+                app:layout_constraintTop_toBottomOf="@id/parent_desc" />
             <TextView
                 android:id="@+id/textView4"
                 style="@style/style_of_text_bold"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Loading Qty:"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
             <TextView
@@ -128,8 +128,8 @@
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="18dp"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@id/operation_title_txt">
                 <TextView
                     android:id="@+id/textView7"
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name"
-                    android:textSize="17dp"
+                    android:textSize="17sp"
                     app:layout_constraintTop_toTopOf="@id/operation_name"
                     app:layout_constraintBottom_toBottomOf="@id/operation_name"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -211,8 +211,8 @@
                 android:layout_margin="10dp"
                 android:text="@string/operation"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@id/loading_qty" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -225,8 +225,8 @@
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@id/operation_data">
 
 
@@ -285,8 +285,8 @@
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="18dp"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@id/time_title_txt">
                 <TextView
                     android:id="@+id/textView11"
@@ -373,8 +373,8 @@
                 android:layout_margin="10dp"
                 android:text="@string/time"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
-                app:layout_constraintStart_toStartOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+                app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@id/machine_die_data" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

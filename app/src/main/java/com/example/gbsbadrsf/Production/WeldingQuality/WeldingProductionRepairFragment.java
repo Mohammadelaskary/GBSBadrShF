@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionRepairViewModel;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
@@ -42,7 +43,7 @@ import dagger.android.support.DaggerFragment;
 public class WeldingProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     WeldingProductionRepairFragmentBinding binding;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<WeldingDefect> defectsWeldingList = new ArrayList<>();
     WeldingProductionRepairChildsQtyDefectsQtyAdapter adapter;
     WeldingProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -69,7 +70,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
             LastMoveWeldingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
             fillData(basketData.getParentDescription(),basketData.getJobOrderName(), basketData.getOperationEnName(),basketData.getJobOrderQty());
-            getBasketDefectsWelding(userId,deviceSerialNo,basketData.getBasketCode());
+//            getBasketDefectsWelding(userId,deviceSerialNo,basketData.getBasketCode());
         }
         return binding.getRoot();
     }
@@ -102,7 +103,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
                 {
                     basketCode = binding.basketCode.getEditText().getText().toString().trim();
                     getBasketData(userId, deviceSerialNo, basketCode);
-                    getBasketDefectsWelding(userId, deviceSerialNo, basketCode);
+//                    getBasketDefectsWelding(userId, deviceSerialNo, basketCode);
                     return true;
                 }
                 return false;
@@ -121,44 +122,44 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
 
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
 
-    private void getBasketDefectsWelding(int userId, String deviceSerialNo, String basketCode) {
-        viewModel.getDefectsWeldingViewModel(userId, deviceSerialNo, basketCode);
-        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
-            if (apiResponseDefectsWelding != null) {
-                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
-                String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(SUCCESS)) {
-                    if (apiResponseDefectsWelding.getDefectsWelding() != null) {
-                        defectsWeldingList.clear();
-                        List<DefectsWelding> defectsManufacturingListLocal = apiResponseDefectsWelding.getDefectsWelding();
-                        defectsWeldingList.addAll(defectsManufacturingListLocal);
-                        adapter.setDefectsManufacturingList(defectsWeldingList);
-                        qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
-                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectedData.qty.setText(defectedQty);
-                    }
-                } else {
-                    binding.defectedData.qty.setText("");
-                    qtyDefectsQtyDefectedList.clear();
-                }
-            } else {
-                binding.defectedData.qty.setText("");
-                qtyDefectsQtyDefectedList.clear();
-//                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
-                warningDialog(getContext(),"Error in getting data!");
-            }
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-        });
-    }
+//    private void getBasketDefectsWelding(int userId, String deviceSerialNo, String basketCode) {
+//        viewModel.getDefectsWeldingViewModel(userId, deviceSerialNo, basketCode);
+//        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
+//            if (apiResponseDefectsWelding != null) {
+//                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
+//                String statusMessage = responseStatus.getStatusMessage();
+//                if (statusMessage.equals(SUCCESS)) {
+//                    if (apiResponseDefectsWelding.getDefectsWelding() != null) {
+//                        defectsWeldingList.clear();
+//                        List<WeldingDefect> defectsManufacturingListLocal = apiResponseDefectsWelding.getDefectsWelding();
+//                        defectsWeldingList.addAll(defectsManufacturingListLocal);
+//                        adapter.setDefectsManufacturingList(defectsWeldingList);
+//                        qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+//                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+//                        binding.defectedData.qty.setText(defectedQty);
+//                    }
+//                } else {
+//                    binding.defectedData.qty.setText("");
+//                    qtyDefectsQtyDefectedList.clear();
+//                }
+//            } else {
+//                binding.defectedData.qty.setText("");
+//                qtyDefectsQtyDefectedList.clear();
+////                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+//                warningDialog(getContext(),"Error in getting data!");
+//            }
+//            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+//            adapter.notifyDataSetChanged();
+//        });
+//    }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<WeldingDefect> defectsWeldingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1;
-        for (DefectsWelding defectsWelding : defectsWeldingListLocal) {
-            if (defectsWelding.getWeldingDefectsId() != id) {
-                int currentId = defectsWelding.getWeldingDefectsId();
-                int defectedQty = defectsWelding.getDeffectedQty();
+        for (WeldingDefect defectsWelding : defectsWeldingListLocal) {
+            if (defectsWelding.getDefectGroupId() != id) {
+                int currentId = defectsWelding.getDefectGroupId();
+                int defectedQty = defectsWelding.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;
@@ -169,8 +170,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsWelding defectsWelding : defectsWeldingList) {
-            if (defectsWelding.getWeldingDefectsId() == currentId)
+        for (WeldingDefect defectsWelding : defectsWeldingList) {
+            if (defectsWelding.getDefectGroupId() == currentId)
                 defectNo++;
         }
         return defectNo;
@@ -213,11 +214,19 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
         viewModel.getBasketDataViewModel(userId, deviceSerialNo, basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveWeldingBasket -> {
             if (apiResponseLastMoveWeldingBasket!=null) {
-                basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
-                adapter.setBasketData(basketData);
+
                 ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBaskets().get(0);
+                    adapter.setBasketData(basketData);
+                    defectsWeldingList.clear();
+                    List<WeldingDefect> defectsManufacturingListLocal = apiResponseLastMoveWeldingBasket.getWeldingDefects();
+                    defectsWeldingList.addAll(defectsManufacturingListLocal);
+                    adapter.setDefectsManufacturingList(defectsWeldingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectedData.qty.setText(defectedQty);
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
@@ -240,6 +249,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
                 binding.basketCode.setError("Error in getting data!");
             }
             fillData(parentDesc, jobOrderName, operationName,jobOrderQty);
+            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -267,7 +278,7 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
             getBasketData(userId, deviceSerialNo, scannedText.trim());
-            getBasketDefectsWelding(userId, deviceSerialNo, basketCode);
+//            getBasketDefectsWelding(userId, deviceSerialNo, basketCode);
         });
     }
 

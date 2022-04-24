@@ -7,30 +7,38 @@ public class AddPaintingDefectData {
     private String DeviceSerialNo;
     private int JobOrderId;
     private int ParentID;
+    private int ChildId;
     private int OperationID;
     private int QtyDefected;
     private String Notes;
     private int SampleQty;
+    //    private boolean IsNewSampleQty;
     private List<Integer> DefectList;
     private String BasketCode;
-    private String NewBasketCode;
-
+    //    private String NewBasketCode;
+    private boolean isRejected;
+    private boolean isBulkGroup;
+    private boolean isSaved;
     public AddPaintingDefectData() {
     }
 
-    public AddPaintingDefectData(int userId, String deviceSerialNo, int jobOrderId, int parentID, int operationID, int qtyDefected, String notes, int sampleQty, List<Integer> defectList, String basketCode, String newBasketCode) {
+    public AddPaintingDefectData(int userId, String deviceSerialNo, int jobOrderId, int parentID, int childId, int operationID, int qtyDefected, String notes, int sampleQty, List<Integer> defectList, String basketCode, boolean isRejected, boolean isBulkGroup,boolean isSaved) {
         UserId = userId;
         DeviceSerialNo = deviceSerialNo;
         JobOrderId = jobOrderId;
         ParentID = parentID;
+        ChildId = childId;
         OperationID = operationID;
         QtyDefected = qtyDefected;
         Notes = notes;
         SampleQty = sampleQty;
         DefectList = defectList;
         BasketCode = basketCode;
-        NewBasketCode = newBasketCode;
+        this.isRejected = isRejected;
+        this.isBulkGroup = isBulkGroup;
+        this.isSaved = isSaved;
     }
+
 
     public int getUserId() {
         return UserId;
@@ -105,13 +113,13 @@ public class AddPaintingDefectData {
         DefectList = defectList;
     }
 
-    public String getNewBasketCode() {
-        return NewBasketCode;
-    }
-
-    public void setNewBasketCode(String newBasketCode) {
-        NewBasketCode = newBasketCode;
-    }
+//    public String getNewBasketCode() {
+//        return NewBasketCode;
+//    }
+//
+//    public void setNewBasketCode(String newBasketCode) {
+//        NewBasketCode = newBasketCode;
+//    }
 
     public String getBasketCode() {
         return BasketCode;
@@ -119,5 +127,37 @@ public class AddPaintingDefectData {
 
     public void setBasketCode(String basketCode) {
         BasketCode = basketCode;
+    }
+
+    public int getChildId() {
+        return ChildId;
+    }
+
+    public void setChildId(int childId) {
+        ChildId = childId;
+    }
+
+    public boolean isRejected() {
+        return isRejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        isRejected = rejected;
+    }
+
+    public boolean isBulkGroup() {
+        return isBulkGroup;
+    }
+
+    public void setBulkGroup(boolean bulkGroup) {
+        isBulkGroup = bulkGroup;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
     }
 }

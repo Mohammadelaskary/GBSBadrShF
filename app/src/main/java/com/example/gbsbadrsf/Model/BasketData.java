@@ -8,12 +8,12 @@ public class BasketData {
     @SerializedName("basketMoveId")
     @Expose
     private Integer basketMoveId;
-    @SerializedName("childId")
+    @SerializedName("parentId")
     @Expose
-    private Integer childId;
-    @SerializedName("childCode")
+    private Integer parentId;
+    @SerializedName("parentCode")
     @Expose
-    private String childCode;
+    private String parentCode;
     @SerializedName("qty")
     @Expose
     private Integer qty;
@@ -74,20 +74,20 @@ public class BasketData {
         this.basketMoveId = basketMoveId;
     }
 
-    public Integer getChildId() {
-        return childId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setChildId(Integer childId) {
-        this.childId = childId;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public String getChildCode() {
-        return childCode;
+    public String getParentCode() {
+        return parentCode;
     }
 
-    public void setChildCode(String childCode) {
-        this.childCode = childCode;
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 
     public Integer getQty() {

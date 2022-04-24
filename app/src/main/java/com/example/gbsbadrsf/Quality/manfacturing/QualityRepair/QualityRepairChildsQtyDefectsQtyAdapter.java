@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.R;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class QualityRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapter<QualityRepairChildsQtyDefectsQtyAdapter.QualityRepairChildsQtyDefectsQtyViewHolder> {
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList;
-    List<DefectsManufacturing> defectsManufacturingList;
+    List<ManufacturingDefect> defectsManufacturingList;
     LastMoveManufacturingBasket basketData;
     @NonNull
     @Override
@@ -37,9 +38,9 @@ public class QualityRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapte
         holder.binding.defectsQty.setText(String.valueOf(defectsQty));
         holder.binding.defectedQty.setText(String.valueOf(defectedQty));
         holder.itemView.setOnClickListener(v -> {
-            ArrayList<DefectsManufacturing> selectedDefectsManufacturing = new ArrayList<>();
-            for (DefectsManufacturing defectsManufacturing:defectsManufacturingList){
-                if (defectsManufacturing.getManufacturingDefectsId()==defectManufacturingId){
+            ArrayList<ManufacturingDefect> selectedDefectsManufacturing = new ArrayList<>();
+            for (ManufacturingDefect defectsManufacturing:defectsManufacturingList){
+                if (defectsManufacturing.getDefectGroupId()==defectManufacturingId){
                     selectedDefectsManufacturing.add(defectsManufacturing);
                 }
             }
@@ -66,9 +67,10 @@ public class QualityRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapte
 
     public void setQtyDefectsQtyDefectedList(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
         this.qtyDefectsQtyDefectedList = qtyDefectsQtyDefectedList;
+        notifyDataSetChanged();
     }
 
-    public void setDefectsManufacturingList(List<DefectsManufacturing> defectsManufacturingList) {
+    public void setDefectsManufacturingList(List<ManufacturingDefect> defectsManufacturingList) {
         this.defectsManufacturingList = defectsManufacturingList;
     }
 

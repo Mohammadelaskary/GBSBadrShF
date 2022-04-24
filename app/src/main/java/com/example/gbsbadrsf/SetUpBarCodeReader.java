@@ -100,11 +100,11 @@ public class SetUpBarCodeReader {
         if (barcodeReader != null) {
             // release the scanner claim so we don't get any scanner
             // notifications while paused.
-            barcodeReader.release();
-            barcodeReader.close();
+//            barcodeReader.release();
+//            barcodeReader.close();
         }
     }
     public String scannedData(BarcodeReadEvent barcodeReadEvent){
-        return String.valueOf(barcodeReadEvent.getBarcodeData());
+        return String.valueOf(barcodeReadEvent.getBarcodeData()).trim();
     }
 }

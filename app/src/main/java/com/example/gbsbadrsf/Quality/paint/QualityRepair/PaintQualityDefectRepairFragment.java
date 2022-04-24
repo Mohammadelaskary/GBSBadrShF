@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.Status;
@@ -114,7 +115,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        String defectedQty   = String.valueOf(defectsPaintingList.get(0).getDeffectedQty());
+        String defectedQty   = String.valueOf(defectsPaintingList.get(0).getQtyDefected());
 
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
@@ -122,7 +123,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     }
 
     LastMovePaintingBasket basketData;
-    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
+    List<PaintingDefect> defectsPaintingList = new ArrayList<>();
     private void getReceivedData() {
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
@@ -169,9 +170,9 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         return s.matches("\\d+");
     }
     int position,repairedQty;
-    DefectsPainting defectsPainting;
+    PaintingDefect defectsPainting;
     @Override
-    public void onPaintingRepairItemClicked(DefectsPainting defectsPainting,int position) {
+    public void onPaintingRepairItemClicked(PaintingDefect defectsPainting,int position) {
         this.position = position;
         this.defectsPainting = defectsPainting;
         repairedQty = defectsPainting.getQtyRepaired();

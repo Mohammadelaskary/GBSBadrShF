@@ -88,6 +88,12 @@
         <action
             android:id="@+id/action_manufacturing_menu_fragment_to_fragment_manufacturing_basket_info"
             app:destination="@id/fragment_manufacturing_basket_info"/>
+        <action
+            android:id="@+id/action_manufacturing_menu_fragment_to_approval_rejection_requests_list"
+            app:destination="@id/approval_rejection_requests_list_fragment"/>
+        <action
+            android:id="@+id/action_manufacturing_menu_fragment_to_decline_rejection_request_fragment"
+            app:destination="@id/decline_rejection_request_fragment"/>
 
     </fragment>
     <fragment android:id="@+id/fragment_manufacturing_basket_info"
@@ -169,6 +175,9 @@
         <action
             android:id="@+id/action_quality_welding_fragment_to_fragment_welding_rejection_request"
             app:destination="@id/fragment_welding_rejection_request" />
+        <action
+            android:id="@+id/action_quality_welding_fragment_to_items_receiving_fragment"
+            app:destination="@id/items_receiving_fragment" />
     </fragment>
     <fragment android:id="@+id/fragment_main_machine_loading_menu_welding"
         tools:layout="@layout/fragment_main_welding_machine_loading"
@@ -387,6 +396,20 @@
         <action app:destination="@id/manfacturingqualityFragment"
             android:id="@+id/action_manufacturing_sign_off_baskets_to_manufacturing_quality_operation_fragment"/>
     </fragment>
+    <fragment android:id="@+id/welding_sign_off_baskets_fragment"
+        tools:layout="@layout/welding_sign_off_baskets_fragment"
+        android:label="fragment_welding_sign_off_baskets"
+        android:name="com.example.gbsbadrsf.Quality.welding.SignOffBaskets.WeldingSignOffBasketsFragment">
+        <action app:destination="@id/qualityweldingFragment"
+            android:id="@+id/action_welding_sign_off_baskets_to_welding_quality_main_fragment"/>
+    </fragment>
+    <fragment android:id="@+id/paint_sign_off_baskets_fragment"
+        tools:layout="@layout/paint_sign_off_baskets_fragment"
+        android:label="fragment_paint_sign_off_baskets"
+        android:name="com.example.gbsbadrsf.Quality.paint.SignOffBaskets.PaintSignOffBasketsFragment">
+        <action app:destination="@id/paintqualityFragment"
+            android:id="@+id/action_paint_sign_off_baskets_to_paint_quality_main_fragment"/>
+    </fragment>
 
     <fragment android:id="@+id/manufacturing_quality_operation_fragment"
         android:name="com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment"
@@ -477,8 +500,14 @@
         android:name="com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment"
         android:label="welding_quality_operation"
         tools:layout="@layout/fragment_welding_quality_operation">
-        <action android:id="@+id/action_welding_quality_operation_fragment_to_welding_add_defect_fragment"
-            app:destination="@id/fragment_welding_add_defects"
+        <action android:id="@+id/action_welding_quality_operation_fragment_to_welding_add_defect_details_fragment"
+            app:destination="@id/fragment_welding_add_defect_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/action_welding_quality_operation_fragment_to_welding_sign_off_baskets_fragment"
+            app:destination="@id/welding_sign_off_baskets_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -514,8 +543,14 @@
         android:name="com.example.gbsbadrsf.Quality.paint.PaintQualityOperationFragment"
         android:label="paint_quality_operation"
         tools:layout="@layout/fragment_paint_quality_operation">
-        <action android:id="@+id/action_paint_quality_operation_fragment_to_paint_add_defect_fragment"
-            app:destination="@id/fragment_paint_add_defects"
+        <action android:id="@+id/action_paint_quality_operation_fragment_to_paint_add_defect_details_fragment"
+            app:destination="@id/fragment_paint_add_defect_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+        <action android:id="@+id/action_paint_quality_operation_fragment_to_paint_sign_off_baskets_fragment"
+            app:destination="@id/paint_sign_off_baskets_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -661,6 +696,32 @@
         android:name="com.example.gbsbadrsf.AddworkersFragment"
         android:label="fragment_addworkers"
         tools:layout="@layout/fragment_addworkers" />
+    <fragment
+        android:id="@+id/approval_rejection_requests_list_fragment"
+        android:name="com.example.gbsbadrsf.ApprovalRejectionRequest.ApprovalRejectionRequestsListFragment"
+        android:label="approval_rejection_requests_list_fragment"
+        tools:layout="@layout/approval_rejection_requests_list_fragment" >
+        <action android:id="@+id/approval_rejection_requests_list_fragment_to_rejection_request_closing_fragment"
+            app:destination="@id/rejection_request_closing_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/decline_rejection_request_fragment"
+        android:name="com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestFragment"
+        android:label="decline_rejection_request_fragment"
+        tools:layout="@layout/decline_rejection_request_fragment" >
+        <action android:id="@+id/decline_rejection_request_fragment_to_decline_rejection_request_decision_fragment"
+            app:destination="@id/decline_rejection_request_decision_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/rejection_request_closing_fragment"
+        android:name="com.example.gbsbadrsf.ApprovalRejectionRequest.RejectionRequestClosingFragment"
+        android:label="rejection_request_closing_fragment"
+        tools:layout="@layout/rejection_request_closing_fragment" />
+    <fragment
+        android:id="@+id/decline_rejection_request_decision_fragment"
+        android:name="com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestDecisionFragment"
+        android:label="decline_rejection_request_decision_fragment"
+        tools:layout="@layout/decline_rejection_request_decision_fragment" />
 
     <fragment
         android:id="@+id/fragment_paint_quality_repair"
@@ -861,6 +922,25 @@
         android:name="com.example.gbsbadrsf.Paint.machineloadingpaint.MachineloadingpaintFragment"
         android:label="fragment_machineloadingpaint"
         tools:layout="@layout/fragment_machineloadingpaint" />
+    <fragment
+        android:id="@+id/items_receiving_fragment"
+        android:name="com.example.gbsbadrsf.welding.ItemsReceiving.ItemsReceivingFragment"
+        android:label="items_receiving_fragment"
+        tools:layout="@layout/items_receiving_fragment" >
+        <action android:id="@+id/items_receiving_fragment_to_child_to_basket_fragment"
+            app:destination="@id/child_to_basket_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/child_to_basket_fragment"
+        android:name="com.example.gbsbadrsf.welding.ItemsReceiving.ChildToBasketFragment"
+        android:label="child_to_basket_fragment"
+        tools:layout="@layout/child_to_basket_fragment" />
+    <dialog android:id="@+id/ppr_list_dialog"
+        android:name="com.example.gbsbadrsf.welding.ItemsReceiving.PprListDialog"
+        tools:layout="@layout/ppr_list_dialog_layout">
+        <action android:id="@+id/ppr_list_dialog_to_child_to_basket_fragment"
+            app:destination="@id/child_to_basket_fragment"/>
+    </dialog>
 </navigation>
 
 

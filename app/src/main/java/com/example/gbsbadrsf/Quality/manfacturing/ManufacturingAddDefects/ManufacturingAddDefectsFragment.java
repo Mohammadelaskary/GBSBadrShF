@@ -218,7 +218,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     private void fillData() {
         String childDesc = basketData.getChildDescription();
         String qualityOperation = basketData.getOperationEnName();
-        binding.childDesc.setText(childDesc);
+        binding.parentDesc.setText(childDesc);
         binding.sampleQtyEdt.getEditText().setText(String.valueOf(sampleQty));
         binding.operation.setText(qualityOperation);
         binding.jobOrderData.jobordernum.setText(basketData.getJobOrderName());

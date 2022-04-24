@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
@@ -125,7 +126,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
         String parentCode = basketData.getParentCode();
         String parentDesc = basketData.getParentDescription();
         String operationName = basketData.getOperationEnName();
-        String defectedQty   = String.valueOf(defectsWeldingList.get(0).getDeffectedQty());
+        String defectedQty   = String.valueOf(defectsWeldingList.get(0).getQtyDefected());
 
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
@@ -133,7 +134,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     }
 
     LastMoveWeldingBasket basketData;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<WeldingDefect> defectsWeldingList = new ArrayList<>();
     private void getReceivedData() {
         if (getArguments()!=null){
             basketData = getArguments().getParcelable("basketData");
@@ -180,10 +181,10 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     private boolean containsOnlyDigits(String s) {
         return s.matches("\\d+");
     }
-    DefectsWelding defectsWelding;
+    WeldingDefect defectsWelding;
     int position,repairedQty;
     @Override
-    public void onWeldingRepairItemClicked(DefectsWelding defectsWelding,int position) {
+    public void onWeldingRepairItemClicked(WeldingDefect defectsWelding,int position) {
         this.defectsWelding = defectsWelding;
         this.position = position;
         repairedQty = defectsWelding.getQtyRepaired();

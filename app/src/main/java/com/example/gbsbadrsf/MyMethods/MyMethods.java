@@ -21,6 +21,8 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.DefectsPerQty;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Quality.Data.Defect;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.productionsequence.ProductionSequence;
 import com.google.android.material.textfield.TextInputLayout;
@@ -167,30 +169,72 @@ public class MyMethods {
     public static String getCurrentDate() {
         return new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
     }
+    public static String getCurrentDate2() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+    }
 
     public static <T> boolean compareList(List<T> list1, List<T> list2) {
         return new HashSet<>(list1).equals(new HashSet<>(list2));
     }
 
-    public static List<DefectsPerQty> getDefectsPerQtyList(List<ManufacturingDefect> manufacturingDefects) {
+    public static List<DefectsPerQty> getDefectsPerQtyList_Painting(List<PaintingDefect> paintingDefects) {
         List<DefectsPerQty> defects = new ArrayList<>();
         int id = -1 ;
-        for (ManufacturingDefect manufacturingDefect:manufacturingDefects){
-            if (manufacturingDefect.getDefectGroupId()!=id){
-                int currentId = manufacturingDefect.getDefectGroupId();
+        for (PaintingDefect paintingDefect:paintingDefects){
+            if (paintingDefect.getDefectGroupId()!=id){
+                int currentId = paintingDefect.getDefectGroupId();
                 int defectedQty;
-                if (!manufacturingDefect.getIsRejectedQty())
-                    defectedQty = manufacturingDefect.getQtyDefected();
+                if (!paintingDefect.getIsRejectedQty())
+                    defectedQty = paintingDefect.getQtyDefected();
                 else
-                    defectedQty = manufacturingDefect.getQtyRejected();
-                boolean isRejected = manufacturingDefect.getIsRejectedQty();
-                DefectsPerQty qtyDefectsQtyDefected = new DefectsPerQty(currentId,defectedQty,getDefectsNames(currentId,manufacturingDefects),getDefectsIds(currentId,manufacturingDefects),isRejected);
+                    defectedQty = paintingDefect.getQtyRejected();
+                boolean isRejected = paintingDefect.getIsRejectedQty();
+                DefectsPerQty qtyDefectsQtyDefected = new DefectsPerQty(currentId,defectedQty,getDefectsNames_Painting(currentId,paintingDefects),getDefectsIds_Painting(currentId,paintingDefects),isRejected);
                 defects.add(qtyDefectsQtyDefected);
                 id = currentId;
             }
         }
         return defects;
     }
+    public static List<DefectsPerQty> getDefectsPerQtyList_Welding(List<WeldingDefect> weldingDefects) {
+        List<DefectsPerQty> defects = new ArrayList<>();
+        int id = -1 ;
+        for (WeldingDefect weldingDefect:weldingDefects){
+            if (weldingDefect.getDefectGroupId()!=id){
+                int currentId = weldingDefect.getDefectGroupId();
+                int defectedQty;
+                if (!weldingDefect.getIsRejectedQty())
+                    defectedQty = weldingDefect.getQtyDefected();
+                else
+                    defectedQty = weldingDefect.getQtyRejected();
+                boolean isRejected = weldingDefect.getIsRejectedQty();
+                DefectsPerQty qtyDefectsQtyDefected = new DefectsPerQty(currentId,defectedQty,getDefectsNames_Welding(currentId,weldingDefects),getDefectsIds_Welding(currentId,weldingDefects),isRejected);
+                defects.add(qtyDefectsQtyDefected);
+                id = currentId;
+            }
+        }
+        return defects;
+    }
+    public static List<DefectsPerQty> getDefectsPerQtyList(List<ManufacturingDefect> manufacturingDefects) {
+            List<DefectsPerQty> defects = new ArrayList<>();
+            int id = -1 ;
+            for (ManufacturingDefect manufacturingDefect:manufacturingDefects){
+                if (manufacturingDefect.getDefectGroupId()!=id){
+                    int currentId = manufacturingDefect.getDefectGroupId();
+                    int defectedQty;
+                    if (!manufacturingDefect.getIsRejectedQty())
+                        defectedQty = manufacturingDefect.getQtyDefected();
+                    else
+                        defectedQty = manufacturingDefect.getQtyRejected();
+                    boolean isRejected = manufacturingDefect.getIsRejectedQty();
+                    DefectsPerQty qtyDefectsQtyDefected = new DefectsPerQty(currentId,defectedQty,getDefectsNames(currentId,manufacturingDefects),getDefectsIds(currentId,manufacturingDefects),isRejected);
+                    defects.add(qtyDefectsQtyDefected);
+                    id = currentId;
+                }
+            }
+            return defects;
+        }
+
     //    private int qty=0;
 //    private List<DefectsPerQty> groupDefectsByDefectsList(List<DefectsPerQty>defects){
 //        List<DefectsPerQty> resultDefectsList = new ArrayList<>();
@@ -228,11 +272,51 @@ public class MyMethods {
         }
         return  defectsNames;
     }
+    public static List<String> getDefectsNames_Painting(int currentId,List<PaintingDefect> paintingDefects) {
+        List<String> defectsNames = new ArrayList<>();
+        for (PaintingDefect paintingDefect:paintingDefects){
+            if (paintingDefect.getDefectGroupId()==currentId) {
+                Defect defect = new Defect(paintingDefect.getDefectId(),paintingDefect.getDefectDescription());
+                defectsNames.add(defect.getName());
+            }
+        }
+        return  defectsNames;
+    }
+    public static List<String> getDefectsNames_Welding(int currentId,List<WeldingDefect> weldingDefects) {
+        List<String> defectsNames = new ArrayList<>();
+        for (WeldingDefect weldingDefect:weldingDefects){
+            if (weldingDefect.getDefectGroupId()==currentId) {
+                Defect defect = new Defect(weldingDefect.getDefectId(),weldingDefect.getDefectDescription());
+                defectsNames.add(defect.getName());
+            }
+        }
+        return  defectsNames;
+    }
     public static List<Integer> getDefectsIds(int currentId,List<ManufacturingDefect> manufacturingDefects) {
         List<Integer> defectsIds = new ArrayList<>();
         for (ManufacturingDefect defectsManufacturing:manufacturingDefects){
             if (defectsManufacturing.getDefectGroupId()==currentId) {
                 Defect defect = new Defect(defectsManufacturing.getDefectId(),defectsManufacturing.getDefectDescription());
+                defectsIds.add(defect.getId());
+            }
+        }
+        return  defectsIds;
+    }
+    public static List<Integer> getDefectsIds_Painting(int currentId,List<PaintingDefect> paintingDefects) {
+        List<Integer> defectsIds = new ArrayList<>();
+        for (PaintingDefect paintingDefect:paintingDefects){
+            if (paintingDefect.getDefectGroupId()==currentId) {
+                Defect defect = new Defect(paintingDefect.getDefectId(),paintingDefect.getDefectDescription());
+                defectsIds.add(defect.getId());
+            }
+        }
+        return  defectsIds;
+    }
+    public static List<Integer> getDefectsIds_Welding(int currentId,List<WeldingDefect> weldingDefects) {
+        List<Integer> defectsIds = new ArrayList<>();
+        for (WeldingDefect weldingDefect:weldingDefects){
+            if (weldingDefect.getDefectGroupId()==currentId) {
+                Defect defect = new Defect(weldingDefect.getDefectId(),weldingDefect.getDefectDescription());
                 defectsIds.add(defect.getId());
             }
         }

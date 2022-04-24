@@ -14,6 +14,12 @@ public class Department {
     @Expose
     private String departmentArName;
 
+    public Department(Integer departmentId, String departmentEnName, String departmentArName) {
+        this.departmentId = departmentId;
+        this.departmentEnName = departmentEnName;
+        this.departmentArName = departmentArName;
+    }
+
     public Integer getDepartmentId() {
         return departmentId;
     }

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRejectionReasonsList;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetItemByCode;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.data.response.Status;
@@ -22,9 +24,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ProductionRejectionViewModel extends ViewModel {
     MutableLiveData<ApiResponseDepartmentsList> apiResponseDepartmentsListLiveData;
-    MutableLiveData<Status> apiResponseDepartmentsListStatus;
-
-    MutableLiveData<ApiResponseGetBasketInfo> apiResponseBasketDataLiveData;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseGetRejectionReasonsList> apiResponseReasonsList;
+    MutableLiveData<ApiResponseManufacturingRejectionRequestGetItemByCode> apiResponseBasketDataLiveData;
     MutableLiveData<Status> apiResponseBasketDataStatus;
 
     MutableLiveData<ApiResponseSaveRejectionRequest> apiResponseSaveRejectionRequestLiveData;
@@ -43,17 +45,18 @@ public class ProductionRejectionViewModel extends ViewModel {
         this.gson = gson;
         disposable = new CompositeDisposable();
         apiResponseDepartmentsListLiveData = new MutableLiveData<>();
-        apiResponseDepartmentsListStatus = new MutableLiveData<>();
+        status = new MutableLiveData<>();
         apiResponseBasketDataLiveData = new MutableLiveData<>();
         apiResponseBasketDataStatus   = new MutableLiveData<>();
         apiResponseSaveRejectionRequestStatus = new MutableLiveData<>();
         apiResponseSaveRejectionRequestLiveData = new MutableLiveData<>();
         defectsListMutableLiveData = new MutableLiveData<>();
+        apiResponseReasonsList = new MutableLiveData<>();
         defectsListStatus = new MutableLiveData<>();
     }
 
     public void getBasketDataViewModel(int userId,String deviceSerial,String basketCode){
-        disposable.add(apiInterface.getBasketInfo(userId,deviceSerial,basketCode)
+        disposable.add(apiInterface.ManufacturingRejectionRequestGetItemByCode(userId,deviceSerial,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> apiResponseBasketDataStatus.postValue(Status.LOADING))
@@ -69,12 +72,25 @@ public class ProductionRejectionViewModel extends ViewModel {
         disposable.add(apiInterface.getDepartmentsList(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> apiResponseDepartmentsListStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
                         response -> {apiResponseDepartmentsListLiveData.postValue(response);
-                            apiResponseDepartmentsListStatus.postValue(Status.SUCCESS); },
+                            status.postValue(Status.SUCCESS); },
                         throwable -> {
-                            apiResponseDepartmentsListStatus.postValue(Status.ERROR);
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void getReasonsList(int userId,String deviceSerialNo){
+        disposable.add(apiInterface.GetRejectionReasonsList(userId,deviceSerialNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {apiResponseReasonsList.postValue(response);
+                            status.postValue(Status.SUCCESS); },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
                         }
                 ));
     }
@@ -108,7 +124,7 @@ public class ProductionRejectionViewModel extends ViewModel {
         return apiResponseDepartmentsListLiveData;
     }
 
-    public MutableLiveData<ApiResponseGetBasketInfo> getApiResponseBasketDataLiveData() {
+    public MutableLiveData<ApiResponseManufacturingRejectionRequestGetItemByCode> getApiResponseBasketDataLiveData() {
         return apiResponseBasketDataLiveData;
     }
 
@@ -116,8 +132,8 @@ public class ProductionRejectionViewModel extends ViewModel {
         return apiResponseBasketDataStatus;
     }
 
-    public MutableLiveData<Status> getApiResponseDepartmentsListStatus() {
-        return apiResponseDepartmentsListStatus;
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 
     public MutableLiveData<ApiResponseSaveRejectionRequest> getApiResponseSaveRejectionRequestLiveData() {
@@ -134,5 +150,9 @@ public class ProductionRejectionViewModel extends ViewModel {
 
     public MutableLiveData<Status> getDefectsListStatus() {
         return defectsListStatus;
+    }
+
+    public MutableLiveData<ApiResponseGetRejectionReasonsList> getApiResponseReasonsList() {
+        return apiResponseReasonsList;
     }
 }

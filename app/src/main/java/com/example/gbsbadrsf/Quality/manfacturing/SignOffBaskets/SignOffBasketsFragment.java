@@ -307,13 +307,13 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                     defectedBasket = binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().getText().toString().trim();
                     addDefectedRejectedBasketBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
                     isDefected = false;
-                    Log.d("basket",defectedBasket);
+                    Log.d("basket=",defectedBasket);
                     binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().setText("");
                 } else if (isRejected){
                     rejectedBasket = binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().getText().toString().trim();
                     addDefectedRejectedBasketBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
                     isRejected = false;
-                    Log.d("basket",rejectedBasket);
+                    Log.d("basket=",rejectedBasket);
                     binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().setText("");
                 }
                 return true;
@@ -532,7 +532,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
     }
     private int remainingQty;
     private void fillData() {
-        binding.childDesc.setText(basketData.getChildDescription());
+        binding.parentDesc.setText(basketData.getChildDescription());
         binding.jobOrderData.jobordernum.setText(basketData.getJobOrderName());
         binding.jobOrderData.Joborderqtn.setText(String.valueOf(basketData.getJobOrderQty()));
         binding.addOkBasketBottomSheet.childdesc.setText(basketData.getChildDescription());
@@ -608,13 +608,16 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                 defectedBasket = scannedText;
                 isDefected = false;
                 addDefectedRejectedBasketBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+                binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().setText("");
             } else if (isRejected) {
                 binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().setText(scannedText);
                 rejectedBasket = scannedText;
                 isRejected = false;
                 addDefectedRejectedBasketBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+                binding.defectedRejectedBasketCodeBottomSheet.basketCode.getEditText().setText("");
             } else if (isOk) {
                 binding.addOkBasketBottomSheet.basketcodeEdt.getEditText().setText(scannedText);
+//                isOk=false;
                 handleBasketEditTextActionGo();
             }
         });

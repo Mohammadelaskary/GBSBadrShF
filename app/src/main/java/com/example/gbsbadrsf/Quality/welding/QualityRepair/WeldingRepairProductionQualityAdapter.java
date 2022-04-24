@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
 public class WeldingRepairProductionQualityAdapter extends RecyclerView.Adapter<WeldingRepairProductionQualityAdapter.WeldingRepairProductionQualityViewHolder> {
-    List<DefectsWelding> defectsWeldingList;
+    List<WeldingDefect> defectsWeldingList;
     SetOnWeldingRepairItemClicked onWeldingRepairItemClicked;
 
     public WeldingRepairProductionQualityAdapter(SetOnWeldingRepairItemClicked onWeldingRepairItemClicked) {
@@ -34,24 +35,28 @@ public class WeldingRepairProductionQualityAdapter extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull WeldingRepairProductionQualityViewHolder holder, int position) {
-        DefectsWelding defectsWelding = defectsWeldingList.get(position);
+        WeldingDefect defectsWelding = defectsWeldingList.get(position);
         String defectName = defectsWelding.getDefectDescription();
-        int defectedQty = defectsWelding.getDeffectedQty();
+        int defectedQty = defectsWelding.getQtyDefected();
         int repairedQty = defectsWelding.getQtyRepaired();
         int approvedQty = defectsWelding.getQtyApproved();
+        int pendingRepair = defectedQty-repairedQty;
+        int pendingApprove = repairedQty - approvedQty;
         boolean isRepaired = repairedQty != 0;
         boolean isApproved = approvedQty != 0;
         holder.binding.defectName.setText(defectName);
-        holder.binding.pendingRepairQty.setText(String.valueOf(defectedQty));
+        holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
         if (!isRepaired) {
             holder.binding.repairedQty.setText("Waiting for repair");
             holder.binding.pendingQcApproveQty.setText("Waiting for repair");
             holder.binding.qualityApprovedQty.setText("Waiting for repair");
         } else {
-            holder.binding.repairedQty.setText(repairedQty + "");
-            holder.binding.pendingQcApproveQty.setText(repairedQty + "");
+            holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
+            holder.binding.repairedQty.setText(repairedQty+"");
+            holder.binding.pendingQcApproveQty.setText(repairedQty+"");
             if (isApproved) {
-                holder.binding.qualityApprovedQty.setText(approvedQty + "");
+                holder.binding.pendingQcApproveQty.setText(String.valueOf(pendingApprove));
+                holder.binding.qualityApprovedQty.setText(approvedQty+"");
             } else {
                 holder.binding.qualityApprovedQty.setText("Waiting for Quality Approval");
             }
@@ -69,7 +74,7 @@ public class WeldingRepairProductionQualityAdapter extends RecyclerView.Adapter<
         });
     }
 
-    public void setDefectsManufacturingList(List<DefectsWelding> defectsWeldingList) {
+    public void setDefectsManufacturingList(List<WeldingDefect> defectsWeldingList) {
         this.defectsWeldingList = defectsWeldingList;
     }
 

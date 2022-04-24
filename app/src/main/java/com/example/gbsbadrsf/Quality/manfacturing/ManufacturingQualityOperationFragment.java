@@ -129,7 +129,8 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 if (responseStatus.equals("Done successfully")){
                     showSuccessAlerter(responseStatus,getActivity());
                     back(ManufacturingQualityOperationFragment.this);
-                }
+                } else
+                    warningDialog(getContext(),responseStatus);
             } else {
                 warningDialog(getContext(),"Error in saving data!");
             }

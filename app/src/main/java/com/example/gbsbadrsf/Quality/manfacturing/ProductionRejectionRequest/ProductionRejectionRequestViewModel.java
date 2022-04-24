@@ -1,8 +1,11 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestByID;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseRejectionRequestTakeAction;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -19,7 +22,8 @@ public class ProductionRejectionRequestViewModel extends ViewModel {
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
     MutableLiveData<ApiResponseRejectionRequestTakeAction> rejectionRequestTakeActionLiveData;
-    MutableLiveData<Status> rejectionRequestTakeActionStatus;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestByID> getRejectionRequestById;
     @Inject
     Gson gson;
     @Inject
@@ -27,22 +31,41 @@ public class ProductionRejectionRequestViewModel extends ViewModel {
         this.gson = gson;
         disposable = new CompositeDisposable();
         rejectionRequestTakeActionLiveData = new MutableLiveData<>();
-        rejectionRequestTakeActionStatus   = new MutableLiveData<>();
-
+        status = new MutableLiveData<>();
+        getRejectionRequestById = new MutableLiveData<>();
     }
 
     public void saveRejectionRequestTakeAction(int userId,
+                                     String deviceSerialNo,
                                      int rejectionRequestId,
-                                     boolean isApproved){
-        disposable.add(apiInterface.RejectionRequestTakeAction(userId,rejectionRequestId,isApproved)
+                                     boolean isApproved,String notes){
+        disposable.add(apiInterface.RejectionRequestTakeAction(userId,deviceSerialNo,rejectionRequestId,isApproved,notes)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> rejectionRequestTakeActionStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
-                        apiResponseRejectionRequestTakeAction -> {rejectionRequestTakeActionLiveData.postValue(apiResponseRejectionRequestTakeAction);
-                            rejectionRequestTakeActionStatus.postValue(Status.SUCCESS); },
+                        apiResponseRejectionRequestTakeAction -> {
+                            rejectionRequestTakeActionLiveData.postValue(apiResponseRejectionRequestTakeAction);
+                            status.postValue(Status.SUCCESS); },
                         throwable -> {
-                            rejectionRequestTakeActionStatus.postValue(Status.ERROR);
+                            Log.d("response","takeActionResponse"+throwable.getMessage());
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void getDefects(int userId,
+                                               String deviceSerialNo,
+                                               int rejectionRequestId
+    ){
+        disposable.add(apiInterface.ManufacturingRejectionRequestGetRejectionRequestByID(userId,deviceSerialNo,rejectionRequestId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        apiResponseRejectionRequestTakeAction -> {getRejectionRequestById.postValue(apiResponseRejectionRequestTakeAction);
+                            status.postValue(Status.SUCCESS); },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
                         }
                 ));
     }
@@ -51,7 +74,11 @@ public class ProductionRejectionRequestViewModel extends ViewModel {
         return rejectionRequestTakeActionLiveData;
     }
 
-    public MutableLiveData<Status> getRejectionRequestTakeActionStatus() {
-        return rejectionRequestTakeActionStatus;
+    public MutableLiveData<Status> getStatus() {
+        return status;
+    }
+
+    public MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestByID> getGetRejectionRequestById() {
+        return getRejectionRequestById;
     }
 }

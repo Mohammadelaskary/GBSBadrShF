@@ -1,5 +1,9 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,14 +72,18 @@ public class ProductionRejectionRequestsListQualityFragment extends DaggerFragme
     }
 
     private void getRejectionRequestsList() {
-        viewModel.getRejectionRequests();
+        viewModel.getRejectionRequests(USER_ID,DEVICE_SERIAL_NO);
         viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseGetRejectionRequestList -> {
-            String statusMessage = apiResponseGetRejectionRequestList.getResponseStatus().getStatusMessage();
-            List<RejectionRequest> rejectionRequestsList = apiResponseGetRejectionRequestList.getRejectionRequest();
-            if (statusMessage.equals("Getting data successfully")){
-                adapter.setRejectionRequests(rejectionRequestsList);
-                adapter.notifyDataSetChanged();
-            }
+            if(apiResponseGetRejectionRequestList!=null) {
+                String statusMessage = apiResponseGetRejectionRequestList.getResponseStatus().getStatusMessage();
+                List<RejectionRequest> rejectionRequestsList = apiResponseGetRejectionRequestList.getRejectionRequestList();
+                if (statusMessage.equals("Getting data successfully")) {
+                    adapter.setRejectionRequests(rejectionRequestsList);
+                    adapter.notifyDataSetChanged();
+                } else
+                    warningDialog(getContext(),statusMessage);
+            } else
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 

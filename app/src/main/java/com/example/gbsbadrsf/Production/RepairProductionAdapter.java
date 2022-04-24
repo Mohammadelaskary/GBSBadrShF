@@ -8,6 +8,7 @@ import android.view.animation.AlphaAnimation;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
@@ -15,7 +16,7 @@ import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 import java.util.List;
 
 public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProductionAdapter.RepairProductionQualityViewHolder> {
-    List<DefectsManufacturing> defectsManufacturingList;
+    List<ManufacturingDefect> defectsManufacturingList;
     SetOnRepairItemClicked onRepairItemClicked;
 
     public RepairProductionAdapter(SetOnRepairItemClicked onRepairItemClicked) {
@@ -31,12 +32,12 @@ public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProducti
     int currentPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull RepairProductionQualityViewHolder holder, int position) {
-        DefectsManufacturing defectsManufacturing = defectsManufacturingList.get(position);
+        ManufacturingDefect defectsManufacturing = defectsManufacturingList.get(position);
         String defectName = defectsManufacturing.getDefectDescription();
         int defectedQty   = defectsManufacturing.getQtyDefected();
         int repairedQty   = defectsManufacturing.getQtyRepaired();
         int approvedQty   = defectsManufacturing.getQtyApproved();
-        int pendingRepair = defectedQty-repairedQty-approvedQty;
+        int pendingRepair = defectedQty-repairedQty;
         int pendingApprove = repairedQty - approvedQty;
         boolean isRepaired = repairedQty!=0;
         boolean isApproved = approvedQty!=0;
@@ -70,7 +71,7 @@ public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProducti
         });
     }
 
-    public void setDefectsManufacturingList(List<DefectsManufacturing> defectsManufacturingList) {
+    public void setDefectsManufacturingList(List<ManufacturingDefect> defectsManufacturingList) {
         this.defectsManufacturingList = defectsManufacturingList;
     }
 

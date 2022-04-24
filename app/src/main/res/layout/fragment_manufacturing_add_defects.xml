@@ -33,7 +33,7 @@
             app:layout_constraintTop_toBottomOf="@id/adddefect_txt">
 
             <TextView
-                android:id="@+id/child_desc"
+                android:id="@+id/parent_desc"
                 style="@style/child_parent_desc_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -45,9 +45,9 @@
                 android:id="@+id/job_order_data"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/child_desc"
-                app:layout_constraintEnd_toEndOf="@id/child_desc"
-                app:layout_constraintTop_toBottomOf="@id/child_desc"/>
+                app:layout_constraintStart_toStartOf="@id/parent_desc"
+                app:layout_constraintEnd_toEndOf="@id/parent_desc"
+                app:layout_constraintTop_toBottomOf="@id/parent_desc"/>
             <TextView
                 android:id="@+id/operation"
                 style="@style/operation_style"
@@ -69,7 +69,7 @@
                 android:gravity="center"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
-                app:layout_constraintEnd_toEndOf="@+id/child_desc"
+                app:layout_constraintEnd_toEndOf="@+id/parent_desc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/operation">
 

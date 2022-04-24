@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
@@ -40,7 +41,7 @@ import dagger.android.support.DaggerFragment;
 
 public class WeldingQualityRepairFragment extends DaggerFragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentWeldingQualityRepairBinding binding;
-    List<DefectsWelding> defectsWeldingList = new ArrayList<>();
+    List<WeldingDefect> defectsWeldingList = new ArrayList<>();
     WeldingQualityRepairQtyDefectsQtyAdapter adapter;
     public static WeldingQualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -102,7 +103,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
                 {
                     basketCode = binding.basketCode.getEditText().getText().toString().trim();
                     getBasketData(basketCode);
-                    getBasketDefectsWelding(basketCode);
+//                    getBasketDefectsWelding(basketCode);
                     return true;
                 }
                 return false;
@@ -121,44 +122,44 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     int userId = USER_ID;
     String deviceSerialNo=DEVICE_SERIAL_NO,basketCode;
-    private void getBasketDefectsWelding(String basketCode) {
-        binding.basketCode.setError(null);
-        viewModel.getDefectsWeldingViewModel(userId,deviceSerialNo,basketCode);
-        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
-            if (apiResponseDefectsWelding!=null) {
-                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
-                String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(SUCCESS)) {
-                    if (apiResponseDefectsWelding.getDefectsWelding() != null) {
-                        defectsWeldingList.clear();
-                        List<DefectsWelding> defectsWeldingListLocal = apiResponseDefectsWelding.getDefectsWelding();
-                        defectsWeldingList.addAll(defectsWeldingListLocal);
-                        adapter.setDefectsWeldingList(defectsWeldingList);
-                        qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
-                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectedData.qty.setText(defectedQty);
+//    private void getBasketDefectsWelding(String basketCode) {
+//        binding.basketCode.setError(null);
+//        viewModel.getDefectsWeldingViewModel(userId,deviceSerialNo,basketCode);
+//        viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
+//            if (apiResponseDefectsWelding!=null) {
+//                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
+//                String statusMessage = responseStatus.getStatusMessage();
+//                if (statusMessage.equals(SUCCESS)) {
+//                    if (apiResponseDefectsWelding.getDefectsWelding() != null) {
+//                        defectsWeldingList.clear();
+//                        List<WeldingDefect> defectsWeldingListLocal = apiResponseDefectsWelding.getDefectsWelding();
+//                        defectsWeldingList.addAll(defectsWeldingListLocal);
+//                        adapter.setDefectsWeldingList(defectsWeldingList);
+//                        qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+//                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+//                        binding.defectedData.qty.setText(defectedQty);
+//
+//                    }
+//                } else {
+//                    binding.defectedData.qty.setText("");
+//                    qtyDefectsQtyDefectedList.clear();
+//                }
+//            } else {
+//                warningDialog(getContext(),"Error in getting data!");
+//                binding.defectedData.qty.setText("");
+//                qtyDefectsQtyDefectedList.clear();
+//            }
+//            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+//            adapter.notifyDataSetChanged();
+//        });
+//    }
 
-                    }
-                } else {
-                    binding.defectedData.qty.setText("");
-                    qtyDefectsQtyDefectedList.clear();
-                }
-            } else {
-                warningDialog(getContext(),"Error in getting data!");
-                binding.defectedData.qty.setText("");
-                qtyDefectsQtyDefectedList.clear();
-            }
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-        });
-    }
-
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsWelding> defectsWeldingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<WeldingDefect> defectsWeldingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1;
-        for (DefectsWelding defectsWelding : defectsWeldingListLocal) {
-            if (defectsWelding.getWeldingDefectsId() != id) {
-                int currentId = defectsWelding.getWeldingDefectsId();
+        for (WeldingDefect defectsWelding : defectsWeldingListLocal) {
+            if (defectsWelding.getDefectGroupId() != id) {
+                int currentId = defectsWelding.getDefectGroupId();
                 int defectedQty = defectsWelding.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
@@ -170,8 +171,8 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsWelding defectsWelding : defectsWeldingList) {
-            if (defectsWelding.getWeldingDefectsId() == currentId)
+        for (WeldingDefect defectsWelding : defectsWeldingList) {
+            if (defectsWelding.getDefectGroupId() == currentId)
                 defectNo++;
         }
         return defectNo;
@@ -213,11 +214,19 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveWeldingBasket -> {
             if (apiResponseLastMoveWeldingBasket!=null) {
-                basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBasket();
-                adapter.setBasketData(basketData);
                 ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBaskets().get(0);
+                    adapter.setBasketData(basketData);
+                    defectsWeldingList.clear();
+                    List<WeldingDefect> defectsWeldingListLocal = apiResponseLastMoveWeldingBasket.getWeldingDefects();
+                    defectsWeldingList.addAll(defectsWeldingListLocal);
+                    adapter.setDefectsWeldingList(defectsWeldingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsWeldingList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectedData.qty.setText(defectedQty);
+
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
@@ -239,6 +248,8 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
                 binding.dataLayout.setVisibility(View.GONE);
             }
             fillData(parentDesc,operationName,jobOrderName,jobOrderQty);
+            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -265,7 +276,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
             getBasketData(scannedText);
-            getBasketDefectsWelding(scannedText);
+//            getBasketDefectsWelding(scannedText);
         });
     }
 
@@ -298,8 +309,8 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
             basketData.setBasketCode(basketCode);
             viewModel.setBasketData(basketData);
         }
-        if (!defectsWeldingList.isEmpty()){
-            viewModel.setDefectsWeldingList(defectsWeldingList);
-        }
+//        if (!defectsWeldingList.isEmpty()){
+//            viewModel.setDefectsWeldingList(defectsWeldingList);
+//        }
     }
 }

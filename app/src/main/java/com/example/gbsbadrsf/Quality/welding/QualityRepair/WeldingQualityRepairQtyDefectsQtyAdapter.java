@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class WeldingQualityRepairQtyDefectsQtyAdapter extends RecyclerView.Adapter<WeldingQualityRepairQtyDefectsQtyAdapter.WeldingQualityRepairQtyDefectsQtyViewHolder> {
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList;
-    List<com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding> defectsWeldingList;
+    List<WeldingDefect> defectsWeldingList;
     LastMoveWeldingBasket basketData;
 
     @NonNull
@@ -38,9 +39,9 @@ public class WeldingQualityRepairQtyDefectsQtyAdapter extends RecyclerView.Adapt
         holder.binding.defectsQty.setText(String.valueOf(defectsQty));
         holder.binding.defectedQty.setText(String.valueOf(defectedQty));
         holder.itemView.setOnClickListener(v -> {
-            ArrayList<com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding> selectedDefectsWelding = new ArrayList<>();
-            for (com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding defectsWelding : defectsWeldingList) {
-                if (defectsWelding.getWeldingDefectsId() == defectId) {
+            ArrayList<WeldingDefect> selectedDefectsWelding = new ArrayList<>();
+            for (WeldingDefect defectsWelding : defectsWeldingList) {
+                if (defectsWelding.getDefectGroupId() == defectId) {
                     selectedDefectsWelding.add(defectsWelding);
                 }
             }
@@ -61,7 +62,7 @@ public class WeldingQualityRepairQtyDefectsQtyAdapter extends RecyclerView.Adapt
         this.qtyDefectsQtyDefectedList = qtyDefectsQtyDefectedList;
     }
 
-    public void setDefectsWeldingList(List<DefectsWelding> defectsWeldingList) {
+    public void setDefectsWeldingList(List<WeldingDefect> defectsWeldingList) {
         this.defectsWeldingList = defectsWeldingList;
     }
 

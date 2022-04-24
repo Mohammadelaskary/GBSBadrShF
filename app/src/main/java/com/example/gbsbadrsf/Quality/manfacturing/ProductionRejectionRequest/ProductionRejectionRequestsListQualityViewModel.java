@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRejectionRequestList;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestList;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -18,7 +19,7 @@ public class ProductionRejectionRequestsListQualityViewModel extends ViewModel {
     @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
-    MutableLiveData<ApiResponseGetRejectionRequestList> getRejectionRequestListLiveData;
+    MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestList> getRejectionRequestListLiveData;
     MutableLiveData<Status> getRejectionRequestListStatus;
 
     @Inject
@@ -32,8 +33,8 @@ public class ProductionRejectionRequestsListQualityViewModel extends ViewModel {
 
     }
 
-    public void getRejectionRequests(){
-        disposable.add(apiInterface.getRejectionRequestsList()
+    public void getRejectionRequests(int userId,String deviceSerialNo){
+        disposable.add(apiInterface.getRejectionRequestsList(userId,deviceSerialNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> getRejectionRequestListStatus.postValue(Status.LOADING))
@@ -46,7 +47,7 @@ public class ProductionRejectionRequestsListQualityViewModel extends ViewModel {
                 ));
     }
 
-    public MutableLiveData<ApiResponseGetRejectionRequestList> getGetRejectionRequestListLiveData() {
+    public MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestList> getGetRejectionRequestListLiveData() {
         return getRejectionRequestListLiveData;
     }
 

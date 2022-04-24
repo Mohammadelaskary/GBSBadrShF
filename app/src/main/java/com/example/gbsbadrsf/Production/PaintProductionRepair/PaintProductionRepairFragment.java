@@ -21,6 +21,7 @@ import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
@@ -44,7 +45,7 @@ import dagger.android.support.DaggerFragment;
 public class PaintProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     FragmentPaintProductionRepairBinding binding;
-    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
+    List<PaintingDefect> defectsPaintingList = new ArrayList<>();
     PaintProductionRepairChildsQtyDefectsQtyAdapter adapter;
     PaintProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -72,7 +73,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
             LastMovePaintingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
             fillData(basketData.getParentDescription(),basketData.getJobOrderName(), basketData.getOperationEnName(),basketData.getJobOrderQty());
-            getBasketDefectsPainting(userId,deviceSerialNo,basketData.getBasketCode());
+//            getBasketDefectsPainting(userId,deviceSerialNo,basketData.getBasketCode());
         }
         return binding.getRoot();
     }
@@ -105,7 +106,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                 {
                     basketCode = binding.basketCode.getEditText().getText().toString().trim();
                     getBasketData(userId, deviceSerialNo, basketCode);
-                    getBasketDefectsPainting(userId, deviceSerialNo, basketCode);
+//                    getBasketDefectsPainting(userId, deviceSerialNo, basketCode);
                     return true;
                 }
                 return false;
@@ -124,44 +125,44 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
 
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
 
-    private void getBasketDefectsPainting(int userId, String deviceSerialNo, String basketCode) {
-        viewModel.getDefectsPaintingViewModel(userId, deviceSerialNo, basketCode);
-        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
-            if (apiResponseDefectsWelding!=null) {
-                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
-                String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(SUCCESS)) {
-                    if (apiResponseDefectsWelding.getDefectsPainting() != null) {
-                        defectsPaintingList.clear();
-                        List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsWelding.getDefectsPainting();
-                        defectsPaintingList.addAll(defectsPaintingListLocal);
-                        adapter.setDefectsPaintingList(defectsPaintingList);
-                        qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
-                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectedData.qty.setText(defectedQty);
-                    }
-                } else {
-                    binding.defectedData.qty.setText("");
-                    qtyDefectsQtyDefectedList.clear();
-                }
-            } else {
-                binding.defectedData.qty.setText("");
-                qtyDefectsQtyDefectedList.clear();
-//                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
-                warningDialog(getContext(),"Error in getting data!");
-            }
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-        });
-    }
+//    private void getBasketDefectsPainting(int userId, String deviceSerialNo, String basketCode) {
+//        viewModel.getDefectsPaintingViewModel(userId, deviceSerialNo, basketCode);
+//        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsWelding -> {
+//            if (apiResponseDefectsWelding!=null) {
+//                ResponseStatus responseStatus = apiResponseDefectsWelding.getResponseStatus();
+//                String statusMessage = responseStatus.getStatusMessage();
+//                if (statusMessage.equals(SUCCESS)) {
+//                    if (apiResponseDefectsWelding.getDefectsPainting() != null) {
+//                        defectsPaintingList.clear();
+//                        List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsWelding.getDefectsPainting();
+//                        defectsPaintingList.addAll(defectsPaintingListLocal);
+//                        adapter.setDefectsPaintingList(defectsPaintingList);
+//                        qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
+//                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+//                        binding.defectedData.qty.setText(defectedQty);
+//                    }
+//                } else {
+//                    binding.defectedData.qty.setText("");
+//                    qtyDefectsQtyDefectedList.clear();
+//                }
+//            } else {
+//                binding.defectedData.qty.setText("");
+//                qtyDefectsQtyDefectedList.clear();
+////                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+//                warningDialog(getContext(),"Error in getting data!");
+//            }
+//            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+//            adapter.notifyDataSetChanged();
+//        });
+//    }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsPainting> defectsPaintingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<PaintingDefect> defectsPaintingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1;
-        for (DefectsPainting defectsPainting : defectsPaintingListLocal) {
-            if (defectsPainting.getPaintingDefectsId() != id) {
-                int currentId = defectsPainting.getPaintingDefectsId();
-                int defectedQty = defectsPainting.getDeffectedQty();
+        for (PaintingDefect defectsPainting : defectsPaintingListLocal) {
+            if (defectsPainting.getDefectGroupId() != id&&!defectsPainting.getIsRejectedQty()) {
+                int currentId = defectsPainting.getDefectGroupId();
+                int defectedQty = defectsPainting.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
                 id = currentId;
@@ -172,8 +173,8 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsPainting defectsPainting : defectsPaintingList) {
-            if (defectsPainting.getPaintingDefectsId() == currentId)
+        for (PaintingDefect defectsPainting : defectsPaintingList) {
+            if (defectsPainting.getDefectGroupId() == currentId)
                 defectNo++;
         }
         return defectNo;
@@ -216,12 +217,18 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         viewModel.getBasketDataViewModel(userId, deviceSerialNo, basketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMovePaintingBasket -> {
             if (apiResponseLastMovePaintingBasket!=null) {
-                basketData = apiResponseLastMovePaintingBasket.getLastMovePaintingBasket();
-                adapter.setBasketData(basketData);
                 ResponseStatus responseStatus = apiResponseLastMovePaintingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
                     binding.dataLayout.setVisibility(View.VISIBLE);
+                    basketData = apiResponseLastMovePaintingBasket.getLastMovePaintingBaskets().get(0);
+                    adapter.setBasketData(basketData);
+                    defectsPaintingList = apiResponseLastMovePaintingBasket.getPaintingDefects();
+                    adapter.setDefectsPaintingList(defectsPaintingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+                    binding.defectedData.qty.setText(defectedQty);
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
@@ -242,6 +249,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                 operationName = "";
                 binding.basketCode.setError("Error in getting data!");
             }
+            adapter.notifyDataSetChanged();
             fillData(parentDesc, jobOrderName, operationName,jobOrderQty);
         });
     }
@@ -270,7 +278,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
             getBasketData(userId, deviceSerialNo, scannedText);
-            getBasketDefectsPainting(userId, deviceSerialNo, scannedText);
+//            getBasketDefectsPainting(userId, deviceSerialNo, scannedText);
         });
     }
 

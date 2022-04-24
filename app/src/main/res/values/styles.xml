@@ -32,6 +32,11 @@
         <item name="android:textColor">@color/text_details</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="basket_code_style">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/done</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="styleoftextinbtn" >
     <item name="android:textSize">@dimen/appbar_text_size</item>
     <item name="textAllCaps">false</item>

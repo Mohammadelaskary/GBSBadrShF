@@ -8,6 +8,7 @@ import android.view.animation.AlphaAnimation;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
@@ -15,7 +16,7 @@ import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 import java.util.List;
 
 public class WeldingRepairProductionAdapter extends RecyclerView.Adapter<WeldingRepairProductionAdapter.RepairProductionViewHolder> {
-    List<DefectsWelding> defectsWeldingList;
+    List<WeldingDefect> defectsWeldingList;
     SetOnWeldingRepairItemClicked onWeldingRepairItemClicked;
 
     public WeldingRepairProductionAdapter(SetOnWeldingRepairItemClicked onWeldingRepairItemClicked) {
@@ -31,9 +32,9 @@ public class WeldingRepairProductionAdapter extends RecyclerView.Adapter<Welding
     int currentPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull RepairProductionViewHolder holder, int position) {
-        DefectsWelding defectsWelding = defectsWeldingList.get(position);
+        WeldingDefect defectsWelding = defectsWeldingList.get(position);
         String defectName = defectsWelding.getDefectDescription();
-        int defectedQty   = defectsWelding.getDeffectedQty();
+        int defectedQty   = defectsWelding.getQtyDefected();
         int repairedQty   = defectsWelding.getQtyRepaired();
         int approvedQty   = defectsWelding.getQtyApproved();
         int pendingRepair = defectedQty-repairedQty-approvedQty;
@@ -70,7 +71,7 @@ public class WeldingRepairProductionAdapter extends RecyclerView.Adapter<Welding
         });
     }
 
-    public void setDefectsWeldingList(List<DefectsWelding> defectsWeldingList) {
+    public void setDefectsWeldingList(List<WeldingDefect> defectsWeldingList) {
         this.defectsWeldingList = defectsWeldingList;
     }
 

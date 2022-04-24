@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Production;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.R;
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class ProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapter<ProductionRepairChildsQtyDefectsQtyAdapter.QtyChildQtyDefectItemViewHolder> {
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList;
-    List<DefectsManufacturing> defectsManufacturingList;
+    List<ManufacturingDefect> defectsManufacturingList;
     LastMoveManufacturingBasket basketData;
 
     @Override
@@ -31,14 +33,15 @@ public class ProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Ada
             holder.binding.defectsQty.setText(String.valueOf(defectsQty));
             holder.binding.defectedQty.setText(String.valueOf(defectedQty));
             holder.itemView.setOnClickListener(v -> {
-                ArrayList<DefectsManufacturing> selectedDefectsManufacturing = new ArrayList<>();
-                for (DefectsManufacturing defectsManufacturing:defectsManufacturingList){
-                    if (defectsManufacturing.getManufacturingDefectsId()==defectManufacturingId){
+                ArrayList<ManufacturingDefect> selectedDefectsManufacturing = new ArrayList<>();
+                for (ManufacturingDefect defectsManufacturing:defectsManufacturingList){
+                    if (defectsManufacturing.getDefectGroupId()==defectManufacturingId){
                         selectedDefectsManufacturing.add(defectsManufacturing);
                     }
                 }
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("selectedDefectsManufacturing",selectedDefectsManufacturing);
+                Log.d("defectsListSizeBefore",defectsManufacturingList.size()+"");
                 bundle.putParcelable("basketData",basketData);
                 Navigation.findNavController(v).navigate(R.id.action_manufacturing_production_repair_to_fragment_manufacturing_production_defects_repair,bundle);
             });
@@ -61,9 +64,11 @@ public class ProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Ada
 
     public void setQtyDefectsQtyDefectedList(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
         this.qtyDefectsQtyDefectedList = qtyDefectsQtyDefectedList;
+
+        notifyDataSetChanged();
     }
 
-    public void setDefectsManufacturingList(List<DefectsManufacturing> defectsManufacturingList) {
+    public void setDefectsManufacturingList(List<ManufacturingDefect> defectsManufacturingList) {
         this.defectsManufacturingList = defectsManufacturingList;
     }
 

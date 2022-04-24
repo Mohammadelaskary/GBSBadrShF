@@ -15,6 +15,9 @@ public class ApiResponseAddingManufacturingRepairQualityProduction {
     @SerializedName("getDefectDetailsManufacturingData")
     @Expose
     private GetDefectDetailsManufacturingData getDefectDetailsManufacturingData;
+    @SerializedName("qty_Approved")
+    @Expose
+    private int qty_Approved;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -38,5 +41,9 @@ public class ApiResponseAddingManufacturingRepairQualityProduction {
 
     public void setGetDefectDetailsManufacturingData(GetDefectDetailsManufacturingData getDefectDetailsManufacturingData) {
         this.getDefectDetailsManufacturingData = getDefectDetailsManufacturingData;
+    }
+
+    public int getQty_Approved() {
+        return qty_Approved;
     }
 }

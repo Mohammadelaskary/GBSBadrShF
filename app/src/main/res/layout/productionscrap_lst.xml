@@ -7,9 +7,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:cardCornerRadius="15dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp"
-    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
     android:backgroundTint="@color/white"
     >
 
@@ -19,23 +17,42 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/child_desc_text"
+            style="@style/styleoftextbold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Child Description:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/child_desc"
+            style="@style/styleoftext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/child_desc_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/child_desc_text"
+            app:layout_constraintTop_toTopOf="@+id/child_desc_text" />
+
+        <TextView
             android:id="@+id/jobordernum_txt"
             style="@style/styleoftextbold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/job_order_name_txt"
+            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/child_desc_text" />
 
         <TextView
             android:id="@+id/job_order_name"
             style="@style/styleoftext"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/jobordernum_txt"
-            app:layout_constraintStart_toEndOf="@+id/jobordernum_txt"
+            app:layout_constraintEnd_toEndOf="@+id/child_desc"
+            app:layout_constraintStart_toEndOf="@+id/child_desc_text"
             app:layout_constraintTop_toTopOf="@+id/jobordernum_txt" />
 
         <TextView
@@ -51,9 +68,10 @@
         <TextView
             android:id="@+id/rejected_qtn"
             style="@style/styleoftext"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/rejected_qty_txt"
+            app:layout_constraintEnd_toEndOf="@+id/job_order_name"
             app:layout_constraintStart_toStartOf="@+id/job_order_name"
             app:layout_constraintTop_toTopOf="@id/rejected_qty_txt" />
 
@@ -71,9 +89,10 @@
         <TextView
             android:id="@+id/department"
             style="@style/styleoftext"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/dep_txt"
+            app:layout_constraintEnd_toEndOf="@+id/rejected_qtn"
             app:layout_constraintStart_toStartOf="@+id/rejected_qtn"
             app:layout_constraintTop_toTopOf="@id/dep_txt" />
 

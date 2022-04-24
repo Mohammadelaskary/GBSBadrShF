@@ -1,81 +1,111 @@
 package com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import retrofit2.http.Query;
 
 public class SaveRejectionRequestBody {
-    private int userId;
-    private String deviceSerialNumber;
-    private String oldBasketCode;
-    private String newBasketCode;
-    private int RejectionQty;
-    private int DepartmentID;
-    private List<Integer> DefectList;
+    @SerializedName("UserId")
+    @Expose
+    private Integer userId;
+    @SerializedName("DeviceSerialNo")
+    @Expose
+    private String deviceSerialNo;
+    @SerializedName("ItemCode")
+    @Expose
+    private String itemCode;
+    @SerializedName("RejectedBasketCode")
+    @Expose
+    private String rejectedBasketCode;
+    @SerializedName("RejectionQty")
+    @Expose
+    private Integer rejectionQty;
+    @SerializedName("DepartmentID")
+    @Expose
+    private Integer departmentID;
+    @SerializedName("RejectionReasonID")
+    @Expose
+    private Integer rejectionReasonID;
+    @SerializedName("DefectList")
+    @Expose
+    private List<Integer> defectList = null;
 
-    public SaveRejectionRequestBody(int userId, String deviceSerialNumber, String oldBasketCode, String newBasketCode, int rejectionQty, int departmentID, List<Integer> defectList) {
+    public SaveRejectionRequestBody(Integer userId, String deviceSerialNo, String itemCode, String rejectedBasketCode, Integer rejectionQty, Integer departmentID, Integer rejectionReasonID, List<Integer> defectList) {
         this.userId = userId;
-        this.deviceSerialNumber = deviceSerialNumber;
-        this.oldBasketCode = oldBasketCode;
-        this.newBasketCode = newBasketCode;
-        RejectionQty = rejectionQty;
-        DepartmentID = departmentID;
-        DefectList = defectList;
+        this.deviceSerialNo = deviceSerialNo;
+        this.itemCode = itemCode;
+        this.rejectedBasketCode = rejectedBasketCode;
+        this.rejectionQty = rejectionQty;
+        this.departmentID = departmentID;
+        this.rejectionReasonID = rejectionReasonID;
+        this.defectList = defectList;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public String getDeviceSerialNumber() {
-        return deviceSerialNumber;
+    public String getDeviceSerialNo() {
+        return deviceSerialNo;
     }
 
-    public void setDeviceSerialNumber(String deviceSerialNumber) {
-        this.deviceSerialNumber = deviceSerialNumber;
+    public void setDeviceSerialNo(String deviceSerialNo) {
+        this.deviceSerialNo = deviceSerialNo;
     }
 
-    public String getOldBasketCode() {
-        return oldBasketCode;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setOldBasketCode(String oldBasketCode) {
-        this.oldBasketCode = oldBasketCode;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-    public String getNewBasketCode() {
-        return newBasketCode;
+    public String getRejectedBasketCode() {
+        return rejectedBasketCode;
     }
 
-    public void setNewBasketCode(String newBasketCode) {
-        this.newBasketCode = newBasketCode;
+    public void setRejectedBasketCode(String rejectedBasketCode) {
+        this.rejectedBasketCode = rejectedBasketCode;
     }
 
-    public int getRejectionQty() {
-        return RejectionQty;
+    public Integer getRejectionQty() {
+        return rejectionQty;
     }
 
-    public void setRejectionQty(int rejectionQty) {
-        RejectionQty = rejectionQty;
+    public void setRejectionQty(Integer rejectionQty) {
+        this.rejectionQty = rejectionQty;
     }
 
-    public int getDepartmentID() {
-        return DepartmentID;
+    public Integer getDepartmentID() {
+        return departmentID;
     }
 
-    public void setDepartmentID(int departmentID) {
-        DepartmentID = departmentID;
+    public void setDepartmentID(Integer departmentID) {
+        this.departmentID = departmentID;
+    }
+
+    public Integer getRejectionReasonID() {
+        return rejectionReasonID;
+    }
+
+    public void setRejectionReasonID(Integer rejectionReasonID) {
+        this.rejectionReasonID = rejectionReasonID;
     }
 
     public List<Integer> getDefectList() {
-        return DefectList;
+        return defectList;
     }
 
     public void setDefectList(List<Integer> defectList) {
-        DefectList = defectList;
+        this.defectList = defectList;
     }
+
 }

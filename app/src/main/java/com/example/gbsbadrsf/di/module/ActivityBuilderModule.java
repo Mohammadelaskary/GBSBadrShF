@@ -1,6 +1,10 @@
 package com.example.gbsbadrsf.di.module;
 
+import com.example.gbsbadrsf.ApprovalRejectionRequest.ApprovalRejectionRequestsListFragment;
+import com.example.gbsbadrsf.ApprovalRejectionRequest.RejectionRequestClosingFragment;
 import com.example.gbsbadrsf.ChangeBaseUrlFragment;
+import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestDecisionFragment;
+import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestFragment;
 import com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoFragment;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
@@ -36,6 +40,7 @@ import com.example.gbsbadrsf.Quality.paint.RandomQualityInception.PaintRandomQua
 import com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityFragment;
+import com.example.gbsbadrsf.Quality.paint.SignOffBaskets.PaintSignOffBasketsFragment;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityDefectRepairFragment;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.WeldingQualityRepairFragment;
 import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionFragment;
@@ -43,6 +48,7 @@ import com.example.gbsbadrsf.Quality.welding.RandomQualityInception.WeldingRando
 import com.example.gbsbadrsf.Quality.welding.RejectionRequest.WeldingRejectionRequestFragment;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsFragment;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestsListQualityFragment;
+import com.example.gbsbadrsf.Quality.welding.SignOffBaskets.WeldingSignOffBasketsFragment;
 import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectDetailsFragment;
 import com.example.gbsbadrsf.Quality.welding.WeldingAddDefects.WeldingAddDefectsFragment;
 import com.example.gbsbadrsf.Quality.welding.WeldingQualityOperationFragment;
@@ -53,6 +59,8 @@ import com.example.gbsbadrsf.signin.ChangePasswordFragment;
 import com.example.gbsbadrsf.signin.SigninFragment;
 import com.example.gbsbadrsf.warhouse.counting.CountingFragment;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseFragment;
+import com.example.gbsbadrsf.welding.ItemsReceiving.ChildToBasketFragment;
+import com.example.gbsbadrsf.welding.ItemsReceiving.ItemsReceivingFragment;
 import com.example.gbsbadrsf.welding.machineloadingwe.MachineloadingweFragment;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweFragment;
 import com.example.gbsbadrsf.welding.weldingwip.MainWeldingWip;
@@ -181,7 +189,23 @@ public abstract class ActivityBuilderModule {
     @ContributesAndroidInjector
     abstract ChangePasswordFragment contributeChangePasswordFragment ();
     @ContributesAndroidInjector
+    abstract WeldingSignOffBasketsFragment contributeWeldingSignOffBasketsFragment ();
+    @ContributesAndroidInjector
     abstract SignOffBasketsFragment contributeSignOffBasketsFragment ();
+    @ContributesAndroidInjector
+    abstract PaintSignOffBasketsFragment contributePaintSignOffBasketsFragment ();
+    @ContributesAndroidInjector
+    abstract ItemsReceivingFragment contributeItemsReceivingFragment ();
+    @ContributesAndroidInjector
+    abstract ChildToBasketFragment contributeChildToBasketFragment ();
+    @ContributesAndroidInjector
+    abstract ApprovalRejectionRequestsListFragment contributeApprovalRejectionRequestsListFragment ();
+    @ContributesAndroidInjector
+    abstract RejectionRequestClosingFragment contributeRejectionRequestClosingFragment ();
+    @ContributesAndroidInjector
+    abstract DeclineRejectionRequestDecisionFragment contributeDeclineRejectionRequestDecisionFragment ();
+    @ContributesAndroidInjector
+    abstract DeclineRejectionRequestFragment contributeDeclineRejectionRequestFragment ();
 
 
 

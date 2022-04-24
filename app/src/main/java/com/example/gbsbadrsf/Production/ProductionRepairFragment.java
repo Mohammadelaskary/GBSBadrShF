@@ -21,9 +21,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
+import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
+import com.example.gbsbadrsf.Quality.manfacturing.ManfacturingqualityFragment;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -44,7 +46,7 @@ import dagger.android.support.DaggerFragment;
 public class ProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     FragmentProductionRepairBinding binding;
-    List<DefectsManufacturing>  defectsManufacturingList = new ArrayList<>();
+    List<ManufacturingDefect>  defectsManufacturingList = new ArrayList<>();
     ProductionRepairChildsQtyDefectsQtyAdapter adapter;
     ProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -65,7 +67,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
             LastMoveManufacturingBasket basketData = viewModel.getBasketData();
             adapter.setBasketData(basketData);
             fillData(basketData.getChildDescription(),basketData.getJobOrderName(), basketData.getOperationEnName(),basketData.getJobOrderQty());
-            getBasketDefectsManufacturing(basketData.getBasketCode());
+//            getBasketDefectsManufacturing(basketData.getBasketCode());
         }
         addTextWatcher();
         observeGettingBasketData();
@@ -100,7 +102,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
                 {
                     basketCode = binding.basketCode.getEditText().getText().toString().trim();
                     getBasketData(basketCode);
-                    getBasketDefectsManufacturing(basketCode);
+//                    getBasketDefectsManufacturing(basketCode);
                     return true;
                 }
                 return false;
@@ -117,42 +119,43 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         });
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
-    private void getBasketDefectsManufacturing(String basketCode) {
-        viewModel.getDefectsManufacturingViewModel(basketCode);
-        viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {
-            if (apiResponseDefectsManufacturing!=null) {
-                ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();
-                String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(SUCCESS)) {
-                    if (apiResponseDefectsManufacturing.getData() != null) {
-                        defectsManufacturingList.clear();
-                        List<DefectsManufacturing> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();
-                        defectsManufacturingList.addAll(defectsManufacturingListLocal);
-                        adapter.setDefectsManufacturingList(defectsManufacturingList);
-                        qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
-                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectedData.qty.setText(defectedQty);
-                    }
-                } else {
-                    binding.defectedData.qty.setText("");
-                    qtyDefectsQtyDefectedList.clear();
-                }
-            } else {
-                binding.defectedData.qty.setText("");
-                qtyDefectsQtyDefectedList.clear();
-//                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
-                warningDialog(getContext(),"Error in getting data!");
-            }
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-        });
-    }
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsManufacturing> defectsManufacturingListLocal) {
+//    private void getBasketDefectsManufacturing(String basketCode) {
+//        viewModel.getDefectsManufacturingViewModel(basketCode);
+//        viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {
+//            if (apiResponseDefectsManufacturing!=null) {
+//                ResponseStatus responseStatus = apiResponseDefectsManufacturing.getResponseStatus();
+//                String statusMessage = responseStatus.getStatusMessage();
+//                if (statusMessage.equals(SUCCESS)) {
+//                    if (apiResponseDefectsManufacturing.getData() != null) {
+//                        defectsManufacturingList.clear();
+//                        List<ManufacturingDefect> defectsManufacturingListLocal = apiResponseDefectsManufacturing.getData();
+//                        defectsManufacturingList.addAll(defectsManufacturingListLocal);
+//                        adapter.setDefectsManufacturingList(defectsManufacturingList);
+//                        qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+//                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+//                        binding.defectedData.qty.setText(defectedQty);
+//                    }
+//                } else {
+//                    binding.defectedData.qty.setText("");
+//                    qtyDefectsQtyDefectedList.clear();
+//                }
+//            } else {
+//                binding.defectedData.qty.setText("");
+//                qtyDefectsQtyDefectedList.clear();
+////                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
+//                warningDialog(getContext(),"Error in getting data!");
+//            }
+//            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+//            adapter.notifyDataSetChanged();
+//        });
+//    }
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<ManufacturingDefect> defectsManufacturingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1 ;
-        for (DefectsManufacturing defectsManufacturing:defectsManufacturingListLocal){
-            if (defectsManufacturing.getManufacturingDefectsId()!=id){
-                int currentId = defectsManufacturing.getManufacturingDefectsId();
+        Log.d("defectsLength",qtyDefectsQtyDefectedList.size()+"");
+        for (ManufacturingDefect defectsManufacturing:defectsManufacturingListLocal){
+            if (defectsManufacturing.getDefectGroupId()!=id&&!defectsManufacturing.getIsRejectedQty()){
+                int currentId = defectsManufacturing.getDefectGroupId();
                 int defectedQty = defectsManufacturing.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId,defectedQty,getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
@@ -164,8 +167,8 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsManufacturing defectsManufacturing:defectsManufacturingList){
-            if (defectsManufacturing.getManufacturingDefectsId()==currentId)
+        for (ManufacturingDefect defectsManufacturing:defectsManufacturingList){
+            if (defectsManufacturing.getDefectGroupId()==currentId)
                 defectNo++;
         }
         return  defectNo;
@@ -216,6 +219,14 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
                     jobOrderName = basketData.getJobOrderName();
                     jobOrderQty = basketData.getJobOrderQty();
                     binding.basketCode.setError(null);
+                    defectsManufacturingList.clear();
+                    List<ManufacturingDefect> defectsManufacturingListLocal = apiResponseLastMoveManufacturingBasket.getManufacturingDefects();
+                    defectsManufacturingList.addAll(defectsManufacturingListLocal);
+                    adapter.setDefectsManufacturingList(defectsManufacturingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsManufacturingList);
+                    adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectedData.qty.setText(defectedQty);
                     binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     childDesc = "";
@@ -259,7 +270,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
             getBasketData(scannedText.trim());
-            getBasketDefectsManufacturing(scannedText.trim());
+//            getBasketDefectsManufacturing(scannedText.trim());
         });
     }
 

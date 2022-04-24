@@ -594,7 +594,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     machineSignoffBody.setMachineCode(binding.machinecodeNewedttxt.getText().toString());
                     machineSignoffBody.setUserID(USER_ID );
                     machineSignoffBody.setDeviceSerialNo(DEVICE_SERIAL_NO);
-                    //  machineSignoffBody.setSignOutQty(passedtext);
+                    machineSignoffBody.setSignOutQty(String.valueOf(calculateTotalAddedQty(basketList)));
                     machineSignoffBody.setBasketLst(basketList);
                     machineSignoffBody.setIsBulkQty(isBulk);
                     machinesignoffViewModel.getmachinesignoff(machineSignoffBody, getContext());

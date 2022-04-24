@@ -1,9 +1,12 @@
 package com.example.gbsbadrsf.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ManufacturingDefect {
+public class ManufacturingDefect implements Parcelable {
     @SerializedName("manufacturingDefectsId")
     @Expose
     private Integer manufacturingDefectsId;
@@ -64,6 +67,95 @@ public class ManufacturingDefect {
     @SerializedName("isRejectedQty")
     @Expose
     private Boolean isRejectedQty;
+
+    protected ManufacturingDefect(Parcel in) {
+        if (in.readByte() == 0) {
+            manufacturingDefectsId = null;
+        } else {
+            manufacturingDefectsId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectsManufacturingDetailsId = null;
+        } else {
+            defectsManufacturingDetailsId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectGroupId = null;
+        } else {
+            defectGroupId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectId = null;
+        } else {
+            defectId = in.readInt();
+        }
+        defectDescription = in.readString();
+        dateProductionRepair = in.readString();
+        dateQualityApprove = in.readString();
+        dateQualityReject = in.readString();
+        dateQualityRepair = in.readString();
+        if (in.readByte() == 0) {
+            qtyRepaired = null;
+        } else {
+            qtyRepaired = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            qtyDefected = null;
+        } else {
+            qtyDefected = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            qtyRejected = null;
+        } else {
+            qtyRejected = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            qtyApproved = null;
+        } else {
+            qtyApproved = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectStatus = null;
+        } else {
+            defectStatus = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectStatusProduction = null;
+        } else {
+            defectStatusProduction = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectStatusQc = null;
+        } else {
+            defectStatusQc = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectStatusApprove = null;
+        } else {
+            defectStatusApprove = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            defectStatusReject = null;
+        } else {
+            defectStatusReject = in.readInt();
+        }
+        byte tmpIsBulkGroup = in.readByte();
+        isBulkGroup = tmpIsBulkGroup == 0 ? null : tmpIsBulkGroup == 1;
+        byte tmpIsRejectedQty = in.readByte();
+        isRejectedQty = tmpIsRejectedQty == 0 ? null : tmpIsRejectedQty == 1;
+    }
+
+    public static final Creator<ManufacturingDefect> CREATOR = new Creator<ManufacturingDefect>() {
+        @Override
+        public ManufacturingDefect createFromParcel(Parcel in) {
+            return new ManufacturingDefect(in);
+        }
+
+        @Override
+        public ManufacturingDefect[] newArray(int size) {
+            return new ManufacturingDefect[size];
+        }
+    };
 
     public Integer getManufacturingDefectsId() {
         return manufacturingDefectsId;
@@ -225,4 +317,97 @@ public class ManufacturingDefect {
         this.isRejectedQty = isRejectedQty;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (manufacturingDefectsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(manufacturingDefectsId);
+        }
+        if (defectsManufacturingDetailsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectsManufacturingDetailsId);
+        }
+        if (defectGroupId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectGroupId);
+        }
+        if (defectId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectId);
+        }
+        dest.writeString(defectDescription);
+        dest.writeString(dateProductionRepair);
+        dest.writeString(dateQualityApprove);
+        dest.writeString(dateQualityReject);
+        dest.writeString(dateQualityRepair);
+        if (qtyRepaired == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRepaired);
+        }
+        if (qtyDefected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyDefected);
+        }
+        if (qtyRejected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRejected);
+        }
+        if (qtyApproved == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyApproved);
+        }
+        if (defectStatus == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatus);
+        }
+        if (defectStatusProduction == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusProduction);
+        }
+        if (defectStatusQc == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusQc);
+        }
+        if (defectStatusApprove == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusApprove);
+        }
+        if (defectStatusReject == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusReject);
+        }
+        dest.writeByte((byte) (isBulkGroup == null ? 0 : isBulkGroup ? 1 : 2));
+        dest.writeByte((byte) (isRejectedQty == null ? 0 : isRejectedQty ? 1 : 2));
+    }
 }

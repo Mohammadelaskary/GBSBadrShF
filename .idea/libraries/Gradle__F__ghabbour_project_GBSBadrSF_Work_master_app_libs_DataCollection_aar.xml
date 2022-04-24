@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: F./ghabbour project/GBSBadrSF_Work-master/app/libs/DataCollection.aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/d6c327bbe170d6213906e488618ecdb9/transformed/jetified-DataCollection/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d6c327bbe170d6213906e488618ecdb9/transformed/jetified-DataCollection/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d6c327bbe170d6213906e488618ecdb9/transformed/jetified-DataCollection/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/5217a8fb693a3366a7ac1b2d8d7f1ae3/transformed/jetified-DataCollection/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5217a8fb693a3366a7ac1b2d8d7f1ae3/transformed/jetified-DataCollection/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5217a8fb693a3366a7ac1b2d8d7f1ae3/transformed/jetified-DataCollection/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

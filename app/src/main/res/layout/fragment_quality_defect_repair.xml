@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.gbsbadrsf.Quality.manfacturing.QualityRepair.QualityDefectRepairFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/quality_repair_txt"
@@ -19,6 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -36,6 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/production_repair_txt">
+
             <LinearLayout
                 android:id="@+id/data_layout"
                 android:layout_width="match_parent"
@@ -46,66 +51,66 @@
                 app:layout_constraintTop_toBottomOf="@id/production_repair_txt">
 
 
-                        <TextView
-                            android:id="@+id/child_desc"
-                            style="@style/child_parent_desc_style"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Child Description"
-                            app:layout_constraintStart_toEndOf="@id/child_txt"
-                            app:layout_constraintTop_toTopOf="@id/child_txt" />
+                <TextView
+                    android:id="@+id/parent_desc"
+                    style="@style/child_parent_desc_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Child Description"
+                    app:layout_constraintStart_toEndOf="@id/child_txt"
+                    app:layout_constraintTop_toTopOf="@id/child_txt" />
 
 
-
-                <include android:id="@+id/defected_data"
+                <include
+                    android:id="@+id/defected_data"
                     layout="@layout/defected_qty_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp" />
 
 
-
-                    <TextView
-                        android:id="@+id/operation"
-                        style="@style/styleoftext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginTop="15dp"
-                        android:text=""
-                        app:layout_constraintBottom_toBottomOf="@+id/operation_txt"
-                        app:layout_constraintStart_toEndOf="@id/operation_txt"
-                        app:layout_constraintTop_toTopOf="@id/operation_txt" />
+                <TextView
+                    android:id="@+id/operation"
+                    style="@style/styleoftext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:text=""
+                    app:layout_constraintBottom_toBottomOf="@+id/operation_txt"
+                    app:layout_constraintStart_toEndOf="@id/operation_txt"
+                    app:layout_constraintTop_toTopOf="@id/operation_txt" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/defects_details_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/child_txt"
                     app:layout_constraintTop_toBottomOf="@id/defect_qtn_txt" />
 
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/approved_qty"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/approved_quantity"
-        android:textColorHint="@color/colorPrimary"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:hint="@string/approved_quantity"
+        android:textColorHint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/save_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -113,13 +118,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/black"
-            android:inputType="number"
             android:digits="0123456789"
             android:imeOptions="actionDone"
-            android:maxLines="1"
+            android:inputType="number"
             android:lines="1"
-            android:singleLine="true"/>
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -132,9 +137,25 @@
         android:text="@string/save"
         android:textColor="@color/white"
         app:cornerRadius="40dp"
-        app:layout_constraintBottom_toTopOf="@id/reopen_defect_btn"
+        app:layout_constraintEnd_toStartOf="@+id/move_to_basket"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approved_qty" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/move_to_basket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:text="Move to Basket"
+        app:cornerRadius="40dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/save_btn"
+        app:layout_constraintTop_toBottomOf="@+id/approved_qty" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/reopen_defect_btn"
         android:layout_width="wrap_content"
@@ -142,10 +163,21 @@
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
         android:text="Reopen Defect"
-        android:visibility="gone"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:cornerRadius="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/disable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#9A000000"
+        android:visibility="gone"/>
+    <include layout="@layout/move_to_basket_bottom_sheet"
+        android:id="@+id/move_to_basket_bottom_sheet"
+        android:visibility="visible"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

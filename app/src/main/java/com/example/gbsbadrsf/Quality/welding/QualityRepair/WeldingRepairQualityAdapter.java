@@ -8,13 +8,14 @@ import android.view.animation.AlphaAnimation;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
 public class WeldingRepairQualityAdapter extends RecyclerView.Adapter<WeldingRepairQualityAdapter.RepairProductionQualityViewHolder> {
-    List<DefectsWelding> defectsWeldingList;
+    List<WeldingDefect> defectsWeldingList;
     SetOnWeldingRepairItemClicked onWeldingRepairItemClicked;
 
     public WeldingRepairQualityAdapter(SetOnWeldingRepairItemClicked onWeldingRepairItemClicked) {
@@ -30,12 +31,12 @@ public class WeldingRepairQualityAdapter extends RecyclerView.Adapter<WeldingRep
     int currentPosition = -1;
     @Override
     public void onBindViewHolder(@NonNull RepairProductionQualityViewHolder holder, int position) {
-        DefectsWelding defectsWelding = defectsWeldingList.get(position);
+        WeldingDefect defectsWelding = defectsWeldingList.get(position);
         String defectName = defectsWelding.getDefectDescription();
-        int defectedQty   = defectsWelding.getDeffectedQty();
+        int defectedQty   = defectsWelding.getQtyDefected();
         int repairedQty   = defectsWelding.getQtyRepaired();
         int approvedQty   = defectsWelding.getQtyApproved();
-        int pendingRepair = defectedQty-repairedQty-approvedQty;
+        int pendingRepair = defectedQty-repairedQty;
         int pendingApprove = repairedQty - approvedQty;
         boolean isRepaired = repairedQty!=0;
         boolean isApproved = approvedQty!=0;
@@ -69,7 +70,7 @@ public class WeldingRepairQualityAdapter extends RecyclerView.Adapter<WeldingRep
         });
     }
 
-    public void setDefectsWeldingList(List<DefectsWelding> defectsWeldingList) {
+    public void setDefectsWeldingList(List<WeldingDefect> defectsWeldingList) {
         this.defectsWeldingList = defectsWeldingList;
     }
 

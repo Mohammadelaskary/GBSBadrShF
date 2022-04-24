@@ -7,28 +7,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LastMoveWeldingBasket implements Parcelable {
-
     @SerializedName("basketMoveId")
     @Expose
     private Integer basketMoveId;
-    @SerializedName("parentId")
-    @Expose
-    private Integer parentId;
-    @SerializedName("parentCode")
-    @Expose
-    private String parentCode;
-    @SerializedName("parentDescription")
-    @Expose
-    private String parentDescription;
-    @SerializedName("signOffQty")
-    @Expose
-    private Integer signOffQty;
-    @SerializedName("jobOrderQty")
-    @Expose
-    private Integer jobOrderQty;
-    @SerializedName("basketCode")
-    @Expose
-    private String basketCode;
     @SerializedName("jobOrderId")
     @Expose
     private Integer jobOrderId;
@@ -38,20 +19,60 @@ public class LastMoveWeldingBasket implements Parcelable {
     @SerializedName("jobOrderDate")
     @Expose
     private String jobOrderDate;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
+    @SerializedName("pprLoadingId")
+    @Expose
+    private Integer pprLoadingId;
+    @SerializedName("parentId")
+    @Expose
+    private Integer parentId;
+    @SerializedName("parentCode")
+    @Expose
+    private String parentCode;
+    @SerializedName("childId")
+    @Expose
+    private Integer childId;
+    @SerializedName("childCode")
+    @Expose
+    private Object childCode;
+    @SerializedName("parentDescription")
+    @Expose
+    private String parentDescription;
     @SerializedName("operationId")
     @Expose
     private Integer operationId;
     @SerializedName("operationEnName")
     @Expose
     private String operationEnName;
+    @SerializedName("signOffQty")
+    @Expose
+    private Integer signOffQty;
+    @SerializedName("basketCode")
+    @Expose
+    private String basketCode;
     @SerializedName("isBulkQty")
     @Expose
     private Boolean isBulkQty;
-    @SerializedName("SampleQty")
+    @SerializedName("sampleQty")
     @Expose
-    private String SampleQty;
-    public LastMoveWeldingBasket() {
-    }
+    private String sampleQty;
+    @SerializedName("totalQtyDefected")
+    @Expose
+    private String totalQtyDefected;
+    @SerializedName("totalQtyRejected")
+    @Expose
+    private String totalQtyRejected;
+    @SerializedName("totalQtyOk")
+    @Expose
+    private String totalQtyOk;
+    @SerializedName("isFullInspection")
+    @Expose
+    private Boolean isFullInspection;
+    @SerializedName("isSaved")
+    @Expose
+    private Boolean isSaved;
 
 
     protected LastMoveWeldingBasket(Parcel in) {
@@ -61,24 +82,6 @@ public class LastMoveWeldingBasket implements Parcelable {
             basketMoveId = in.readInt();
         }
         if (in.readByte() == 0) {
-            parentId = null;
-        } else {
-            parentId = in.readInt();
-        }
-        parentCode = in.readString();
-        parentDescription = in.readString();
-        if (in.readByte() == 0) {
-            signOffQty = null;
-        } else {
-            signOffQty = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            jobOrderQty = null;
-        } else {
-            jobOrderQty = in.readInt();
-        }
-        basketCode = in.readString();
-        if (in.readByte() == 0) {
             jobOrderId = null;
         } else {
             jobOrderId = in.readInt();
@@ -86,14 +89,49 @@ public class LastMoveWeldingBasket implements Parcelable {
         jobOrderName = in.readString();
         jobOrderDate = in.readString();
         if (in.readByte() == 0) {
+            jobOrderQty = null;
+        } else {
+            jobOrderQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            pprLoadingId = null;
+        } else {
+            pprLoadingId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            parentId = null;
+        } else {
+            parentId = in.readInt();
+        }
+        parentCode = in.readString();
+        if (in.readByte() == 0) {
+            childId = null;
+        } else {
+            childId = in.readInt();
+        }
+        parentDescription = in.readString();
+        if (in.readByte() == 0) {
             operationId = null;
         } else {
             operationId = in.readInt();
         }
         operationEnName = in.readString();
+        if (in.readByte() == 0) {
+            signOffQty = null;
+        } else {
+            signOffQty = in.readInt();
+        }
+        basketCode = in.readString();
         byte tmpIsBulkQty = in.readByte();
         isBulkQty = tmpIsBulkQty == 0 ? null : tmpIsBulkQty == 1;
-        SampleQty = in.readString();
+        sampleQty = in.readString();
+        totalQtyDefected = in.readString();
+        totalQtyRejected = in.readString();
+        totalQtyOk = in.readString();
+        byte tmpIsFullInspection = in.readByte();
+        isFullInspection = tmpIsFullInspection == 0 ? null : tmpIsFullInspection == 1;
+        byte tmpIsSaved = in.readByte();
+        isSaved = tmpIsSaved == 0 ? null : tmpIsSaved == 1;
     }
 
     @Override
@@ -104,27 +142,6 @@ public class LastMoveWeldingBasket implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(basketMoveId);
         }
-        if (parentId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(parentId);
-        }
-        dest.writeString(parentCode);
-        dest.writeString(parentDescription);
-        if (signOffQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(signOffQty);
-        }
-        if (jobOrderQty == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(jobOrderQty);
-        }
-        dest.writeString(basketCode);
         if (jobOrderId == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -133,6 +150,32 @@ public class LastMoveWeldingBasket implements Parcelable {
         }
         dest.writeString(jobOrderName);
         dest.writeString(jobOrderDate);
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        if (pprLoadingId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprLoadingId);
+        }
+        if (parentId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(parentId);
+        }
+        dest.writeString(parentCode);
+        if (childId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(childId);
+        }
+        dest.writeString(parentDescription);
         if (operationId == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -140,8 +183,20 @@ public class LastMoveWeldingBasket implements Parcelable {
             dest.writeInt(operationId);
         }
         dest.writeString(operationEnName);
+        if (signOffQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(signOffQty);
+        }
+        dest.writeString(basketCode);
         dest.writeByte((byte) (isBulkQty == null ? 0 : isBulkQty ? 1 : 2));
-        dest.writeString(SampleQty);
+        dest.writeString(sampleQty);
+        dest.writeString(totalQtyDefected);
+        dest.writeString(totalQtyRejected);
+        dest.writeString(totalQtyOk);
+        dest.writeByte((byte) (isFullInspection == null ? 0 : isFullInspection ? 1 : 2));
+        dest.writeByte((byte) (isSaved == null ? 0 : isSaved ? 1 : 2));
     }
 
     @Override
@@ -161,60 +216,15 @@ public class LastMoveWeldingBasket implements Parcelable {
         }
     };
 
+    public LastMoveWeldingBasket() {
+    }
+
     public Integer getBasketMoveId() {
         return basketMoveId;
     }
 
     public void setBasketMoveId(Integer basketMoveId) {
         this.basketMoveId = basketMoveId;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getParentCode() {
-        return parentCode;
-    }
-
-    public void setParentCode(String parentCode) {
-        this.parentCode = parentCode;
-    }
-
-    public String getParentDescription() {
-        return parentDescription;
-    }
-
-    public void setParentDescription(String parentDescription) {
-        this.parentDescription = parentDescription;
-    }
-
-    public Integer getSignOffQty() {
-        return signOffQty;
-    }
-
-    public void setSignOffQty(Integer signOffQty) {
-        this.signOffQty = signOffQty;
-    }
-
-    public Integer getJobOrderQty() {
-        return jobOrderQty;
-    }
-
-    public void setJobOrderQty(Integer jobOrderQty) {
-        this.jobOrderQty = jobOrderQty;
-    }
-
-    public String getBasketCode() {
-        return basketCode;
-    }
-
-    public void setBasketCode(String basketCode) {
-        this.basketCode = basketCode;
     }
 
     public Integer getJobOrderId() {
@@ -241,6 +251,62 @@ public class LastMoveWeldingBasket implements Parcelable {
         this.jobOrderDate = jobOrderDate;
     }
 
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
+
+    public Integer getPprLoadingId() {
+        return pprLoadingId;
+    }
+
+    public void setPprLoadingId(Integer pprLoadingId) {
+        this.pprLoadingId = pprLoadingId;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
+
+    public Integer getChildId() {
+        return childId;
+    }
+
+    public void setChildId(Integer childId) {
+        this.childId = childId;
+    }
+
+    public Object getChildCode() {
+        return childCode;
+    }
+
+    public void setChildCode(Object childCode) {
+        this.childCode = childCode;
+    }
+
+    public String getParentDescription() {
+        return parentDescription;
+    }
+
+    public void setParentDescription(String parentDescription) {
+        this.parentDescription = parentDescription;
+    }
+
     public Integer getOperationId() {
         return operationId;
     }
@@ -257,6 +323,22 @@ public class LastMoveWeldingBasket implements Parcelable {
         this.operationEnName = operationEnName;
     }
 
+    public Integer getSignOffQty() {
+        return signOffQty;
+    }
+
+    public void setSignOffQty(Integer signOffQty) {
+        this.signOffQty = signOffQty;
+    }
+
+    public String getBasketCode() {
+        return basketCode;
+    }
+
+    public void setBasketCode(String basketCode) {
+        this.basketCode = basketCode;
+    }
+
     public Boolean getIsBulkQty() {
         return isBulkQty;
     }
@@ -265,19 +347,52 @@ public class LastMoveWeldingBasket implements Parcelable {
         this.isBulkQty = isBulkQty;
     }
 
-    public Boolean getBulkQty() {
-        return isBulkQty;
-    }
-
-    public void setBulkQty(Boolean bulkQty) {
-        isBulkQty = bulkQty;
-    }
-
     public String getSampleQty() {
-        return SampleQty;
+        return sampleQty;
     }
 
     public void setSampleQty(String sampleQty) {
-        SampleQty = sampleQty;
+        this.sampleQty = sampleQty;
     }
+
+    public String getTotalQtyDefected() {
+        return totalQtyDefected;
+    }
+
+    public void setTotalQtyDefected(String totalQtyDefected) {
+        this.totalQtyDefected = totalQtyDefected;
+    }
+
+    public String getTotalQtyRejected() {
+        return totalQtyRejected;
+    }
+
+    public void setTotalQtyRejected(String totalQtyRejected) {
+        this.totalQtyRejected = totalQtyRejected;
+    }
+
+    public String getTotalQtyOk() {
+        return totalQtyOk;
+    }
+
+    public void setTotalQtyOk(String totalQtyOk) {
+        this.totalQtyOk = totalQtyOk;
+    }
+
+    public Boolean getIsFullInspection() {
+        return isFullInspection;
+    }
+
+    public void setIsFullInspection(Boolean isFullInspection) {
+        this.isFullInspection = isFullInspection;
+    }
+
+    public Boolean getIsSaved() {
+        return isSaved;
+    }
+
+    public void setIsSaved(Boolean isSaved) {
+        this.isSaved = isSaved;
+    }
+
 }

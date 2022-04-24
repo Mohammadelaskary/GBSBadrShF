@@ -1,13 +1,14 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,11 +17,12 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.DefectBottomSheet;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.MyApplication;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionscraprequestqcBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import javax.inject.Inject;
 
@@ -32,7 +34,7 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
     ProductionRejectionRequestViewModel viewModel;
     @Inject
     ViewModelProviderFactory provider;
-
+    private BottomSheetBehavior defectsBottomSheet;
     public ProductionRejectionRequestFragment() {
     }
 
@@ -49,16 +51,17 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
     }
 
     private void fillData() {
-        String childCode        = rejectionRequest.getChildCode();
         String childDescription = rejectionRequest.getChildDescription();
         String jobOrderName     = rejectionRequest.getJobOrderName();
+        int jobOrderQty         = rejectionRequest.getJobOrderQty();
         int rejectedQty         = rejectionRequest.getRejectionQty();
         String department       = rejectionRequest.getDepartmentEnName();
-        binding.childcode.setText(childCode);
         binding.childesc.setText(childDescription);
-        binding.jobordername.setText(jobOrderName);
-        binding.rejectedQty.setText(String.valueOf(rejectedQty));
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
+        binding.rejectedQtyData.rejectedQty.setText(String.valueOf(rejectedQty));
         binding.responspileDep.setText(department);
+        binding.reason.setText(rejectionRequest.getRejectionReasonName());
     }
 
     private void initViewModel() {
@@ -76,14 +79,32 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
         attachButtonsToListener();
         observeRejectionRequestTakeAction();
         observeRejectionRequestTakeActionStatus();
-
+        setUpDefectsBottomSheet();
         return binding.getRoot();
+    }
+
+    private void setUpDefectsBottomSheet() {
+        defectsBottomSheet = BottomSheetBehavior.from(binding.defectsListBottomSheet.getRoot());
+        hideDefectsBottomSheet();
+        setUpDefectsRecyclerView();
+    }
+    private DisplayDefectsListAdapter adapter;
+    private void setUpDefectsRecyclerView() {
+        adapter = new DisplayDefectsListAdapter();
+        binding.defectsListBottomSheet.defectsCheckList.setAdapter(adapter);
+    }
+
+    private void hideDefectsBottomSheet() {
+        defectsBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+    private void showDefectsBottomSheet() {
+        defectsBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     private void attachButtonsToListener() {
         binding.acceptBtn.setOnClickListener(this);
         binding.declineBtn.setOnClickListener(this);
-        binding.displaydeffectBtn.setOnClickListener(this);
+        binding.displayDefectBtn.setOnClickListener(this);
     }
 
     private ProgressDialog progressDialog;
@@ -94,7 +115,7 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
     }
 
     private void observeRejectionRequestTakeActionStatus() {
-        viewModel.getRejectionRequestTakeActionStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
             else
@@ -104,13 +125,16 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
 
     private void observeRejectionRequestTakeAction() {
         NavController navController = NavHostFragment.findNavController(this);
-        viewModel.rejectionRequestTakeActionLiveData.observe(getViewLifecycleOwner(),apiResponseRejectionRequestTakeAction -> {
+        viewModel.getRejectionRequestTakeActionLiveData().observe(getViewLifecycleOwner(),apiResponseRejectionRequestTakeAction -> {
+            Log.d("response","takeActionResponse"+apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage());
             String statusMessage = apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage();
+
             if (statusMessage.equals("Saved successfully")){
                 MyMethods.showSuccessAlerter(statusMessage,getActivity());
 //                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                 navController.popBackStack();
-            }
+            } else
+                MyMethods.warningDialog(getContext(),statusMessage);
         });
     }
 
@@ -120,13 +144,31 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
     public void onClick(View v) {
         int id = v.getId();
         rejectionRequestId = rejectionRequest.getRejectionRequestId();
+        String notes = binding.notes.getEditText().getText().toString();
         switch (id){
             case R.id.accept_btn:{
-                viewModel.saveRejectionRequestTakeAction(userId,rejectionRequestId,true);
+                viewModel.saveRejectionRequestTakeAction(userId,DEVICE_SERIAL_NO,rejectionRequestId,true,notes);
             } break;
             case R.id.decline_btn:{
-                viewModel.saveRejectionRequestTakeAction(userId,rejectionRequestId,false);
+                viewModel.saveRejectionRequestTakeAction(userId,DEVICE_SERIAL_NO,rejectionRequestId,false,notes);
             } break;
+            case R.id.display_defect_btn:
+                getDefects(rejectionRequest.getRejectionRequestId());
         }
+    }
+
+    private void getDefects(Integer rejectionRequestId) {
+        viewModel.getDefects(USER_ID,DEVICE_SERIAL_NO,rejectionRequestId);
+        viewModel.getGetRejectionRequestById().observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestByID -> {
+            if (apiResponseManufacturingRejectionRequestGetRejectionRequestByID!=null){
+                String statusMessage = apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Getting data successfully")){
+                    adapter.setDefects(apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getDefectsList());
+                    showDefectsBottomSheet();
+                }else
+                    MyMethods.warningDialog(getContext(),statusMessage);
+            } else
+                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
+        });
     }
 }

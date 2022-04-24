@@ -4,8 +4,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
+import com.example.gbsbadrsf.Quality.Data.UpdateManufacturingDefectsData;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseAddingWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseUpdateWeldingDefects;
+import com.example.gbsbadrsf.Quality.welding.Model.UpdateWeldingDefectsData;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -23,8 +26,9 @@ public class WeldingAddDefectsDetailsViewModel extends ViewModel {
     MutableLiveData<ApiResponseDefectsList> defectsListLiveData;
     MutableLiveData<Status> defectsListStatus;
 
-    MutableLiveData<ApiResponseAddWeldingDefect> addWeldingDefectsResponse;
-    MutableLiveData<Status> addWeldingDefectsStatus;
+    MutableLiveData<ApiResponseAddingWeldingDefect> addWeldingDefectsResponse;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseUpdateWeldingDefects> updateWeldingDefectsResponse;
 
     @Inject
     Gson gson;
@@ -35,7 +39,8 @@ public class WeldingAddDefectsDetailsViewModel extends ViewModel {
         defectsListLiveData = new MutableLiveData<>();
         defectsListStatus = new MutableLiveData<>();
         addWeldingDefectsResponse = new MutableLiveData<>();
-        addWeldingDefectsStatus = new MutableLiveData<>();
+        updateWeldingDefectsResponse = new MutableLiveData<>();
+        status = new MutableLiveData<>();
     }
 
     public void getDefectsListViewModel(int operationId){
@@ -53,16 +58,31 @@ public class WeldingAddDefectsDetailsViewModel extends ViewModel {
                 ));
     }
     public void addWeldingDefectResponseViewModel(AddWeldingDefectData addWeldingDefectData){
-        disposable.add(apiInterface.addWeldingDefect(addWeldingDefectData)
+        disposable.add(apiInterface.AddWeldingDefect(addWeldingDefectData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addWeldingDefectsStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(apiResponseAddingDefectsWelding -> {
-                            addWeldingDefectsStatus.postValue(Status.SUCCESS);
+                            status.postValue(Status.SUCCESS);
                             addWeldingDefectsResponse.postValue(apiResponseAddingDefectsWelding);
                         },
                         throwable ->
-                                addWeldingDefectsStatus.postValue(Status.ERROR)
+                                status.postValue(Status.ERROR)
+
+                ));
+    }
+
+    public void updateWeldingDefectResponseViewModel(UpdateWeldingDefectsData data){
+        disposable.add(apiInterface.UpdateWeldingDefect(data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(apiResponseUpdatingDefectsManufacturing -> {
+                            status.postValue(Status.SUCCESS);
+                            updateWeldingDefectsResponse.postValue(apiResponseUpdatingDefectsManufacturing);
+                        },
+                        throwable ->
+                                status.postValue(Status.ERROR)
 
                 ));
     }
@@ -75,12 +95,16 @@ public class WeldingAddDefectsDetailsViewModel extends ViewModel {
         return defectsListStatus;
     }
 
-    public MutableLiveData<ApiResponseAddWeldingDefect> getAddManufacturingDefectsResponse() {
+    public MutableLiveData<ApiResponseAddingWeldingDefect> getAddWeldingDefectsResponse() {
         return addWeldingDefectsResponse;
     }
 
-    public MutableLiveData<Status> getAddManufacturingDefectsStatus() {
-        return addWeldingDefectsStatus;
+    public MutableLiveData<Status> getStatus() {
+        return status;
+    }
+
+    public MutableLiveData<ApiResponseUpdateWeldingDefects> getUpdateWeldingDefectsResponse() {
+        return updateWeldingDefectsResponse;
     }
 }
 

@@ -3,13 +3,16 @@ package com.example.gbsbadrsf.Quality.welding.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
+import com.example.gbsbadrsf.Model.ApiResponseQualityPass;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChildToBasket;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingDefect;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
-import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefectedChildToBasket;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseDeleteManufacturingDefect;
+import com.example.gbsbadrsf.Quality.Data.ApiResponseLastMoveWeldingBasket;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseDeleteWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseQualityOk_Welding;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseQualityPass_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
@@ -22,18 +25,21 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class WeldingQualityOperationViewModel extends ViewModel {
-    MutableLiveData<ApiResponseGetBasketInfoForQuality_Welding> basketDataLiveData;
+    MutableLiveData<ApiResponseLastMoveWeldingBasket> basketDataLiveData;
     MutableLiveData<Status> basketDataStatus;
-    MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> defectsWeldingListLiveData;
-    MutableLiveData<Status> defectsWeldingListStatus;
-    MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> addWeldingDefectsToNewBasket;
-    MutableLiveData<Status> addWeldingDefectsToNewBasketStatus;
+    MutableLiveData<ApiResponseDefectsManufacturing> defectsManufacturingListLiveData;
+    MutableLiveData<Status> defectsManufacturingListStatus;
+    MutableLiveData<ApiResponseAddManufacturingDefectedChildToBasket> addManufacturingDefectsToNewBasket;
+    MutableLiveData<Status> addManufacturingDefectsToNewBasketStatus;
     MutableLiveData<ApiResponseDefectsList> defectsListLiveData;
     MutableLiveData<Status> defectsListStatus;
 
-    MutableLiveData<ApiResponseAddWeldingDefect> addWeldingDefectsResponse;
-    MutableLiveData<Status> addWeldingDefectsStatus;
-
+    MutableLiveData<ApiResponseAddingManufacturingDefect> addManufacturingDefectsResponse;
+    MutableLiveData<Status> addManufacturingDefectsStatus;
+    MutableLiveData<ApiResponseQualityOk_Welding> qualityOkResponse;
+    MutableLiveData<ApiResponseQualityPass_Welding> qualityPassResponse;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseDeleteWeldingDefect> deleteWeldingDefectResponse;
     LastMoveWeldingBasket basketData;
     @Inject
     ApiInterface apiInterface;
@@ -45,23 +51,27 @@ public class WeldingQualityOperationViewModel extends ViewModel {
     @Inject
     public WeldingQualityOperationViewModel(Gson gson) {
         this.gson = gson;
-        basketData = new LastMoveWeldingBasket();
         basketDataLiveData = new MutableLiveData<>();
         basketDataStatus = new MutableLiveData<>();
         disposable = new CompositeDisposable();
-        defectsWeldingListLiveData = new MutableLiveData<>();
-        defectsWeldingListStatus = new MutableLiveData<>();
+        defectsManufacturingListLiveData = new MutableLiveData<>();
+        defectsManufacturingListStatus = new MutableLiveData<>();
 
-        addWeldingDefectsToNewBasket = new MutableLiveData<>();
-        addWeldingDefectsToNewBasketStatus = new MutableLiveData<>();
+        addManufacturingDefectsToNewBasket = new MutableLiveData<>();
+        addManufacturingDefectsToNewBasketStatus = new MutableLiveData<>();
         defectsListLiveData = new MutableLiveData<>();
         defectsListStatus = new MutableLiveData<>();
-        addWeldingDefectsResponse = new MutableLiveData<>();
-        addWeldingDefectsStatus = new MutableLiveData<>();
+        addManufacturingDefectsResponse = new MutableLiveData<>();
+        addManufacturingDefectsStatus = new MutableLiveData<>();
+
+        qualityOkResponse = new MutableLiveData<>();
+        qualityPassResponse = new MutableLiveData<>();
+        deleteWeldingDefectResponse = new MutableLiveData<>();
+        status = new MutableLiveData<>();
     }
 
-    public void getBasketData(int userId,String deviceSerialNo,String basketCode){
-        disposable.add(apiInterface.getBasketInfoForQuality_Welding(userId,deviceSerialNo,basketCode)
+    public void getBasketDataViewModel(int userId,String deviceSerialNo,String basketCode){
+        disposable.add(apiInterface.getBasketData_welding(userId,deviceSerialNo,basketCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe( __ -> basketDataStatus.postValue(Status.LOADING))
@@ -75,105 +85,71 @@ public class WeldingQualityOperationViewModel extends ViewModel {
                         }
                 ));
     }
-    public void getWeldingDefects(int userId,String deviceSerialNo,String basketCode){
-        disposable.add(apiInterface.getWeldingDefectedQtyByBasketCode(userId,deviceSerialNo,basketCode)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> defectsWeldingListStatus.postValue(Status.LOADING))
-                .subscribe(
-                        response -> {defectsWeldingListLiveData.postValue(response);
-                            defectsWeldingListStatus.postValue(Status.SUCCESS); },
-                        throwable -> {
-                            defectsWeldingListStatus.postValue(Status.ERROR);
-                        }
-                ));
-    }
-    public void addWeldingDefectsToNewBasketViewModel(int userId,
-                                                      String deviceSerialNo,
-                                                      int jobOrderId,
-                                                      int parentId,
-                                                      String basketCode,
-                                                      String newBasketCode){
 
-        disposable.add(apiInterface.addWeldingDefectedParentToBasket(userId,deviceSerialNo,jobOrderId,parentId,basketCode,newBasketCode)
+    public void qualityOk(int userId,String deviceSerialNo,String basketCode,String dt,int sampleQty){
+        disposable.add(apiInterface.QualityOk_Welding(userId,deviceSerialNo,basketCode,dt,sampleQty)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addWeldingDefectsToNewBasketStatus.postValue(Status.LOADING))
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
                 .subscribe(
                         response -> {
-                            addWeldingDefectsToNewBasket.postValue(response);
-                            addWeldingDefectsToNewBasketStatus.postValue(Status.SUCCESS); },
-                        throwable -> {
-                            addWeldingDefectsToNewBasketStatus.postValue(Status.ERROR);
-                        }
-                ));
-    }
-    public void getDefectsListViewModel(){
-        disposable.add(apiInterface.getDefectsList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ ->defectsListStatus.postValue(Status.LOADING))
-                .subscribe(
-                        response -> {
-                            defectsListLiveData.postValue(response);
-                            defectsListStatus.postValue(Status.SUCCESS);},
-                        throwable -> {
-                            defectsListStatus.postValue(Status.ERROR);
-                        }
-                ));
-    }
-    public void addWeldingDefectResponseViewModel(AddWeldingDefectData addWeldingDefectData){
-        disposable.add(apiInterface.addWeldingDefect(addWeldingDefectData)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addWeldingDefectsStatus.postValue(Status.LOADING))
-                .subscribe(apiResponseAddingDefectsWelding -> {
-                            addWeldingDefectsStatus.postValue(Status.SUCCESS);
-                            addWeldingDefectsResponse.postValue(apiResponseAddingDefectsWelding);
+                            qualityOkResponse.postValue(response);
+                            status.postValue(Status.SUCCESS);
                         },
-                        throwable ->
-                                addWeldingDefectsStatus.postValue(Status.ERROR)
-
+                        throwable -> {
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void qualityPass(int userId,String deviceSerialNo,String basketCode,String dt,int sampleQty){
+        disposable.add(apiInterface.QualityPass_Welding(userId,deviceSerialNo,basketCode,dt
+//                ,sampleQty
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            qualityPassResponse.postValue(response);
+                            status.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
+    public void DeleteWeldingDefects(int userId,String deviceSerialNo,int DefectGroupId){
+        disposable.add(apiInterface.DeleteWeldingDefect(userId,deviceSerialNo,DefectGroupId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            deleteWeldingDefectResponse.postValue(response);
+                            status.postValue(Status.SUCCESS);
+                        },
+                        throwable -> {
+                            status.postValue(Status.ERROR);
+                        }
                 ));
     }
 
-    public MutableLiveData<ApiResponseDefectsList> getDefectsListLiveData() {
-        return defectsListLiveData;
+    public MutableLiveData<ApiResponseDefectsManufacturing> getDefectsManufacturingListLiveData() {
+        return defectsManufacturingListLiveData;
     }
 
-    public MutableLiveData<Status> getDefectsListStatus() {
-        return defectsListStatus;
+    public MutableLiveData<Status> getDefectsManufacturingListStatus() {
+        return defectsManufacturingListStatus;
     }
 
-    public MutableLiveData<ApiResponseAddWeldingDefect> getAddManufacturingDefectsResponse() {
-        return addWeldingDefectsResponse;
-    }
-
-    public MutableLiveData<Status> getAddManufacturingDefectsStatus() {
-        return addWeldingDefectsStatus;
-    }
-    public MutableLiveData<ApiResponseGetWeldingDefectedQtyByBasketCode> getDefectsWeldingListLiveData() {
-        return defectsWeldingListLiveData;
-    }
-
-    public MutableLiveData<Status> getDefectsWeldingListStatus() {
-        return defectsWeldingListStatus;
-    }
-
-    public MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> getAddWeldingDefectsToNewBasket() {
-        return addWeldingDefectsToNewBasket;
-    }
-
-    public MutableLiveData<Status> getAddWeldingDefectsToNewBasketStatus() {
-        return addWeldingDefectsToNewBasketStatus;
-    }
-    public MutableLiveData<ApiResponseGetBasketInfoForQuality_Welding> getBasketDataLiveData() {
+    public MutableLiveData<ApiResponseLastMoveWeldingBasket> getBasketDataResponse() {
         return basketDataLiveData;
     }
 
     public MutableLiveData<Status> getBasketDataStatus() {
         return basketDataStatus;
     }
+
 
     public LastMoveWeldingBasket getBasketData() {
         return basketData;
@@ -183,4 +159,20 @@ public class WeldingQualityOperationViewModel extends ViewModel {
         this.basketData = basketData;
     }
 
+    public MutableLiveData<ApiResponseQualityOk_Welding> getQualityOkResponse() {
+        return qualityOkResponse;
+    }
+
+    public MutableLiveData<Status> getStatus() {
+        return status;
+    }
+
+    public MutableLiveData<ApiResponseDeleteWeldingDefect> getDeleteWeldingDefectResponse() {
+        return deleteWeldingDefectResponse;
+    }
+
+    public MutableLiveData<ApiResponseQualityPass_Welding> getQualityPassResponse() {
+        return qualityPassResponse;
+    }
 }
+

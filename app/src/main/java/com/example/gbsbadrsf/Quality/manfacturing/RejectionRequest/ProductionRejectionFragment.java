@@ -7,21 +7,17 @@ import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -32,7 +28,8 @@ import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.Production.Data.ProductionRejectionViewModel;
 import com.example.gbsbadrsf.Quality.Data.Defect;
-import com.example.gbsbadrsf.Quality.welding.RejectionRequest.WeldingDefectsListAdapter;
+import com.example.gbsbadrsf.Quality.Data.ItemData;
+import com.example.gbsbadrsf.Quality.Data.RejectionReason;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -40,7 +37,6 @@ import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionRejectionBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -86,7 +82,9 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
         initViewModel();
         setUpProgressDialog();
         getDepartmentsList();
+        getReasonsList();
         setUpDepartmentsSpinner();
+        setUpReasonsSpinner();
         observeGettingDepartments();
         attachButtonsToListener();
         setUpBottomSheet();
@@ -112,6 +110,30 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
             }
         });
         return binding.getRoot();
+    }
+    private int selectedReasonId = -1;
+    private ArrayAdapter<RejectionReason> reasonAdapter;
+    private void setUpReasonsSpinner() {
+        reasonAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,rejectionReasons);
+        binding.reasonSpinner.setAdapter(reasonAdapter);
+        binding.reasonSpinner.setOnItemClickListener((parent, view, position, id) -> {
+            selectedReasonId = rejectionReasons.get(position).getRejectionReasonId();
+        });
+    }
+    private List<RejectionReason> rejectionReasons = new ArrayList<>();
+    private void getReasonsList() {
+        viewModel.getReasonsList(USER_ID,DEVICE_SERIAL_NO);
+        viewModel.getApiResponseReasonsList().observe(getViewLifecycleOwner(),apiResponseGetRejectionReasonsList -> {
+            if (apiResponseGetRejectionReasonsList!=null){
+                String statusMessage = apiResponseGetRejectionReasonsList.getResponseStatus().getStatusMessage();
+                if (statusMessage.equals("Data sent successfully")){
+                    rejectionReasons.clear();
+                    rejectionReasons.addAll(apiResponseGetRejectionReasonsList.getRejectionReasonList());
+                    reasonAdapter.notifyDataSetChanged();
+                }
+            } else
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
+        });
     }
 
     private void setUpBottomSheet() {
@@ -220,7 +242,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
 
     String oldBasketCode="",childDesc,jobOrderName,deviceSerial=DEVICE_SERIAL_NO,operationName;
     int basketQty,jobOrderQty,operationId;
-    LastMoveManufacturingBasketInfo basketData;
+    ItemData basketData;
 
     private void getBasketData(String oldBasketCode) {
         binding.oldBasketCode.setError(null);
@@ -228,9 +250,8 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
             if (apiResponseLastMoveManufacturingBasket!=null) {
                 String statusMessage = apiResponseLastMoveManufacturingBasket.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)) {
-                    basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBasketInfo();
-
+                if (statusMessage.equals("Data sent successfully")) {
+                    basketData = apiResponseLastMoveManufacturingBasket.getGetData();
                     binding.oldBasketCode.setError(null);
                 } else {
                    basketData = null;
@@ -244,12 +265,12 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
     private void fillViewsData() {
         if (basketData!=null) {
             binding.dataLayout.setVisibility(View.VISIBLE);
-            childDesc = basketData.getChildDescription();
+            childDesc = basketData.getChildDisplayName();
             jobOrderName = basketData.getJobOrderName();
             jobOrderQty = basketData.getJobOrderQty();
-            basketQty = basketData.getQty();
-            operationName = basketData.getNextOperationName().toString();
-            operationId = basketData.getNextOperationId();
+            basketQty = basketData.getBasketQty();
+            operationName = basketData.getOperationEnName();
+            operationId = basketData.getOperationId();
             binding.childdesc.setText(childDesc);
             binding.jobOrderData.Joborderqtn.setText(String.valueOf(jobOrderQty));
             binding.jobOrderData.jobordernum.setText(jobOrderName);
@@ -285,7 +306,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
     }
 
     private void observeGettingDepartments() {
-        viewModel.getApiResponseDepartmentsListStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
             } else {
@@ -297,8 +318,14 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
     ArrayAdapter<Department> spinnerAdapter;
     private void setUpDepartmentsSpinner() {
         spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,departments);
-        Log.d("selected","departmentsNum "+departments.size());
-        binding.responsibledepSpin.setAdapter(spinnerAdapter);
+
+        binding.responsibleSpinner.setAdapter(spinnerAdapter);
+        binding.responsibleSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                departmentId = departments.get(position).getDepartmentId();
+            }
+        });
     }
 
     ProgressDialog progressDialog;
@@ -319,6 +346,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
                 if (responseStatus.getStatusMessage().equals(GETTING_DATA_SUCCESSFULLY)) {
                     departments.clear();
                     departments.addAll(departmentList);
+                    Log.d("selected","departmentsNum "+departments.size());
                     spinnerAdapter.notifyDataSetChanged();
                 } else {
                     showSuccessAlerter(responseStatus.getStatusMessage(),getActivity());
@@ -352,20 +380,19 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
 //                String newBasketCode = "Bskt10";
                 if (newBasketCode.isEmpty())
                     binding.newBasketCode.setError("Please scan or enter new basket code!");
-                if (newBasketCode.isEmpty())
+                if (oldBasketCode.isEmpty())
                     binding.newBasketCode.setError("Please scan or enter old basket code!");
 
-                boolean validResponsibility = binding.responsibledepSpin.getSelectedItemPosition()>=0&&binding.responsibledepSpin.getSelectedItemPosition()<departments.size();
-                if (validResponsibility){
-                    Department department = departments.get(binding.responsibledepSpin.getSelectedItemPosition());
-                    departmentId = department.getDepartmentId();
-                } else {
-                    warningDialog(getContext(),"Please Select A Responsibility!");
+                if (departmentId==-1){
+                    binding.responsibleDepSpin.setError("Please Select A Responsibility!");
                 }
-                if (selectedIds.isEmpty())
-                    warningDialog(getContext(),"Please select at least one defect!");
-                if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&!selectedIds.isEmpty()){
-                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedIds);
+                if (selectedReasonId==-1){
+                    binding.reason.setError("Please Select A rejection reason!");
+                }
+//                if (selectedIds.isEmpty())
+//                    warningDialog(getContext(),"Please select at least one defect!");
+                if (!emptyRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&departmentId!=-1&&selectedReasonId!=-1){
+                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedReasonId,selectedIds);
                     saveRejectedRequest(body);
                 }
             } break;
@@ -406,7 +433,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             if (oldBasketCodeFocused){
                 binding.oldBasketCode.getEditText().setText(scannedText);
-                getBasketData(oldBasketCode);
+                getBasketData(scannedText);
             } else if (newBasketCodeFocused){
                 binding.newBasketCode.getEditText().setText(scannedText);
             }

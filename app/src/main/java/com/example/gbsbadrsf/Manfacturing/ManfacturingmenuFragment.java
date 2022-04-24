@@ -13,17 +13,13 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.databinding.FragmentMainmenuBinding;
 import com.example.gbsbadrsf.databinding.FragmentManfacturingmenuBinding;
 
-import java.nio.charset.StandardCharsets;
-
 public class ManfacturingmenuFragment extends Fragment {
-    FragmentManfacturingmenuBinding fragmentManfacturingmenuBinding;
+    FragmentManfacturingmenuBinding binding;
 
     public ManfacturingmenuFragment() {
         // Required empty public constructor
@@ -45,10 +41,10 @@ public class ManfacturingmenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentManfacturingmenuBinding = FragmentManfacturingmenuBinding.inflate(inflater,container,false);
+        binding = FragmentManfacturingmenuBinding.inflate(inflater,container,false);
         attachListeners();
 
-        return fragmentManfacturingmenuBinding.getRoot();
+        return binding.getRoot();
 
     }
 
@@ -64,12 +60,12 @@ public class ManfacturingmenuFragment extends Fragment {
 
 
     private void attachListeners() {
-        fragmentManfacturingmenuBinding.machineloadingBtn.setOnClickListener(__ -> {
+        binding.machineloadingBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_mainmachineloading);
 
         });
-        fragmentManfacturingmenuBinding.machinesignoffBtn.setOnClickListener(__ -> {
+        binding.machinesignoffBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_mainmachinesignoff);
 
@@ -84,7 +80,7 @@ public class ManfacturingmenuFragment extends Fragment {
 //            Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_qualityscraplistFragment);
 //
 //        });
-        fragmentManfacturingmenuBinding.productionrepairBtn.setOnClickListener(__ -> {
+        binding.productionrepairBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_menu_fragment_to_production_repair_fragment);
 
@@ -94,23 +90,30 @@ public class ManfacturingmenuFragment extends Fragment {
 //            Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_baskettransferFragment);
 //
 //        });
-        fragmentManfacturingmenuBinding.scraprmanagmentBtn.setOnClickListener(__ -> {
+        binding.scraprmanagmentBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_mainScrapmanagment);
 
         });
-        fragmentManfacturingmenuBinding.machinewipBtn.setOnClickListener(__ -> {
+        binding.machinewipBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_manfacturingmenuFragment_to_machinewip);
 
         });
-        fragmentManfacturingmenuBinding.basketInfoBtn.setOnClickListener(__ -> {
+        binding.basketInfoBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_menu_fragment_to_fragment_manufacturing_basket_info);
 
         });
+        binding.approvalRejectionRequest.setOnClickListener(__ -> {
 
+            Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_menu_fragment_to_approval_rejection_requests_list);
 
+        });
+
+        binding.declineRejectionRequest.setOnClickListener(v->{
+            Navigation.findNavController(v).navigate(R.id.action_manufacturing_menu_fragment_to_decline_rejection_request_fragment);
+        });
 
 
 

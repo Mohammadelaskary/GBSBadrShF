@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Quality.paint.SignOffBaskets.PaintSignOffBasketsFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Quality.manfacturing.SignOffBaskets.SignOffBasketsFragment">
+
+        <TextView
+            android:id="@+id/parent_desc"
+            style="@style/child_parent_desc_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="Child Description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <include layout="@layout/job_order_data"
+            android:id="@+id/job_order_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/parent_desc"
+            app:layout_constraintEnd_toEndOf="@id/parent_desc"
+            app:layout_constraintTop_toBottomOf="@id/parent_desc"/>
+
+        <TextView
+            android:id="@+id/operation"
+            style="@style/operation_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="operation"
+            app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+            app:layout_constraintStart_toStartOf="@+id/parent_desc"
+            app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
+        <include
+            android:id="@+id/sign_off_data"
+            layout="@layout/sign_off_qty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+            app:layout_constraintStart_toStartOf="@+id/parent_desc"
+            app:layout_constraintTop_toBottomOf="@+id/operation" />
+
+        <include
+            android:id="@+id/sign_off_baskets"
+            layout="@layout/add_baskets_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+            app:layout_constraintStart_toStartOf="@+id/parent_desc"
+            app:layout_constraintTop_toBottomOf="@+id/sign_off_data" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            app:icon="@drawable/ic__save"
+            app:iconGravity="start"
+            app:cornerRadius="20dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+            app:layout_constraintStart_toStartOf="@+id/parent_desc"
+            app:layout_constraintTop_toBottomOf="@+id/sign_off_baskets" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/disable_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#86000000"
+        android:visibility="gone"/>
+    <include android:id="@+id/defected_rejected_basket_code_bottom_sheet"
+        layout="@layout/basket_code_bottom_sheet"
+        android:visibility="visible"/>
+    <include layout="@layout/ok_baskets_bottom_sheet"
+        android:visibility="visible"
+        android:id="@+id/add_ok_basket_bottom_sheet"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

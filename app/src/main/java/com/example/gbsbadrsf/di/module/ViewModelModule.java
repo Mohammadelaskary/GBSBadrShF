@@ -3,7 +3,11 @@ package com.example.gbsbadrsf.di.module;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.gbsbadrsf.ApprovalRejectionRequest.ApprovalRejectionRequestsListViewModel;
+import com.example.gbsbadrsf.ApprovalRejectionRequest.RejectionRequestClosingViewModel;
 import com.example.gbsbadrsf.ChangeIpViewModel;
+import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestDecisionViewModel;
+import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestViewModel;
 import com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoViewModel;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoadingViewModel;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel;
@@ -32,6 +36,8 @@ import com.example.gbsbadrsf.Quality.paint.QualitySignOff.PaintQualityDecisionVi
 import com.example.gbsbadrsf.Quality.paint.RejectionRequest.PaintRejectionRequestFragment;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestDetailsViewModel;
 import com.example.gbsbadrsf.Quality.paint.RejectionRequestsList.PaintRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.paint.SignOffBaskets.PaintSignOffBasketsViewModel;
+import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRandomQualityInceptionViewModel;
@@ -39,6 +45,7 @@ import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintRejectionRequestViewMo
 import com.example.gbsbadrsf.Quality.welding.QualitySignOff.WeldingQualityDecisionViewModel;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestDetailsViewModel;
 import com.example.gbsbadrsf.Quality.welding.RejectionRequestsList.WeldingRejectionRequestsListQualityViewModel;
+import com.example.gbsbadrsf.Quality.welding.SignOffBaskets.WeldingSignOffBasketsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityDefectRepairViewModel;
@@ -56,6 +63,8 @@ import com.example.gbsbadrsf.signin.ChangePasswordViewModel;
 import com.example.gbsbadrsf.signin.SignInViewModel;
 import com.example.gbsbadrsf.warhouse.counting.CountingViewModel;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseViewModel;
+import com.example.gbsbadrsf.welding.ItemsReceiving.ChildToBasketViewModel;
+import com.example.gbsbadrsf.welding.ItemsReceiving.ItemsReceivingViewModel;
 import com.example.gbsbadrsf.welding.machineloadingwe.SaveweldingViewModel;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweViewModel;
 import com.example.gbsbadrsf.welding.weldingwip.WeldingvieModel;
@@ -309,7 +318,43 @@ public abstract class ViewModelModule {
     @ViewModelKey(SignOffBasketsViewModel.class)
     public abstract ViewModel bindSignOffBasketsViewModel (SignOffBasketsViewModel viewModel);
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingSignOffBasketsViewModel.class)
+    public abstract ViewModel bindWeldingSignOffBasketsViewModel (WeldingSignOffBasketsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintSignOffBasketsViewModel.class)
+    public abstract ViewModel bindPaintSignOffBasketsViewModel (PaintSignOffBasketsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(ItemsReceivingViewModel.class)
+    public abstract ViewModel bindItemsReceivingViewModel (ItemsReceivingViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChildToBasketViewModel.class)
+    public abstract ViewModel bindChildToBasketViewModel (ChildToBasketViewModel viewModel);
+@Binds
+@IntoMap
+@ViewModelKey(PaintAddDefectsDetailsViewModel.class)
+public abstract ViewModel bindPaintAddDefectsDetailsViewModel (PaintAddDefectsDetailsViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(ApprovalRejectionRequestsListViewModel.class)
+    public abstract ViewModel bindApprovalRejectionRequestsListViewModel (ApprovalRejectionRequestsListViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(RejectionRequestClosingViewModel.class)
+    public abstract ViewModel bindRejectionRequestClosingViewModel (RejectionRequestClosingViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(DeclineRejectionRequestDecisionViewModel.class)
+    public abstract ViewModel bindDeclineRejectionRequestDecisionViewModel (DeclineRejectionRequestDecisionViewModel viewModel);
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(DeclineRejectionRequestViewModel.class)
+    public abstract ViewModel bindDeclineRejectionRequestViewModel (DeclineRejectionRequestViewModel viewModel);
 
 
 

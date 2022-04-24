@@ -11,7 +11,7 @@ public class ApiResponseAddingManufacturingDefect {
     private ResponseStatus responseStatus;
     @SerializedName("defectsManufacturing")
     @Expose
-    private DefectsWelding defectsManufacturing;
+    private DefectsManufacturing defectsManufacturing;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -21,11 +21,11 @@ public class ApiResponseAddingManufacturingDefect {
         this.responseStatus = responseStatus;
     }
 
-    public DefectsWelding getDefectsManufacturing() {
+    public DefectsManufacturing getDefectsManufacturing() {
         return defectsManufacturing;
     }
 
-    public void setDefectsManufacturing(DefectsWelding defectsManufacturing) {
+    public void setDefectsManufacturing(DefectsManufacturing defectsManufacturing) {
         this.defectsManufacturing = defectsManufacturing;
     }
 

@@ -75,7 +75,7 @@
             android:textSize="17sp"
             />
         <TextView
-            android:id="@+id/child_desc"
+            android:id="@+id/parent_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"

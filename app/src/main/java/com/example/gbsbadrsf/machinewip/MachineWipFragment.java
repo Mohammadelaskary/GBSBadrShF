@@ -37,7 +37,7 @@ public class MachineWipFragment extends Fragment {
     }
 
     private void fillData(MachinesWIP machinesWIP) {
-        binding.childDesc.setText(machinesWIP.getChildDescription());
+        binding.parentDesc.setText(machinesWIP.getChildDescription());
         binding.jobordernum.setText(machinesWIP.getJobOrderName());
         binding.jobOrderQty.setText(machinesWIP.getJobOrderQty().toString());
         binding.loadingQty.setText(machinesWIP.getPprLoadingQty().toString());

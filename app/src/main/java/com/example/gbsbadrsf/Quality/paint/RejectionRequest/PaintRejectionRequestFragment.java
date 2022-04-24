@@ -219,7 +219,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWeldingBasket -> {
             String statusMessage = apiResponseLastMoveWeldingBasket.getResponseStatus().getStatusMessage();
             if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
-                basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
+                basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBaskets().get(0);
                 binding.oldBasketCode.setError(null);
                 binding.dataLayout.setVisibility(View.VISIBLE);
             } else {
@@ -352,8 +352,8 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                 if (selectedIds.isEmpty())
                     warningDialog(getContext(),"Please select at least one defect!");
                 if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&!selectedIds.isEmpty()){
-                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedIds);
-                    saveRejectedRequest(body);
+//                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedIds);
+//                    saveRejectedRequest(body);
                 }
             } break;
             case R.id.reason_def_btn:

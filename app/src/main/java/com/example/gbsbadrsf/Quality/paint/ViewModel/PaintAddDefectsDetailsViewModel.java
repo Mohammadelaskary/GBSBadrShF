@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
 import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
-import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseAddPaintingDefect;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponseAddingPaintingDefect;
+import com.example.gbsbadrsf.Quality.paint.Model.ApiResponseUpdatePaintingDefects;
+import com.example.gbsbadrsf.Quality.paint.Model.UpdatePaintingDefectsData;
 import com.example.gbsbadrsf.Quality.welding.Model.AddWeldingDefectData;
-import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseAddingWeldingDefect;
+import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseUpdateWeldingDefects;
+import com.example.gbsbadrsf.Quality.welding.Model.UpdateWeldingDefectsData;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
@@ -25,8 +29,9 @@ public class PaintAddDefectsDetailsViewModel extends ViewModel {
     MutableLiveData<ApiResponseDefectsList> defectsListLiveData;
     MutableLiveData<Status> defectsListStatus;
 
-    MutableLiveData<ApiResponseAddPaintingDefect> addPaintingDefectsResponse;
-    MutableLiveData<Status> addPaintingDefectsStatus;
+    MutableLiveData<ApiResponseAddingPaintingDefect> addPaintingDefectsResponse;
+    MutableLiveData<Status> status;
+    MutableLiveData<ApiResponseUpdatePaintingDefects> updatePaintingDefectsResponse;
 
     @Inject
     Gson gson;
@@ -37,7 +42,8 @@ public class PaintAddDefectsDetailsViewModel extends ViewModel {
         defectsListLiveData = new MutableLiveData<>();
         defectsListStatus = new MutableLiveData<>();
         addPaintingDefectsResponse = new MutableLiveData<>();
-        addPaintingDefectsStatus = new MutableLiveData<>();
+        updatePaintingDefectsResponse = new MutableLiveData<>();
+        status = new MutableLiveData<>();
     }
 
     public void getDefectsListViewModel(int operationId){
@@ -54,31 +60,32 @@ public class PaintAddDefectsDetailsViewModel extends ViewModel {
                         }
                 ));
     }
-    public void addWeldingDefectResponseViewModel(AddPaintingDefectData addPaintingDefectData){
-        disposable.add(apiInterface.addPaintingDefect(addPaintingDefectData)
+    public void addPaintingDefectResponseViewModel(AddPaintingDefectData addPaintingDefectData){
+        disposable.add(apiInterface.AddPaintingDefect(addPaintingDefectData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addPaintingDefectsStatus.postValue(Status.LOADING))
-                .subscribe(apiResponseAddingDefectsPainting -> {
-                            addPaintingDefectsStatus.postValue(Status.SUCCESS);
-                            addPaintingDefectsResponse.postValue(apiResponseAddingDefectsPainting);
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(apiResponseAddingDefectsWelding -> {
+                            status.postValue(Status.SUCCESS);
+                            addPaintingDefectsResponse.postValue(apiResponseAddingDefectsWelding);
                         },
                         throwable ->
-                                addPaintingDefectsStatus.postValue(Status.ERROR)
+                                status.postValue(Status.ERROR)
 
                 ));
     }
-    public void addPaintingDefectResponseViewModel(AddPaintingDefectData addPaintingDefectData){
-        disposable.add(apiInterface.addPaintingDefect(addPaintingDefectData)
+
+    public void updateWeldingDefectResponseViewModel(UpdatePaintingDefectsData data){
+        disposable.add(apiInterface.UpdatePaintingDefect(data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe( __ -> addPaintingDefectsStatus.postValue(Status.LOADING))
-                .subscribe(apiResponseAddingDefectsPainting -> {
-                            addPaintingDefectsStatus.postValue(Status.SUCCESS);
-                            addPaintingDefectsResponse.postValue(apiResponseAddingDefectsPainting);
+                .doOnSubscribe( __ -> status.postValue(Status.LOADING))
+                .subscribe(apiResponseUpdatingDefectsManufacturing -> {
+                            status.postValue(Status.SUCCESS);
+                            updatePaintingDefectsResponse.postValue(apiResponseUpdatingDefectsManufacturing);
                         },
                         throwable ->
-                                addPaintingDefectsStatus.postValue(Status.ERROR)
+                                status.postValue(Status.ERROR)
 
                 ));
     }
@@ -91,16 +98,16 @@ public class PaintAddDefectsDetailsViewModel extends ViewModel {
         return defectsListStatus;
     }
 
-    public MutableLiveData<ApiResponseAddPaintingDefect> getAddPaintingDefectsResponse() {
+    public MutableLiveData<ApiResponseAddingPaintingDefect> getAddPaintingDefectsResponse() {
         return addPaintingDefectsResponse;
     }
 
-    public MutableLiveData<Status> getAddPaintingDefectsStatus() {
-        return addPaintingDefectsStatus;
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 
-    public MutableLiveData<Status> getAddManufacturingDefectsStatus() {
-        return addPaintingDefectsStatus;
+    public MutableLiveData<ApiResponseUpdatePaintingDefects> getUpdatePaintingDefectsResponse() {
+        return updatePaintingDefectsResponse;
     }
 }
 

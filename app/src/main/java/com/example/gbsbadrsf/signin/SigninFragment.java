@@ -82,7 +82,7 @@ public class SigninFragment extends DaggerFragment {
             } else {
 //
                 if (fragmentSigninBinding.UsernameNewedttxt.getText().toString().equals("admin")
-                        && fragmentSigninBinding.UsernameNewedttxt.getText().toString().equals("admin")){
+                        && fragmentSigninBinding.passwordedittext.getText().toString().equals("admin")){
                     Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_change_ip);
                 } else {
                     signinviewmodel.login(fragmentSigninBinding.UsernameNewedttxt.getText().toString(),

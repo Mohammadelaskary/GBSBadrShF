@@ -175,4 +175,9 @@
     <string name="child_qty">Child Qty</string>
     <string name="defects">Defects</string>
     <string name="ok_baskets">OK baskets</string>
+    <string name="items_receiving">Items Receiving</string>
+    <string name="error_in_getting_data">Error in getting data!</string>
+    <string name="close_request">Close request</string>
+    <string name="closed_successfully">Closed Successfully</string>
+    <string name="build_date">20-April-2022</string>
 </resources>

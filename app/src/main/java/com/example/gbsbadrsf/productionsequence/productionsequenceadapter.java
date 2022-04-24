@@ -43,7 +43,7 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
     @Override
     public void onBindViewHolder(@NonNull productionsequenceadapter.productionsequenceViewHolder holder, int position) {
         holder.binding.sequenceNum.setText(pprList.get(position).getLoadingSequenceNumber().toString());
-        holder.binding.childDesc.setText(pprList.get(position).getChildDescription());
+        holder.binding.parentDesc.setText(pprList.get(position).getChildDescription());
         holder.binding.remainingQty.setText(pprList.get(position).getAvailableloadingQty().toString());
         holder.binding.jobOrderQty.setText(pprList.get(position).getJobOrderQty().toString());
         if (position==selectedPosition)

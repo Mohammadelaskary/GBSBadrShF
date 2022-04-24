@@ -9,12 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
 
 public class PaintRepairQualityAdapter extends RecyclerView.Adapter<PaintRepairQualityAdapter.WeldingRepairProductionQualityViewHolder> {
-    List<DefectsPainting> defectsPaintingList;
+    List<PaintingDefect> defectsPaintingList;
     SetOnPaintingRepairItemClicked onPaintingRepairItemClicked;
 
     public PaintRepairQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
@@ -32,14 +33,14 @@ public class PaintRepairQualityAdapter extends RecyclerView.Adapter<PaintRepairQ
 
     @Override
     public void onBindViewHolder(@NonNull WeldingRepairProductionQualityViewHolder holder, int position) {
-        DefectsPainting defectsPainting = defectsPaintingList.get(position);
+        PaintingDefect defectsPainting = defectsPaintingList.get(position);
         String defectName = defectsPainting.getDefectDescription();
-        int defectedQty = defectsPainting.getDeffectedQty();
+        int defectedQty = defectsPainting.getQtyDefected();
         int repairedQty = defectsPainting.getQtyRepaired();
         int approvedQty = defectsPainting.getQtyApproved();
         boolean isRepaired = repairedQty != 0;
         boolean isApproved = approvedQty != 0;
-        int pendingRepair = defectedQty-repairedQty-approvedQty;
+        int pendingRepair = defectedQty-repairedQty;
         int pendingApprove = repairedQty - approvedQty;
         holder.binding.defectName.setText(defectName);
         holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
@@ -71,7 +72,7 @@ public class PaintRepairQualityAdapter extends RecyclerView.Adapter<PaintRepairQ
         });
     }
 
-    public void setDefectsPaintingList(List<DefectsPainting> defectsPaintingList) {
+    public void setDefectsPaintingList(List<PaintingDefect> defectsPaintingList) {
         this.defectsPaintingList = defectsPaintingList;
     }
 

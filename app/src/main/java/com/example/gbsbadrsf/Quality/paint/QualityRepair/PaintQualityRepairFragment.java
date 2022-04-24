@@ -1,7 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
-import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -13,15 +12,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
-import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
-import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -41,7 +38,7 @@ import dagger.android.support.DaggerFragment;
 
 public class PaintQualityRepairFragment extends DaggerFragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentWeldingQualityRepairBinding binding;
-    List<DefectsPainting> defectsPaintingList = new ArrayList<>();
+    List<PaintingDefect> defectsPaintingList = new ArrayList<>();
     PaintQualityRepairQtyDefectsQtyAdapter adapter;
     public static PaintQualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
@@ -58,18 +55,18 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         initViewModel();
         if (viewModel.getBasketData()!=null){
             basketData = viewModel.getBasketData();
-            fillData(basketData.getParentDescription(),basketData.getOperationEnName());
+            fillData(basketData.getParentDescription(),basketData.getOperationEnName(),basketData.getJobOrderName(),basketData.getJobOrderQty(),basketData.getOperationEnName());
         }
         setupRecyclerView();
-        if (viewModel.getDefectsPaintingList()!=null&&viewModel.getBasketData()!=null){
-            adapter.setDefectsPaintingList(defectsPaintingList);
-            adapter.setBasketData(basketData);
-            qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-            String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-            binding.defectedData.qty.setText(defectedQty);
-        }
+//        if (viewModel.getDefectsPaintingList()!=null&&viewModel.getBasketData()!=null){
+//            adapter.setDefectsPaintingList(defectsPaintingList);
+//            adapter.setBasketData(basketData);
+//            qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
+//            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+//            adapter.notifyDataSetChanged();
+//            String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+//            binding.defectedData.qty.setText(defectedQty);
+//        }
         addTextWatcher();
         observeGettingBasketData();
         observeGettingDefectsWelding();
@@ -103,7 +100,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
                 {
                     basketCode = binding.basketCode.getEditText().getText().toString().trim();
                     getBasketData(basketCode);
-                    getBasketDefectsPainting(basketCode);
+//                    getBasketDefectsPainting(basketCode);
                     return true;
                 }
                 return false;
@@ -122,42 +119,42 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
     int userId = USER_ID;
     String deviceSerialNo=DEVICE_SERIAL_NO,basketCode;
-    private void getBasketDefectsPainting(String basketCode) {
-        viewModel.getDefectsPaintingViewModel(userId,deviceSerialNo,basketCode);
-        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting -> {
-            if (apiResponseDefectsPainting!=null) {
-                ResponseStatus responseStatus = apiResponseDefectsPainting.getResponseStatus();
-                String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(SUCCESS)) {
-                    if (apiResponseDefectsPainting.getDefectsPainting() != null) {
-                        defectsPaintingList.clear();
-                        List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsPainting.getDefectsPainting();
-                        defectsPaintingList.addAll(defectsPaintingListLocal);
-                        adapter.setDefectsPaintingList(defectsPaintingList);
-                        qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
-                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
-                        binding.defectedData.qty.setText(defectedQty);
-                    }
-                } else {
-                    binding.defectedData.qty.setText("");
-                    qtyDefectsQtyDefectedList.clear();
-                }
-            } else {
-                binding.defectedData.qty.setText("");
-                qtyDefectsQtyDefectedList.clear();
-                warningDialog(getContext(),"Error in getting data!");
-            }
-            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
-            adapter.notifyDataSetChanged();
-        });
-    }
+//    private void getBasketDefectsPainting(String basketCode) {
+//        viewModel.getDefectsPaintingViewModel(userId,deviceSerialNo,basketCode);
+//        viewModel.getDefectsPaintingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsPainting -> {
+//            if (apiResponseDefectsPainting!=null) {
+//                ResponseStatus responseStatus = apiResponseDefectsPainting.getResponseStatus();
+//                String statusMessage = responseStatus.getStatusMessage();
+//                if (statusMessage.equals(SUCCESS)) {
+//                    if (apiResponseDefectsPainting.getDefectsPainting() != null) {
+//                        defectsPaintingList.clear();
+//                        List<DefectsPainting> defectsPaintingListLocal = apiResponseDefectsPainting.getDefectsPainting();
+//                        defectsPaintingList.addAll(defectsPaintingListLocal);
+//                        adapter.setDefectsPaintingList(defectsPaintingList);
+//                        qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
+//                        String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+//                        binding.defectedData.qty.setText(defectedQty);
+//                    }
+//                } else {
+//                    binding.defectedData.qty.setText("");
+//                    qtyDefectsQtyDefectedList.clear();
+//                }
+//            } else {
+//                binding.defectedData.qty.setText("");
+//                qtyDefectsQtyDefectedList.clear();
+//                warningDialog(getContext(),"Error in getting data!");
+//            }
+//            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+//            adapter.notifyDataSetChanged();
+//        });
+//    }
 
-    public List<QtyDefectsQtyDefected> groupDefectsById(List<DefectsPainting> defectsPaintingListLocal) {
+    public List<QtyDefectsQtyDefected> groupDefectsById(List<PaintingDefect> defectsPaintingListLocal) {
         List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedListLocal = new ArrayList<>();
         int id = -1;
-        for (DefectsPainting defectsPainting : defectsPaintingListLocal) {
-            if (defectsPainting.getPaintingDefectsId() != id) {
-                int currentId = defectsPainting.getPaintingDefectsId();
+        for (PaintingDefect defectsPainting : defectsPaintingListLocal) {
+            if (defectsPainting.getDefectGroupId() != id) {
+                int currentId = defectsPainting.getDefectGroupId();
                 int defectedQty = defectsPainting.getQtyDefected();
                 QtyDefectsQtyDefected qtyDefectsQtyDefected = new QtyDefectsQtyDefected(currentId, defectedQty, getDefectsQty(currentId));
                 qtyDefectsQtyDefectedListLocal.add(qtyDefectsQtyDefected);
@@ -169,8 +166,8 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
 
     private int getDefectsQty(int currentId) {
         int defectNo = 0;
-        for (DefectsPainting defectsPainting : defectsPaintingList) {
-            if (defectsPainting.getDefectsPaintingDetailsId() == currentId)
+        for (PaintingDefect defectsPainting : defectsPaintingList) {
+            if (defectsPainting.getDefectGroupId() == currentId)
                 defectNo++;
         }
         return defectNo;
@@ -209,13 +206,18 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
     String parentDesc,parentCode = "",operationName;
     private void getBasketData(String basketCode) {
         viewModel.getBasketData(userId,deviceSerialNo,basketCode);
-        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMoveWeldingBasket -> {
-            if (apiResponseLastMoveWeldingBasket!=null) {
-                basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBasket();
-                adapter.setBasketData(basketData);
-                ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
+        viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(), apiResponseLastMovePaintingBasket -> {
+            if (apiResponseLastMovePaintingBasket!=null) {
+                ResponseStatus responseStatus = apiResponseLastMovePaintingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
                 if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                    basketData = apiResponseLastMovePaintingBasket.getLastMovePaintingBaskets().get(0);
+                    adapter.setBasketData(basketData);
+                    defectsPaintingList = apiResponseLastMovePaintingBasket.getPaintingDefects();
+                    adapter.setDefectsPaintingList(defectsPaintingList);
+                    qtyDefectsQtyDefectedList = groupDefectsById(defectsPaintingList);
+                    String defectedQty = calculateDefectedQty(qtyDefectsQtyDefectedList);
+                    binding.defectedData.qty.setText(defectedQty);
                     parentDesc = basketData.getParentDescription();
                     parentCode = basketData.getParentCode();
                     operationName = basketData.getOperationEnName();
@@ -235,13 +237,17 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
                 binding.basketCode.setError("Error in getting data1");
                 binding.dataLayout.setVisibility(View.GONE);
             }
-            fillData(parentDesc,operationName);
+            fillData(parentDesc,operationName, basketData.getJobOrderName(), basketData.getJobOrderQty(), basketData.getOperationEnName());
+            adapter.setQtyDefectsQtyDefectedList(qtyDefectsQtyDefectedList);
+            adapter.notifyDataSetChanged();
         });
     }
 
-    private void fillData(String parentDesc, String operationName) {
+    private void fillData(String parentDesc, String operationName, String jobOrderName, Integer jobOrderQty, String operationEnName) {
         binding.parentDesc.setText(parentDesc);
         binding.operation.setText(operationName);
+        binding.jobOrderData.jobordernum.setText(jobOrderName);
+        binding.jobOrderData.Joborderqtn.setText(jobOrderQty.toString());
     }
 
 
@@ -260,7 +266,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             String scannedText = barCodeReader.scannedData(barcodeReadEvent);
             binding.basketCode.getEditText().setText(scannedText);
             getBasketData(scannedText);
-            getBasketDefectsPainting(scannedText);
+//            getBasketDefectsPainting(scannedText);
         });
     }
 
@@ -293,8 +299,8 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             basketData.setBasketCode(basketCode);
             viewModel.setBasketData(basketData);
         }
-        if (!defectsPaintingList.isEmpty()){
-            viewModel.setDefectsPaintingList(defectsPaintingList);
-        }
+//        if (!defectsPaintingList.isEmpty()){
+//            viewModel.setDefectsPaintingList(defectsPaintingList);
+//        }
     }
 }

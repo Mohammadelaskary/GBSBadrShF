@@ -39,7 +39,7 @@ public class RepairCycle {
     private Integer qtyDefected;
     @SerializedName("qtyRepaired")
     @Expose
-    private Object qtyRepaired;
+    private Integer qtyRepaired;
     @SerializedName("defectStatus")
     @Expose
     private Integer defectStatus;
@@ -177,11 +177,11 @@ public class RepairCycle {
         this.qtyDefected = qtyDefected;
     }
 
-    public Object getQtyRepaired() {
+    public Integer getQtyRepaired() {
         return qtyRepaired;
     }
 
-    public void setQtyRepaired(Object qtyRepaired) {
+    public void setQtyRepaired(Integer qtyRepaired) {
         this.qtyRepaired = qtyRepaired;
     }
 

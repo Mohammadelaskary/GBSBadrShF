@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
+import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class PaintProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerView.Adapter<PaintProductionRepairChildsQtyDefectsQtyAdapter.QtyChildQtyDefectItemViewHolder> {
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList;
-    List<DefectsPainting> defectsPaintingList;
+    List<PaintingDefect> defectsPaintingList;
     LastMovePaintingBasket basketData;
 
     @Override
@@ -33,9 +34,9 @@ public class PaintProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerVie
             holder.binding.defectsQty.setText(String.valueOf(defectsQty));
             holder.binding.defectedQty.setText(String.valueOf(defectedQty));
             holder.itemView.setOnClickListener(v -> {
-                ArrayList<DefectsPainting> selectedDefectsPainting = new ArrayList<>();
-                for (DefectsPainting defectsPainting: defectsPaintingList){
-                    if (defectsPainting.getPaintingDefectsId()==defectId){
+                ArrayList<PaintingDefect> selectedDefectsPainting = new ArrayList<>();
+                for (PaintingDefect defectsPainting: defectsPaintingList){
+                    if (defectsPainting.getDefectGroupId()==defectId){
                         selectedDefectsPainting.add(defectsPainting);
                     }
                 }
@@ -63,10 +64,12 @@ public class PaintProductionRepairChildsQtyDefectsQtyAdapter extends RecyclerVie
 
     public void setQtyDefectsQtyDefectedList(List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList) {
         this.qtyDefectsQtyDefectedList = qtyDefectsQtyDefectedList;
+        notifyDataSetChanged();
     }
 
-    public void setDefectsPaintingList(List<DefectsPainting> defectsPaintingList) {
+    public void setDefectsPaintingList(List<PaintingDefect> defectsPaintingList) {
         this.defectsPaintingList = defectsPaintingList;
+        notifyDataSetChanged();
     }
 
     public void setBasketData(LastMovePaintingBasket basketData) {
