@@ -133,7 +133,7 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
                 isBulk = true;
                 setBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",true);
+                warningDialogWithChoice(getContext(), getContext().getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getContext().getString(R.string.are_you_sure_to_change_type),true);
             }
         });
         binding.diff.setOnClickListener(v->{
@@ -142,7 +142,7 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
                 isBulk = false;
                 setUnBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",false);
+                warningDialogWithChoice(getContext(), getContext().getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getContext().getString(R.string.are_you_sure_to_change_type),false);
             }
         });
     }
@@ -153,7 +153,7 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
         binding.basketQty.getEditText().setEnabled(true);
         binding.basketQty.getEditText().setClickable(true);
         binding.basketQtyTxt.setVisibility(View.VISIBLE);
-        binding.totalqtnTxt.setText("Total Added Qty");
+        binding.totalqtnTxt.setText(getContext().getString(R.string.total_added_qty));
         binding.basketcodeEdt.getEditText().requestFocus();
         updateViews();
     }
@@ -197,7 +197,7 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
         binding.basketQty.getEditText().setClickable(false);
         binding.totalAddedQtn.setText(loadingQty);
         binding.basketQtyTxt.setVisibility(View.GONE);
-        binding.totalqtnTxt.setText("Total Qty");
+        binding.totalqtnTxt.setText(getContext().getString(R.string.total_qty));
         binding.basketcodeEdt.getEditText().requestFocus();
     }
 
@@ -220,7 +220,7 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
 //                        cancel();
 //                        barCodeReader.onPause();
                     } else {
-                        warningDialog(getContext(), "Please add all loading qty to baskets!");
+                        warningDialog(getContext(), getContext().getString(R.string.please_add_all_loading_qty_to_baskets));
                     }
                 } else {
                     onInputSelected.sendlist(basketList, true);
@@ -229,12 +229,12 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
 //                    barCodeReader.onPause();
                 }
             } else {
-                warningDialog(getContext(),"Please add at least 1 basket!");
+                warningDialog(getContext(),getContext().getString(R.string.please_add_at_least_1_basket));
             }
         });
         binding.cancel.setOnClickListener(__->{
             if (!basketList.isEmpty()) {
-                CustomChoiceDialog choiceDialog = new CustomChoiceDialog(getContext(), "Cancel now will remove all added baskets!", "Are you sure to cancel?");
+                CustomChoiceDialog choiceDialog = new CustomChoiceDialog(getContext(), getContext().getString(R.string.cancel_now_will_remove_added_baskets), getContext().getString(R.string.are_you_sure_to_cancel));
                 choiceDialog.setOnOkClicked(() -> {
                     basketList.clear();
                     basketCodes.clear();
@@ -281,15 +281,15 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
                                         updateViews();
                                         binding.basketcodeEdt.getEditText().setText("");
                                     } else {
-                                        binding.basketcodeEdt.setError("Basket added previously!");
+                                        binding.basketcodeEdt.setError(getContext().getString(R.string.basket_added_previously));
                                     }
 
                             }
                         } else {
-                            binding.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                            binding.basketcodeEdt.setError(getContext().getString(R.string.please_scan_or_enter_a_valid_basket_code));
                         }
                     } else {
-                        binding.basketQty.setError("Basket quantity must be equal or less than remaining quantity and more than 0!");
+                        binding.basketQty.setError(getContext().getString(R.string.basket_qty_must_be_equal_or_less_than_remaining_qty_and_more_than_0));
                         binding.basketcodeEdt.getEditText().setText("");
                     }
                 }
@@ -313,20 +313,20 @@ public class Signoffitemsdialog extends BottomSheetDialog implements BarcodeRead
                                     adapter.notifyDataSetChanged();
                                     binding.basketcodeEdt.getEditText().setText("");
                                 } else {
-                                    binding.basketcodeEdt.setError("Basket added previously!");
+                                    binding.basketcodeEdt.setError(getContext().getString(R.string.basket_added_previously));
                                 }
 
                         }
                     } else {
-                        binding.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                        binding.basketcodeEdt.setError(getContext().getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                 }
             } else {
-                binding.basketQty.setError("Basket quantity must contain only digits!");
+                binding.basketQty.setError(getContext().getString(R.string.basket_qty_must_contain_only_digits));
                 binding.basketcodeEdt.getEditText().setText("");
             }
         } else {
-            binding.basketQty.setError("Please enter basket quantity first and scan basket again!");
+            binding.basketQty.setError(getContext().getString(R.string.please_enter_basket_qty_first_and_scan_basket_again));
         }
     }
 

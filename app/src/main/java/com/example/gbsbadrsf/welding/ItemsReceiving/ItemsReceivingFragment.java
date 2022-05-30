@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.welding.ItemsReceiving;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+import static com.example.gbsbadrsf.welding.ItemsReceiving.PprAdapter.JOB_ORDER;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -30,7 +32,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class ItemsReceivingFragment extends DaggerFragment {
+public class ItemsReceivingFragment extends DaggerFragment implements JobOrdersAdapter.OnJobOrderItemClicked {
 
     private ItemsReceivingViewModel viewModel;
     private ItemsReceivingFragmentBinding binding;
@@ -71,7 +73,7 @@ public class ItemsReceivingFragment extends DaggerFragment {
     }
     private JobOrdersAdapter adapter;
     private void setUpRecyclerView() {
-        adapter = new JobOrdersAdapter(getContext(),getFragmentManager());
+        adapter = new JobOrdersAdapter(getContext(),this::OnJobOrderItemClicked);
         binding.jobOrders.setAdapter(adapter);
     }
 
@@ -87,10 +89,10 @@ public class ItemsReceivingFragment extends DaggerFragment {
     }
 
     private void observeGettingJobOrdersAndPPRs() {
-        viewModel.jobOrdersForIssue.observe(getViewLifecycleOwner(),apiResponseGetJobOrdersForIssue -> {
+        viewModel.getJobOrdersForIssue().observe(getViewLifecycleOwner(),apiResponseGetJobOrdersForIssue -> {
             if (apiResponseGetJobOrdersForIssue!=null){
                 String statusMessage = apiResponseGetJobOrdersForIssue.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseGetJobOrdersForIssue.getResponseStatus().getIsSuccess()){
                     List<JobOrder> jobOrderList = apiResponseGetJobOrdersForIssue.getJobOrders();
                     List<Ppr>      pprList      = apiResponseGetJobOrdersForIssue.getPpr();
                     adapter.setJobOrderWithPPRList(groupJobOrdersWithPprs(jobOrderList,pprList));
@@ -122,4 +124,10 @@ public class ItemsReceivingFragment extends DaggerFragment {
     }
 
 
+    @Override
+    public void OnJobOrderItemClicked(JobOrder jobOrder) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(JOB_ORDER,jobOrder);
+        Navigation.findNavController(getView()).navigate(R.id.items_receiving_fragment_to_display_job_order_data_fragment,bundle);
+    }
 }

@@ -250,7 +250,7 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveManufacturingBasket -> {
             if (apiResponseLastMoveManufacturingBasket!=null) {
                 String statusMessage = apiResponseLastMoveManufacturingBasket.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Data sent successfully")) {
+                if (apiResponseLastMoveManufacturingBasket.getResponseStatus().getIsSuccess()) {
                     basketData = apiResponseLastMoveManufacturingBasket.getGetData();
                     binding.oldBasketCode.setError(null);
                 } else {
@@ -391,9 +391,13 @@ public class ProductionRejectionFragment extends DaggerFragment implements Defec
                 }
 //                if (selectedIds.isEmpty())
 //                    warningDialog(getContext(),"Please select at least one defect!");
-                if (!emptyRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&departmentId!=-1&&selectedReasonId!=-1){
-                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedReasonId,selectedIds);
-                    saveRejectedRequest(body);
+                if (newBasketCode.equals(oldBasketCode)&&Integer.parseInt(rejectedQtyString)!=basketQty) {
+                    binding.newBasketCode.setError("Please scan different basket or add all basket qty!");
+                } else {
+                    if (!emptyRejectedQty && validRejectedQty && !newBasketCode.isEmpty() && !oldBasketCode.isEmpty() && departmentId != -1 && selectedReasonId != -1) {
+                        SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId, deviceSerial, oldBasketCode, newBasketCode, Integer.parseInt(rejectedQtyString), departmentId, selectedReasonId, selectedIds);
+                        saveRejectedRequest(body);
+                    }
                 }
             } break;
             case R.id.reason_def_btn:

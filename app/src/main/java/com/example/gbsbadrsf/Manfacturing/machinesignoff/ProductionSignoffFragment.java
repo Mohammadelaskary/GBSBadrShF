@@ -13,16 +13,7 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,15 +22,19 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.gbsbadrsf.CustomChoiceDialog;
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
-import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.MachineSignoffBody;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionSignoffBinding;
@@ -70,7 +65,6 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
     private BarcodeReader barcodeReader;
 
     private MachinesignoffViewModel machinesignoffViewModel;
-    MachineLoading machineLoading;
     List<Basketcodelst> basketList = new ArrayList<>();
     //String passedtext;
     ProgressDialog progressDialog;
@@ -107,7 +101,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 {
                     String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
                     if (machineCode.isEmpty())
-                        binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
+                        binding.machinecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_machine_code));
                     else
                         machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, machineCode);
                     return true;
@@ -189,7 +183,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         machinesignoffViewModel.getCheckBasketEmpty().observe(getViewLifecycleOwner(),responseStatus -> {
             if (responseStatus != null){
                 String statusMessage= responseStatus.getStatusMessage();
-                if (statusMessage.equals("Basket is empty")) {
+                if (responseStatus.getIsSuccess()) {
                     if (isBulk)
                         addBasketIfBulk();
                     else
@@ -198,7 +192,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     binding.basketsBottomSheet.basketcodeEdt.setError(statusMessage);
                 }
             } else
-                warningDialog(getContext(),"Error in getting data");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -216,7 +210,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 isBulk = true;
                 setBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",true);
+                warningDialogWithChoice(getContext(), getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getString(R.string.are_you_sure_to_change_type),true);
             }
         });
         binding.basketsBottomSheet.diff.setOnClickListener(v->{
@@ -225,7 +219,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                 isBulk = false;
                 setUnBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",false);
+                warningDialogWithChoice(getContext(), getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getString(R.string.are_you_sure_to_change_type),false);
             }
         });
     }
@@ -304,15 +298,15 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                                     machinesignoffViewModel.checkBasketEmpty(basketCode);
                                     progressDialog.show();
                                 } else {
-                                    binding.basketsBottomSheet.basketcodeEdt.setError("Basket added previously!");
+                                    binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
                                 }
 
                             }
                         } else {
-                            binding.basketsBottomSheet.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                            binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                         }
                     } else {
-                        binding.basketsBottomSheet.basketQty.setError("Basket quantity must be equal or less than remaining quantity and more than 0!");
+                        binding.basketsBottomSheet.basketQty.setError(getString(R.string.basket_qty_must_be_equal_or_less_than_remaining_qty_and_more_than_0));
                         binding.basketsBottomSheet.basketcodeEdt.getEditText().setText("");
                     }
                 }
@@ -327,20 +321,20 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                                 machinesignoffViewModel.checkBasketEmpty(basketCode);
                                 progressDialog.show();
                             } else {
-                                binding.basketsBottomSheet.basketcodeEdt.setError("Basket added previously!");
+                                binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
                             }
 
                         }
                     } else {
-                        binding.basketsBottomSheet.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                        binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                 }
             } else {
-                binding.basketsBottomSheet.basketQty.setError("Basket quantity must contain only digits!");
+                binding.basketsBottomSheet.basketQty.setError(getString(R.string.basket_qty_must_contain_only_digits));
                 binding.basketsBottomSheet.basketcodeEdt.getEditText().setText("");
             }
         } else {
-            binding.basketsBottomSheet.basketQty.setError("Please enter basket quantity first and scan basket again!");
+            binding.basketsBottomSheet.basketQty.setError(getString(R.string.please_enter_basket_qty_first_and_scan_basket_again));
         }
     }
 
@@ -395,7 +389,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
 //                        barCodeReader.onPause();
 
                     } else {
-                        warningDialog(getContext(), "Please add all loading qty to baskets!");
+                        warningDialog(getContext(), getString(R.string.please_add_all_loading_qty_to_baskets));
                     }
                 } else {
 //                    onInputSelected.sendlist(basketList, true);
@@ -406,12 +400,12 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
 //                    barCodeReader.onPause();
                 }
             } else {
-                warningDialog(getContext(),"Please add at least 1 basket!");
+                warningDialog(getContext(),getString(R.string.please_add_at_least_1_basket));
             }
         });
         binding.basketsBottomSheet.cancel.setOnClickListener(__->{
             if (!basketList.isEmpty()) {
-                CustomChoiceDialog choiceDialog = new CustomChoiceDialog(getContext(), "Cancel now will remove all added baskets!", "Are you sure to cancel?");
+                CustomChoiceDialog choiceDialog = new CustomChoiceDialog(getContext(), getString(R.string.cancel_now_will_remove_added_baskets), getString(R.string.are_you_sure_to_cancel));
                 choiceDialog.setOnOkClicked(() -> {
                     basketList.clear();
                     basketCodes.clear();
@@ -516,7 +510,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                         handleBasketsButtonColor();
                     } else {
                         binding.dataLayout.setVisibility(View.GONE);
-                        warningDialog(getContext(),"Error in loading quantity!");
+                        warningDialog(getContext(),getString(R.string.error_in_loading_qty));
                     }
                 } else {
                     binding.dataLayout.setVisibility(View.GONE);
@@ -576,7 +570,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
 //                        }
 //                    });
                 } else {
-                    binding.machinecodeEdt.setError("Please scan or enter a valid machine code and press enter!");
+                    binding.machinecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_machine_code_and_press_enter));
                 }
 
             }
@@ -586,9 +580,9 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
             public void onClick(View v) {
                 String machineCode = binding.machinecodeNewedttxt.getText().toString().trim();
                 if (machineCode.isEmpty())
-                    binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
+                    binding.machinecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_machine_code));
                 if (basketList.isEmpty())
-                    warningDialog(getContext(),"Please enter at least 1 basket code!");
+                    warningDialog(getContext(),getString(R.string.please_add_at_least_1_basket));
                 if (!machineCode.isEmpty()&& !basketList.isEmpty()) {
                     MachineSignoffBody machineSignoffBody = new MachineSignoffBody();
                     machineSignoffBody.setMachineCode(binding.machinecodeNewedttxt.getText().toString());
@@ -607,11 +601,11 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
     }
     private void handleBasketsButtonColor(){
         if (basketList.isEmpty()){
-            binding.signoffitemsBtn.setText("Add baskets");
+            binding.signoffitemsBtn.setText(getString(R.string.add_baskets));
             binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.appbarcolor));
             binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
         } else {
-            binding.signoffitemsBtn.setText("Edit baskets");
+            binding.signoffitemsBtn.setText(R.string.edit_baskets);
             binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.done));
             binding.signoffitemsBtn.setIconResource(R.drawable.ic_edit);
         }
@@ -630,7 +624,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         binding.basketsBottomSheet.basketQty.getEditText().setClickable(false);
         binding.basketsBottomSheet.totalAddedQtn.setText(String.valueOf(loadingQty));
         binding.basketsBottomSheet.basketQtyTxt.setVisibility(View.GONE);
-        binding.basketsBottomSheet.totalqtnTxt.setText("Total Qty");
+        binding.basketsBottomSheet.totalqtnTxt.setText(getString(R.string.total_qty));
         binding.basketsBottomSheet.basketcodeEdt.getEditText().requestFocus();
     }
     private void setUnBulkViews() {
@@ -639,7 +633,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         binding.basketsBottomSheet.basketQty.getEditText().setEnabled(true);
         binding.basketsBottomSheet.basketQty.getEditText().setClickable(true);
         binding.basketsBottomSheet.basketQtyTxt.setVisibility(View.VISIBLE);
-        binding.basketsBottomSheet.totalqtnTxt.setText("Total Added Qty");
+        binding.basketsBottomSheet.totalqtnTxt.setText(getString(R.string.total_added_qty));
         binding.basketsBottomSheet.basketcodeEdt.getEditText().requestFocus();
         updateViews();
     }
@@ -649,26 +643,14 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
     }
     private void subscribeRequest() {
         machinesignoffViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
-            if (responseStatus!=null) {
+            if (responseStatus != null) {
                 String statusMessage = responseStatus.getStatusMessage();
-                switch (statusMessage) {
-                    case "Done successfully":
-                        showSuccessAlerter(statusMessage,getActivity());
+                if (responseStatus.getIsSuccess()) {
+                    showSuccessAlerter(statusMessage, getActivity());
 //                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-                        back(ProductionSignoffFragment.this);
-                        break;
-                    case "This machine has not been loaded with anything":
-                    case "Wrong machine code":
-                    case "Wrong machine!":
-                    case "There is no loading quantity on the machine!":
-//                        Toast.makeText(getContext(), "This machine has not been loaded with anything", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
-                        // 3ashan btest
-                        binding.machinecodeEdt.setError(statusMessage);
-                        break;
-                    default:
-                        warningDialog(getContext(),statusMessage);
-                        break;
-                }
+                    back(ProductionSignoffFragment.this);
+                } else
+                    binding.machinecodeEdt.setError(statusMessage);
             }
         });
 

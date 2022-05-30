@@ -54,7 +54,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
 
 
     FragmentPaintRandomQualityInspectionBinding binding;
-    String machineDieCode = "Mchn1";
+    String machineDieCode ;
     SetUpBarCodeReader barCodeReader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -153,11 +153,11 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
         NavController navController = NavHostFragment.findNavController(this);
         viewModel.getSaveRandomQualityInceptionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRandomQualityInception -> {
             String statusMessage = apiResponseSaveRandomQualityInception.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
-                Toast.makeText(getContext(), SAVED_SUCCESSFULLY, Toast.LENGTH_SHORT).show();
+            if (apiResponseSaveRandomQualityInception.getResponseStatus().getIsSuccess()){
+                showSuccessAlerter(statusMessage,getActivity());
                 navController.popBackStack();
             } else {
-                showSuccessAlerter(statusMessage,getActivity());
+                warningDialog(getContext(),statusMessage);
 //                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
             }
         });
@@ -166,7 +166,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -189,7 +189,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
             if (apiResponseLastMovePainting!=null) {
                 ResponseStatus responseStatus = apiResponseLastMovePainting.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                if (responseStatus.getIsSuccess()) {
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     lastMovePainting = apiResponseLastMovePainting.getLastMoveWelding();
                     parentCode = lastMovePainting.getParentCode().toString();
@@ -203,7 +203,8 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                     defectedQty = lastMovePainting.getQualityRandomInpectionDefectedQt();
                     jobOrderQty = lastMovePainting.getJobOrderQty();
                     binding.machineDieCode.setError(null);
-                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                    showSuccessAlerter(statusMessage,getActivity());
                 } else {
                     binding.dataLayout.setVisibility(View.GONE);
                     parentCode = "";
@@ -229,7 +230,7 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 defectedQty = 0;
                 jobOrderQty = 0;
 //                binding.machineDieCode.setError("Error in getting data!");
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
             fillData();
         });
@@ -282,13 +283,13 @@ public class PaintRandomQualityInceptionFragment extends DaggerFragment implemen
                 boolean emptySampleQty = binding.sampleQty.getEditText().getText().toString().trim().isEmpty();
                 boolean emptyDefectedQty = binding.defectedQty.getEditText().getText().toString().trim().isEmpty();
                 if (!validSampleQty)
-                    binding.sampleQty.setError("Sample Quantity must be smaller than loading quantity!");
+                    binding.sampleQty.setError(getString(R.string.sample_qty_must_be_smaller_than_loading_qtu));
                 if (!validDefectedQty)
-                    binding.defectedQty.setError("Defected Quantity must be equal or smaller than sample Quantity");
+                    binding.defectedQty.setError(getString(R.string.defected_qty_must_be_equal_or_smaller_than_sample_qty));
                 if (emptySampleQty)
-                    binding.sampleQty.setError("Sample Quantity shouldn't be empty!");
+                    binding.sampleQty.setError(getString(R.string.sample_qty_shouldnt_ne_empty));
                 if (emptyDefectedQty)
-                    binding.defectedQty.setError("Defected Quantity shouldn't be empty!");
+                    binding.defectedQty.setError(getString(R.string.defected_qty_shouldnt_be_empty));
                 if (validSampleQty&&validDefectedQty&&!emptyDefectedQty&&!emptySampleQty){
                     viewModel.SaveQualityRandomInspection(userId,deviceSerialNumber,lastMoveId,defectedQty,sampleQty,notes);
                 }

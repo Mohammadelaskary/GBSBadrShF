@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Production Sequence"
+        android:text="@string/production_sequence"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:itemCount="3"
-            tools:listitem="@layout/productionsequence_rv" />
+            tools:listitem="@layout/production_sequence_item" />
 
     </androidx.core.widget.NestedScrollView>
 

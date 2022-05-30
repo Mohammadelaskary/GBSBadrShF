@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: F">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b63853a490a8ce479db79fb7a875c1d0/transformed/jetified-DataCollection/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b63853a490a8ce479db79fb7a875c1d0/transformed/jetified-DataCollection/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b63853a490a8ce479db79fb7a875c1d0/transformed/jetified-DataCollection/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

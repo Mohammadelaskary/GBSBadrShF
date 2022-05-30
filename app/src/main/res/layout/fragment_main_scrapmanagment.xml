@@ -19,7 +19,7 @@
         app:cornerRadius="25dp"
         android:text="@string/new_request"
         style="@style/styleoftextinbtn"
-
+        android:visibility="gone"
         />
     <com.google.android.material.button.MaterialButton
         android:id="@+id/assignedrequest"
@@ -31,7 +31,7 @@
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"
-        android:text="Assigned request"
+        android:text="@string/assigned_requests"
         style="@style/styleoftextinbtn"
 
         />

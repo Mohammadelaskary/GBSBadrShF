@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.data.response.Ppr;
-import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
+import com.example.gbsbadrsf.databinding.ProductionSequenceItemBinding;
 
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
     @NonNull
     @Override
     public productionsequenceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ProductionsequenceRvBinding productionsequenceRvBinding = ProductionsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        ProductionSequenceItemBinding productionsequenceRvBinding = ProductionSequenceItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new productionsequenceadapter.productionsequenceViewHolder(productionsequenceRvBinding);
     }
     int selectedPosition = -1;
@@ -74,8 +74,8 @@ public class productionsequenceadapter  extends RecyclerView.Adapter<productions
     }
     class productionsequenceViewHolder extends RecyclerView.ViewHolder{
 
-        ProductionsequenceRvBinding binding;
-        public productionsequenceViewHolder(@NonNull ProductionsequenceRvBinding binding) {
+        ProductionSequenceItemBinding binding;
+        public productionsequenceViewHolder(@NonNull ProductionSequenceItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             changeItemsOpacity();

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             style="@style/styleoftextinappbar"
-            android:text="Production Repair"
+            android:text="@string/production_repair"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,6 @@
                         style="@style/child_parent_desc_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text=""
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -110,7 +109,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text=""
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
@@ -144,7 +142,7 @@
                         android:id="@+id/hint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select the defects to be repaired"
+                        android:text="@string/select_the_defects_to_be_repaired"
                         android:textColor="#717171"
                         android:gravity="center"
                         android:layout_marginTop="5dp"
@@ -166,7 +164,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Parent Quantity"
+                            android:text="@string/parent_quantity"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -177,7 +175,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Defects Quantity"
+                            android:text="@string/defects_quantity"
                             app:layout_constraintStart_toEndOf="@+id/defectname_txt"
                             app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
                     </LinearLayout>

@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:text="Child Description"
+        android:text=""
         style="@style/child_parent_desc_style"/>
         <View
             android:layout_width="1dp"
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="10000"
+            android:text=""
             style="@style/details_text_style"/>
     </LinearLayout>
     <LinearLayout
@@ -43,8 +43,8 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Basket Code:"
+            android:layout_weight="2"
+            android:text="@string/basket_code_txt"
             style="@style/style_of_text_bold"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"/>
@@ -53,7 +53,7 @@
             android:id="@+id/basket_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:text="....."
             style="@style/basket_code_style"/>
     </LinearLayout>

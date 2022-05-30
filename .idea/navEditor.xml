@@ -134,6 +134,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="display_job_order_data_fragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_change_password">
                     <value>
                       <LayoutPositions>
@@ -185,6 +197,18 @@
                     </value>
                   </entry>
                   <entry key="fragment_manufacturing_basket_info">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_manufacturing_counting">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -402,6 +426,39 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_fragment_paint_rejection_requests_list_to_fragment_paint_rejection_request_details">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_sign_off">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fragment_paint_sign_off_ppr_list">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="fragment_paint_sign_off_ppr_list_to_fragment_paint_sign_off">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -686,6 +743,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="items_receiving_fragment_to_child_to_basket_fragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="items_receiving_fragment_to_display_job_order_data_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -987,6 +1049,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_manufacturing_menu_fragment_to_fragment_manufacturing_counting">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_manufacturing_menu_fragment_to_production_repair_fragment">
                               <value>
                                 <LayoutPositions />
@@ -1008,6 +1075,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragment_manufacturing_quality_to_decline_rejection_request_decision_fragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fragment_manufacturing_quality_to_fragment_manufacturing_rejection_request">
                               <value>
                                 <LayoutPositions />
@@ -1155,6 +1227,11 @@
                               </value>
                             </entry>
                             <entry key="action_paintMenuFragment_to_paintwipFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_paintMenuFragment_to_ppr_wip_paint">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -1329,6 +1406,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="ppr_list_dialog">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="ppr_list_dialog_to_child_to_basket_fragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="productionMenuFragment">
                     <value>
                       <LayoutPositions>
@@ -1484,8 +1582,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="2542" />
-                            <option name="y" value="8243" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

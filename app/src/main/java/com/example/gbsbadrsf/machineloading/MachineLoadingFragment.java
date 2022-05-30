@@ -89,21 +89,21 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                 String dieCode     = binding.newdiecodeEdt.getText().toString().trim();
                 String loadingQty  = binding.newloadingqtnEdt.getText().toString().trim();
                 if (machineCode.isEmpty())
-                    binding.machinecodeEdt.setError("Please scan or enter a valid machine code!");
+                    binding.machinecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_machine_code));
                 if (dieCode.isEmpty()&&requiredDie)
-                    binding.diecodeEdt.setError("Please scan or enter a valid die code!");
+                    binding.diecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_die_code));
                 if (!dieCode.equals(requiredDieCode)&&requiredDie)
-                    binding.diecodeEdt.setError("Wrong die code!");
+                    binding.diecodeEdt.setError(getString(R.string.wrong_die_code));
                 if (loadingQty.isEmpty())
-                    binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
+                    binding.loadingqtnEdt.setError(getString(R.string.please_enter_a_valid_loading_qty));
                 else{
                     if (!containsOnlyDigits(loadingQty))
-                        binding.loadingqtnEdt.setError("Please scan or enter a valid loading quantity!");
+                        binding.loadingqtnEdt.setError(getString(R.string.please_enter_a_valid_loading_qty));
                     else {
                         if (Integer.parseInt(loadingQty)>remainQty)
-                            binding.loadingqtnEdt.setError("Loading quantity must be equal or less than available loading qty!");
+                            binding.loadingqtnEdt.setError(getString(R.string.loading_qty_must_be_equal_or_less_than_available_loading_qty));
                         if (Integer.parseInt(loadingQty)==0)
-                            binding.loadingqtnEdt.setError("Loading quantity can not be 0!");
+                            binding.loadingqtnEdt.setError(getString(R.string.loading_qty_can_not_be_0));
                     }
 
                 }

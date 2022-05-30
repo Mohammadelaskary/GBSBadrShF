@@ -65,7 +65,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -82,7 +82,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     private void observeAddingDefectRepairResponse() {
         viewModel.getAddPaintingRepairQuality().observe(getViewLifecycleOwner(), response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+            if (response.getResponseStatus().getIsSuccess()){
                 updateRecyclerView();
                 showSuccessAlerter(statusMessage,getActivity());
                 binding.approvedQty.getEditText().setText("");
@@ -108,7 +108,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
     }
 
     private void setUpRecyclerView() {
-        adapter = new PaintRepairQualityAdapter(this);
+        adapter = new PaintRepairQualityAdapter(this,getContext());
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -135,7 +135,7 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
 
 
     int userId = USER_ID, defectsWeldingDetailsId =-1,defectStatus;
-    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,approvedQty;
+    String notes="", deviceSerialNumber=DEVICE_SERIAL_NO,approvedQty;
 
     @Override
     public void onClick(View v) {
@@ -155,12 +155,12 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
                                     Integer.parseInt(approvedQty)
                             );
                         } else {
-                            binding.approvedQty.setError("Please enter valid approved Quantity");
+                            binding.approvedQty.setError(getString(R.string.please_enter_valid_approved_qty));
                         }
                     } else
-                        binding.approvedQty.setError("The selected defect doesn't repaired yet!");
+                        binding.approvedQty.setError(getString(R.string.the_selected_defect_havent_repaired_yet));
                 } else {
-                    binding.approvedQty.setError("Please first select defect to repair!");
+                    binding.approvedQty.setError(getString(R.string.please_first_select_defect_to_repair));
                 }
             } break;
         }
@@ -181,6 +181,6 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
             binding.approvedQty.getEditText().setText(String.valueOf(repairedQty));
             defectStatus = defectsPainting.getDefectStatus();
         } else
-            binding.approvedQty.getEditText().setText("Defect isn't repaired yet!");
+            binding.approvedQty.getEditText().setText(getString(R.string.please_enter_a_valid_repaired_qty));
     }
 }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -44,7 +45,7 @@ public class MyMethods {
     public static ProgressDialog loadingProgressDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(context.getString(R.string.loading_3dots));
         return progressDialog;
     }
     public static void hideToolBar(MainActivity mainActivity) {
@@ -118,6 +119,7 @@ public class MyMethods {
 
     public static long getRemainingTime(String expectedSignOut) {
         Date currentDate = Calendar.getInstance().getTime();
+//        expectedSignOut+=":00";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date d = null;
         try {
@@ -125,12 +127,15 @@ public class MyMethods {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        Log.d("dateCurrent",sdf.format(currentDate));
+        Log.d("dateSignOut",expectedSignOut);
+//        assert d != null;
         return d.getTime() - currentDate.getTime();
     }
 
     public static void startRemainingTimeTimer(long remainingTime, TextView remainingTimeTv){
         if (remainingTime>0) {
+            Log.d("dateRemaining",remainingTime+"");
             new CountDownTimer(remainingTime, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -139,18 +144,28 @@ public class MyMethods {
 
                 @Override
                 public void onFinish() {
-                    remainingTimeTv.setText("Operation Finished");
+                    remainingTimeTv.setText(R.string.operation_finished);
                 }
             }.start();
         } else
-            remainingTimeTv.setText("Operation Finished");
+            remainingTimeTv.setText(R.string.operation_finished);
     }
 
+
     public static String convertToTimeFormat(long millisUntilFinished) {
-        DateFormat formatter = new SimpleDateFormat("hh:mm:ss");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millisUntilFinished);
-        return formatter.format(millisUntilFinished);
+        long days = millisUntilFinished / (24 * 60 * 60 * 1000);
+        millisUntilFinished -= days * (24 * 60 * 60 * 1000);
+        long hours = millisUntilFinished / (60 * 60 * 1000);
+        millisUntilFinished -= hours * (60 * 60 * 1000);
+        long minutes = millisUntilFinished / (60 * 1000);
+        millisUntilFinished -= minutes * (60 * 1000);
+        long seconds =millisUntilFinished / 1000;
+
+        String daysString = String.format("%02d",days);
+        String hoursString = String.format("%02d",hours);
+        String minsString = String.format("%02d",minutes);
+        String secondsString = String.format("%02d",seconds);
+        return hoursString+":"+minsString+":"+secondsString;
     }
     public static String getEditTextText(EditText editText){
         return editText.getText().toString().trim();

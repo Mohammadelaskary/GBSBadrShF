@@ -117,7 +117,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
                         getCurrentDate2()
                 );
             } else
-                binding.moveToBasketBottomSheet.basketCode.setError("Please scan or enter basket code!");
+                binding.moveToBasketBottomSheet.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
         });
         moveToBasketBottomSheet.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -146,7 +146,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -163,12 +163,15 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     private void observeAddingDefectRepairResponse() {
         viewModel.getAddManufacturingRepairQuality().observe(getViewLifecycleOwner(),response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+            if (response.getResponseStatus().getIsSuccess()){
                 showSuccessAlerter(statusMessage,getActivity());
 //                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
-                approvedQty = response.getQty_Approved();
+                approvedQty = response.getApprovedQty();
+                repairedQty = response.getRepairedQty();
+                pendingRepair = response.getPendingRepair();
+                pendingApprove = response.getPendingApprove();
                 updateRecyclerView();
-                binding.approvedQty.getEditText().setText(String.valueOf(response.getRepairCycle().getQtyRepaired()-response.getQty_Approved()));
+                binding.approvedQty.getEditText().setText(String.valueOf(pendingApprove));
 //                back(QualityDefectRepairFragment.this);
             } else
                 warningDialog(getContext(),statusMessage);
@@ -177,6 +180,9 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
 
     private void updateRecyclerView() {
             defectsManufacturing.setQtyApproved(approvedQty);
+            defectsManufacturing.setQtyRepaired(repairedQty);
+            defectsManufacturing.setPendingRepair(pendingRepair);
+            defectsManufacturing.setPendingApprove(pendingApprove);
             defectsManufacturingList.remove(position);
             defectsManufacturingList.add(position,defectsManufacturing);
             adapter.notifyDataSetChanged();
@@ -192,7 +198,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     }
 
     private void setUpRecyclerView() {
-        adapter = new RepairQualityAdapter(this);
+        adapter = new RepairQualityAdapter(this,getContext());
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -227,11 +233,11 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
             binding.approvedQty.getEditText().setText(String.valueOf(pending));
             defectStatus = defectsManufacturing.getDefectStatus();
         } else
-            binding.approvedQty.getEditText().setText("Defect isn't repaired yet!");
+            binding.approvedQty.getEditText().setText(R.string.defect_isnt_repaired_yet);
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
     String notes="", deviceSerialNumber=DEVICE_SERIAL_NO;
-            int approvedQty;
+            int approvedQty,pendingRepair,pendingApprove;
 
     @Override
     public void onClick(View v) {
@@ -253,18 +259,18 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
                                             approvedQty
                                     );
                                 } else {
-                                    binding.approvedQty.setError("Please enter valid approved Quantity");
+                                    binding.approvedQty.setError(getString(R.string.please_enter_valid_approved_qty));
                                 }
                             } else {
-                                binding.approvedQty.setError("Approved quantity must be more than 0");
+                                binding.approvedQty.setError(getString(R.string.approved_qty_must_be_more_than_0));
                             }
                         } else
-                            binding.approvedQty.setError("The selected defect doesn't repaired yet!");
+                            binding.approvedQty.setError(getString(R.string.the_selected_defect_havent_repaired_yet));
                     } else {
-                        binding.approvedQty.setError("Please enter valid approved Quantity");
+                        binding.approvedQty.setError(getString(R.string.please_enter_valid_approved_qty));
                     }
                 } else {
-                    binding.approvedQty.setError("Please first select defect to repair!");
+                    binding.approvedQty.setError(getString(R.string.please_first_select_defect_to_repair));
                 }
             } break;
             case R.id.move_to_basket:

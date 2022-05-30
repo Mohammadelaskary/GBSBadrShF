@@ -1,13 +1,12 @@
 package com.example.gbsbadrsf.ApprovalRejectionRequest;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.databinding.ProductionscrapLstBinding;
 
 import java.util.List;

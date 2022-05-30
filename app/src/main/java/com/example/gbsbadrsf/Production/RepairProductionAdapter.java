@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.Production;
 
+import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
@@ -18,9 +21,11 @@ import java.util.List;
 public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProductionAdapter.RepairProductionQualityViewHolder> {
     List<ManufacturingDefect> defectsManufacturingList;
     SetOnRepairItemClicked onRepairItemClicked;
+    private Context context;
 
-    public RepairProductionAdapter(SetOnRepairItemClicked onRepairItemClicked) {
+    public RepairProductionAdapter(SetOnRepairItemClicked onRepairItemClicked,Context context) {
         this.onRepairItemClicked = onRepairItemClicked;
+        this.context = context;
     }
 
     @NonNull
@@ -37,16 +42,16 @@ public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProducti
         int defectedQty   = defectsManufacturing.getQtyDefected();
         int repairedQty   = defectsManufacturing.getQtyRepaired();
         int approvedQty   = defectsManufacturing.getQtyApproved();
-        int pendingRepair = defectedQty-repairedQty;
-        int pendingApprove = repairedQty - approvedQty;
+        int pendingRepair = defectsManufacturing.getPendingRepair();
+        int pendingApprove =defectsManufacturing.getPendingApprove();
         boolean isRepaired = repairedQty!=0;
         boolean isApproved = approvedQty!=0;
         holder.binding.defectName.setText(defectName);
         holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
         if (!isRepaired) {
-            holder.binding.repairedQty.setText("Waiting for repair");
-            holder.binding.pendingQcApproveQty.setText("Waiting for repair");
-            holder.binding.qualityApprovedQty.setText("Waiting for repair");
+            holder.binding.repairedQty.setText(context.getString(R.string.waiting_for_repair));
+            holder.binding.pendingQcApproveQty.setText(context.getString(R.string.waiting_for_repair));
+            holder.binding.qualityApprovedQty.setText(context.getString(R.string.waiting_for_repair));
         } else {
             holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
             holder.binding.repairedQty.setText(repairedQty+"");
@@ -55,7 +60,7 @@ public class RepairProductionAdapter extends RecyclerView.Adapter<RepairProducti
                 holder.binding.pendingQcApproveQty.setText(String.valueOf(pendingApprove));
                 holder.binding.qualityApprovedQty.setText(approvedQty+"");
             } else {
-                holder.binding.qualityApprovedQty.setText("Waiting for Quality Approval");
+                holder.binding.qualityApprovedQty.setText(context.getString(R.string.waiting_for_quality_approval));
             }
         }
 

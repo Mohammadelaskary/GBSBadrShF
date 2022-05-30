@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Manfacturing.BasketInfo;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.R;
+import com.example.gbsbadrsf.Util.Constant;
 import com.example.gbsbadrsf.databinding.MachineItemBasketWipBinding;
 
 import java.util.List;
 
 public class MachineDataAdapter extends RecyclerView.Adapter<MachineDataAdapter.MachineDataViewHolder> {
     List<BasketsWIP> basketsWIPList;
-
-    public MachineDataAdapter() {
+    private Context context;
+    public MachineDataAdapter(Context context) {
+        this.context = context;
     }
 
     @NonNull
@@ -33,11 +36,11 @@ public class MachineDataAdapter extends RecyclerView.Adapter<MachineDataAdapter.
         holder.binding.loadingQty.setText(basketsWIP.getPprLoadingQty().toString());
         if (basketsWIP.getSignOutQty()!=null) {
             holder.binding.signOffQty.setText(String.valueOf(basketsWIP.getSignOutQty()));
-            holder.binding.status.setText("Done");
+            holder.binding.status.setText(context.getString(R.string.done));
             holder.binding.statusIcon.setImageResource(R.drawable.ic_done);
         } else {
-            holder.binding.signOffQty.setText("Pending");
-            holder.binding.status.setText("Pending");
+            holder.binding.signOffQty.setText(R.string.pending);
+            holder.binding.status.setText(R.string.pending);
             holder.binding.statusIcon.setImageResource(R.drawable.ic_pending);
         }
         holder.binding.operationDesc.setText(basketsWIP.getOperationEnName());
@@ -46,7 +49,7 @@ public class MachineDataAdapter extends RecyclerView.Adapter<MachineDataAdapter.
         if (basketsWIP.getSignOutQty()!=null)
             holder.binding.signOffTime.setText(basketsWIP.getDateSignOut().toString());
         else
-            holder.binding.signOffTime.setText("Pending");
+            holder.binding.signOffTime.setText(R.string.pending);
     }
 
     public void setBasketsWIPList(List<BasketsWIP> basketsWIPList) {

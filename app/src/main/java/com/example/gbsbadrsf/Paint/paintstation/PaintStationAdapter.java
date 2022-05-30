@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.Paint.paintstation;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.activateItem;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.deactivateItem;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -13,9 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprpaint;
-import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
+import com.example.gbsbadrsf.databinding.ProductionSequenceItemBinding;
 import com.example.gbsbadrsf.databinding.WeldingsequenceRvBinding;
 import com.example.gbsbadrsf.weldingsequence.WeldingsequenceAdapter;
 
@@ -26,12 +28,14 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
     private List<Pprpaint> paintsequenceresponse;
     PaintStationAdapter.onCheckedChangedListener onClick;
     private CheckBox lastCheckedRB = null;
+    private Context context;
 
 
-    public PaintStationAdapter(List<Pprpaint> paintsequenceresponse, PaintStationAdapter.onCheckedChangedListener onClick) {
+    public PaintStationAdapter(List<Pprpaint> paintsequenceresponse, PaintStationAdapter.onCheckedChangedListener onClick,Context context) {
         this.paintsequenceresponse = paintsequenceresponse;
         this.onClick = onClick;
 
+        this.context = context;
     }
     public void getpaintsequencelist(List<Pprpaint> paintsequencelst){
         paintsequenceresponse.clear();
@@ -44,7 +48,7 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
     @NonNull
     @Override
     public PaintStationAdapter.PaintStationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ProductionsequenceRvBinding productionsequenceRvBinding = ProductionsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        ProductionSequenceItemBinding productionsequenceRvBinding = ProductionSequenceItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new PaintStationAdapter.PaintStationViewHolder(productionsequenceRvBinding);
     }
 
@@ -56,7 +60,7 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
         holder.binding.parentDesc.setText(paintsequenceresponse.get(position).getParentDescription());
         holder.binding.remainingQty.setText(paintsequenceresponse.get(currentPosition).getAvailableloadingQty().toString());
         holder.binding.jobOrderQty.setText(paintsequenceresponse.get(currentPosition).getJobOrderQty().toString());
-        holder.binding.childTxt.setText("Parent");
+        holder.binding.childTxt.setText(R.string.parent_);
         if (currentPosition==selectedPosition)
             activateItem(holder.itemView);
         else
@@ -96,8 +100,8 @@ public class PaintStationAdapter extends RecyclerView.Adapter<PaintStationAdapte
         return paintsequenceresponse.size();
     }
     static class PaintStationViewHolder extends RecyclerView.ViewHolder{
-        ProductionsequenceRvBinding binding;
-        public PaintStationViewHolder(@NonNull ProductionsequenceRvBinding binding) {
+        ProductionSequenceItemBinding binding;
+        public PaintStationViewHolder(@NonNull ProductionSequenceItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             changeItemsOpacity();

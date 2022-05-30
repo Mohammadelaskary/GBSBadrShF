@@ -98,7 +98,10 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
 //                    issuedChildList.remove(selectedPosition);
 //                    issuedChildList.add(selectedPosition,issuedChild);
 //                    adapter.notifyItemChanged(selectedPosition);
-                    viewModel.TransferIssuedChildToBasket(USER_ID,DEVICE_SERIAL_NO, jobOrder.getEntitiyId(), basketCode, ppr.getPprparentId(), issuedChild.getChilDITEMID());
+                    if (Integer.parseInt(issuedChild.getQuantitYISSUED())>0)
+                        viewModel.TransferIssuedChildToBasket(USER_ID,DEVICE_SERIAL_NO, jobOrder.getEntitiyId(), basketCode, ppr.getPprparentId(), issuedChild.getChilDITEMID());
+                    else
+                        warningDialog(getContext(),getString(R.string.there_is_no_issued_qty_for_this_child));
                     return true;
                 }
                 return false;
@@ -110,7 +113,7 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
         viewModel.transferIssuedChildToBasketResponse.observe(getViewLifecycleOwner(),apiResponseTransferIssuedChildToBasket -> {
             if (apiResponseTransferIssuedChildToBasket!=null){
                 String statusMessage = apiResponseTransferIssuedChildToBasket.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Done Successfully")){
+                if (apiResponseTransferIssuedChildToBasket.getResponseStatus().getIsSuccess()){
                     showSuccessAlerter(statusMessage,getActivity());
                     LstIssuedChildParameter issuedChild = issuedChildList.get(selectedPosition);
                     issuedChild.setBasketCode(binding.basketCode.getEditText().getText().toString().trim());
@@ -144,7 +147,7 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
         viewModel.jobOrdersIssuedChilds.observe(getViewLifecycleOwner(),apiResponseGetJobOrderIssuedChilds -> {
             if (apiResponseGetJobOrderIssuedChilds!=null){
                 String statusMessage = apiResponseGetJobOrderIssuedChilds.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseGetJobOrderIssuedChilds.getResponseStatus().getIsSuccess()){
                     issuedChildList = apiResponseGetJobOrderIssuedChilds.getLstIssuedChildParameters();
                     adapter.setIssuedChildList(issuedChildList);
                 } else {
@@ -181,8 +184,13 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
 //                issuedChildList.remove(selectedPosition);
 //                issuedChildList.add(selectedPosition,issuedChild);
 //                adapter.notifyItemChanged(selectedPosition);
-                viewModel.TransferIssuedChildToBasket(USER_ID,DEVICE_SERIAL_NO, jobOrder.getEntitiyId(), scannedText, ppr.getPprparentId(), issuedChild.getChilDITEMID());
-            }
+                if (Integer.parseInt(issuedChild.getQuantitYISSUED())>0)
+                    if (issuedChild.getBasketCode()==null)
+                        viewModel.TransferIssuedChildToBasket(USER_ID,DEVICE_SERIAL_NO, jobOrder.getEntitiyId(), scannedText, ppr.getPprparentId(), issuedChild.getChilDITEMID());
+                    else
+                        warningDialog(getContext(),getString(R.string.this_child_has_already_added_to_basket));
+                else
+                    warningDialog(getContext(),getString(R.string.there_is_no_issued_qty_for_this_child));            }
         });
     }
 

@@ -3,8 +3,6 @@ package com.example.gbsbadrsf.ApprovalRejectionRequest;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -16,16 +14,11 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
-import com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest.ProductionRejectionRequestViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.ApprovalRejectionRequestsListFragmentBinding;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -82,7 +75,7 @@ public class ApprovalRejectionRequestsListFragment extends DaggerFragment implem
         viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestList -> {
             if (apiResponseManufacturingRejectionRequestGetRejectionRequestList!=null){
                 String statusMessage = apiResponseManufacturingRejectionRequestGetRejectionRequestList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseManufacturingRejectionRequestGetRejectionRequestList.getResponseStatus().getIsSuccess()){
                     adapter.setRejectionRequestList(apiResponseManufacturingRejectionRequestGetRejectionRequestList.getRejectionRequestList());
                 } else {
                     MyMethods.warningDialog(getContext(),statusMessage);

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:text="Quality Repair"
+        android:text="@string/quality_repair"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,6 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="10dp"
-                    android:text="Child Description"
                     app:layout_constraintStart_toEndOf="@id/child_txt"
                     app:layout_constraintTop_toTopOf="@id/child_txt" />
 
@@ -147,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:text="Move to Basket"
+        android:text="@string/move_to_basket"
         app:cornerRadius="40dp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -162,7 +161,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
-        android:text="Reopen Defect"
+        android:text="@string/reopen_defect"
         android:textColor="@color/white"
         android:visibility="gone"
         app:cornerRadius="40dp"

@@ -135,11 +135,11 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseGetCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetCheckList -> {
             if (apiResponseGetCheckList!=null) {
                 String statusMessage = apiResponseGetCheckList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (apiResponseGetCheckList.getResponseStatus().getIsSuccess()) {
                     checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
                 }
             } else {
-               warningDialog(getContext(),"Error in getting data!");
+               warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }
@@ -198,7 +198,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         NavController navController = NavHostFragment.findNavController(QualityDecisionFragment.this);
         viewModel.getSaveQualityOperationSignOffLiveData().observe(getViewLifecycleOwner(),apiResponseSavingOperationSignOffDecision -> {
             String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Done successfully")) {
+            if (apiResponseSavingOperationSignOffDecision.getResponseStatus().getIsSuccess()) {
                 navController.popBackStack();
                 showSuccessAlerter(statusMessage,getActivity());
 //                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
@@ -211,7 +211,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getFinalQualityDecision(userId);
         viewModel.getApiResponseGettingFinalQualityDecisionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseGettingFinalQualityDecision -> {
             String statusMessage = apiResponseGettingFinalQualityDecision.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Getting data successfully")){
+            if (apiResponseGettingFinalQualityDecision.getResponseStatus().getIsSuccess()){
                 finalQualityDecisions.clear();
                 finalQualityDecisions.addAll(apiResponseGettingFinalQualityDecision.getFinalQualityDecision());
                 spinnerAdapter.notifyDataSetChanged();
@@ -229,7 +229,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -261,7 +261,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {
             if (apiResponseDefectsManufacturing!=null) {
                 String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Data sent successfully")) {
+                if (apiResponseDefectsManufacturing.getResponseStatus().getIsSuccess()) {
                     defectsManufacturingList.clear();
                     List<DefectsManufacturing> defectsManufacturings = apiResponseDefectsManufacturing.getData();
                     defectsManufacturingList.addAll(defectsManufacturings);
@@ -279,7 +279,7 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     binding.dataLayout.setVisibility(View.GONE);
                 }
             } else {
-                binding.basketCode.setError("Error in getting data!");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
                 binding.dataLayout.setVisibility(View.GONE);
                 dischargeViews();
             }
@@ -291,13 +291,13 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseGetSavedCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetSavedCheckList -> {
             if (apiResponseGetSavedCheckList!=null) {
                 String statusMessage = apiResponseGetSavedCheckList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (apiResponseGetSavedCheckList.getResponseStatus().getIsSuccess()) {
                     savedCheckList = apiResponseGetSavedCheckList.getGetSavedCheckList();
                     binding.checkListBtn.setEnabled(true);
                     binding.saveBtn.setEnabled(true);
                 }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }
@@ -408,9 +408,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                     if (checkListEnded)
                         viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,basketCode,date,decisionId);
                     else
-                        warningDialog(getContext(),"Please finish mandatory check items first!");
+                        warningDialog(getContext(),getString(R.string.please_finish_mandatory_items_first));
                 } else
-                    warningDialog(getContext(),"Please scan or enter valid basket code!");
+                    warningDialog(getContext(),getString(R.string.please_scan_or_enter_a_valid_basket_code));
             } break;
             case R.id.check_list_btn:{
                 if (savedCheckList==null)
@@ -420,10 +420,10 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
                         CheckListDialog checkListDialog = new CheckListDialog(getContext(), checkList, basketData, savedCheckList, this);
                         checkListDialog.show();
                     } else {
-                        binding.basketCode.setError("Please scan or enter valid basket code!");
+                        binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                 } else {
-                    warningDialog(getContext(),"There is no check list for this operation!");
+                    warningDialog(getContext(),getString(R.string.there_is_no_check_list_for_this_operation));
                 }
             } break;
         }
@@ -501,12 +501,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseSaveCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseSaveCheckList -> {
             if (apiResponseSaveCheckList!=null) {
                 String statusMessage = apiResponseSaveCheckList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Saved successfully")) {
+                if (apiResponseSaveCheckList.getResponseStatus().getIsSuccess()) {
                     SaveCheckListResponse saveCheckListResponse = apiResponseSaveCheckList.getSaveCheckListResponse();
                     savedCheckList.add(saveCheckListResponse);
                 }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }

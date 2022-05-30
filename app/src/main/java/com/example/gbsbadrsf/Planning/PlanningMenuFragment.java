@@ -53,6 +53,6 @@ public class PlanningMenuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Planning",(MainActivity) getActivity());
+        changeTitle(getString(R.string.planning),(MainActivity) getActivity());
     }
 }

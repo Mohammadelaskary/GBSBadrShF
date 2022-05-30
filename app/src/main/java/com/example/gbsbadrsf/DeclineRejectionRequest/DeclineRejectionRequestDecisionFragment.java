@@ -27,12 +27,11 @@ import android.widget.ArrayAdapter;
 
 import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Quality.Data.RejectionReason;
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.DeclineRejectionRequestDecisionFragmentBinding;
-import com.example.gbsbadrsf.welding.ItemsReceiving.LstIssuedChildParameter;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -107,7 +106,7 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
     }
 
     private void addTextWatcher() {
-        binding.approvedRejectedQty.getEditText().addTextChangedListener(new TextWatcher() {
+        binding.okQty.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -115,17 +114,17 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.approvedRejectedQty.setError(null);
-                String approvedRejectedQty = binding.approvedRejectedQty.getEditText().getText().toString().trim() ;
-                if (!approvedRejectedQty.isEmpty()) {
-                    if (Integer.parseInt(approvedRejectedQty) <= rejectionRequest.getRejectionQty() && Integer.parseInt(approvedRejectedQty) >= 0) {
-                        binding.okQty.getEditText().setText(String.valueOf(calculateRemainingQty(s, rejectionRequest.getRejectionQty())));
+                binding.okQty.setError(null);
+                String okQty = binding.okQty.getEditText().getText().toString().trim() ;
+                if (!okQty.isEmpty()) {
+                    if (Integer.parseInt(okQty) <= rejectionRequest.getRejectionQty() && Integer.parseInt(okQty) >= 0) {
+                        binding.approvedRejectedQty.getEditText().setText(String.valueOf(calculateRemainingQty(s, rejectionRequest.getRejectionQty())));
                     } else {
-                        binding.approvedRejectedQty.getEditText().setText("0");
-                        binding.approvedRejectedQty.setError("Approved qty must not be greater than rejected qty!");
+                        binding.okQty.getEditText().setText("0");
+                        binding.okQty.setError(getString(R.string.ok_qty_must_not_be_greater_than_rejected_qty));
                     }
                 } else {
-                    binding.okQty.getEditText().setText(String.valueOf(rejectionRequest.getRejectionQty()));
+                    binding.approvedRejectedQty.getEditText().setText(String.valueOf(rejectionRequest.getRejectionQty()));
                 }
             }
 
@@ -161,7 +160,7 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
         binding.jobOrderData.Joborderqtn.setText(rejectionRequest.getJobOrderQty().toString());
 //        binding.operationName.setText(rejectionRequest.getOperationEnName());
         binding.rejectedQtyData.rejectedQty.setText(rejectionRequest.getRejectionQty().toString());
-        binding.okQty.getEditText().setText(rejectionRequest.getRejectionQty().toString());
+        binding.approvedRejectedQty.getEditText().setText(rejectionRequest.getRejectionQty().toString());
         RejectionReason rejectionReason = new RejectionReason(rejectionRequest.getRejectionReasonId(),rejectionRequest.getRejectionReasonName());
         Log.d("======reasonIndex",rejectionReasons.indexOf(rejectionReason)+"");
 //        binding.reasonSpinner.setSelection(rejectionReasons.indexOf(rejectionReason));
@@ -173,7 +172,7 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             binding.responsibleSpinner.setText(rejectionRequest.getDepartmentEnName(),false);
         }
-        binding.approvedRejectedQty.getEditText().setText("0");
+        binding.okQty.getEditText().setText("0");
 //        binding.responsibleSpinner.setSelection(departments.indexOf(department));
     }
 
@@ -196,7 +195,7 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
         viewModel.getApiResponseReasonsList().observe(getViewLifecycleOwner(),apiResponseRejectionReasonsList -> {
             if (apiResponseRejectionReasonsList!=null){
                 String statusMessage = apiResponseRejectionReasonsList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Data sent successfully")){
+                if (apiResponseRejectionReasonsList.getResponseStatus().getIsSuccess()){
                    rejectionReasons.clear();
                    rejectionReasons.addAll(apiResponseRejectionReasonsList.getRejectionReasonList());
                    reasonsAdapter.notifyDataSetChanged();
@@ -211,7 +210,7 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
         viewModel.getApiResponseDepartmentsListLiveData().observe(getViewLifecycleOwner(),apiResponseDepartmentsList -> {
             if (apiResponseDepartmentsList!=null){
                 String statusMessage = apiResponseDepartmentsList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseDepartmentsList.getResponseStatus().getIsSuccess()){
                     departments.clear();
                     departments.addAll(apiResponseDepartmentsList.getDepartments());
                     viewModel.getRejectionRequestData(USER_ID,DEVICE_SERIAL_NO,rejectionRequestId);
@@ -266,27 +265,43 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.save:
-                String approvedRejectedQty = binding.approvedRejectedQty.getEditText().getText().toString().trim();
-                String okQty               = binding.okQty.getEditText().getText().toString().trim();
-                if (okQty.equals("0")){
-                    okBasketCode = "";
-                } else if (approvedRejectedQty.equals("0")){
-                    okBasketCode = rejectionRequest.getBasketCode();
-                } else {
-                    if (binding.approvedRejectedBasketCodeBottomSheet.basketCode.getEditText().getText().toString().trim().isEmpty())
-                        showBottomSheet();
-                    else {
-                        okBasketCode = binding.approvedRejectedBasketCodeBottomSheet.basketCode.getEditText().getText().toString().trim();
+                if (rejectionRequest.getLocatorCode()==null||rejectionRequest.getLocatorCode().isEmpty()){
+                    if (rejectionRequest.getSubInventoryCode()==null||rejectionRequest.getSubInventoryCode().isEmpty()){
+                        warningDialog(getContext(),getString(R.string.locator_code_and_sub_inventory_are_empty));
+                    } else {
+                        warningDialog(getContext(),getString(R.string.locator_code_is_empty));
                     }
-                }
-                if (rejectionReasonId==-1)
-                    rejectionReasonId = rejectionRequest.getRejectionReasonId();
-                Log.d(TAG, "onClick: rejectionReason"+rejectionReasonId);
-                if (departmentId==-1)
-                    departmentId = rejectionRequest.getDepartmentId();
-                Log.d(TAG, "onClick: rejectiondep"+rejectionReasonId);
-                if (okBasketCode.isEmpty()){
-                    if (okQty.equals("0"))
+                } else {
+                    String approvedRejectedQty = binding.approvedRejectedQty.getEditText().getText().toString().trim();
+                    String okQty = binding.okQty.getEditText().getText().toString().trim();
+                    if (okQty.equals("0")) {
+                        okBasketCode = "";
+                    } else if (approvedRejectedQty.equals("0")) {
+                        okBasketCode = rejectionRequest.getBasketCode();
+                    } else {
+                        if (binding.approvedRejectedBasketCodeBottomSheet.basketCode.getEditText().getText().toString().trim().isEmpty())
+                            showBottomSheet();
+                        else {
+                            okBasketCode = binding.approvedRejectedBasketCodeBottomSheet.basketCode.getEditText().getText().toString().trim();
+                        }
+                    }
+                    if (rejectionReasonId == -1)
+                        rejectionReasonId = rejectionRequest.getRejectionReasonId();
+                    if (departmentId == -1)
+                        departmentId = rejectionRequest.getDepartmentId();
+                    if (okBasketCode.isEmpty()) {
+                        if (okQty.equals("0"))
+                            viewModel.setSaveCommitteeDecision(USER_ID,
+                                    DEVICE_SERIAL_NO,
+                                    rejectionRequestId,
+                                    rejectionRequest.getSubInventoryCode(),
+                                    rejectionRequest.getLocatorId(),
+                                    okQty,
+                                    okBasketCode,
+                                    approvedRejectedQty,
+                                    departmentId,
+                                    rejectionReasonId, "");
+                    } else {
                         viewModel.setSaveCommitteeDecision(USER_ID,
                                 DEVICE_SERIAL_NO,
                                 rejectionRequestId,
@@ -296,18 +311,8 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
                                 okBasketCode,
                                 approvedRejectedQty,
                                 departmentId,
-                                rejectionReasonId,"");
-                } else {
-                    viewModel.setSaveCommitteeDecision(USER_ID,
-                            DEVICE_SERIAL_NO,
-                            rejectionRequestId,
-                            rejectionRequest.getSubInventoryCode(),
-                            rejectionRequest.getLocatorId(),
-                            okQty,
-                            okBasketCode,
-                            approvedRejectedQty,
-                            departmentId,
-                            rejectionReasonId,"");
+                                rejectionReasonId, "");
+                    }
                 }
                 break;
         }

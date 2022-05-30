@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:text="Production Repair"
+        android:text="@string/production_repair"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,6 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginTop="2dp"
-                        android:text="Child Description"
                         app:layout_constraintStart_toEndOf="@id/child_txt"
                         app:layout_constraintTop_toTopOf="@id/child_txt" />
 

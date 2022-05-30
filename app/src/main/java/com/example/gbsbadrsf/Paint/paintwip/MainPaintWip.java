@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.databinding.FragmentMainPaintWipBinding;
@@ -75,12 +76,12 @@ public class MainPaintWip extends DaggerFragment {
             response -> {
                 if (response!=null) {
                     String statusMessage = response.getResponseStatus().getStatusMessage();
-                    if (statusMessage.equals("Getting data successfully"))
+                    if (response.getResponseStatus().getIsSuccess())
                         adapter.setStationsWIPS(response.getData());
                     else
                         MyMethods.warningDialog(getContext(),statusMessage);
                 } else
-                    MyMethods.warningDialog(getContext(),"Check your internet connection!");
+                    MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
             });
 
     }

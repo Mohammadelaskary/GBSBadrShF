@@ -60,6 +60,16 @@
 
     </fragment>
     <fragment
+        android:id="@+id/fragment_manufacturing_counting"
+        android:label="fragment_manufacturing_counting"
+        tools:layout="@layout/fragment_manufacturing_welding_counting"
+        android:name="com.example.gbsbadrsf.Manfacturing.Counting.ManufacturingCountingFragment"/>
+    <fragment
+        android:id="@+id/fragment_welding_counting"
+        android:label="fragment_welding_counting"
+        tools:layout="@layout/fragment_manufacturing_welding_counting"
+        android:name="com.example.gbsbadrsf.welding.Counting.WeldingCountingFragment"/>
+    <fragment
         android:id="@+id/manfacturingmenuFragment"
         android:name="com.example.gbsbadrsf.Manfacturing.ManfacturingmenuFragment"
         android:label="fragment_manfacturingmenu"
@@ -94,6 +104,9 @@
         <action
             android:id="@+id/action_manufacturing_menu_fragment_to_decline_rejection_request_fragment"
             app:destination="@id/decline_rejection_request_fragment"/>
+        <action
+            android:id="@+id/action_manufacturing_menu_fragment_to_fragment_manufacturing_counting"
+            app:destination="@id/fragment_manufacturing_counting"/>
 
     </fragment>
     <fragment android:id="@+id/fragment_manufacturing_basket_info"
@@ -178,6 +191,9 @@
         <action
             android:id="@+id/action_quality_welding_fragment_to_items_receiving_fragment"
             app:destination="@id/items_receiving_fragment" />
+        <action
+            android:id="@+id/action_quality_welding_fragment_to_fragment_welding_counting"
+            app:destination="@id/fragment_welding_counting" />
     </fragment>
     <fragment android:id="@+id/fragment_main_machine_loading_menu_welding"
         tools:layout="@layout/fragment_main_welding_machine_loading"
@@ -223,8 +239,33 @@
         <action
             android:id="@+id/action_paintMenuFragment_to_paintwipFragment"
             app:destination="@id/main_paint_wip" />
+        <action
+            android:id="@+id/action_paintMenuFragment_to_ppr_wip_paint"
+            app:destination="@id/fragment_paint_sign_off_ppr_list" />
 
     </fragment>
+    <fragment
+        android:id="@+id/fragment_paint_sign_off_ppr_list"
+        android:name="com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListFragment"
+        android:label="fragment_paint_sign_off_ppr_list"
+        tools:layout="@layout/fragment_paint_sign_off_ppr_list" >
+        <action app:destination="@id/fragment_paint_sign_off"
+            android:id="@+id/fragment_paint_sign_off_ppr_list_to_fragment_paint_sign_off"/>
+    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/paint_sign_off_baskets_fragment"-->
+<!--        android:name="com.example.gbsbadrsf.Paint."-->
+<!--        android:label="paint_sign_off_baskets_fragment"-->
+<!--        tools:layout="@layout/paint_sign_off_baskets_fragment" >-->
+<!--        <action app:destination="@id/fragment_paint_sign_off"-->
+<!--            android:id="@+id/fragment_paint_sign_off_ppr_list_to_fragment_paint_sign_off"/>-->
+<!--    </fragment>-->
+    <fragment
+        android:id="@+id/fragment_paint_sign_off"
+        android:name="com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffFragment"
+        android:label="fragment_paint_sign_off"
+        tools:layout="@layout/fragment_paint_sign_off" />
+
     <fragment
         android:id="@+id/machineLoadingFragment"
         android:name="com.example.gbsbadrsf.machineloading.MachineLoadingFragment"
@@ -374,7 +415,8 @@
             app:destination="@id/fragment_random_quality_inception"/>
         <action app:destination="@id/productionscrapFragment"
             android:id="@+id/action_fragment_manufacturing_quality_to_fragment_manufacturing_rejection_request"/>
-
+        <action app:destination="@id/decline_rejection_request_fragment"
+            android:id="@+id/action_fragment_manufacturing_quality_to_decline_rejection_request_decision_fragment"/>
 
     </fragment>
 
@@ -767,9 +809,9 @@
 
     <fragment
         android:id="@+id/paintsignoffFragment"
-        android:name="com.example.gbsbadrsf.Paint.PaintsignoffFragment"
+        android:name="com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListFragment"
         android:label="fragment_paintsignoff"
-        tools:layout="@layout/fragment_paintsignoff" />
+        tools:layout="@layout/fragment_paint_sign_off_ppr_list" />
     <fragment
         android:id="@+id/colorverificationFragment"
         android:name="com.example.gbsbadrsf.Paint.ColorverificationFragment"
@@ -929,12 +971,19 @@
         tools:layout="@layout/items_receiving_fragment" >
         <action android:id="@+id/items_receiving_fragment_to_child_to_basket_fragment"
             app:destination="@id/child_to_basket_fragment"/>
+        <action android:id="@+id/items_receiving_fragment_to_display_job_order_data_fragment"
+            app:destination="@id/display_job_order_data_fragment"/>
     </fragment>
     <fragment
         android:id="@+id/child_to_basket_fragment"
         android:name="com.example.gbsbadrsf.welding.ItemsReceiving.ChildToBasketFragment"
         android:label="child_to_basket_fragment"
         tools:layout="@layout/child_to_basket_fragment" />
+    <fragment
+        android:id="@+id/display_job_order_data_fragment"
+        android:name="com.example.gbsbadrsf.welding.ItemsReceiving.DisplayJobOrderDataFragment"
+        android:label="display_job_order_data_fragment"
+        tools:layout="@layout/display_job_order_data_fragment" />
     <dialog android:id="@+id/ppr_list_dialog"
         android:name="com.example.gbsbadrsf.welding.ItemsReceiving.PprListDialog"
         tools:layout="@layout/ppr_list_dialog_layout">

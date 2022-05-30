@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".welding.ItemsReceiving.DisplayJobOrderDataFragment">
+
+    <TextView
+        android:id="@+id/parent_desc"
+        style="@style/child_parent_desc_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/job_order_data"
+        layout="@layout/job_order_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/parent_desc"
+        app:layout_constraintStart_toStartOf="@+id/parent_desc"
+        app:layout_constraintTop_toBottomOf="@+id/parent_desc" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/job_order_data"
+        app:layout_constraintStart_toStartOf="@+id/job_order_data"
+        app:layout_constraintTop_toBottomOf="@+id/job_order_data">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/child_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/basket_code"
+            app:layout_constraintEnd_toEndOf="@+id/ppr_qty"
+            app:layout_constraintStart_toStartOf="@+id/ppr_qty"
+            app:layout_constraintTop_toBottomOf="@+id/ppr_qty" />
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

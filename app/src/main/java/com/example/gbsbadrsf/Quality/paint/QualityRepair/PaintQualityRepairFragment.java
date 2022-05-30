@@ -19,6 +19,7 @@ import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -184,7 +185,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
 
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -210,7 +211,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
             if (apiResponseLastMovePaintingBasket!=null) {
                 ResponseStatus responseStatus = apiResponseLastMovePaintingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                if (responseStatus.getIsSuccess()) {
                     basketData = apiResponseLastMovePaintingBasket.getLastMovePaintingBaskets().get(0);
                     adapter.setBasketData(basketData);
                     defectsPaintingList = apiResponseLastMovePaintingBasket.getPaintingDefects();
@@ -234,7 +235,7 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
                 parentDesc = "";
                 parentCode = "";
                 operationName = "";
-                binding.basketCode.setError("Error in getting data1");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
                 binding.dataLayout.setVisibility(View.GONE);
             }
             fillData(parentDesc,operationName, basketData.getJobOrderName(), basketData.getJobOrderQty(), basketData.getOperationEnName());

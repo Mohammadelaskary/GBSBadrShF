@@ -15,7 +15,6 @@
         android:id="@+id/defect_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="defect1"
         android:textColor="@color/appbarcolor"
         android:textSize="20sp"
         style="@style/details_text_style"

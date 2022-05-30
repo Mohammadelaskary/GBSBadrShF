@@ -40,6 +40,7 @@ import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 
+import java.security.interfaces.RSAKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,7 +131,7 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     ProgressDialog progressDialog;
     private void observeGettingDefectsManufacturingList() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
         viewModel.getDefectsWeldingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
@@ -164,16 +165,16 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
                         adapter.notifyDataSetChanged();
                     }
                 } else {
-                    showAlertDialog("Error in getting data!");
+                    showAlertDialog(getString(R.string.error_in_getting_data));
                 }
         });
     }
 
     private void showAlertDialog(String statusMessage) {
         new AlertDialog.Builder(getContext())
-                .setTitle("Error!")
+                .setTitle(getString(R.string.error))
                 .setMessage(statusMessage)
-                .setNeutralButton("Back", (dialog, which) -> {
+                .setNeutralButton(getString(R.string.back), (dialog, which) -> {
                     NavController navController = NavHostFragment.findNavController(this);
                     navController.popBackStack();
                 }).create().show();

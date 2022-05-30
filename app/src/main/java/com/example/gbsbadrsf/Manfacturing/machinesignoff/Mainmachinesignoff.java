@@ -66,6 +66,6 @@ public class Mainmachinesignoff extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 }

@@ -99,7 +99,7 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
             newBaseUrl = binding.newIp.getEditText().getText().toString().trim();
             progressDialog.show();
             if (newBaseUrl.isEmpty())
-                binding.newIp.setError("Please enter new valid ip!");
+                binding.newIp.setError(getString(R.string.please_enter_new_valid_ip));
             if (!newBaseUrl.isEmpty()){
 //                saveBaseUrl(newBaseUrl);
                 hasInternetConnection(newBaseUrl).subscribe((hasInternet) -> {
@@ -138,7 +138,7 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
             if (aBoolean)
                 saveBaseUrl(newBaseUrl);
             else
-                warningDialog(getContext(),"Wrong ip");
+                warningDialog(getContext(),getString(R.string.wrong_ip));
         });
 
 
@@ -148,26 +148,26 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 binding.newIp.setError(null);
-                binding.newIp.setHelperText("Please enter only ip without http:// or folder name");
+                binding.newIp.setHelperText(getString(R.string.please_enter_only_ip_without));
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.newIp.setError(null);
-                binding.newIp.setHelperText("Please enter only ip without http:// or folder name");
+                binding.newIp.setHelperText(getString(R.string.please_enter_only_ip_without));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 binding.newIp.setError(null);
-                binding.newIp.setHelperText("Please enter only ip without http:// or folder name");
+                binding.newIp.setHelperText(getString(R.string.please_enter_only_ip_without));
             }
         });
     }
 
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -203,7 +203,7 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("database_url", MODE_PRIVATE).edit();
         editor.putString("base_url", newBaseUrl);
         editor.apply();
-        showAlertDialog("Saved Successfully","Application should restart to perform ip change");
+        showAlertDialog(getString(R.string.saved_successfully),getString(R.string.application_should_restart_to_perform_ip_change));
     }
 
     private void showAlertDialog(String title,String body) {
@@ -212,7 +212,7 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
         alertDialog.setIcon(R.drawable.ic_done);
         alertDialog.setMessage(body);
         alertDialog.setCancelable(false);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                 (dialog, which) -> restartApp());
         alertDialog.show();
     }
@@ -233,6 +233,6 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Settings",(MainActivity) getActivity());
+        changeTitle(getString(R.string.settings),(MainActivity) getActivity());
     }
 }

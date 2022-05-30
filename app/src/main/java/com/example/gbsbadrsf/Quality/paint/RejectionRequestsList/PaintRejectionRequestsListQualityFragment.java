@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Quality.paint.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
@@ -75,9 +76,11 @@ public class PaintRejectionRequestsListQualityFragment extends DaggerFragment im
         viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseGetRejectionRequestList -> {
             String statusMessage = apiResponseGetRejectionRequestList.getResponseStatus().getStatusMessage();
             List<RejectionRequest> rejectionRequestsList = apiResponseGetRejectionRequestList.getRejectionRequest();
-            if (statusMessage.equals("Getting data successfully")){
+            if (apiResponseGetRejectionRequestList.getResponseStatus().getIsSuccess()){
                 adapter.setRejectionRequests(rejectionRequestsList);
                 adapter.notifyDataSetChanged();
+            } else {
+                MyMethods.warningDialog(getContext(),statusMessage);
             }
         });
     }

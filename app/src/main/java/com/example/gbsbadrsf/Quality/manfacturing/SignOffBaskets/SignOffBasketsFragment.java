@@ -101,14 +101,14 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
         viewModel.getFullInspectionResponse().observe(getViewLifecycleOwner(),apiResponseFullInspection -> {
             if (apiResponseFullInspection!=null){
                 String statusMessage = apiResponseFullInspection.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Done successfully")) {
+                if (apiResponseFullInspection.getResponseStatus().getIsSuccess()) {
                     showSuccessAlerter(statusMessage, getActivity());
                     Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_sign_off_baskets_to_manufacturing_quality_operation_fragment);
                 } else {
                     warningDialog(getContext(), statusMessage);
                 }
             } else
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -164,7 +164,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                         if (!basketQty.isEmpty())
                             qty = Integer.parseInt(basketQty);
                         else {
-                            binding.addOkBasketBottomSheet.basketQty.setError("Please enter qty!");
+                            binding.addOkBasketBottomSheet.basketQty.setError(getString(R.string.please_enter_qty));
 //                            binding.addOkBasketBottomSheet.basketQty.getEditText().requestFocus();
                         }
                         Log.d("maxMinQty",minQty+"");
@@ -173,7 +173,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                         minQty = (int) (remainingQty * (1 - tolerance));
                         maxQty = (int) (remainingQty * (1 + tolerance));
                         if (qty < minQty || qty > maxQty) {
-                            warningDialog(getContext(), "Qty entered must be 10% below or above sign off qty");
+                            warningDialog(getContext(), getString(R.string.qty_entered_must_be_10_below_or_above_sign_off_qty));
                             binding.addOkBasketBottomSheet.basketQty.getEditText().setText("");
                             binding.addOkBasketBottomSheet.basketQty.getEditText().setEnabled(true);
                             binding.addOkBasketBottomSheet.basketQty.getEditText().setClickable(true);
@@ -335,7 +335,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                 isBulk = true;
                 setBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",true);
+                warningDialogWithChoice(getContext(), getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getString(R.string.are_you_sure_to_change_type),true);
             }
         });
         binding.addOkBasketBottomSheet.diff.setOnClickListener(v->{
@@ -344,7 +344,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                 isBulk = false;
                 setUnBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",false);
+                warningDialogWithChoice(getContext(), getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getString(R.string.are_you_sure_to_change_type),false);
             }
         });
     }
@@ -354,7 +354,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
         binding.addOkBasketBottomSheet.basketQty.getEditText().setEnabled(true);
         binding.addOkBasketBottomSheet.basketQty.getEditText().setClickable(true);
         binding.addOkBasketBottomSheet.basketQtyTxt.setVisibility(View.VISIBLE);
-        binding.addOkBasketBottomSheet.totalqtnTxt.setText("Total Added Qty");
+        binding.addOkBasketBottomSheet.totalqtnTxt.setText(getString(R.string.total_added_qty));
         updateViews();
     }
 
@@ -402,7 +402,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
         }
 //        binding.addOkBasketBottomSheet.totalAddedQtn.setText(String.valueOf(basketData.getSignOffQty()));
         binding.addOkBasketBottomSheet.basketQtyTxt.setVisibility(View.GONE);
-        binding.addOkBasketBottomSheet.totalqtnTxt.setText("Total Qty");
+        binding.addOkBasketBottomSheet.totalqtnTxt.setText(getString(R.string.total_qty));
     }
     private void handleListeners() {
         binding.addOkBasketBottomSheet.basketcodeEdt.getEditText().setOnKeyListener((view, i, keyEvent) -> {
@@ -422,10 +422,10 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                     maxQty = (int) (remainingQty * (1 + tolerance));
 
                     if (totalOkBasketsQty < minQty) {
-                        warningDialog(getContext(), "Please add all loading qty to baskets!");
+                        warningDialog(getContext(), getString(R.string.please_add_all_loading_qty_to_baskets));
 
                     } else if (totalOkBasketsQty > maxQty){
-                        warningDialog(getContext(), "Qty must be not more than 10% of sign off qty!");
+                        warningDialog(getContext(), getString(R.string.qty_must_be_not_more_than_10_of_sign_off_qty));
                     } else {
                         addOkBasketsBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
                         isOk = false;
@@ -438,12 +438,12 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                     handleOkColorsIcons();
                 }
             } else {
-                warningDialog(getContext(),"Please add at least 1 basket!");
+                warningDialog(getContext(),getString(R.string.please_add_at_least_1_basket));
             }
         });
         binding.addOkBasketBottomSheet.cancel.setOnClickListener(__->{
             if (!okBasketList.isEmpty()){
-                warningDialogWithChoice(getContext(),"Warning!","Are you sure to clear all baskets?",isBulk);
+                warningDialogWithChoice(getContext(),getString(R.string.warning),getString(R.string.are_you_sure_to_clear_all_baskets),isBulk);
 
             } else {
                 isOk = false;
@@ -481,15 +481,15 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                                     updateViews();
                                     binding.addOkBasketBottomSheet.basketcodeEdt.getEditText().setText("");
                                 } else {
-                                    binding.addOkBasketBottomSheet.basketcodeEdt.setError("Basket added previously!");
+                                    binding.addOkBasketBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
                                 }
 
                             }
                         } else {
-                            binding.addOkBasketBottomSheet.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                            binding.addOkBasketBottomSheet.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                         }
                     } else {
-                        binding.addOkBasketBottomSheet.basketQty.setError("Basket quantity must be  more than 0!");
+                        binding.addOkBasketBottomSheet.basketQty.setError(getString(R.string.basket_qty_must_be_more_than_0));
                         binding.addOkBasketBottomSheet.basketcodeEdt.getEditText().setText("");
                     }
                 } else {
@@ -514,20 +514,20 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
                                 binding.addOkBasketBottomSheet.basketcodeEdt.getEditText().setText("");
 
                             } else {
-                                binding.addOkBasketBottomSheet.basketcodeEdt.setError("Basket added previously!");
+                                binding.addOkBasketBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
                             }
 
                         }
                     } else {
-                        binding.addOkBasketBottomSheet.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                        binding.addOkBasketBottomSheet.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                 }
             } else {
-                binding.addOkBasketBottomSheet.basketQty.setError("Basket quantity must contain only digits!");
+                binding.addOkBasketBottomSheet.basketQty.setError(getString(R.string.basket_qty_must_contain_only_digits));
                 binding.addOkBasketBottomSheet.basketcodeEdt.getEditText().setText("");
             }
         } else {
-            binding.addOkBasketBottomSheet.basketQty.setError("Please enter basket quantity first and scan basket again!");
+            binding.addOkBasketBottomSheet.basketQty.setError(getString(R.string.please_enter_basket_qty_first_and_scan_basket_again));
         }
     }
     private int remainingQty;
@@ -573,15 +573,15 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
         switch (v.getId()){
             case R.id.save:
                 if (defectedQty!=0&&defectedBasket.isEmpty())
-                    warningDialog(getContext(),"Please add defected basket!");
+                    warningDialog(getContext(),getString(R.string.please_add_defected_basket));
                 else if (rejectedQty!=0&&rejectedBasket.isEmpty())
-                    warningDialog(getContext(),"Please add rejected basket!");
+                    warningDialog(getContext(),getString(R.string.please_add_rejected_basket));
                 else if (okBasketList.isEmpty())
-                    warningDialog(getContext(), "Please add at least one ok basket!");
+                    warningDialog(getContext(), getString(R.string.please_add_at_least_1_ok_basket));
                 else if (totalOkBasketsQty < minQty)
-                    warningDialog(getContext(), "Please add all ok qty to baskets!");
+                    warningDialog(getContext(), getString(R.string.please_ad_all_ok_qty_to_baskets));
                 else if (totalOkBasketsQty > maxQty)
-                    warningDialog(getContext(), "Qty must be not more than 10% of sign off qty!");
+                    warningDialog(getContext(), getString(R.string.qty_must_be_not_more_than_10_of_sign_off_qty));
                 else {
                     FullInspectionData data = new FullInspectionData(
                             USER_ID,
@@ -636,7 +636,7 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
     @Override
     public void onResume() {
         super.onResume();
-        MyMethods.changeTitle("Sign off Baskets",(MainActivity) getActivity());
+        MyMethods.changeTitle(getString(R.string.sign_off_baskets),(MainActivity) getActivity());
         barCodeReader.onResume();
     }
 

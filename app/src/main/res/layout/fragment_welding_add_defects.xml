@@ -42,7 +42,6 @@
                     style="@style/child_parent_desc_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Parent Description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +58,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="operation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
@@ -83,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="Sample qty"
+                        android:hint="@string/sample_qty"
                         android:imeOptions="actionDone"
                         android:lines="1"
                         android:maxLines="1"

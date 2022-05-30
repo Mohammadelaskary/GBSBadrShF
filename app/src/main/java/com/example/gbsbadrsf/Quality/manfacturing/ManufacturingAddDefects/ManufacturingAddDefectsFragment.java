@@ -126,7 +126,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     ProgressDialog progressDialog;
     private void observeGettingDefectsManufacturingList() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
         viewModel.getDefectsManufacturingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
@@ -150,7 +150,7 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
         viewModel.getDefectsManufacturingListLiveData().observe(getViewLifecycleOwner(), apiResponseDefectsManufacturing ->  {
                 if (apiResponseDefectsManufacturing!=null) {
                     String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
-                    if (statusMessage.equals("Data sent successfully")){
+                    if (apiResponseDefectsManufacturing.getResponseStatus().getIsSuccess()){
                         if (apiResponseDefectsManufacturing.getData()!=null) {
                             defectsManufacturingList.clear();
                             defectsManufacturingList.addAll(apiResponseDefectsManufacturing.getData());
@@ -164,14 +164,14 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
                     } else
                         binding.basketCode.setError(statusMessage);
                 } else
-                    showAlertDialog("Error in getting data!");
+                    showAlertDialog(getString(R.string.error_in_getting_data));
         });
     }
     private void showAlertDialog(String statusMessage) {
         new AlertDialog.Builder(getContext())
-                .setTitle("Error!")
+                .setTitle(R.string.error)
                 .setMessage(statusMessage)
-                .setNeutralButton("Back", (dialog, which) -> {
+                .setNeutralButton(getString(R.string.back), (dialog, which) -> {
                     NavController navController = NavHostFragment.findNavController(this);
                     navController.popBackStack();
                 }).create().show();
@@ -252,10 +252,10 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
                     bundle.putString(NEW_BASKET_CODE,newBasketCode);
                     Navigation.findNavController(v).navigate(R.id.action_manufacturing_add_defects_to_manufacturing_add_defects_details, bundle);
                 } else {
-                    warningDialog(getContext(), "There is no more childs in sample!");
+                    warningDialog(getContext(), getString(R.string.there_is_no_more_childs_in_sample));
                 }
             } else {
-                binding.basketCode.setError("Please scan or enter valid basket code!");
+                binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
             }
             });
 //        binding.saveBtn.setOnClickListener(v -> {

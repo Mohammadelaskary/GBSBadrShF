@@ -4,10 +4,12 @@ import com.example.gbsbadrsf.ApiResponseTestConnectivity;
 import com.example.gbsbadrsf.ApprovalRejectionRequest.ApiResponseManufacturingRejectionRequestCloseRequest;
 import com.example.gbsbadrsf.DeclineRejectionRequest.ApiResponseManufacturingRejectionRequestCloseDeclinedRequest;
 import com.example.gbsbadrsf.Manfacturing.BasketInfo.ApiResponseBasketsWIP;
+import com.example.gbsbadrsf.Manfacturing.Counting.ApiResponseGetBasketInfo_ManufacturingProductionCounting;
+import com.example.gbsbadrsf.Manfacturing.Counting.ApiResponseSaveManufacturingProductionCounting;
+import com.example.gbsbadrsf.welding.Counting.ApiResponseGetBasketInfo_WeldingProductionCounting;
 import com.example.gbsbadrsf.Model.ApiResponseBasketTransfer;
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
-import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfo;
 import com.example.gbsbadrsf.Model.ApiResponseGetBasketInfoLocateInQuality;
 import com.example.gbsbadrsf.Model.ApiResponseGetJobOrderIssuedChilds;
 import com.example.gbsbadrsf.Model.ApiResponseGetJobOrdersForIssue;
@@ -37,7 +39,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionReque
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetItemByCode;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestByID;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestList;
-import com.example.gbsbadrsf.Quality.Data.ApiResponseRejectionRequestTakeAction;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.ApiResponseRejectionRequestTakeAction;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveCheckList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveRandomQualityInception;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseSavingOperationSignOffDecision;
@@ -82,6 +84,7 @@ import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseQualityPass_Weldin
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseUpdateWeldingDefects;
 import com.example.gbsbadrsf.Quality.welding.Model.FullInspectionData_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.UpdateWeldingDefectsData;
+import com.example.gbsbadrsf.data.ApiResponseGetWIP_Painting;
 import com.example.gbsbadrsf.data.response.APIResponse;
 import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
 import com.example.gbsbadrsf.data.response.APIResponseSignin;
@@ -93,6 +96,7 @@ import com.example.gbsbadrsf.data.response.ApiGetweldingloadingstartloading;
 import com.example.gbsbadrsf.data.response.ApiMachinesignoff;
 import com.example.gbsbadrsf.data.response.ApiPaintstation;
 import com.example.gbsbadrsf.data.response.ApiResponseMachinewip;
+import com.example.gbsbadrsf.data.response.ApiResponseProductionSignOff_Painting;
 import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.ApiResponseweldingbyjoborder;
 import com.example.gbsbadrsf.data.response.ApiSavePaintloading;
@@ -119,6 +123,7 @@ import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetRejectionRequestList;
 import com.example.gbsbadrsf.signin.ApiResponseChangePassword;
+import com.example.gbsbadrsf.welding.Counting.ApiResponseSaveWeldingProductionCounting;
 import com.example.gbsbadrsf.weldingsequence.StationSignIn;
 
 import java.util.List;
@@ -888,4 +893,34 @@ public interface ApiInterface {
           @Query("UserID") int UserID,
           @Query("DeviceSerialNo") String DeviceSerialNo
   );
+
+  @GET("GetWIP_Painting")
+  Single<ApiResponseGetWIP_Painting> GetWIP_Painting(@Query("UserID") int userid,
+                                                     @Query("DeviceSerialNo") String deviceserialnumber);
+  @GET("ProductionSignOff_Painting")
+  Single<ApiResponseProductionSignOff_Painting> ProductionSignOff_Painting(@Query("UserID") int userid,
+                                                                           @Query("DeviceSerialNo") String deviceSerialNumber,
+                                                                           @Query("LoadingSequenceID") int loadingSequenceId);
+  @GET("GetBasketInfo_ManufacturingProductionCounting")
+  Single<ApiResponseGetBasketInfo_ManufacturingProductionCounting> GetBasketInfo_ManufacturingProductionCounting(@Query("UserID") int userid,
+                                                                                              @Query("DeviceSerialNo") String deviceSerialNumber,
+                                                                                              @Query("BasketCode") String BasketCode);
+
+  @GET("SaveManufacturingProductionCounting")
+  Single<ApiResponseSaveManufacturingProductionCounting> SaveManufacturingProductionCounting(@Query("UserID") int userid,
+                                                                                             @Query("DeviceSerialNo") String deviceSerialNumber,
+                                                                                             @Query("BasketCode") String BasketCode,
+                                                                                             @Query("ProductionCounting") int ProductionCounting);
+
+
+  @GET("GetBasketInfo_WeldingProductionCounting")
+  Single<ApiResponseGetBasketInfo_WeldingProductionCounting> GetBasketInfo_WeldingProductionCounting(@Query("UserID") int userid,
+                                                                                                     @Query("DeviceSerialNo") String deviceSerialNumber,
+                                                                                                     @Query("BasketCode") String BasketCode);
+  @GET("SaveWeldingProductionCounting")
+  Single<ApiResponseSaveWeldingProductionCounting> SaveWeldingProductionCounting(@Query("UserID") int userid,
+                                                                                 @Query("DeviceSerialNo") String deviceSerialNumber,
+                                                                                 @Query("BasketCode") String BasketCode,
+                                                                                 @Query("ProductionCounting") int ProductionCounting);
+
 }

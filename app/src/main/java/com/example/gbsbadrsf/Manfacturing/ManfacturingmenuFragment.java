@@ -111,10 +111,14 @@ public class ManfacturingmenuFragment extends Fragment {
 
         });
 
-        binding.declineRejectionRequest.setOnClickListener(v->{
-            Navigation.findNavController(v).navigate(R.id.action_manufacturing_menu_fragment_to_decline_rejection_request_fragment);
-        });
+//        binding.declineRejectionRequest.setOnClickListener(v->{
+//            Navigation.findNavController(v).navigate(R.id.action_manufacturing_menu_fragment_to_decline_rejection_request_fragment);
+//        });
+        binding.counting.setOnClickListener(__ -> {
 
+            Navigation.findNavController(getView()).navigate(R.id.action_manufacturing_menu_fragment_to_fragment_manufacturing_counting);
+
+        });
 
 
 
@@ -124,6 +128,6 @@ public class ManfacturingmenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 }

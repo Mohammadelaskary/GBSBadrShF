@@ -18,10 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.PprWelding;
-import com.example.gbsbadrsf.databinding.ProductionsequenceRvBinding;
+import com.example.gbsbadrsf.databinding.ProductionSequenceItemBinding;
 import com.example.gbsbadrsf.databinding.WeldingsequenceRvBinding;
 import com.example.gbsbadrsf.productionsequence.productionsequenceadapter;
 
@@ -32,12 +33,14 @@ import java.util.List;
 public class WeldingsequenceAdapter extends RecyclerView.Adapter<WeldingsequenceAdapter.WeldingsequenceViewHolder> {
     private List<PprWelding> pprList;
     onWeldingCheckedChangedListener onWeldingCheckedChangedListener;
+    private Context context;
 
 
 
-    public WeldingsequenceAdapter(List<PprWelding> pprList, onWeldingCheckedChangedListener onWeldingCheckedChangedListener) {
+    public WeldingsequenceAdapter(List<PprWelding> pprList, onWeldingCheckedChangedListener onWeldingCheckedChangedListener,Context context) {
         this.pprList = pprList;
         this.onWeldingCheckedChangedListener = onWeldingCheckedChangedListener;
+        this.context = context;
     }
 
     public void setPprList(List<PprWelding> pprList) {
@@ -48,7 +51,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
     @NonNull
     @Override
     public WeldingsequenceAdapter.WeldingsequenceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ProductionsequenceRvBinding productionsequenceRvBinding = ProductionsequenceRvBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        ProductionSequenceItemBinding productionsequenceRvBinding = ProductionSequenceItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new WeldingsequenceAdapter.WeldingsequenceViewHolder(productionsequenceRvBinding);
     }
     int selectedSequenceNo = -1;
@@ -69,7 +72,7 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
                 onWeldingCheckedChangedListener.onWeldingCheckedChanged(pprList.get(position).getLoadingSequenceID());
                 notifyDataSetChanged();
             } else
-                warningDialog(v.getContext(), "You must select the ppr with sequence no equal 1!");
+                warningDialog(v.getContext(), context.getString(R.string.you_must_select_the_ppr_with_sequence_number_equal_1));
         });
     }
 
@@ -79,8 +82,8 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
     }
     class WeldingsequenceViewHolder extends RecyclerView.ViewHolder{
 
-        ProductionsequenceRvBinding binding;
-        public WeldingsequenceViewHolder(@NonNull ProductionsequenceRvBinding binding) {
+        ProductionSequenceItemBinding binding;
+        public WeldingsequenceViewHolder(@NonNull ProductionSequenceItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             changeItemsOpacity();

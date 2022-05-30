@@ -89,7 +89,7 @@
                 android:layout_marginEnd="35dp"
                 android:layout_marginStart="35dp"
                 android:backgroundTint="@color/appbarcolor"
-                android:text="Rejection Managment"
+                android:text="@string/rejection_management"
                 app:cornerRadius="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +111,22 @@
                 />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/counting"
+                style="@style/styleoftextinbtn"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/appbarcolor"
+                android:text="@string/counting"
+                android:visibility="visible"
+                app:cornerRadius="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/basket_info_btn" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/productionrepair_btn"
                 style="@style/styleoftextinbtn"
                 android:layout_width="match_parent"
@@ -124,7 +140,7 @@
                 app:cornerRadius="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/basket_info_btn" />
+                app:layout_constraintTop_toBottomOf="@+id/counting" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/approval_rejection_request"
@@ -135,28 +151,13 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="35dp"
                 android:backgroundTint="@color/appbarcolor"
-                android:text="Approval Rejection Request"
+                android:text="@string/approval_rejection_request"
                 android:visibility="visible"
                 app:cornerRadius="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/productionrepair_btn" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/decline_rejection_request"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:backgroundTint="@color/appbarcolor"
-                android:text="Committee decision"
-                android:visibility="visible"
-                app:cornerRadius="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/approval_rejection_request" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -183,7 +184,7 @@
                 android:layout_marginEnd="35dp"
                 android:layout_marginStart="35dp"
                 android:backgroundTint="@color/appbarcolor"
-                android:text="Basket Info"
+                android:text="@string/basket_info"
                 app:cornerRadius="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

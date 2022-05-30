@@ -21,12 +21,18 @@ public class ManufacturingDefectsPerQtyAdapter extends RecyclerView.Adapter<Manu
     private SetOnDefectsPerQtyItemClicked onItemClicked;
     private SetOnDeleteButtonClicked onDeleteButtonClicked;
     private Context context;
+    private boolean clickable = true;
     public void setDefectsPerQtyList(List<DefectsPerQty> defectsPerQtyList) {
         this.defectsPerQtyList = defectsPerQtyList;
         notifyDataSetChanged();
     }
 
-    public ManufacturingDefectsPerQtyAdapter(Context context,SetOnDefectsPerQtyItemClicked onItemClicked,SetOnDeleteButtonClicked onDeleteButtonClicked) {
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+        notifyDataSetChanged();
+    }
+
+    public ManufacturingDefectsPerQtyAdapter(Context context, SetOnDefectsPerQtyItemClicked onItemClicked, SetOnDeleteButtonClicked onDeleteButtonClicked) {
         this.onItemClicked = onItemClicked;
         this.context = context;
         this.onDeleteButtonClicked = onDeleteButtonClicked;
@@ -56,7 +62,8 @@ public class ManufacturingDefectsPerQtyAdapter extends RecyclerView.Adapter<Manu
             holder.binding.line.setBackgroundColor(context.getResources().getColor(R.color.line_color));
         }
         holder.itemView.setOnClickListener(v -> {
-            onItemClicked.onItemClicked(defect);
+            if (clickable)
+                onItemClicked.onItemClicked(defect);
         });
         holder.binding.remove.setOnClickListener(v->{
             onDeleteButtonClicked.onDeleteButtonClicked(defect.getId(),defectsPerQtyList.size());

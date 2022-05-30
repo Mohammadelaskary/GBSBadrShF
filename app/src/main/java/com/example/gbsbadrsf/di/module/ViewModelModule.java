@@ -9,8 +9,11 @@ import com.example.gbsbadrsf.ChangeIpViewModel;
 import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestDecisionViewModel;
 import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestViewModel;
 import com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoViewModel;
+import com.example.gbsbadrsf.Manfacturing.Counting.ManufacturingCountingViewModel;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoadingViewModel;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.MachinesignoffViewModel;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffViewModel;
 import com.example.gbsbadrsf.Paint.machineloadingpaint.SavepaintViewModel;
 import com.example.gbsbadrsf.Paint.paintstation.InfoForSelectedPaintViewModel;
 import com.example.gbsbadrsf.Paint.paintstation.PaintstationViewModel;
@@ -63,7 +66,9 @@ import com.example.gbsbadrsf.signin.ChangePasswordViewModel;
 import com.example.gbsbadrsf.signin.SignInViewModel;
 import com.example.gbsbadrsf.warhouse.counting.CountingViewModel;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseViewModel;
+import com.example.gbsbadrsf.welding.Counting.WeldingCountingViewModel;
 import com.example.gbsbadrsf.welding.ItemsReceiving.ChildToBasketViewModel;
+import com.example.gbsbadrsf.welding.ItemsReceiving.DisplayJobOrderDataViewModel;
 import com.example.gbsbadrsf.welding.ItemsReceiving.ItemsReceivingViewModel;
 import com.example.gbsbadrsf.welding.machineloadingwe.SaveweldingViewModel;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweViewModel;
@@ -355,6 +360,27 @@ public abstract ViewModel bindPaintAddDefectsDetailsViewModel (PaintAddDefectsDe
     @IntoMap
     @ViewModelKey(DeclineRejectionRequestViewModel.class)
     public abstract ViewModel bindDeclineRejectionRequestViewModel (DeclineRejectionRequestViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(DisplayJobOrderDataViewModel.class)
+    public abstract ViewModel bindDisplayJobOrderDataViewModel (DisplayJobOrderDataViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintSignOffPprListViewModel.class)
+    public abstract ViewModel bindPaintSignOffPprListViewModel (PaintSignOffPprListViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(PaintSignOffViewModel.class)
+    public abstract ViewModel bindPaintSignOffViewModel (PaintSignOffViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(ManufacturingCountingViewModel.class)
+    public abstract ViewModel bindManufacturingCountingViewModel (ManufacturingCountingViewModel viewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeldingCountingViewModel.class)
+    public abstract ViewModel bindWeldingCountingViewModel (WeldingCountingViewModel viewModel);
 
 
 

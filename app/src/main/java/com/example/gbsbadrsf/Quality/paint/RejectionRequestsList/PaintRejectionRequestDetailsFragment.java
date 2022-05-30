@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequestsList;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
 import android.app.ProgressDialog;
@@ -87,7 +88,7 @@ public class PaintRejectionRequestDetailsFragment extends DaggerFragment impleme
     private ProgressDialog progressDialog;
     private void setupProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -105,12 +106,14 @@ public class PaintRejectionRequestDetailsFragment extends DaggerFragment impleme
         viewModel.rejectionRequestTakeActionLiveData.observe(getViewLifecycleOwner(),apiResponseRejectionRequestTakeAction -> {
             if (apiResponseRejectionRequestTakeAction!=null) {
                 String statusMessage = apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Saved successfully")) {
-                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                if (apiResponseRejectionRequestTakeAction.getResponseStatus().getIsSuccess()) {
+//                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                    showSuccessAlerter(statusMessage,getActivity());
                     navController.popBackStack();
-                }
+                } else
+                    warningDialog(getContext(),statusMessage);
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_saving_data));
             }
         });
     }

@@ -31,6 +31,7 @@ import com.example.gbsbadrsf.Paint.Basket;
 import com.example.gbsbadrsf.Paint.PaintSignInData;
 import com.example.gbsbadrsf.Paint.paintstation.InfoForSelectedPaintViewModel;
 import com.example.gbsbadrsf.Paint.paintstation.Paintdstation;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Pprpaint;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -85,11 +86,11 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
             public void onClick(View v) {
                 String paintCode = binding.stationcodeNewedttxt.getText().toString().trim();
                 if (paintCode.isEmpty())
-                    binding.stationcodeEdt.setError("Please scan or enter a valid paint code!");
+                    binding.stationcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_station_code));
                 if (addedBasketCodes.isEmpty())
-                    binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
+                    binding.childbasketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_child_basket_code));
                 if (addedBasketCodes.size()!=basketsCodes.size())
-                    binding.childbasketcodeEdt.setError("Please scan or enter all stored basket codes!");
+                    binding.childbasketcodeEdt.setError(getString(R.string.please_scan_or_enter_all_stored_basket_codes));
                 if (!paintCode.isEmpty()&&!addedBasketCodes.isEmpty()&&addedBasketCodes.size()==basketsCodes.size()){
                     PaintSignInData data = new PaintSignInData(USER_ID,DEVICE_SERIAL_NO,loadingSequenceId,paintStationCode,loadingQty,addedBasketCodes);
                     savepaintViewModel.savepaintloading(data);
@@ -121,9 +122,9 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                             String basketCode = binding.childbasketcodeEdt.getEditText().getText().toString().trim();
                             binding.childbasketcodeNewedttxt.setText(basketCode);
                             if (addedBasketCodes.contains(basketCode))
-                                binding.childbasketcodeEdt.setError("Basket code added before!");
+                                binding.childbasketcodeEdt.setError(getString(R.string.basket_added_previously));
                             if (!basketsCodes.contains(basketCode))
-                                binding.childbasketcodeEdt.setError("Basket code doesn't match stored basket codes!");
+                                binding.childbasketcodeEdt.setError(getString(R.string.basket_code_doesnt_match_stored_basket_codes));
                             if (!addedBasketCodes.contains(basketCode) &&
                                     basketsCodes.contains(basketCode)) {
                                 addedBasketCodes.add(basketCode);
@@ -225,7 +226,7 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                     basketsCodes.add(basket.getBasketCode());
                 }
             }else
-                warningDialog(getContext(),"Error in getting Data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -256,17 +257,15 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
 //            }
             if (response!=null){
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                switch (statusMessage){
-                    case "Saving data successfully":
-                        showSuccessAlerter(statusMessage,getActivity());
+                if (response.getResponseStatus().getIsSuccess()) {
+                    showSuccessAlerter(statusMessage, getActivity());
 //                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-                        back(MachineloadingpaintFragment.this);
-                        break;
-                    default:
-                        warningDialog(getContext(),statusMessage);
+                    back(MachineloadingpaintFragment.this);
+                } else {
+                    warningDialog(getContext(), statusMessage);
                 }
             } else
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
 
 
@@ -286,9 +285,9 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                     String basketCode = String.valueOf(barcodeReadEvent.getBarcodeData());
                     binding.childbasketcodeNewedttxt.setText(basketCode);
                     if (addedBasketCodes.contains(basketCode))
-                        binding.childbasketcodeEdt.setError("Basket code added before!");
+                        binding.childbasketcodeEdt.setError(getString(R.string.basket_added_previously));
                     if (!basketsCodes.contains(basketCode))
-                        binding.childbasketcodeEdt.setError("Basket code doesn't match stored basket codes!");
+                        binding.childbasketcodeEdt.setError(getString(R.string.basket_code_doesnt_match_stored_basket_codes));
                     if (!addedBasketCodes.contains(basketCode)&&
                         basketsCodes.contains(basketCode)){
                         addedBasketCodes.add(basketCode);

@@ -8,21 +8,18 @@ import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.RejectionRequestClosingFragmentBinding;
@@ -71,7 +68,7 @@ public class RejectionRequestClosingFragment extends DaggerFragment implements V
         viewModel.getGetCloseRejectionRequestResponse().observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestCloseRequest -> {
             if (apiResponseManufacturingRejectionRequestCloseRequest!=null){
                 String statusMessage = apiResponseManufacturingRejectionRequestCloseRequest.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals(getString(R.string.closed_successfully))){
+                if (apiResponseManufacturingRejectionRequestCloseRequest.getResponseStatus().getIsSuccess()){
                     showSuccessAlerter(statusMessage,getActivity());
                     back(RejectionRequestClosingFragment.this);
                 } else
@@ -99,7 +96,7 @@ public class RejectionRequestClosingFragment extends DaggerFragment implements V
         viewModel.getGetRejectionRequestData().observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestByID -> {
             if (apiResponseManufacturingRejectionRequestGetRejectionRequestByID!=null){
                 String statusMessage = apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getResponseStatus().getIsSuccess()){
                     rejectionRequest = apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getRejectionRequest();
                     fillData();
                 } else

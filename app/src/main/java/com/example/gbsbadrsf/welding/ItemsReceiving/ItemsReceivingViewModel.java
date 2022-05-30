@@ -3,6 +3,7 @@ package com.example.gbsbadrsf.welding.ItemsReceiving;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gbsbadrsf.Model.ApiResponseGetJobOrderIssuedChilds;
 import com.example.gbsbadrsf.Model.ApiResponseGetJobOrdersForIssue;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseAddingWeldingDefect;
@@ -21,8 +22,9 @@ public class ItemsReceivingViewModel extends ViewModel {
     @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
-    MutableLiveData<ApiResponseGetJobOrdersForIssue> jobOrdersForIssue;
-    MutableLiveData<Status> status;
+    private MutableLiveData<ApiResponseGetJobOrdersForIssue> jobOrdersForIssue;
+    private MutableLiveData<ApiResponseGetJobOrderIssuedChilds> jobOrdersIssuedChilds;
+    private MutableLiveData<Status> status;
 
 
     @Inject
@@ -48,6 +50,20 @@ public class ItemsReceivingViewModel extends ViewModel {
                         }
                 ));
     }
+    public void GetJobOrdersIssuedChilds(int userId,String deviceSerialNo,int entityId){
+        disposable.add(apiInterface.GetJobOrderIssuedChilds(userId,deviceSerialNo,entityId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe( __ ->status.postValue(Status.LOADING))
+                .subscribe(
+                        response -> {
+                            jobOrdersIssuedChilds.postValue(response);
+                            status.postValue(Status.SUCCESS);},
+                        throwable -> {
+                            status.postValue(Status.ERROR);
+                        }
+                ));
+    }
 
     public MutableLiveData<ApiResponseGetJobOrdersForIssue> getJobOrdersForIssue() {
         return jobOrdersForIssue;
@@ -55,5 +71,9 @@ public class ItemsReceivingViewModel extends ViewModel {
 
     public MutableLiveData<Status> getStatus() {
         return status;
+    }
+
+    public MutableLiveData<ApiResponseGetJobOrderIssuedChilds> getJobOrdersIssuedChilds() {
+        return jobOrdersIssuedChilds;
     }
 }

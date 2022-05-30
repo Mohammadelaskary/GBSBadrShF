@@ -14,7 +14,6 @@ import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
 import com.example.gbsbadrsf.databinding.FragmentQualityscraplistBinding;
 import com.example.gbsbadrsf.databinding.FragmentQualityscraplistweBinding;
-import com.example.gbsbadrsf.qualityscrap.qualityscraplistadapter;
 
 
 public class qualityscraplistweFragment extends Fragment implements OnClick {

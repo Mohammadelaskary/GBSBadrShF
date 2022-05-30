@@ -193,7 +193,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
 
     private void setUpRecyclerView() {
         Weldingsequenceresponse = new ArrayList<>();
-        adapter = new WeldingsequenceAdapter(Weldingsequenceresponse,this);
+        adapter = new WeldingsequenceAdapter(Weldingsequenceresponse,this,getContext());
         binding.defectqtnRv.setAdapter(adapter);
         binding.defectqtnRv.setNestedScrollingEnabled(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext()){
@@ -209,7 +209,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
             if (selectedSequenceId!=-1){
                 infoForSelectedStationViewModel.getselectedweldingsequence(USER_ID,DEVICE_SERIAL_NO,String.valueOf(selectedSequenceId));
             } else {
-                warningDialog(getContext(),"Please select the first production sequence!");
+                warningDialog(getContext(),getString(R.string.please_select_the_first_production_sequence));
             }
         });
         viewModel.getWeldingsequenceResponse().observe(getViewLifecycleOwner(), cuisines->{
@@ -223,20 +223,20 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 adapter.setPprList(pprWeldingList);// today 23/11
                 adapter.notifyDataSetChanged();
             } else
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
         infoForSelectedStationViewModel.getResponseLiveData().observe(getViewLifecycleOwner(),response->{
             if (response!=null){
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 List<Baskets> baskets = response.getBaskets();
-                if (statusMessage.equals("Data sent successfully")){
+                if (response.getResponseStatus().getIsSuccess()){
                     if (!baskets.isEmpty()){
                         Navigation.findNavController(getView()).navigate(R.id.action_weldingSequence_to_machineloadingweFragment);
                     } else
-                        warningDialog(getContext(),"No baskets for this job order name!");
+                        warningDialog(getContext(),getString(R.string.no_baskets_for_this_job_order_name));
                 }
             } else
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
 
     }
@@ -296,7 +296,7 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
                 e.printStackTrace();
             }
         }
-        changeTitle("Welding",(MainActivity) getActivity());
+        changeTitle(getString(R.string.welding),(MainActivity) getActivity());
     }
 
     @Override

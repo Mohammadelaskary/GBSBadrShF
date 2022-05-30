@@ -45,7 +45,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:hint="Old Basket Code"
+                android:hint="@string/old_basket_code"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:hintTextColor="@color/colorPrimary"
@@ -79,7 +79,6 @@
                     style="@style/child_parent_desc_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Parent Description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +98,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/operation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
@@ -149,7 +147,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:hint="New Basket Code"
+                    android:hint="@string/new_basket_code"
                     app:errorEnabled="true"
                     app:errorTextColor="@android:color/holo_red_dark"
                     app:hintTextColor="@color/colorPrimary"
@@ -176,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Responsible"
+                    android:text="@string/responsible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/new_basket_code" />
 
@@ -213,7 +211,7 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/appbarcolor"
-                    android:text="Reason Defects"
+                    android:text="@string/reason_defects"
                     android:textColor="@color/white"
                     app:cornerRadius="25dp"
                     app:layout_constraintEnd_toStartOf="@+id/save_btn"

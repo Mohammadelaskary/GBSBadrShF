@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.example.gbsbadrsf.databinding.CustomAlertDialogBinding;
 
+
 public class CustomDialog extends Dialog {
     private String message;
     private int image;
@@ -27,7 +28,7 @@ public class CustomDialog extends Dialog {
         setContentView(binding.getRoot());
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding.message.setText(message);
-        binding.imageView.setImageResource(image);
+//        binding.imageView.setImageResource(image);
         binding.ok.setOnClickListener(v->this.dismiss());
     }
 }

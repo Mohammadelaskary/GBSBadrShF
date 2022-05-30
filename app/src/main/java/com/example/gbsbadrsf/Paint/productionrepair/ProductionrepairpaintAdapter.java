@@ -39,21 +39,21 @@ public class ProductionrepairpaintAdapter extends RecyclerView.Adapter<Productio
             }
         });
 
-        if (position==0){
-
-
-            binding.defectnameCheckBox.setText("Defect 1");
-
-        }
-        else if (position==1){
-            binding.defectnameCheckBox.setText("Defect 2");
-
-        }
-        else {
-            binding.defectnameCheckBox.setText("Defect 3");
-
-
-        }
+//        if (position==0){
+//
+//
+//            binding.defectnameCheckBox.setText("Defect 1");
+//
+//        }
+//        else if (position==1){
+//            binding.defectnameCheckBox.setText("Defect 2");
+//
+//        }
+//        else {
+//            binding.defectnameCheckBox.setText("Defect 3");
+//
+//
+//        }
 
     }
 

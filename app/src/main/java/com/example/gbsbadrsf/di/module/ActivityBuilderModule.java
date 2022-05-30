@@ -6,8 +6,11 @@ import com.example.gbsbadrsf.ChangeBaseUrlFragment;
 import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestDecisionFragment;
 import com.example.gbsbadrsf.DeclineRejectionRequest.DeclineRejectionRequestFragment;
 import com.example.gbsbadrsf.Manfacturing.BasketInfo.BasketInfoFragment;
+import com.example.gbsbadrsf.Manfacturing.Counting.ManufacturingCountingFragment;
 import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoading;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffFragment;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffFragment;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListFragment;
 import com.example.gbsbadrsf.Paint.machineloadingpaint.MachineloadingpaintFragment;
 import com.example.gbsbadrsf.Paint.paintstation.Paintdstation;
 import com.example.gbsbadrsf.Paint.paintwip.MainPaintWip;
@@ -59,7 +62,9 @@ import com.example.gbsbadrsf.signin.ChangePasswordFragment;
 import com.example.gbsbadrsf.signin.SigninFragment;
 import com.example.gbsbadrsf.warhouse.counting.CountingFragment;
 import com.example.gbsbadrsf.warhouse.warehouse.WarehouseFragment;
+import com.example.gbsbadrsf.welding.Counting.WeldingCountingFragment;
 import com.example.gbsbadrsf.welding.ItemsReceiving.ChildToBasketFragment;
+import com.example.gbsbadrsf.welding.ItemsReceiving.DisplayJobOrderDataFragment;
 import com.example.gbsbadrsf.welding.ItemsReceiving.ItemsReceivingFragment;
 import com.example.gbsbadrsf.welding.machineloadingwe.MachineloadingweFragment;
 import com.example.gbsbadrsf.welding.weldingsignoff.SignoffweFragment;
@@ -206,6 +211,17 @@ public abstract class ActivityBuilderModule {
     abstract DeclineRejectionRequestDecisionFragment contributeDeclineRejectionRequestDecisionFragment ();
     @ContributesAndroidInjector
     abstract DeclineRejectionRequestFragment contributeDeclineRejectionRequestFragment ();
+    @ContributesAndroidInjector
+    abstract DisplayJobOrderDataFragment contributeDisplayJobOrderDataFragment ();
+    @ContributesAndroidInjector
+    abstract PaintSignOffPprListFragment contributePaintSignOffPprListFragment ();
+    @ContributesAndroidInjector
+    abstract PaintSignOffFragment contributePaintSignOffFragment ();
+    @ContributesAndroidInjector
+    abstract ManufacturingCountingFragment contributeManufacturingCountingFragment ();
+    @ContributesAndroidInjector
+    abstract WeldingCountingFragment contributeWeldingCountingFragment ();
+
 
 
 

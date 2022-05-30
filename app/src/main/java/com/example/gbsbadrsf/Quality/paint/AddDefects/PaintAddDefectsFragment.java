@@ -133,7 +133,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     ProgressDialog progressDialog;
     private void observeGettingDefectsManufacturingList() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
         viewModel.getDefectsPaintingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
@@ -166,7 +166,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
                     adapter.notifyDataSetChanged();
                     binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
-                    showAlertDialog("Error in getting data!");
+                    showAlertDialog(getString(R.string.error_in_getting_data));
                     binding.dataLayout.setVisibility(View.GONE);
                 }
         });
@@ -174,9 +174,9 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
 
     private void showAlertDialog(String statusMessage) {
         new AlertDialog.Builder(getContext())
-                .setTitle("Error!")
+                .setTitle(getString(R.string.error))
                 .setMessage(statusMessage)
-                .setNeutralButton("Back", (dialog, which) -> {
+                .setNeutralButton(getString(R.string.back), (dialog, which) -> {
                     NavController navController = NavHostFragment.findNavController(this);
                     navController.popBackStack();
                 }).create().show();
@@ -256,7 +256,7 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
 //                bundle.putBoolean("newSample", newSample);
                     Navigation.findNavController(v).navigate(R.id.action_fragment_paint_add_defects_to_fragment_paint_add_defect_details, bundle);
                 } else {
-                    warningDialog(getContext(),"There is no more childs in this basket!");
+                    warningDialog(getContext(),getString(R.string.ther_is_no_more_childs_in_this_basket));
                 }
             }
         });

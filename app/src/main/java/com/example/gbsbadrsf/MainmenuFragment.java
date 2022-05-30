@@ -70,6 +70,6 @@ public class MainmenuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Home",(MainActivity) getActivity());
+        changeTitle(getString(R.string.home),(MainActivity) getActivity());
     }
 }

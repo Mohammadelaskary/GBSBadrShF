@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Paint Sequence"
+        android:text="@string/paint_sequence"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,7 @@
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"
-        android:text="Ok"
+        android:text="@string/ok"
         style="@style/styleoftextinbtn"
 
         />

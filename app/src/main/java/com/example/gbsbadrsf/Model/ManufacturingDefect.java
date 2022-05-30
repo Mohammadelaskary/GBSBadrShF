@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ManufacturingDefect implements Parcelable {
+
     @SerializedName("manufacturingDefectsId")
     @Expose
     private Integer manufacturingDefectsId;
@@ -67,6 +68,60 @@ public class ManufacturingDefect implements Parcelable {
     @SerializedName("isRejectedQty")
     @Expose
     private Boolean isRejectedQty;
+    @SerializedName("childId")
+    @Expose
+    private Integer childId;
+    @SerializedName("childCode")
+    @Expose
+    private String childCode;
+    @SerializedName("childDisplayName")
+    @Expose
+    private String childDisplayName;
+    @SerializedName("totalDeffectedQty")
+    @Expose
+    private Integer totalDeffectedQty;
+    @SerializedName("totalQtyRejected")
+    @Expose
+    private Integer totalQtyRejected;
+    @SerializedName("totalQtyOk")
+    @Expose
+    private Integer totalQtyOk;
+    @SerializedName("jobOrderId")
+    @Expose
+    private Integer jobOrderId;
+    @SerializedName("jobOrderQty")
+    @Expose
+    private Integer jobOrderQty;
+    @SerializedName("lastMoveId")
+    @Expose
+    private Integer lastMoveId;
+    @SerializedName("jobOrderName")
+    @Expose
+    private String jobOrderName;
+    @SerializedName("pprLoadingId")
+    @Expose
+    private Integer pprLoadingId;
+    @SerializedName("operationId")
+    @Expose
+    private Integer operationId;
+    @SerializedName("operationEnName")
+    @Expose
+    private String operationEnName;
+    @SerializedName("sampleQty")
+    @Expose
+    private Integer sampleQty;
+    @SerializedName("pendingRepair")
+    @Expose
+    private Integer pendingRepair;
+    @SerializedName("repairedQty")
+    @Expose
+    private Integer repairedQty;
+    @SerializedName("pendingApprove")
+    @Expose
+    private Integer pendingApprove;
+    @SerializedName("approvedQty")
+    @Expose
+    private Integer approvedQty;
 
     protected ManufacturingDefect(Parcel in) {
         if (in.readByte() == 0) {
@@ -143,6 +198,262 @@ public class ManufacturingDefect implements Parcelable {
         isBulkGroup = tmpIsBulkGroup == 0 ? null : tmpIsBulkGroup == 1;
         byte tmpIsRejectedQty = in.readByte();
         isRejectedQty = tmpIsRejectedQty == 0 ? null : tmpIsRejectedQty == 1;
+        if (in.readByte() == 0) {
+            childId = null;
+        } else {
+            childId = in.readInt();
+        }
+        childCode = in.readString();
+        childDisplayName = in.readString();
+        if (in.readByte() == 0) {
+            totalDeffectedQty = null;
+        } else {
+            totalDeffectedQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            totalQtyRejected = null;
+        } else {
+            totalQtyRejected = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            totalQtyOk = null;
+        } else {
+            totalQtyOk = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            jobOrderId = null;
+        } else {
+            jobOrderId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            jobOrderQty = null;
+        } else {
+            jobOrderQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            lastMoveId = null;
+        } else {
+            lastMoveId = in.readInt();
+        }
+        jobOrderName = in.readString();
+        if (in.readByte() == 0) {
+            pprLoadingId = null;
+        } else {
+            pprLoadingId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            operationId = null;
+        } else {
+            operationId = in.readInt();
+        }
+        operationEnName = in.readString();
+        if (in.readByte() == 0) {
+            sampleQty = null;
+        } else {
+            sampleQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            pendingRepair = null;
+        } else {
+            pendingRepair = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            repairedQty = null;
+        } else {
+            repairedQty = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            pendingApprove = null;
+        } else {
+            pendingApprove = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            approvedQty = null;
+        } else {
+            approvedQty = in.readInt();
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (manufacturingDefectsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(manufacturingDefectsId);
+        }
+        if (defectsManufacturingDetailsId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectsManufacturingDetailsId);
+        }
+        if (defectGroupId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectGroupId);
+        }
+        if (defectId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectId);
+        }
+        dest.writeString(defectDescription);
+        dest.writeString(dateProductionRepair);
+        dest.writeString(dateQualityApprove);
+        dest.writeString(dateQualityReject);
+        dest.writeString(dateQualityRepair);
+        if (qtyRepaired == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRepaired);
+        }
+        if (qtyDefected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyDefected);
+        }
+        if (qtyRejected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyRejected);
+        }
+        if (qtyApproved == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(qtyApproved);
+        }
+        if (defectStatus == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatus);
+        }
+        if (defectStatusProduction == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusProduction);
+        }
+        if (defectStatusQc == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusQc);
+        }
+        if (defectStatusApprove == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusApprove);
+        }
+        if (defectStatusReject == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(defectStatusReject);
+        }
+        dest.writeByte((byte) (isBulkGroup == null ? 0 : isBulkGroup ? 1 : 2));
+        dest.writeByte((byte) (isRejectedQty == null ? 0 : isRejectedQty ? 1 : 2));
+        if (childId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(childId);
+        }
+        dest.writeString(childCode);
+        dest.writeString(childDisplayName);
+        if (totalDeffectedQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalDeffectedQty);
+        }
+        if (totalQtyRejected == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalQtyRejected);
+        }
+        if (totalQtyOk == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalQtyOk);
+        }
+        if (jobOrderId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderId);
+        }
+        if (jobOrderQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(jobOrderQty);
+        }
+        if (lastMoveId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(lastMoveId);
+        }
+        dest.writeString(jobOrderName);
+        if (pprLoadingId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pprLoadingId);
+        }
+        if (operationId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(operationId);
+        }
+        dest.writeString(operationEnName);
+        if (sampleQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(sampleQty);
+        }
+        if (pendingRepair == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pendingRepair);
+        }
+        if (repairedQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(repairedQty);
+        }
+        if (pendingApprove == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(pendingApprove);
+        }
+        if (approvedQty == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(approvedQty);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<ManufacturingDefect> CREATOR = new Creator<ManufacturingDefect>() {
@@ -317,97 +628,147 @@ public class ManufacturingDefect implements Parcelable {
         this.isRejectedQty = isRejectedQty;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Integer getChildId() {
+        return childId;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (manufacturingDefectsId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(manufacturingDefectsId);
-        }
-        if (defectsManufacturingDetailsId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectsManufacturingDetailsId);
-        }
-        if (defectGroupId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectGroupId);
-        }
-        if (defectId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectId);
-        }
-        dest.writeString(defectDescription);
-        dest.writeString(dateProductionRepair);
-        dest.writeString(dateQualityApprove);
-        dest.writeString(dateQualityReject);
-        dest.writeString(dateQualityRepair);
-        if (qtyRepaired == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyRepaired);
-        }
-        if (qtyDefected == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyDefected);
-        }
-        if (qtyRejected == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyRejected);
-        }
-        if (qtyApproved == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(qtyApproved);
-        }
-        if (defectStatus == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatus);
-        }
-        if (defectStatusProduction == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusProduction);
-        }
-        if (defectStatusQc == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusQc);
-        }
-        if (defectStatusApprove == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusApprove);
-        }
-        if (defectStatusReject == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(defectStatusReject);
-        }
-        dest.writeByte((byte) (isBulkGroup == null ? 0 : isBulkGroup ? 1 : 2));
-        dest.writeByte((byte) (isRejectedQty == null ? 0 : isRejectedQty ? 1 : 2));
+    public void setChildId(Integer childId) {
+        this.childId = childId;
+    }
+
+    public String getChildCode() {
+        return childCode;
+    }
+
+    public void setChildCode(String childCode) {
+        this.childCode = childCode;
+    }
+
+    public String getChildDisplayName() {
+        return childDisplayName;
+    }
+
+    public void setChildDisplayName(String childDisplayName) {
+        this.childDisplayName = childDisplayName;
+    }
+
+    public Integer getTotalDeffectedQty() {
+        return totalDeffectedQty;
+    }
+
+    public void setTotalDeffectedQty(Integer totalDeffectedQty) {
+        this.totalDeffectedQty = totalDeffectedQty;
+    }
+
+    public Integer getTotalQtyRejected() {
+        return totalQtyRejected;
+    }
+
+    public void setTotalQtyRejected(Integer totalQtyRejected) {
+        this.totalQtyRejected = totalQtyRejected;
+    }
+
+    public Integer getTotalQtyOk() {
+        return totalQtyOk;
+    }
+
+    public void setTotalQtyOk(Integer totalQtyOk) {
+        this.totalQtyOk = totalQtyOk;
+    }
+
+    public Integer getJobOrderId() {
+        return jobOrderId;
+    }
+
+    public void setJobOrderId(Integer jobOrderId) {
+        this.jobOrderId = jobOrderId;
+    }
+
+    public Integer getJobOrderQty() {
+        return jobOrderQty;
+    }
+
+    public void setJobOrderQty(Integer jobOrderQty) {
+        this.jobOrderQty = jobOrderQty;
+    }
+
+    public Integer getLastMoveId() {
+        return lastMoveId;
+    }
+
+    public void setLastMoveId(Integer lastMoveId) {
+        this.lastMoveId = lastMoveId;
+    }
+
+    public String getJobOrderName() {
+        return jobOrderName;
+    }
+
+    public void setJobOrderName(String jobOrderName) {
+        this.jobOrderName = jobOrderName;
+    }
+
+    public Integer getPprLoadingId() {
+        return pprLoadingId;
+    }
+
+    public void setPprLoadingId(Integer pprLoadingId) {
+        this.pprLoadingId = pprLoadingId;
+    }
+
+    public Integer getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(Integer operationId) {
+        this.operationId = operationId;
+    }
+
+    public String getOperationEnName() {
+        return operationEnName;
+    }
+
+    public void setOperationEnName(String operationEnName) {
+        this.operationEnName = operationEnName;
+    }
+
+    public Integer getSampleQty() {
+        return sampleQty;
+    }
+
+    public void setSampleQty(Integer sampleQty) {
+        this.sampleQty = sampleQty;
+    }
+
+    public Integer getPendingRepair() {
+        return pendingRepair;
+    }
+
+    public void setPendingRepair(Integer pendingRepair) {
+        this.pendingRepair = pendingRepair;
+    }
+
+    public Integer getRepairedQty() {
+        return repairedQty;
+    }
+
+    public void setRepairedQty(Integer repairedQty) {
+        this.repairedQty = repairedQty;
+    }
+
+    public Integer getPendingApprove() {
+        return pendingApprove;
+    }
+
+    public void setPendingApprove(Integer pendingApprove) {
+        this.pendingApprove = pendingApprove;
+    }
+
+    public Integer getApprovedQty() {
+        return approvedQty;
+    }
+
+    public void setApprovedQty(Integer approvedQty) {
+        this.approvedQty = approvedQty;
     }
 }

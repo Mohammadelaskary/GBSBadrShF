@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.FragmentWarehouseBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
@@ -100,16 +101,16 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                 String barcode = binding.barcodenewEdt.getText().toString().trim();
                 String qty     = binding.qty.getEditText().getText().toString().trim();
                 if (barcode.isEmpty()) {
-                    binding.barcodecodeEdt.setError("Please scan or enter a valid barcode!");
+                    binding.barcodecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_barcode));
                     binding.barcodecodeEdt.getEditText().requestFocus();
                 }
                 if (qty.isEmpty()) {
-                    binding.qty.setError("Please enter a valid quantity!");
+                    binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
                     binding.qty.getEditText().requestFocus();
                 }
                 boolean addedBefore = receivingQty!=0;
                 if (addedBefore)
-                    warningDialog(getContext(),"Please contact backoffice to update qty!");
+                    warningDialog(getContext(),getString(R.string.please_contact_backoffice_to_update_qty));
                 if (!barcode.isEmpty()&&!qty.isEmpty()&&!addedBefore)
                     warehouseViewModel.setrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, barcode, qty);
 
@@ -164,7 +165,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
         warehouseViewModel.getdataforrbarcode().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (response.getResponseStatus().getIsSuccess()) {
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     binding.locator.setText(response.getData().getLocatorDesc());
                     binding.parentdesc.setText(response.getData().getParentDescription());
@@ -192,7 +193,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                     binding.barcodecodeEdt.setError(statusMessage);
                 }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
                 binding.dataLayout.setVisibility(View.GONE);
             }
             //fragmentCountingBinding.paintqtn.setText(response.getLoadingQty().toString());
@@ -221,21 +222,17 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
 //            }
             if (response!=null) {
                 String statusMessage = response.getStatusMessage();
-                switch (statusMessage){
-                    case "Done successfully":
-                    case "Updated successfully":
-                        showSuccessAlerter(statusMessage,getActivity());
+                if (response.getIsSuccess()) {
+                    showSuccessAlerter(statusMessage, getActivity());
 //                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-                        back(WarehouseFragment.this);
-                        break;
-                    case "Wrong Barcode or No data found!":
-                        binding.barcodecodeEdt.setError(statusMessage);
-                        binding.barcodenewEdt.requestFocus();
-                    default:
-                        warningDialog(getContext(),statusMessage);
+                    back(WarehouseFragment.this);
+                } else  {
+                    binding.barcodecodeEdt.setError(statusMessage);
+                    binding.barcodenewEdt.requestFocus();
                 }
-            } else {
-                warningDialog(getContext(),"Error in saving data!");
+                }
+            else {
+                warningDialog(getContext(),getString(R.string.error_in_saving_data));
             }
         });
 

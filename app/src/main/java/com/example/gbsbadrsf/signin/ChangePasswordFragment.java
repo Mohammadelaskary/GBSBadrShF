@@ -86,13 +86,13 @@ public class ChangePasswordFragment extends DaggerFragment implements View.OnCli
         viewModel.changePasswordResponse.observe(getViewLifecycleOwner(),response ->{
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Password changed successfully")) {
+                if (response.getResponseStatus().getIsSuccess()) {
                     MyMethods.showSuccessAlerter(statusMessage, getActivity());
                     MyMethods.back(ChangePasswordFragment.this);
                 }else
                     binding.currentPassword.setError(statusMessage);
             } else
-                MyMethods.warningDialog(getContext(),"Error in getting data!");
+                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -105,13 +105,13 @@ public class ChangePasswordFragment extends DaggerFragment implements View.OnCli
                 String newPass = binding.newPassword.getEditText().getText().toString().trim();
                 String confirmNewPass = binding.confirmPassword.getEditText().getText().toString().trim();
                 if (oldPass.isEmpty())
-                    binding.currentPassword.setError("Please enter old password!");
+                    binding.currentPassword.setError(getString(R.string.please_enter_old_password));
                 if (newPass.isEmpty())
-                    binding.newPassword.setError("Please enter new password!");
+                    binding.newPassword.setError(getString(R.string.please_enter_new_password));
                 if (confirmNewPass.isEmpty())
-                    binding.confirmPassword.setError("Please enter the new password again!");
+                    binding.confirmPassword.setError(getString(R.string.please_enter_new_password_again));
                 if (!newPass.equals(confirmNewPass))
-                    binding.confirmPassword.setError("Password doesn't match!");
+                    binding.confirmPassword.setError(getString(R.string.password_doesnt_match));
                 if (
                         !oldPass.isEmpty()&&
                                 !newPass.isEmpty()&&

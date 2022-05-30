@@ -10,7 +10,6 @@
         android:id="@+id/defect_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Defect"
         style="@style/defect_style"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"

@@ -1,7 +1,7 @@
 package com.example.gbsbadrsf.DeclineRejectionRequest;
 
 import com.example.gbsbadrsf.Quality.Data.Defects;
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

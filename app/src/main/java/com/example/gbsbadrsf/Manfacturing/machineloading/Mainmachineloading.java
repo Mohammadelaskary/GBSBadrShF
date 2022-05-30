@@ -67,6 +67,6 @@ public class Mainmachineloading extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 }

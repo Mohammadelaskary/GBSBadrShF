@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Quality Rejection Request"
+        android:text="@string/quality_rejection_request"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,6 @@
               style="@style/child_parent_desc_style"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:text="Child description"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +72,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="15dp"
-              android:text="Rejection reason : "
+              android:text="@string/rejection_reason"
               app:layout_constraintStart_toStartOf="@+id/rejected_qty_data"
               app:layout_constraintTop_toBottomOf="@+id/rejected_qty_data" />
 
@@ -94,7 +93,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="15dp"
-              android:text="Responsible Dep : "
+              android:text="@string/responsible_dep"
               app:layout_constraintStart_toStartOf="@+id/rejected_qty_data"
               app:layout_constraintTop_toBottomOf="@+id/reason_txt" />
 

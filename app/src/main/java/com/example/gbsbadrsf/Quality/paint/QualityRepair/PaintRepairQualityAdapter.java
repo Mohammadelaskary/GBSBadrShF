@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.RepairDefectItemBinding;
 
 import java.util.List;
@@ -17,9 +19,10 @@ import java.util.List;
 public class PaintRepairQualityAdapter extends RecyclerView.Adapter<PaintRepairQualityAdapter.WeldingRepairProductionQualityViewHolder> {
     List<PaintingDefect> defectsPaintingList;
     SetOnPaintingRepairItemClicked onPaintingRepairItemClicked;
-
-    public PaintRepairQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked) {
+    private Context context;
+    public PaintRepairQualityAdapter(SetOnPaintingRepairItemClicked onPaintingRepairItemClicked,Context context) {
         this.onPaintingRepairItemClicked = onPaintingRepairItemClicked;
+        this.context = context;
     }
 
     @NonNull
@@ -45,18 +48,18 @@ public class PaintRepairQualityAdapter extends RecyclerView.Adapter<PaintRepairQ
         holder.binding.defectName.setText(defectName);
         holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
         if (!isRepaired) {
-            holder.binding.repairedQty.setText("Waiting for repair");
-            holder.binding.pendingQcApproveQty.setText("Waiting for repair");
-            holder.binding.qualityApprovedQty.setText("Waiting for repair");
+            holder.binding.repairedQty.setText(context.getString(R.string.waiting_for_repair));
+            holder.binding.pendingQcApproveQty.setText(context.getString(R.string.waiting_for_repair));
+            holder.binding.qualityApprovedQty.setText(context.getString(R.string.waiting_for_repair));
         } else {
             holder.binding.pendingRepairQty.setText(String.valueOf(pendingRepair));
             holder.binding.repairedQty.setText(repairedQty+"");
-            holder.binding.pendingQcApproveQty.setText(repairedQty+"");
+            holder.binding.pendingQcApproveQty.setText(pendingRepair+"");
             if (isApproved) {
                 holder.binding.pendingQcApproveQty.setText(String.valueOf(pendingApprove));
                 holder.binding.qualityApprovedQty.setText(approvedQty+"");
             } else {
-                holder.binding.qualityApprovedQty.setText("Waiting for Quality Approval");
+                holder.binding.qualityApprovedQty.setText(context.getString(R.string.waiting_for_quality_approval));
             }
         }
 

@@ -20,6 +20,7 @@ import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -182,7 +183,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
 
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -210,7 +211,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
 
                 ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                if (responseStatus.getIsSuccess()) {
                     basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBaskets().get(0);
                     adapter.setBasketData(basketData);
                     childDesc = basketData.getChildDescription();
@@ -236,7 +237,7 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
             } else {
                 childDesc = "";
                 operationName = "";
-                binding.basketCode.setError("Error in getting data!");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
             }
             fillData(childDesc,operationName,jobOrderName,jobOrderQty);
         });

@@ -1,5 +1,7 @@
 package com.example.gbsbadrsf.welding.ItemsReceiving;
 
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gbsbadrsf.Model.JobOrder;
 import com.example.gbsbadrsf.Model.Ppr;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.JobOrderItemLayoutBinding;
 
 import java.util.List;
@@ -18,10 +21,10 @@ import java.util.List;
 public class JobOrdersAdapter extends RecyclerView.Adapter<JobOrdersAdapter.JobOrderViewHolder> {
     private List<JobOrderWithPPR> jobOrderWithPPRList;
     private Context context;
-    private FragmentManager fragmentManager;
-    public JobOrdersAdapter(Context context,FragmentManager fragmentManager) {
+    private OnJobOrderItemClicked onJobOrderItemClicked;
+    public JobOrdersAdapter(Context context,OnJobOrderItemClicked onJobOrderItemClicked) {
         this.context = context;
-        this.fragmentManager = fragmentManager;
+        this.onJobOrderItemClicked = onJobOrderItemClicked;
 //        dialog = new PprListDialog();
     }
 
@@ -56,7 +59,7 @@ public class JobOrdersAdapter extends RecyclerView.Adapter<JobOrdersAdapter.JobO
 //                holder.binding.expandArrow.setRotationX(0);
 //            }
 //        }
-        holder.binding.getRoot().setOnClickListener(v->{
+        holder.binding.expandArrow.setOnClickListener(v->{
 //            if (selectedPosition == currentPosition)
 //                selectedPosition = -1;
 //            else
@@ -66,13 +69,19 @@ public class JobOrdersAdapter extends RecyclerView.Adapter<JobOrdersAdapter.JobO
 //            dialog.setPprList(pprList);
 //            dialog.show(fragmentManager,"Items Receiving");
             if (holder.binding.pprList.getVisibility() == View.GONE) {
-                holder.binding.pprList.setVisibility(View.VISIBLE);
-                holder.binding.expandArrow.setRotationX(180);
+                if (!pprList.isEmpty()) {
+                    holder.binding.pprList.setVisibility(View.VISIBLE);
+                    holder.binding.expandArrow.setRotationX(180);
+                } else
+                    warningDialog(context,context.getString(R.string.no_pprs_found_for_this_job_order));
             } else {
                 holder.binding.pprList.setVisibility(View.GONE);
                 holder.binding.expandArrow.setRotationX(0);
             }
 
+        });
+        holder.itemView.setOnClickListener(v->{
+            onJobOrderItemClicked.OnJobOrderItemClicked(jobOrder);
         });
     }
 
@@ -92,5 +101,9 @@ public class JobOrdersAdapter extends RecyclerView.Adapter<JobOrdersAdapter.JobO
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface OnJobOrderItemClicked {
+        void OnJobOrderItemClicked(JobOrder jobOrder);
     }
 }

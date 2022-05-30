@@ -12,12 +12,18 @@ public class ApiResponseAddingManufacturingRepairQualityProduction {
     @SerializedName("repairCycle")
     @Expose
     private RepairCycle repairCycle;
-    @SerializedName("getDefectDetailsManufacturingData")
+    @SerializedName("pendingRepair")
     @Expose
-    private GetDefectDetailsManufacturingData getDefectDetailsManufacturingData;
-    @SerializedName("qty_Approved")
+    private Integer pendingRepair;
+    @SerializedName("repairedQty")
     @Expose
-    private int qty_Approved;
+    private Integer repairedQty;
+    @SerializedName("pendingApprove")
+    @Expose
+    private Integer pendingApprove;
+    @SerializedName("approvedQty")
+    @Expose
+    private Integer approvedQty;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -35,15 +41,35 @@ public class ApiResponseAddingManufacturingRepairQualityProduction {
         this.repairCycle = repairCycle;
     }
 
-    public GetDefectDetailsManufacturingData getGetDefectDetailsManufacturingData() {
-        return getDefectDetailsManufacturingData;
+    public Integer getPendingRepair() {
+        return pendingRepair;
     }
 
-    public void setGetDefectDetailsManufacturingData(GetDefectDetailsManufacturingData getDefectDetailsManufacturingData) {
-        this.getDefectDetailsManufacturingData = getDefectDetailsManufacturingData;
+    public void setPendingRepair(Integer pendingRepair) {
+        this.pendingRepair = pendingRepair;
     }
 
-    public int getQty_Approved() {
-        return qty_Approved;
+    public Integer getRepairedQty() {
+        return repairedQty;
+    }
+
+    public void setRepairedQty(Integer repairedQty) {
+        this.repairedQty = repairedQty;
+    }
+
+    public Integer getPendingApprove() {
+        return pendingApprove;
+    }
+
+    public void setPendingApprove(Integer pendingApprove) {
+        this.pendingApprove = pendingApprove;
+    }
+
+    public Integer getApprovedQty() {
+        return approvedQty;
+    }
+
+    public void setApprovedQty(Integer approvedQty) {
+        this.approvedQty = approvedQty;
     }
 }

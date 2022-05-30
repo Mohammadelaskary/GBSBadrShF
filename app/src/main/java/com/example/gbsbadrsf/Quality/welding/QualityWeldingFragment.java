@@ -84,6 +84,6 @@ public class QualityWeldingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Welding",(MainActivity) getActivity());
+        changeTitle(getString(R.string.welding),(MainActivity) getActivity());
     }
 }

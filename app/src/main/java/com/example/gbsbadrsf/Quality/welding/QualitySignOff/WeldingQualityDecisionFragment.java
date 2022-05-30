@@ -131,11 +131,11 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         viewModel.getApiResponseGetCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetCheckList -> {
             if (apiResponseGetCheckList!= null) {
                 String statusMessage = apiResponseGetCheckList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (apiResponseGetCheckList.getResponseStatus().getIsSuccess()) {
                     checkList = (ArrayList<GetCheck>) apiResponseGetCheckList.getGetCheckList();
                 }
             } else {
-                warningDialog(getContext(),"Error in getting Check list!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_check_list));
             }
         });
     }
@@ -195,7 +195,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         NavController navController = NavHostFragment.findNavController(WeldingQualityDecisionFragment.this);
         viewModel.getSaveQualityOperationSignOffLiveData().observe(getViewLifecycleOwner(),apiResponseSavingOperationSignOffDecision -> {
             String statusMessage = apiResponseSavingOperationSignOffDecision.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals("Done successfully")) {
+            if (apiResponseSavingOperationSignOffDecision.getResponseStatus().getIsSuccess()) {
                 navController.popBackStack();
                 showSuccessAlerter(statusMessage,getActivity());
             } else
@@ -208,13 +208,13 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         viewModel.getApiResponseGettingFinalQualityDecisionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseGettingFinalQualityDecision -> {
             if (apiResponseGettingFinalQualityDecision!=null) {
                 String statusMessage = apiResponseGettingFinalQualityDecision.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (apiResponseGettingFinalQualityDecision.getResponseStatus().getIsSuccess()) {
                     finalQualityDecisions.clear();
                     finalQualityDecisions.addAll(apiResponseGettingFinalQualityDecision.getFinalQualityDecision());
                     spinnerAdapter.notifyDataSetChanged();
                 }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_check_list));
             }
         });
     }
@@ -229,7 +229,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -261,7 +261,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         viewModel.getDefectsWeldingListLiveData().observe(getViewLifecycleOwner(),apiResponseDefectsManufacturing -> {
             if (apiResponseDefectsManufacturing!=null) {
                 String statusMessage = apiResponseDefectsManufacturing.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Data sent successfully")) {
+                if (apiResponseDefectsManufacturing.getResponseStatus().getIsSuccess()) {
                     defectsWeldingList.clear();
                     List<DefectsWelding> defectsWeldings = apiResponseDefectsManufacturing.getDefectsWelding();
                     defectsWeldingList.addAll(defectsWeldings);
@@ -278,7 +278,7 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     dischargeViews();
                 }
             } else {
-                binding.basketCode.setError("Error in getting data!");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
                 dischargeViews();
             }
         });
@@ -289,13 +289,13 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         viewModel.getApiResponseGetSavedCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseGetSavedCheckList -> {
             if (apiResponseGetSavedCheckList!=null) {
                 String statusMessage = apiResponseGetSavedCheckList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (apiResponseGetSavedCheckList.getResponseStatus().getIsSuccess()) {
                     savedCheckList = apiResponseGetSavedCheckList.getGetSavedCheckList();
                     binding.checkListBtn.setEnabled(true);
                     binding.saveBtn.setEnabled(true);
                 }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }
@@ -404,9 +404,9 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                     if (checkListEnded)
                         viewModel.saveQualityOperationSignOff(userId,deviceSerialNumber,basketCode,date,decisionId);
                     else
-                        warningDialog(getContext(),"Please finish mandatory check items first!");
+                        warningDialog(getContext(),getString(R.string.please_finish_mandatory_items_first));
                 } else
-                    binding.basketCode.setError("Please scan or enter valid basket code!");
+                    binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
             } break;
             case R.id.check_list_btn:{
                 if (savedCheckList==null)
@@ -416,10 +416,10 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
                         WeldingCheckListDialog weldingCheckListDialog = new WeldingCheckListDialog(getContext(), checkList, basketData, savedCheckList, this);
                         weldingCheckListDialog.show();
                     } else {
-                        binding.basketCode.setError("Please scan or enter valid basket code!");
+                        binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                 } else {
-                    warningDialog(getContext(),"There is no check list for this operation!");
+                    warningDialog(getContext(),getString(R.string.there_is_no_check_list_for_this_operation));
                 }
             } break;
         }
@@ -496,12 +496,12 @@ public class WeldingQualityDecisionFragment extends DaggerFragment implements Se
         viewModel.getApiResponseSaveCheckListLiveData().observe(getViewLifecycleOwner(),apiResponseSaveCheckList -> {
             if (apiResponseSaveCheckList!=null){
                 String statusMessage = apiResponseSaveCheckList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Saved successfully")){
+                if (apiResponseSaveCheckList.getResponseStatus().getIsSuccess()){
                     SaveCheckListResponse saveCheckListResponse = apiResponseSaveCheckList.getSaveCheckListResponse();
                     savedCheckList.add(saveCheckListResponse);
                 }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
 //                Toast.makeText(getContext(), "Error in getting data!", Toast.LENGTH_SHORT).show();
             }
         });

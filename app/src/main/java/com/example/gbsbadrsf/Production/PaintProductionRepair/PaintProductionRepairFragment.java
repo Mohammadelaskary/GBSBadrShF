@@ -24,6 +24,7 @@ import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -191,7 +192,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
 
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -247,7 +248,7 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
                 parentDesc = "";
                 parentCode = "";
                 operationName = "";
-                binding.basketCode.setError("Error in getting data!");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
             }
             adapter.notifyDataSetChanged();
             fillData(parentDesc, jobOrderName, operationName,jobOrderQty);

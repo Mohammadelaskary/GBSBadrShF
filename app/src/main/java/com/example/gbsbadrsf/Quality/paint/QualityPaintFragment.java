@@ -83,6 +83,6 @@ public class QualityPaintFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Paint",(MainActivity) getActivity());
+        changeTitle(getString(R.string.paint),(MainActivity) getActivity());
     }
 }

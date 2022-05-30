@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         style="@style/styleoftextinappbar"
-        android:text="Planning Menu"
+        android:text="@string/planning_menu"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
         android:layout_marginEnd="35dp"
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"
-        android:text="WIP Add"
+        android:text="@string/wip_add"
         style="@style/styleoftextinbtn"
         />
         </androidx.constraintlayout.widget.ConstraintLayout>

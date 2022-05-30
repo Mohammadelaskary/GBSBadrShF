@@ -136,7 +136,7 @@ public class SigninFragment extends DaggerFragment {
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
                         break;
                     case wrongusernameorpassword:
-                        warningDialog(getContext(),"Wrong username or password!");
+                        warningDialog(getContext(),getString(R.string.wrong_username_or_password));
                         break;
                     case ProductionUser:
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
@@ -163,7 +163,7 @@ public class SigninFragment extends DaggerFragment {
                         Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionpainting);
                         break;
                     case CONNECTION_ERROR:
-                        warningDialog(getContext(),"Error in Connectivity");
+                        warningDialog(getContext(),getString(R.string.error_in_getting_data));
                         break;
                 }
             }

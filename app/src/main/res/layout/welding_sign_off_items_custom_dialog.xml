@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
-            android:text="Parent description : "
+            android:text="@string/parent_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +27,6 @@
             style="@style/styleoftext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="sdsfsd"
             app:layout_constraintBottom_toBottomOf="@+id/parent_desc_txt"
             app:layout_constraintStart_toEndOf="@+id/parent_desc_txt"
             app:layout_constraintTop_toTopOf="@+id/parent_desc_txt" />
@@ -39,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:text="Signoff Qty : "
+            android:text="@string/sign_off_qty_"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/childdesc" />
 
@@ -49,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="154"
             app:layout_constraintBottom_toBottomOf="@+id/signoffqty_txt"
 
             app:layout_constraintStart_toEndOf="@+id/signoffqty_txt"
@@ -71,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="One qty for baskets"
+                android:text="@string/one_qty_bskts"
                 android:textSize="12sp"
                 />
 
@@ -81,7 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Different qty/basket"
+                android:text="@string/different_qty_basket"
                 android:textSize="12sp"/>
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -100,7 +98,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Basket Quantity"
+                android:hint="@string/basket_qty"
                 android:imeOptions="actionNext"
                 android:lines="1"
                 android:maxLines="1"
@@ -183,7 +181,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="Basket qty"
+                android:text="@string/basket_qty"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -197,7 +195,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="6"
                 android:gravity="center"
-                android:text="Basket code"
+                android:text="@string/basket_code"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -231,7 +229,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/basketcode_rv"
             app:layout_constraintStart_toStartOf="@id/basketcode_edt"
-            android:text="Total added qty"
+            android:text="@string/total_added_qty"
             android:layout_marginTop="15dp"
             style="@style/styleoftextbold"
             />

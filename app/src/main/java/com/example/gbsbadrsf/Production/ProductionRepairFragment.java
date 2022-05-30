@@ -26,6 +26,7 @@ import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.manfacturing.ManfacturingqualityFragment;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -184,7 +185,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     }
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getContext().getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -210,7 +211,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
             if (apiResponseLastMoveManufacturingBasket!=null) {
                 ResponseStatus responseStatus = apiResponseLastMoveManufacturingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                if (responseStatus.getIsSuccess()) {
                     basketData = apiResponseLastMoveManufacturingBasket.getLastMoveManufacturingBaskets().get(0);
                     adapter.setBasketData(basketData);
                     childDesc = basketData.getChildDescription();
@@ -240,7 +241,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
                 childCode = "";
                 operationName = "";
                 binding.dataLayout.setVisibility(View.GONE);
-                binding.basketCode.setError("Error in getting data!");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
             }
             fillData(childDesc,jobOrderName,operationName,jobOrderQty);
         });
@@ -288,7 +289,7 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     public void onResume() {
         super.onResume();
         barCodeReader.onResume();
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 
     @Override

@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Defect Name:"
+                android:text="@string/defect_name_"
                 style="@style/style_of_text_bold"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp" />
@@ -53,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Pending Repair Qty"
+                android:text="@string/pending_repair_qty"
                 style="@style/style_of_text_bold"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp" />
@@ -81,7 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Repaired Qty"
+                android:text="@string/repaired_qty"
                 style="@style/style_of_text_bold"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp" />
@@ -109,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Pending Quality Approve Qty:"
+                android:text="@string/pending_quality_approve_qty"
                 style="@style/style_of_text_bold"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp" />
@@ -137,7 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Quality Approved Qty"
+                android:text="@string/quality_approved_qty"
                 style="@style/style_of_text_bold"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp" />

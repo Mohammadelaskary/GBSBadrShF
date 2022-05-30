@@ -83,12 +83,12 @@ public class MainWeldingWip extends DaggerFragment {
 //            adapter.getproductionsequencelist(productionsequenceresponse);
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully"))
+                if (response.getResponseStatus().getIsSuccess())
                     adapter.setStationsWIPS(response.getData());
                 else
                     MyMethods.warningDialog(getContext(),statusMessage);
             } else
-                MyMethods.warningDialog(getContext(),"Check your internet connection!");
+                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
 
     }

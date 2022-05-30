@@ -79,7 +79,7 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -94,15 +94,17 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
     }
 
     private void observeAddingDefectRepairResponse() {
-        viewModel.getAddManufacturingRepairProduction().observe(getViewLifecycleOwner(),responseStatus-> {
-            String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+        viewModel.getAddManufacturingRepairProduction().observe(getViewLifecycleOwner(),response-> {
+            String statusMessage = response.getResponseStatus().getStatusMessage();
+            if (response.getResponseStatus().getIsSuccess()){
                 showSuccessAlerter(statusMessage,getActivity());
 //                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
-                repairedQty = responseStatus.getRepairCycle().getQtyRepaired();
-                Log.d("repairedQty===",responseStatus.getRepairCycle().getQtyRepaired()+"");
+                repairedQty = response.getRepairedQty();
+                pendingRepair = response.getPendingRepair();
+                pendingApprove = response.getPendingApprove();
+                Log.d("repairedQty===",response.getRepairedQty()+"");
                 updateRecyclerView();
-                binding.repairedQty.getEditText().setText(String.valueOf(responseStatus.getRepairCycle().getQtyDefected()-(Integer) responseStatus.getRepairCycle().getQtyRepaired()));
+                binding.repairedQty.getEditText().setText(String.valueOf( pendingRepair));
             } else {
                 binding.repairedQty.setError(statusMessage);
             }
@@ -110,8 +112,9 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
     }
 
     private void updateRecyclerView() {
-
         defectsManufacturing.setQtyRepaired(repairedQty);
+        defectsManufacturing.setPendingRepair(pendingRepair);
+        defectsManufacturing.setPendingApprove(pendingApprove);
         defectsManufacturingList.remove(position);
         defectsManufacturingList.add(position,defectsManufacturing);
         adapter.notifyDataSetChanged();
@@ -126,7 +129,7 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
     }
 
     private void setUpRecyclerView() {
-        adapter = new RepairProductionAdapter(this);
+        adapter = new RepairProductionAdapter(this,getContext());
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -163,8 +166,8 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
         this.position = position;
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
-    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO;
-    int repairedQty;
+    String notes="", deviceSerialNumber=DEVICE_SERIAL_NO;
+    int repairedQty,pendingRepair,pendingApprove;
 
     @Override
     public void onClick(View v) {
@@ -184,13 +187,13 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
                                     repairedQty
                             );
                         } else {
-                            binding.repairedQty.setError("Please enter a valid repaired quantity!");
+                            binding.repairedQty.setError(getString(R.string.please_enter_a_valid_repaired_qty));
                         }
                     } else
-                        binding.repairedQty.setError("Repaired Quantity must be more than 0!");
+                        binding.repairedQty.setError(getString(R.string.reoaired_qty_must_be_more_than_0));
                 } else {
 //                    Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();
-                    warningDialog(getContext(),"Please first select defect to repair!");
+                    warningDialog(getContext(),getString(R.string.please_first_select_defect_to_repair));
                 }
             } break;
         }
@@ -199,6 +202,6 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 }

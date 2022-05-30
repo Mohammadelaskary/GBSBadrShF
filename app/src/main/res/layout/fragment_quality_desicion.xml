@@ -38,7 +38,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:hint="Basket Code"
+                android:hint="@string/basket_code"
                 app:errorEnabled="true"
                 app:errorTextColor="@android:color/holo_red_dark"
                 app:hintTextColor="@color/colorPrimary"
@@ -73,7 +73,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Operation"
                     app:layout_constraintEnd_toEndOf="@+id/childesc"
                     app:layout_constraintStart_toStartOf="@+id/childesc"
                     app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
@@ -83,7 +82,6 @@
                     style="@style/child_parent_desc_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Child description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -121,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Child Quantity"
+                        android:text="@string/child_qty"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Defects Quantity"
+                        android:text="@string/defects_quantity"
                         app:layout_constraintStart_toEndOf="@+id/defectname_txt"
                         app:layout_constraintTop_toTopOf="@+id/defectname_txt" />
                 </LinearLayout>
@@ -153,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="Final desicion"
+                    android:text="@string/final_decision"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/defected_qtn_defects_qty_recycler" />
 
@@ -175,7 +173,7 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="15dp"
                     android:backgroundTint="@color/appbarcolor"
-                    android:text="Check list"
+                    android:text="@string/check_list"
                     android:textColor="@color/white"
                     app:cornerRadius="25dp"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -304,6 +304,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             }
         } else {
             binding.basketsBottomSheet.basketQty.setError("Please enter basket quantity first and scan basket again!");
+            binding.basketsBottomSheet.basketcodeEdt.getEditText().setText("");
         }
     }
 
@@ -350,7 +351,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
         binding.basketsBottomSheet.saveBtn.setOnClickListener(__->{
             if (!basketList.isEmpty()){
                 if (!isBulk) {
-                    if (calculateTotalAddedQty(basketList) == loadingQty) {
+                    if (calculateTotalAddedQty(basketList) == signOutQty) {
 //                        onInputSelected.sendlist(basketList, isBulk);
                         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                         handleBasketsButtonColor();
@@ -394,7 +395,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
     }
     private void fillData() {
         binding.basketsBottomSheet.childdesc.setText(parentDesc);
-        binding.basketsBottomSheet.signoffqty.setText(String.valueOf(loadingQty));
+        binding.basketsBottomSheet.signoffqty.setText(String.valueOf(signOutQty));
         if (!isBulk)
             updateViews();
     }
@@ -411,7 +412,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
         binding.basketsBottomSheet.basketcodeRv.setLayoutManager(manager);
     }
     private String getRemaining() {
-        int remaining = loadingQty- calculateTotalAddedQty(basketList);
+        int remaining = signOutQty- calculateTotalAddedQty(basketList);
         return String.valueOf(remaining);
     }
 
@@ -500,7 +501,8 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
     }
 
-    int signOutQty,loadingQty;
+    int signOutQty;
+//    int loadingQty;
     String parentDesc;
     private void subscribeRequest() {
         signoffweViewModel.getSaveSignOffResponse().observe(getViewLifecycleOwner(), response -> {
@@ -531,7 +533,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 if (statusMessage.equals("Getting data successfully")){
                     parentDesc = response.getData().getParentDescription();
                     signOutQty = response.getData().getSignOutQty();
-                    loadingQty = response.getData().getLoadingQty();
+//                    loadingQty = response.getData().getLoadingQty();
                     setupBasketsBottomSheet();
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     binding.parentDesc.setText(response.getData().getParentDescription());
@@ -599,10 +601,10 @@ private void handleBasketsButtonColor(){
     private void setBulkViews() {
         binding.basketsBottomSheet.bulkGroup.check(R.id.bulk);
         binding.basketsBottomSheet.bulkGroup.uncheck(R.id.diff);
-        binding.basketsBottomSheet.basketQty.getEditText().setText(String.valueOf(loadingQty));
+        binding.basketsBottomSheet.basketQty.getEditText().setText(String.valueOf(signOutQty));
         binding.basketsBottomSheet.basketQty.getEditText().setEnabled(false);
         binding.basketsBottomSheet.basketQty.getEditText().setClickable(false);
-        binding.basketsBottomSheet.totalAddedQtn.setText(String.valueOf(loadingQty));
+        binding.basketsBottomSheet.totalAddedQtn.setText(String.valueOf(signOutQty));
         binding.basketsBottomSheet.basketQtyTxt.setVisibility(View.GONE);
         binding.basketsBottomSheet.totalqtnTxt.setText("Total Qty");
         binding.basketsBottomSheet.basketcodeEdt.getEditText().requestFocus();

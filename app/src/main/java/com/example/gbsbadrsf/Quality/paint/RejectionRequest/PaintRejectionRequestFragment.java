@@ -218,7 +218,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         viewModel.getBasketDataViewModel(userId,deviceSerial,oldBasketCode);
         viewModel.getApiResponseBasketDataLiveData().observe(getViewLifecycleOwner(),apiResponseLastMoveWeldingBasket -> {
             String statusMessage = apiResponseLastMoveWeldingBasket.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(GETTING_DATA_SUCCESSFULLY)){
+            if (apiResponseLastMoveWeldingBasket.getResponseStatus().getIsSuccess()){
                 basketData = apiResponseLastMoveWeldingBasket.getLastMovePaintingBaskets().get(0);
                 binding.oldBasketCode.setError(null);
                 binding.dataLayout.setVisibility(View.VISIBLE);
@@ -277,7 +277,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     List<Department> departments = new ArrayList<>();
@@ -288,15 +288,15 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
             if (apiResponseDepartmentsList!=null) {
                 ResponseStatus responseStatus = apiResponseDepartmentsList.getResponseStatus();
                 List<Department> departmentList = apiResponseDepartmentsList.getDepartments();
-                if (responseStatus.getStatusMessage().equals("Getting data successfully")) {
+                if (responseStatus.getIsSuccess()) {
                     departments.clear();
                     departments.addAll(departmentList);
                     spinnerAdapter.notifyDataSetChanged();
                 } else {
-                    warningDialog(getContext(),"Failed to get Departments");
+                    warningDialog(getContext(),getString(R.string.failed_to_get_departments));
                 }
             } else
-                warningDialog(getContext(),"Error in getting departments!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -309,14 +309,14 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         viewModel.getApiResponseDefectsListPerOperation().observe(getViewLifecycleOwner(),response -> {
             if (response!=null){
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Data sent successfully")){
+                if (response.getResponseStatus().getIsSuccess()){
                     defectList.clear();
                     defectList.addAll(response.getDefectsList());
                     adapter.setDefects(defectList);
                 } else
                     warningDialog(getContext(),statusMessage);
             } else {
-                warningDialog(getContext(),"Error in getting data");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }
@@ -330,27 +330,27 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                 boolean emptyRejectedQty = rejectedQtyString.isEmpty()||Integer.parseInt(rejectedQtyString)==0;
                 boolean validRejectedQty = false;
                 if (emptyRejectedQty)
-                    binding.rejectedQtyEdt.setError("Please enter the rejected quantity!");
+                    binding.rejectedQtyEdt.setError(getString(R.string.please_enter_the_rejected_qty));
                 else {
                     validRejectedQty = Integer.parseInt(rejectedQtyString) <= basketQty;
                     if (!validRejectedQty)
-                        binding.rejectedQtyEdt.setError("Rejected quantity must be fewer than or equal basket quantity!");
+                        binding.rejectedQtyEdt.setError(getString(R.string.rejected_qty_must_be_less_than_or_equal_basket_qty));
                 }
                 String newBasketCode = binding.newBasketCode.getEditText().getText().toString().trim();
 //                String newBasketCode = "Bskt10";
                 if (newBasketCode.isEmpty())
-                    binding.newBasketCode.setError("Please scan or enter new basket code!");
+                    binding.newBasketCode.setError(getString(R.string.please_scan_or_enter_new_basket_code));
                 boolean validResponsibility = binding.responsibledepSpin.getSelectedItemPosition()>=0&&binding.responsibledepSpin.getSelectedItemPosition()<departments.size();
                 if (validResponsibility){
                     Department department = departments.get(binding.responsibledepSpin.getSelectedItemPosition());
                     departmentId = department.getDepartmentId();
                 } else {
-                    warningDialog(getContext(),"Please Select A Responsibility!");
+                    warningDialog(getContext(),getString(R.string.please_select_a_responsibility));
                 }
                 if (oldBasketCode.isEmpty())
-                    binding.oldBasketCode.setError("Please scan or enter old basket code!");
+                    binding.oldBasketCode.setError(getString(R.string.please_scan_or_enter_old_basket_code));
                 if (selectedIds.isEmpty())
-                    warningDialog(getContext(),"Please select at least one defect!");
+                    warningDialog(getContext(),getString(R.string.please_add_found_defects));
                 if (!emptyRejectedQty&&validRejectedQty&&validRejectedQty&&!newBasketCode.isEmpty()&&!oldBasketCode.isEmpty()&&!selectedIds.isEmpty()){
 //                    SaveRejectionRequestBody body = new SaveRejectionRequestBody(userId,deviceSerial,oldBasketCode,newBasketCode,Integer.parseInt(rejectedQtyString),departmentId,selectedIds);
 //                    saveRejectedRequest(body);
@@ -361,7 +361,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     adapter.setSelectedDefectsIds(selectedIds);
                 } else {
-                    warningDialog(getContext(),"No Stored defects for this operation!");
+                    warningDialog(getContext(),getString(R.string.no_stored_defects_for_this_operation));
                 }
                 break;
         }
@@ -374,7 +374,7 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
         viewModel.getApiResponseSaveRejectionRequestLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRejectionRequest -> {
             if (apiResponseSaveRejectionRequest!=null) {
                 String statusMessage = apiResponseSaveRejectionRequest.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Saved successfully")) {
+                if (apiResponseSaveRejectionRequest.getResponseStatus().getIsSuccess()) {
 //                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                     showSuccessAlerter(statusMessage,getActivity());
                     navController.popBackStack();
@@ -382,7 +382,8 @@ public class PaintRejectionRequestFragment extends DaggerFragment implements Vie
                     binding.newBasketCode.setError(statusMessage);
                 }
             } else {
-                warningDialog(getContext(),"Error in saving data!");
+                warningDialog(getContext(),getString(R.string
+                        .error_in_saving_data));
             }
         });
     }

@@ -24,7 +24,6 @@
             style="@style/child_parent_desc_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Child Description"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginTop="15dp"
@@ -48,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="One Qty/bskts"
+                android:text="@string/one_qty_bskts"
                 android:textSize="12sp" />
 
             <Button
@@ -57,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Qty / bskt"
+                android:text="@string/qty_bskt"
                 android:textSize="12sp" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -76,7 +75,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Basket Quantity"
+                android:hint="@string/basket_qty"
                 android:imeOptions="actionNext"
                 android:lines="1"
                 android:maxLines="1"
@@ -158,7 +157,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="Basket qty"
+                android:text="@string/basket_qty"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,7 +171,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="6"
                 android:gravity="center"
-                android:text="Basket code"
+                android:text="@string/basket_code"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +204,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/basketcode_rv"
             app:layout_constraintStart_toStartOf="@id/basketcode_edt"
-            android:text="Total added qty"
+            android:text="@string/total_added_qty"
             android:layout_marginTop="15dp"
             style="@style/styleoftextbold"
             />
@@ -251,7 +250,7 @@
                 android:backgroundTint="@color/appbarcolor"
                 app:cornerRadius="25dp"
                 android:layout_marginTop="15dp"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 style="@style/styleoftextinbtn"
                 />
         </LinearLayout>

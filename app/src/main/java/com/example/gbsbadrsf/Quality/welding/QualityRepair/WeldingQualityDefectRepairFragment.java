@@ -76,7 +76,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -93,7 +93,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     private void observeAddingDefectRepairResponse() {
         viewModel.getAddWeldingRepairQuality().observe(getViewLifecycleOwner(),response-> {
             String statusMessage = response.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+            if (response.getResponseStatus().getIsSuccess()){
                updateRecyclerView();
                 MyMethods.showSuccessAlerter(statusMessage,getActivity());
                 binding.approvedQty.getEditText().setText("");
@@ -119,7 +119,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     }
 
     private void setUpRecyclerView() {
-        adapter = new WeldingRepairQualityAdapter(this);
+        adapter = new WeldingRepairQualityAdapter(this,getContext());
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -166,13 +166,13 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
                                     Integer.parseInt(approvedQty)
                             );
                         } else {
-                            binding.approvedQty.setError("Please enter valid approved Quantity");
+                            binding.approvedQty.setError(getString(R.string.please_enter_valid_approved_qty));
                         }
                     } else {
-                        binding.approvedQty.setError("The selected defect isn't repaired yet!");
+                        binding.approvedQty.setError(getString(R.string.the_selected_defect_havent_repaired_yet));
                     }
                 } else {
-                    binding.approvedQty.setError("Please first select defect to repair!");
+                    binding.approvedQty.setError(getString(R.string.please_first_select_defect_to_repair));
                 }
             } break;
         }
@@ -193,6 +193,6 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
             binding.approvedQty.getEditText().setText(String.valueOf(repairedQty));
             defectStatus = defectsWelding.getDefectStatus();
         } else
-            binding.approvedQty.getEditText().setText("Defect isn't repaired yet!");
+            binding.approvedQty.getEditText().setText(getString(R.string.the_selected_defect_havent_repaired_yet));
     }
 }

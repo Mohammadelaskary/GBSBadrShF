@@ -10,7 +10,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="Defected Qty"
             android:textSize="17sp"
             style="@style/style_of_text_bold"
             />
@@ -25,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="Defects"
             android:textSize="17sp"
             style="@style/style_of_text_bold"
             />

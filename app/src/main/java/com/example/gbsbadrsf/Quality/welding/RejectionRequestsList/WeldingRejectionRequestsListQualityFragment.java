@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.RejectionRequestsList;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Quality.welding.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
@@ -51,7 +53,7 @@ public class WeldingRejectionRequestsListQualityFragment extends DaggerFragment 
     ProgressDialog progressDialog;
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -74,10 +76,11 @@ public class WeldingRejectionRequestsListQualityFragment extends DaggerFragment 
         viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseGetRejectionRequestList -> {
             String statusMessage = apiResponseGetRejectionRequestList.getResponseStatus().getStatusMessage();
             List<RejectionRequest> rejectionRequestsList = apiResponseGetRejectionRequestList.getRejectionRequest();
-            if (statusMessage.equals("Getting data successfully")){
+            if (apiResponseGetRejectionRequestList.getResponseStatus().getIsSuccess()){
                 adapter.setRejectionRequests(rejectionRequestsList);
                 adapter.notifyDataSetChanged();
-            }
+            } else
+                warningDialog(getContext(),statusMessage);
         });
     }
 

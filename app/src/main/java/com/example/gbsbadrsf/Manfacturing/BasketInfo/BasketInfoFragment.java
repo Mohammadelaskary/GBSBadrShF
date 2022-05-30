@@ -91,7 +91,7 @@ public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.
                 {
                     String basketCode = binding.basketCode.getEditText().getText().toString().trim();
                     if (basketCode.isEmpty())
-                        binding.basketCode.setError("Please scan or enter a valid basket code!");
+                        binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     else
                         getBasketInfo(basketCode);
                     return true;
@@ -103,7 +103,7 @@ public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.
 
     MachineDataAdapter adapter;
     private void setUpRecyclerView() {
-        adapter = new MachineDataAdapter();
+        adapter = new MachineDataAdapter(getContext());
         binding.machineStationList.setAdapter(adapter);
     }
 
@@ -121,12 +121,12 @@ public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.
         viewModel.getApiResponseBasketsWIP().observe(getViewLifecycleOwner(),response ->{
             if (response!=null){
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (response.getResponseStatus().getIsSuccess()){
                     if (!response.getBasketsWIP().isEmpty()){
                         binding.dataLayout.setVisibility(View.VISIBLE);
                         fillData(response);
                     } else {
-                        binding.basketCode.setError("There is no data for this basket!");
+                        binding.basketCode.setError(statusMessage);
                         binding.dataLayout.setVisibility(View.GONE);
                     }
                 } else{

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Committee decision "
+        android:text="@string/committee_decision"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Child Description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +82,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Reason"
+                    android:hint="@string/reason"
                     android:layout_marginTop="10dp"
                     app:boxCornerRadiusBottomEnd="10dp"
                     app:boxCornerRadiusBottomStart="10dp"
@@ -107,7 +106,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Responsible department"
+                    android:hint="@string/responsible_department"
                     app:boxCornerRadiusBottomEnd="10dp"
                     app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
@@ -126,7 +125,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/approved_rejected_qty"
+                    android:id="@+id/ok_qty"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -143,7 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="Approved rejected qty"
+                        android:hint="@string/ok_qty"
                         android:imeOptions="actionDone"
                         android:lines="1"
                         android:maxLines="1"
@@ -156,7 +155,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ok_qty"
+                    android:id="@+id/approved_rejected_qty"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -174,7 +173,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="Ok qty"
+                        android:hint="@string/approved_quantity"
                         android:imeOptions="actionDone"
                         android:inputType="number"
                         android:digits="0123456789"
@@ -213,8 +212,7 @@
         android:id="@+id/disable_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#86000000"
-        android:visibility="visible"/>
+        android:background="#86000000" />
     <include android:id="@+id/approved_rejected_basket_code_bottom_sheet"
         layout="@layout/basket_code_bottom_sheet"
         android:visibility="visible"/>

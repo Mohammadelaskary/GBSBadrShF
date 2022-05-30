@@ -5,12 +5,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiResponseSaveRejectionRequest {
+
     @SerializedName("responseStatus")
     @Expose
     private ResponseStatus responseStatus;
-    @SerializedName("newData")
+    @SerializedName("rejectionRequest")
     @Expose
-    private NewData newData;
+    private RejectionRequest rejectionRequest;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
@@ -20,12 +21,12 @@ public class ApiResponseSaveRejectionRequest {
         this.responseStatus = responseStatus;
     }
 
-    public NewData getNewData() {
-        return newData;
+    public RejectionRequest getRejectionRequest() {
+        return rejectionRequest;
     }
 
-    public void setNewData(NewData newData) {
-        this.newData = newData;
+    public void setRejectionRequest(RejectionRequest rejectionRequest) {
+        this.rejectionRequest = rejectionRequest;
     }
 
 }

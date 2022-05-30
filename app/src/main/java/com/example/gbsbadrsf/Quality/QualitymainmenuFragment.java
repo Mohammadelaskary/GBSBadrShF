@@ -60,6 +60,6 @@ public class QualitymainmenuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Quality",(MainActivity) getActivity());
+        changeTitle(getString(R.string.quality),(MainActivity) getActivity());
     }
 }

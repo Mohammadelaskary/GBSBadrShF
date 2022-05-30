@@ -72,6 +72,6 @@ public class ProductionMenuFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Production",(MainActivity) getActivity());
+        changeTitle(getString(R.string.production),(MainActivity) getActivity());
     }
 }

@@ -16,8 +16,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
-import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.DefectBottomSheet;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
@@ -110,7 +109,7 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
     private ProgressDialog progressDialog;
     private void setupProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -129,7 +128,7 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
             Log.d("response","takeActionResponse"+apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage());
             String statusMessage = apiResponseRejectionRequestTakeAction.getResponseStatus().getStatusMessage();
 
-            if (statusMessage.equals("Saved successfully")){
+            if (apiResponseRejectionRequestTakeAction.getResponseStatus().getIsSuccess()){
                 MyMethods.showSuccessAlerter(statusMessage,getActivity());
 //                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                 navController.popBackStack();
@@ -162,7 +161,7 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
         viewModel.getGetRejectionRequestById().observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestByID -> {
             if (apiResponseManufacturingRejectionRequestGetRejectionRequestByID!=null){
                 String statusMessage = apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getResponseStatus().getIsSuccess()){
                     adapter.setDefects(apiResponseManufacturingRejectionRequestGetRejectionRequestByID.getDefectsList());
                     showDefectsBottomSheet();
                 }else

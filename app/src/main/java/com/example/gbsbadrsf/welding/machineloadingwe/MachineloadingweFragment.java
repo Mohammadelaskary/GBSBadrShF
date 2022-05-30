@@ -89,19 +89,19 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
             public void onClick(View v) {
                 String stationCode = binding.stationcodeEdt.getEditText().getText().toString().trim();
                 if (stationCode.isEmpty()) {
-                    binding.stationcodeEdt.setError("Please scan or enter a valid station code!");
+                    binding.stationcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_station_code));
                     binding.stationcodeEdt.getEditText().requestFocus();
                 }
                 if (addedBasketCodes.isEmpty()) {
-                    binding.childbasketcodeEdt.setError("Please scan or enter a valid child basket code!");
+                    binding.childbasketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_child_basket_code));
                     binding.childbasketcodeEdt.getEditText().requestFocus();
                 }
                 if (!stationCode.equals(currentStationCode)) {
-                    binding.stationcodeEdt.setError("Scanned station code doesn't match, Please scan the correct station code!");
+                    binding.stationcodeEdt.setError(getString(R.string.scanned_station_code_doesnt_match_please_scan_the_correct_station_code));
                     binding.stationcodeEdt.getEditText().requestFocus();
                 }
                 if (addedBasketCodes.size()!=basketCodes.size()) {
-                    binding.childbasketcodeEdt.setError("Please scan or enter all baskets!");
+                    binding.childbasketcodeEdt.setError(getString(R.string.please_scan_or_enter_all_baskets));
                     binding.childbasketcodeEdt.getEditText().requestFocus();
                 }
                 if (!stationCode.isEmpty()&&!addedBasketCodes.isEmpty()&&basketCodes.size()==addedBasketCodes.size()&&stationCode.equals(currentStationCode)) {
@@ -179,9 +179,9 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                 {
                     String basketCode = binding.childbasketcodeEdt.getEditText().getText().toString().trim();
                     if (!basketCodes.contains(basketCode))
-                        binding.childbasketcodeEdt.setError("Scanned basket doesn't match stored baskets!");
+                        binding.childbasketcodeEdt.setError(getString(R.string.scanned_basket_doesnt_match_stored_baskets));
                     if (addedBasketCodes.contains(basketCode))
-                        binding.childbasketcodeEdt.setError("Basket is already added before!");
+                        binding.childbasketcodeEdt.setError(getString(R.string.basket_added_previously));
                     if (basketCodes.contains(basketCode)&&!addedBasketCodes.contains(basketCode)){
                         addedBasketCodes.add(basketCode);
                         adapter.notifyItemInserted(addedBasketCodes.size());
@@ -223,7 +223,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                     basketCodes.add(baskets.getBasketCode());
                 }
             } else
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
 
         });
     }
@@ -249,19 +249,15 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
 //            }
             if (response!=null){
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                switch (statusMessage) {
-                    case "Saving data successfully": {
-                        showSuccessAlerter(statusMessage,getActivity());
+                if (response.getResponseStatus().getIsSuccess() ) {
+                    showSuccessAlerter(statusMessage, getActivity());
 //                        Toast.makeText(getContext(), "Saving data successfully", Toast.LENGTH_LONG).show();
-                        back(MachineloadingweFragment.this);
-                    }
-                    break;
-                    default:
-                        warningDialog(getContext(), statusMessage);
-                        break;
+                    back(MachineloadingweFragment.this);
+                } else {
+                    warningDialog(getContext(), statusMessage);
                 }
             } else
-                warningDialog(getContext(),"Error in saving data!");
+                warningDialog(getContext(),getString(R.string.error_in_saving_data));
         });
 
 
@@ -280,9 +276,9 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                     String scannedCode = String.valueOf(barcodeReadEvent.getBarcodeData());
                     binding.childbasketcodeNewedttxt.setText(scannedCode);
                     if (!basketCodes.contains(scannedCode))
-                        binding.childbasketcodeEdt.setError("Scanned basket doesn't match stored baskets!");
+                        binding.childbasketcodeEdt.setError(getString(R.string.scanned_basket_doesnt_match_stored_baskets));
                     if (addedBasketCodes.contains(scannedCode))
-                        binding.childbasketcodeEdt.setError("Basket is already added before!");
+                        binding.childbasketcodeEdt.setError(getString(R.string.basket_added_previously));
                     if (basketCodes.contains(scannedCode)&&!addedBasketCodes.contains(scannedCode)){
                         addedBasketCodes.add(scannedCode);
                         adapter.notifyItemInserted(addedBasketCodes.size());
@@ -329,7 +325,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
             } catch (ScannerUnavailableException e) {
                 e.printStackTrace();
             }
-            changeTitle("Welding",(MainActivity) getActivity());
+            changeTitle(getString(R.string.welding),(MainActivity) getActivity());
             binding.stationcodeEdt.getEditText().requestFocus();
 //            getView().setFocusableInTouchMode(true);
 //            getView().requestFocus();

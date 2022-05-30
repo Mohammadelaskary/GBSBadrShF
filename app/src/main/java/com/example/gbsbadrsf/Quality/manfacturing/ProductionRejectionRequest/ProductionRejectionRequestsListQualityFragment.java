@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.gbsbadrsf.Quality.Data.RejectionRequest;
+import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -77,7 +75,7 @@ public class ProductionRejectionRequestsListQualityFragment extends DaggerFragme
             if(apiResponseGetRejectionRequestList!=null) {
                 String statusMessage = apiResponseGetRejectionRequestList.getResponseStatus().getStatusMessage();
                 List<RejectionRequest> rejectionRequestsList = apiResponseGetRejectionRequestList.getRejectionRequestList();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (apiResponseGetRejectionRequestList.getResponseStatus().getIsSuccess()) {
                     adapter.setRejectionRequests(rejectionRequestsList);
                     adapter.notifyDataSetChanged();
                 } else

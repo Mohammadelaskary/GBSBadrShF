@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.welding.RandomQualityInception;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePainting;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.R;
@@ -52,7 +54,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
 
 
     FragmentWeldingRandomQualityInspectionBinding binding;
-    String machineDieCode = "Mchn1";
+    String machineDieCode ;
     SetUpBarCodeReader barCodeReader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -151,11 +153,12 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
         NavController navController = NavHostFragment.findNavController(this);
         viewModel.getSaveRandomQualityInceptionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRandomQualityInception -> {
             String statusMessage = apiResponseSaveRandomQualityInception.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+            if (apiResponseSaveRandomQualityInception.getResponseStatus().getIsSuccess()){
                 Toast.makeText(getContext(), SAVED_SUCCESSFULLY, Toast.LENGTH_SHORT).show();
                 navController.popBackStack();
             } else {
-                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                warningDialog(getContext(),statusMessage);
             }
         });
     }
@@ -163,7 +166,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -185,7 +188,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
             if (apiResponseLastMoveWelding!=null) {
                 ResponseStatus responseStatus = apiResponseLastMoveWelding.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                if (responseStatus.getIsSuccess()) {
                     lastMoveWelding = apiResponseLastMoveWelding.getLastMoveWelding();
                     parentCode = lastMoveWelding.getParentCode().toString();
                     jobOrderName = lastMoveWelding.getJobOrderName().toString();
@@ -197,7 +200,6 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
                     sampleQty = lastMoveWelding.getQualityRandomInpectionSampleQty();
                     defectedQty = lastMoveWelding.getQualityRandomInpectionDefectedQt();
                     jobOrderQty = lastMoveWelding.getJobOrderQty();
-                    Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
                     binding.dataLayout.setVisibility(View.VISIBLE);
                 } else {
                     parentCode = "";
@@ -222,7 +224,7 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
                 sampleQty = 0;
                 defectedQty = 0;
                 jobOrderQty = 0;
-                binding.machineDieCode.setError("Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
                 binding.dataLayout.setVisibility(View.GONE);
             }
             fillData();
@@ -275,13 +277,13 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
                 boolean emptySampleQty = binding.sampleQty.getEditText().getText().toString().trim().isEmpty();
                 boolean emptyDefectedQty = binding.defectedQty.getEditText().getText().toString().trim().isEmpty();
                 if (!validSampleQty)
-                    binding.sampleQty.setError("Sample Quantity must be smaller than loading quantity!");
+                    binding.sampleQty.setError(getString(R.string.sample_qty_must_be_smaller_than_loading_qtu));
                 if (!validDefectedQty)
-                    binding.defectedQty.setError("Defected Quantity must be equal or smaller than sample Quantity");
+                    binding.defectedQty.setError(getString(R.string.defected_qty_must_be_equal_or_smaller_than_sample_qty));
                 if (emptySampleQty)
-                    binding.sampleQty.setError("Sample Quantity shouldn't be empty!");
+                    binding.sampleQty.setError(getString(R.string.sample_qty_shouldnt_ne_empty));
                 if (emptyDefectedQty)
-                    binding.defectedQty.setError("Defected Quantity shouldn't be empty!");
+                    binding.defectedQty.setError(getString(R.string.defected_qty_shouldnt_be_empty));
                 if (validSampleQty&&validDefectedQty&&!emptyDefectedQty&&!emptySampleQty){
                     viewModel.SaveQualityRandomInspection(userId,deviceSerialNumber,lastMoveId,defectedQty,sampleQty,notes);
                 }

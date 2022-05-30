@@ -126,13 +126,13 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         viewModel.getQualityPassResponse().observe(getViewLifecycleOwner(),apiResponseQualityPass -> {
             if (apiResponseQualityPass!=null){
                 String responseStatus = apiResponseQualityPass.getResponseStatus().getStatusMessage();
-                if (responseStatus.equals("Done successfully")){
+                if (apiResponseQualityPass.getResponseStatus().getIsSuccess()){
                     showSuccessAlerter(responseStatus,getActivity());
                     back(ManufacturingQualityOperationFragment.this);
                 } else
                     warningDialog(getContext(),responseStatus);
             } else {
-                warningDialog(getContext(),"Error in saving data!");
+                warningDialog(getContext(),getString(R.string.error_in_saving_data));
             }
         });
     }
@@ -141,13 +141,13 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         viewModel.getDeleteManufacturingDefectResponse().observe(getViewLifecycleOwner(),apiResponseDeleteManufacturingDefect -> {
             if (apiResponseDeleteManufacturingDefect!=null){
                 String statusMessage = apiResponseDeleteManufacturingDefect.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Deleted successfully")) {
+                if (apiResponseDeleteManufacturingDefect.getResponseStatus().getIsSuccess()) {
                     showSuccessAlerter(statusMessage, getActivity());
                     getBasketData(USER_ID,DEVICE_SERIAL_NO,basketCode);
                 }else
                     warningDialog(getContext(),statusMessage);
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }
@@ -156,13 +156,13 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
         viewModel.getQualityOkResponse().observe(getViewLifecycleOwner(),apiResponseQualityOk -> {
             if (apiResponseQualityOk!=null){
                 String statusMessage = apiResponseQualityOk.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Done successfully")){
+                if (apiResponseQualityOk.getResponseStatus().getIsSuccess()){
                     showSuccessAlerter(statusMessage,getActivity());
                     back(ManufacturingQualityOperationFragment.this);
                 } else
                     warningDialog(getContext(),statusMessage);
             } else
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -211,7 +211,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                         if (basketData.getTotalQtyRejected().equals("0"))
                             binding.qualityPass.setEnabled(true);
                         else {
-                            warningDialog(getContext(),"Can't turn off full inspection while there is rejected qty!");
+                            warningDialog(getContext(),getString(R.string.cant_turn_off_full_inspection_while_there_is_rejected_qty));
                             binding.qualityPass.setEnabled(false);
                             binding.fullInspectionSwitch.setChecked(true);
                             binding.signOffBaskets.setEnabled(true);
@@ -262,7 +262,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                         getBasketData(userId,deviceSerialNo,basketCode);
                         binding.basketCode.setError(null);
                     } else {
-                        binding.basketCode.setError("Basket code shouldn't be empty!");
+                        binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                     return true;
                 }
@@ -297,7 +297,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     dischargeViews();
                 }
             } else {
-                warningDialog(getContext(),"Error in Getting Data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
                 basketData = null;
                 dischargeViews();
             }
@@ -365,8 +365,21 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
             binding.sampleQtnEdt.getEditText().setText("");
         else
             binding.sampleQtnEdt.getEditText().setText(sampleQty);
-        binding.rejectedQty.getEditText().setText(String.valueOf(basketData.getTotalQtyRejected()));
-        binding.defecedQty.getEditText().setText(String.valueOf(basketData.getTotalQtyDefected()));
+        if (basketData.getBasketType().equals("Production")) {
+            binding.rejectedQty.getEditText().setText(String.valueOf(basketData.getTotalQtyRejected()));
+            binding.defecedQty.getEditText().setText(String.valueOf(basketData.getTotalQtyDefected()));
+        } else if (basketData.getBasketType().equals("Defected")||basketData.getBasketType().equals("Rejected")){
+            binding.rejectedQty.setVisibility(View.GONE);
+            binding.defecedQty.setVisibility(View.GONE);
+            binding.qualityOk.setVisibility(View.GONE);
+            binding.qualityPass.setVisibility(View.GONE);
+            binding.signOffBaskets.setVisibility(View.GONE);
+            binding.sampleQtnEdt.setEnabled(false);
+            binding.fullInspectionSwitch.setEnabled(false);
+            binding.addDefects.setVisibility(View.GONE);
+            binding.defectsPerQty.setEnabled(false);
+            adapter.setClickable(false);
+        }
 //        binding.jobOrderData.Joborderqtn.setText(basketData.getJobOrderQty());
 
 //        if (basketData.getIsBulkQty()){
@@ -374,7 +387,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 //        } else {
 //            binding.signOffData.signOffQtyTitle.setText("Basket qty");
 //        }
-        binding.signOffData.signOffQtyTitle.setText("Sign off qty");
+        binding.signOffData.signOffQtyTitle.setText(getString(R.string.sign_off_qty));
         if (basketData.getSignOffQty()!=0) {
             qnt = basketData.getSignOffQty();
             binding.signOffData.qty.setText(String.valueOf(basketData.getSignOffQty()));
@@ -508,7 +521,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 getBasketData(userId,deviceSerialNo,scannedText.trim());
                 binding.basketCode.setError(null);
             } else {
-                binding.basketCode.setError("Basket code shouldn't be empty!");
+                binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
             }
         });
 
@@ -564,11 +577,11 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 basketCode = binding.basketCode.getEditText().getText().toString().trim();
                 sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
                 if (binding.basketCode.getEditText().getText().toString().trim().isEmpty())
-                    binding.basketCode.setError("Please scan or enter a valid basket code!");
+                    binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                 else if (sampleQty.isEmpty())
-                    binding.sampleQtnEdt.setError("Please enter sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_sample_qty));
                 else if (Integer.parseInt(sampleQty)>signOffQty||Integer.parseInt(sampleQty)<=0)
-                    binding.sampleQtnEdt.setError("Please enter a valid sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_a_valid_sample_qty));
                 else
                     viewModel.qualityOk(userId,deviceSerialNo,basketCode,getCurrentDate(),Integer.parseInt(sampleQty));
                 break;
@@ -576,11 +589,11 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 basketCode = binding.basketCode.getEditText().getText().toString().trim();
                 sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
                 if (binding.basketCode.getEditText().getText().toString().trim().isEmpty())
-                    binding.basketCode.setError("Please scan or enter a valid basket code!");
+                    binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                 else if (sampleQty.isEmpty())
-                    binding.sampleQtnEdt.setError("Please enter sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_sample_qty));
                 else if (Integer.parseInt(sampleQty)>signOffQty||Integer.parseInt(sampleQty)<=0)
-                    binding.sampleQtnEdt.setError("Please enter a valid sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_a_valid_sample_qty));
                 else
                     viewModel.qualityPass(userId,deviceSerialNo,basketCode,getCurrentDate(),Integer.parseInt(sampleQty));
                 break;
@@ -588,11 +601,11 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 basketCode = binding.basketCode.getEditText().getText().toString().trim();
                 sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
                 if (sampleQty.isEmpty())
-                    binding.sampleQtnEdt.setError("Please enter sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_sample_qty));
                 else if (Integer.parseInt(sampleQty)>signOffQty||Integer.parseInt(sampleQty)<=0)
-                    binding.sampleQtnEdt.setError("Please enter a valid sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_a_valid_sample_qty));
                 else if (defectsPerQtyList.isEmpty())
-                    warningDialog(getContext(),"Please add found defects!");
+                    warningDialog(getContext(),getString(R.string.please_add_found_defects));
                 else {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(BASKET_DATA, basketData);
@@ -603,11 +616,11 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                 basketCode = binding.basketCode.getEditText().getText().toString().trim();
                 sampleQty = binding.sampleQtnEdt.getEditText().getText().toString().trim();
                 if (binding.basketCode.getEditText().getText().toString().trim().isEmpty())
-                    binding.basketCode.setError("Please scan or enter a valid basket code!");
+                    binding.basketCode.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                 else if (sampleQty.isEmpty())
-                    binding.sampleQtnEdt.setError("Please enter sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_sample_qty));
                 else if (Integer.parseInt(sampleQty)>signOffQty||Integer.parseInt(sampleQty)<=0)
-                    binding.sampleQtnEdt.setError("Please enter a valid sample qty!");
+                    binding.sampleQtnEdt.setError(getString(R.string.please_enter_a_valid_sample_qty));
                 else {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(BASKET_DATA, basketData);
@@ -623,7 +636,7 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
 
     @Override
     public void onDeleteButtonClicked(int groupId,int position) {
-        warningDialogWithChoice(getContext(),"Confirm","Are you sure to delete this group of defects?",groupId,position);
+        warningDialogWithChoice(getContext(),getString(R.string.confirm),getString(R.string.are_you_sure_to_delete_this_group_of_defects),groupId,position);
     }
     private void warningDialogWithChoice(Context context, String title, String question,int groupId,int position) {
         CustomChoiceDialog dialog = new CustomChoiceDialog(context,title,question);

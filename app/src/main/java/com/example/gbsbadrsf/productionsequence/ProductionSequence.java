@@ -61,7 +61,6 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     @Inject
     ViewModelProviderFactory provider;
     CheckBox checkBox;
-    private static final String ENTER_VALID_JOB_ORDER_NAME  = "Please enter or scan a valid job order name!";
     @Inject
     Gson gson;
     productionsequenceadapter adapter;
@@ -112,7 +111,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 {
                     String jobOrderName = binding.jobOrderName.getEditText().getText().toString().trim();
                     if (jobOrderName.isEmpty())
-                        binding.jobOrderName.setError(ENTER_VALID_JOB_ORDER_NAME);
+                        binding.jobOrderName.setError(getString(R.string.please_enter_or_scan_a_valid_job_order_name));
                     else
                         viewModel.getProductionsequence(jobOrderName);
                     return true;
@@ -289,18 +288,16 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 bundle.putParcelable(PPR_KEY,clickedPpr);
                 Navigation.findNavController(getView()).navigate(R.id.action_productionSequence_to_machineLoadingFragment, bundle);
             } else
-                warningDialog(getContext(),"Please select 1 production sequence");
+                warningDialog(getContext(),getString(R.string.please_select_1_production_sequence));
 
         });
         viewModel.getProductionsequenceResponse().observe(getViewLifecycleOwner(), apiResponse->{
             if (apiResponse!=null) {
                 String statusMessage = apiResponse.getResponseStatus().getStatusMessage();
                 List<Ppr> pprList = apiResponse.getData();
-                if (statusMessage.equals("Data sent successfully")){
+                if (apiResponse.getResponseStatus().getIsSuccess()){
                     if (pprList.isEmpty())
-                        binding.jobOrderName.setError("No ppr list for this job order!");
-                    if (pprList.isEmpty())
-                        binding.jobOrderName.setError("There is no ppr for this job order name!");
+                        binding.jobOrderName.setError(getString(R.string.no_ppr_list_for_this_job_order_name));
                     adapter.setPprList(pprList);// today 23/11
                     adapter.notifyDataSetChanged();
                 } else
@@ -323,7 +320,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 String scannedText = barcodeReadEvent.getBarcodeData().trim();
 //if (TextUtils.isEmpty(fragmentProductionSequenceBinding.barcodeEdt.getText().toString())){
                 if (scannedText.isEmpty())
-                    binding.jobOrderName.setError(ENTER_VALID_JOB_ORDER_NAME);
+                    binding.jobOrderName.setError(getString(R.string.please_enter_or_scan_a_valid_job_order_name));
                 else {
                     binding.jobOrderName.getEditText().setText(scannedText);
                     viewModel.getProductionsequence(scannedText);
@@ -369,7 +366,7 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
                 e.printStackTrace();
             }
         }
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {

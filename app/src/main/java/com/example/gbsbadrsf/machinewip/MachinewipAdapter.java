@@ -59,7 +59,7 @@ public class MachinewipAdapter extends RecyclerView.Adapter<MachinewipAdapter.Ma
         holder.binding.machineDesc.setText(machineWip.getMachineCode());
 
         startRemainingTimeTimer(getRemainingTime(machineWip.getExpectedSignOut()),holder.binding.remainingTime);
-
+//        holder.binding.remainingTime.setText(machineWip.getExpectedSignOut());
         holder.itemView.setOnClickListener(v->{
             Bundle bundle = new Bundle();
             bundle.putParcelable(MACHINE_WIP,machineWip);

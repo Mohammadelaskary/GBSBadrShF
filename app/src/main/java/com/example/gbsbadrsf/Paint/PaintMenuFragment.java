@@ -72,7 +72,11 @@ FragmentPaintMenuBinding fragmentPaintMenuBinding;
 
         });
 
+        fragmentPaintMenuBinding.paintSignOff.setOnClickListener(__ -> {
 
+            Navigation.findNavController(getView()).navigate(R.id.action_paintMenuFragment_to_ppr_wip_paint);
+
+        });
 
 
     }
@@ -80,6 +84,6 @@ FragmentPaintMenuBinding fragmentPaintMenuBinding;
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Paint",(MainActivity) getActivity());
+        changeTitle(getString(R.string.paint),(MainActivity) getActivity());
     }
 }

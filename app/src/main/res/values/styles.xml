@@ -37,6 +37,11 @@
         <item name="android:textColor">@color/done</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="qty_style">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/done</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="styleoftextinbtn" >
     <item name="android:textSize">@dimen/appbar_text_size</item>
     <item name="textAllCaps">false</item>

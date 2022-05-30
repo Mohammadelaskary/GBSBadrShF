@@ -18,7 +18,6 @@ import com.example.gbsbadrsf.databinding.FragmentProductionrepairpaintBinding;
 import com.example.gbsbadrsf.databinding.FragmentProductionrepairweBinding;
 import com.example.gbsbadrsf.databinding.ProductionrepairpaintdialogBinding;
 import com.example.gbsbadrsf.productionsequence.SimpleDividerItemDecoration;
-import com.example.gbsbadrsf.welding.productionrepairwe.ProductionrepairweAdapter;
 
 
 public class ProductionrepairpaintFragment extends Fragment implements OnClick {

@@ -54,9 +54,9 @@ public class ManfacturingqualityFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_qualityrepairFragment);
 
         });
-        binding.qualitydesicionBtn.setOnClickListener(v -> {
+        binding.declineRejectionRequest.setOnClickListener(v -> {
 
-            Navigation.findNavController(v).navigate(R.id.action_manfacturingqualityFragment_to_qualitydesicionFragment);
+            Navigation.findNavController(v).navigate(R.id.action_fragment_manufacturing_quality_to_decline_rejection_request_decision_fragment);
 
         });
         binding.productionscraprequestBtn.setOnClickListener(v -> {
@@ -81,6 +81,6 @@ public class ManfacturingqualityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 }

@@ -45,7 +45,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/child_withoutspace"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="60dp"
             style="@style/styleoftextbold"

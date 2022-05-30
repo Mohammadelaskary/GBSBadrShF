@@ -105,7 +105,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         viewModel.getUpdateManufacturingDefectsResponse().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String responseMessage = response.getResponseStatus().getStatusMessage();
-                if (responseMessage.equals("Updated successfully")) {
+                if (response.getResponseStatus().getIsSuccess()) {
                     MyMethods.back(ManufacturingAddDefectDetailsFragment.this);
                     showSuccessAlerter(responseMessage,getActivity());
                 } else {
@@ -114,7 +114,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
 //                Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
             } else
 //                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
-                warningDialog(getContext(),"Error in connection");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
@@ -122,7 +122,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         viewModel.getAddManufacturingDefectsResponse().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String responseMessage = response.getResponseStatus().getStatusMessage();
-                if (responseMessage.equals("Added successfully")||responseMessage.equals("Updated successfully")) {
+                if (response.getResponseStatus().getIsSuccess()) {
                     navController.popBackStack();
                     showSuccessAlerter(responseMessage,getActivity());
                 } else {
@@ -131,13 +131,13 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
 //                Toast.makeText(getContext(), responseMessage, Toast.LENGTH_SHORT).show();
             } else
 //                Toast.makeText(getContext(), "Error in connection", Toast.LENGTH_SHORT).show();
-                     warningDialog(getContext(),"Error in connection");
+                     warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
     private void observeGettingDefectsListStatus() {
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         viewModel.getDefectsListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
@@ -200,7 +200,7 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 isRejected = defect.isRejected();
                 binding.isRejected.setChecked(isRejected);
                 isUpdate = true;
-                binding.addDefects.setText("Update");
+                binding.addDefects.setText(R.string.update);
             }
             remainingQty = basketData.getSignOffQty()+defectedQty-Integer.parseInt(basketData.getTotalQtyDefected())-Integer.parseInt(basketData.getTotalQtyRejected());
         }
@@ -229,16 +229,16 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
                 isRejected = binding.isRejected.isChecked();
                 if (defectedQtyString.isEmpty())
 //                    Toast.makeText(getContext(), "Please enter defected quantity!", Toast.LENGTH_SHORT).show();
-                    binding.defectedQtyEdt.setError("Please enter defected quantity!");
+                    binding.defectedQtyEdt.setError(getString(R.string.please_enter_the_defected_qty));
 //                    warningDialog(getContext(),"Please enter defected quantity!");
                 else {
                     validDefectedQty = Integer.parseInt(defectedQtyString)<=remainingQty;
                 }
                 if (!validDefectedQty)
-                    binding.defectedQtyEdt.setError("Total defected Quantity must be less than or equal sample quantity!");
+                    binding.defectedQtyEdt.setError(getString(R.string.total_defected_qty_must_be_less_than_or_equal_sample_qty));
 //                    warningDialog(getContext(),"Total defected Quantity must be less than or equal sample quantity!");
                 if (defectsIds.isEmpty()){
-                    warningDialog(getContext(),"Please Select the found defects!");
+                    warningDialog(getContext(),getString(R.string.please_select_the_found_defects));
                 }
 
                 if (!defectedQtyString.isEmpty()&&validDefectedQty&&!defectsIds.isEmpty()){
@@ -292,14 +292,14 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
             if (apiResponseDefectsList!=null) {
                 ResponseStatus responseStatus = apiResponseDefectsList.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals("Data sent successfully")) {
+                if (apiResponseDefectsList.getResponseStatus().getIsSuccess()) {
                     allDefectsList.clear();
                     allDefectsList.addAll(apiResponseDefectsList.getDefectsList());
                     adapter.setDefectList(allDefectsList);
                     adapter.notifyDataSetChanged();
                 }
             } else {
-                warningDialog(getContext(),"Error in connection");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }

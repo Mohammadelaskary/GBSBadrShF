@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.MachinesWIP;
 import com.example.gbsbadrsf.data.response.Status;
@@ -92,13 +93,13 @@ public class MachineWipMainFragment extends DaggerFragment {
 //            adapter.getproductionsequencelist(productionsequenceresponse);
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (response.getResponseStatus().getIsSuccess()) {
                     adapter.setMachinesWIPList(response.getData());
                 } else {
                     warningDialog(getContext(),statusMessage);
                 }
             } else
-                warningDialog(getContext(),"Please check your internet connection!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
 
 

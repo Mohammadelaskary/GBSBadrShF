@@ -54,7 +54,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
 
 
     FragmentRandomQualityInceptionBinding binding;
-    String machineDieCode = "Mchn1";
+    String machineDieCode = "";
     SetUpBarCodeReader barCodeReader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,7 +154,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
         NavController navController = NavHostFragment.findNavController(this);
         viewModel.getSaveRandomQualityInceptionMutableLiveData().observe(getViewLifecycleOwner(),apiResponseSaveRandomQualityInception -> {
             String statusMessage = apiResponseSaveRandomQualityInception.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+            if (apiResponseSaveRandomQualityInception.getResponseStatus().getIsSuccess()){
 //                Toast.makeText(getContext(), SAVED_SUCCESSFULLY, Toast.LENGTH_SHORT).show();
                 showSuccessAlerter(statusMessage,getActivity());
                 navController.popBackStack();
@@ -167,7 +167,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -189,7 +189,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
             if (apiResponseLastMoveManufacturing!=null) {
                 ResponseStatus responseStatus = apiResponseLastMoveManufacturing.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(GOT_DATA_SUCCESSFULLY)) {
+                if (responseStatus.getIsSuccess()) {
                     lastMoveManufacturing = apiResponseLastMoveManufacturing.getLastMoveManufacturing();
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     childCode = lastMoveManufacturing.getChildCode();
@@ -228,7 +228,7 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                 defectedQty = 0;
                 jobOrderQty = 0;
                 binding.dataLayout.setVisibility(View.GONE);
-                binding.machineDieCode.setError("Error in getting data!");
+                binding.machineDieCode.setError(getString(R.string.error_in_getting_data));
             }
             fillData();
         });
@@ -280,13 +280,13 @@ public class RandomQualityInceptionFragment extends DaggerFragment implements Vi
                 boolean emptySampleQty = binding.sampleQty.getEditText().getText().toString().trim().isEmpty();
                 boolean emptyDefectedQty = binding.defectedQty.getEditText().getText().toString().trim().isEmpty();
                 if (!validSampleQty)
-                    binding.sampleQty.setError("Sample Quantity must be smaller than loading quantity!");
+                    binding.sampleQty.setError(getString(R.string.sample_qty_must_be_smaller_than_loading_qtu));
                 if (!validDefectedQty)
-                    binding.defectedQty.setError("Defected Quantity must be equal or smaller than sample Quantity");
+                    binding.defectedQty.setError(getString(R.string.defected_qty_must_be_equal_or_smaller_than_sample_qty));
                 if (emptySampleQty)
-                    binding.sampleQty.setError("Sample Quantity shouldn't be empty!");
+                    binding.sampleQty.setError(getString(R.string.sample_qty_shouldnt_ne_empty));
                 if (emptyDefectedQty)
-                    binding.defectedQty.setError("Defected Quantity shouldn't be empty!");
+                    binding.defectedQty.setError(getString(R.string.defected_qty_shouldnt_be_empty));
                 if (validSampleQty&&validDefectedQty&&!emptyDefectedQty&&!emptySampleQty){
                     viewModel.SaveQualityRandomInspection(userId,deviceSerialNumber,lastMoveId,defectedQty,sampleQty,notes);
                 }

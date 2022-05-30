@@ -75,7 +75,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
     }
 
     ProgressDialog progressDialog;
@@ -92,7 +92,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
     private void observeAddingDefectRepairResponse() {
         viewModel.getAddWeldingRepairProduction().observe(getViewLifecycleOwner(),responseStatus-> {
             String statusMessage = responseStatus.getResponseStatus().getStatusMessage();
-            if (statusMessage.equals(SAVED_SUCCESSFULLY)){
+            if (responseStatus.getResponseStatus().getIsSuccess()){
                 showSuccessAlerter(statusMessage,getActivity());
 //                Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
                 upDateRecyclerView();
@@ -116,7 +116,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
     }
 
     private void setUpRecyclerView() {
-        adapter = new WeldingRepairProductionAdapter(this);
+        adapter = new WeldingRepairProductionAdapter(this,getContext());
         binding.defectsDetailsList.setAdapter(adapter);
     }
     private void fillData() {
@@ -152,7 +152,7 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         defectedQty = defectsWelding.getQtyDefected();
     }
     int userId = USER_ID,defectsManufacturingDetailsId=-1,defectStatus;
-    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,repairedQty;
+    String notes="", deviceSerialNumber=DEVICE_SERIAL_NO,repairedQty;
 
     @Override
     public void onClick(View v) {
@@ -171,11 +171,11 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
                                 Integer.parseInt(repairedQty)
                         );
                     } else {
-                        binding.repairedQty.setError("Please enter a valid repaired quantity!");
+                        binding.repairedQty.setError(getString(R.string.please_enter_a_valid_repaired_qty));
                     }
                 } else {
 //                    Toast.makeText(getContext(), "Please first select defect to repair!", Toast.LENGTH_SHORT).show();
-                    warningDialog(getContext(),"Please first select defect to repair!");
+                    warningDialog(getContext(),getString(R.string.please_first_select_defect_to_repair));
                 }
             } break;
         }

@@ -1,9 +1,10 @@
 package com.example.gbsbadrsf.Util;
 
-import android.content.res.Configuration;
 
-import androidx.annotation.NonNull;
+import android.content.Context;
+
 import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 
 import com.example.gbsbadrsf.di.component.DaggerApplicationComponent;
@@ -16,6 +17,12 @@ public class MyApplication extends DaggerApplication {
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         return DaggerApplicationComponent.builder().Application(this).build();
     }
+
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(base);
+//        MultiDex.install(base);
+//    }
 
     @Override
     public void onCreate() {

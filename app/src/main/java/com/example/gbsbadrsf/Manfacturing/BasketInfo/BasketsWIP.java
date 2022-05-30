@@ -34,6 +34,9 @@ public class BasketsWIP {
     @SerializedName("operationEnName")
     @Expose
     private String operationEnName;
+    @SerializedName("nextOperationEnName")
+    @Expose
+    private String nextOperationEnName;
     @SerializedName("machineCode")
     @Expose
     private String machineCode;
@@ -193,5 +196,21 @@ public class BasketsWIP {
 
     public void setSignOutQty(Object signOutQty) {
         this.signOutQty = signOutQty;
+    }
+
+    public Boolean getBulkQty() {
+        return isBulkQty;
+    }
+
+    public void setBulkQty(Boolean bulkQty) {
+        isBulkQty = bulkQty;
+    }
+
+    public String getNextOperationEnName() {
+        return nextOperationEnName;
+    }
+
+    public void setNextOperationEnName(String nextOperationEnName) {
+        this.nextOperationEnName = nextOperationEnName;
     }
 }

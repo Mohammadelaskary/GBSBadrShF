@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Bsket 1"
+        android:text=""
         android:gravity="center"
         android:textSize="17sp"
         android:fontFamily="sans-serif"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Bsket 1"
+        android:text=""
         android:textSize="17sp"
         android:fontFamily="sans-serif"
         android:gravity="center"/>

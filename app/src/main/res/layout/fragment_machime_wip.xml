@@ -19,7 +19,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Child Description"
                 style="@style/child_parent_desc_style"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,46 +43,24 @@
                     style="@style/details_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView2"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    style="@style/styleoftextbold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/qty"
-                    android:textSize="17sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/job_order_qty"
                     style="@style/details_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/jobordernum"
-                    app:layout_constraintTop_toTopOf="@+id/textView" />
-                <TextView
-                    android:id="@+id/textView2"
-                    style="@style/styleoftextbold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/name"
-                    android:textSize="17sp"
-                    app:layout_constraintTop_toTopOf="@id/jobordernum"
-                    app:layout_constraintBottom_toBottomOf="@id/jobordernum"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/jobordernum" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -104,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Loading Qty:"
+                android:text="@string/loading_qty"
                 app:layout_constraintStart_toStartOf="@+id/parent_desc"
                 app:layout_constraintTop_toBottomOf="@+id/job_order_data" />
 
@@ -113,7 +90,6 @@
                 style="@style/details_text_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/textView4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -294,7 +270,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Sign in time"
+                    android:text="@string/sign_in_time"
                     android:textSize="17dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@id/textView12"
@@ -320,7 +296,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Expected sign out time"
+                    android:text="@string/expected_sign_out_time"
                     android:textSize="17sp"
                     android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -343,7 +319,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Remaining time"
+                    android:text="@string/remaining_time"
                     android:textSize="17sp"
                     android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"

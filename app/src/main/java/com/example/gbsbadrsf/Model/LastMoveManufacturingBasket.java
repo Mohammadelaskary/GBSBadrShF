@@ -70,7 +70,12 @@ public class LastMoveManufacturingBasket implements Parcelable {
     @SerializedName("isSaved")
     @Expose
     private boolean isSaved;
-
+    @SerializedName("isRejectedQty")
+    @Expose
+    private boolean isRejectedQty;
+    @SerializedName("basketType")
+    @Expose
+    private String basketType;
     public LastMoveManufacturingBasket() {
     }
 
@@ -126,6 +131,8 @@ public class LastMoveManufacturingBasket implements Parcelable {
         totalQtyOk = in.readString();
         isFullInspection = in.readByte() != 0;
         isSaved = in.readByte() != 0;
+        isRejectedQty = in.readByte() != 0;
+        basketType = in.readString();
     }
 
     @Override
@@ -186,6 +193,13 @@ public class LastMoveManufacturingBasket implements Parcelable {
         dest.writeString(totalQtyOk);
         dest.writeByte((byte) (isFullInspection ? 1 : 0));
         dest.writeByte((byte) (isSaved ? 1 : 0));
+        dest.writeByte((byte) (isRejectedQty ? 1 : 0));
+        dest.writeString(basketType);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<LastMoveManufacturingBasket> CREATOR = new Creator<LastMoveManufacturingBasket>() {
@@ -374,10 +388,24 @@ public class LastMoveManufacturingBasket implements Parcelable {
         return isSaved;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+
+    public boolean isFullInspection() {
+        return isFullInspection;
     }
 
+    public boolean isSaved() {
+        return isSaved;
+    }
 
+    public boolean isRejectedQty() {
+        return isRejectedQty;
+    }
+
+    public String getBasketType() {
+        return basketType;
+    }
+
+    public void setBasketType(String basketType) {
+        this.basketType = basketType;
+    }
 }

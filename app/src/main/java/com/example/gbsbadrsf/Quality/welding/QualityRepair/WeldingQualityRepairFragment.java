@@ -23,6 +23,7 @@ import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingQualityRepairViewModel;
+import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
@@ -189,7 +190,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
 
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -216,7 +217,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
             if (apiResponseLastMoveWeldingBasket!=null) {
                 ResponseStatus responseStatus = apiResponseLastMoveWeldingBasket.getResponseStatus();
                 String statusMessage = responseStatus.getStatusMessage();
-                if (statusMessage.equals(EXISTING_BASKET_CODE)) {
+                if (responseStatus.getIsSuccess()) {
                     basketData = apiResponseLastMoveWeldingBasket.getLastMoveWeldingBaskets().get(0);
                     adapter.setBasketData(basketData);
                     defectsWeldingList.clear();
@@ -244,7 +245,7 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
                 parentDesc = "";
                 parentCode = "";
                 operationName = "";
-                binding.basketCode.setError("Error in getting data!");
+                binding.basketCode.setError(getString(R.string.error_in_getting_data));
                 binding.dataLayout.setVisibility(View.GONE);
             }
             fillData(parentDesc,operationName,jobOrderName,jobOrderQty);
