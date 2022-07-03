@@ -4,34 +4,31 @@ import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
-import android.net.LinkAddress;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.WeldingSignInBasketsDialog;
 import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.PprWelding;
-import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.databinding.FragmentMachineloadingweBinding;
 import com.example.gbsbadrsf.weldingsequence.InfoForSelectedStationViewModel;
@@ -48,36 +45,35 @@ import com.honeywell.aidc.UnsupportedPropertyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class MachineloadingweFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class MachineloadingweFragment extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
     FragmentMachineloadingweBinding binding;
     private BarcodeReader barcodeReader;
 
-    @Inject
-    ViewModelProviderFactory providerFactory;
+//    @Inject
+//    ViewModelProviderFactory providerFactory;
     InfoForSelectedStationViewModel infoForSelectedStationViewModel;
-    SaveweldingViewModel saveweldingViewModel;
+    SaveweldingViewModel viewModel;
     private ResponseStatus responseStatus;
     List<String> basketCodes = new ArrayList<>();
     List<String> addedBasketCodes = new ArrayList<>();
     BasketCodesAdapter adapter;
+    private ProgressDialog progressDialog;
+    private WeldingSignInBasketsDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMachineloadingweBinding.inflate(inflater, container, false);
-        saveweldingViewModel = ViewModelProviders.of(this, providerFactory).get(SaveweldingViewModel.class);
+//        viewModel = ViewModelProviders.of(this, providerFactory).get(SaveweldingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SaveweldingViewModel.class);
+        progressDialog = loadingProgressDialog(getContext());
         infoForSelectedStationViewModel = WeldingSequence.infoForSelectedStationViewModel;
         barcodeReader = MainActivity.getBarcodeObject();
-
+        dialog = new WeldingSignInBasketsDialog(getContext());
 
 //        initObjects();
         subscribeRequest();
@@ -106,11 +102,11 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                 }
                 if (!stationCode.isEmpty()&&!addedBasketCodes.isEmpty()&&basketCodes.size()==addedBasketCodes.size()&&stationCode.equals(currentStationCode)) {
                     StationSignIn stationSignIn = new StationSignIn(USER_ID,DEVICE_SERIAL_NO, ppr.getLoadingSequenceID(), ppr.getProductionStationCode(), ppr.getLoadingQty(),addedBasketCodes);
-                    saveweldingViewModel.saveweldingloading(stationSignIn);
+                    viewModel.saveweldingloading(stationSignIn);
                 }
             }
         });
-
+        binding.signInBaskets.setOnClickListener(v->dialog.show());
 
 
         if (barcodeReader != null) {
@@ -219,6 +215,8 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
                 binding.signedOffQty.setText(String.valueOf(ppr.getSignOutQty()));
                 currentStationCode = ppr.getProductionStationCode();
 //                binding.childqtn.setText(response.getBaskets().get(0).getBasketCode());
+                binding.signInBaskets.setEnabled(true);
+                dialog.setBaskets(response.getBaskets());
                 for(Baskets baskets: response.getBaskets()){
                     basketCodes.add(baskets.getBasketCode());
                 }
@@ -229,7 +227,7 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
     }
 
     private void subscribeRequest() {
-        saveweldingViewModel.getSaveFirstLoadingResponse().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getSaveFirstLoadingResponse().observe(getViewLifecycleOwner(), response -> {
 //            switch (typesofsavewelding)
 //            {
 //                case savedsucessfull: {
@@ -259,7 +257,20 @@ public class MachineloadingweFragment extends DaggerFragment implements BarcodeR
             } else
                 warningDialog(getContext(),getString(R.string.error_in_saving_data));
         });
-
+        viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            switch (status){
+                case LOADING:
+                    progressDialog.show();
+                    break;
+                case ERROR:
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
+                case SUCCESS:
+                    progressDialog.hide();
+                    break;
+            }
+        });
 
     }
     @Override

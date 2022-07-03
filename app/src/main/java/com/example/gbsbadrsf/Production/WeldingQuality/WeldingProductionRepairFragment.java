@@ -16,9 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
@@ -41,7 +44,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class WeldingProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
+public class WeldingProductionRepairFragment extends Fragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     WeldingProductionRepairFragmentBinding binding;
     List<WeldingDefect> defectsWeldingList = new ArrayList<>();
@@ -49,8 +52,8 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
     WeldingProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
 
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
     SetUpBarCodeReader barCodeReader;
 
@@ -204,7 +207,9 @@ public class WeldingProductionRepairFragment extends DaggerFragment implements B
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, provider).get(WeldingProductionRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this, provider).get(WeldingProductionRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingProductionRepairViewModel.class);
+
     }
 
     LastMoveWeldingBasket basketData;

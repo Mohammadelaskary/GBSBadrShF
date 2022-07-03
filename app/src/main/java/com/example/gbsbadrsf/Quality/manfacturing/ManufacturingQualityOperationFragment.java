@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -34,6 +36,7 @@ import com.example.gbsbadrsf.Model.DefectsPerQty;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingQualityOperationViewModel;
@@ -59,7 +62,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ManufacturingQualityOperationFragment extends DaggerFragment implements View.OnClickListener, ManufacturingDefectsPerQtyAdapter.SetOnDefectsPerQtyItemClicked, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener, ManufacturingDefectsPerQtyAdapter.SetOnDeleteButtonClicked {
+public class ManufacturingQualityOperationFragment extends Fragment implements View.OnClickListener, ManufacturingDefectsPerQtyAdapter.SetOnDefectsPerQtyItemClicked, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener, ManufacturingDefectsPerQtyAdapter.SetOnDeleteButtonClicked {
 
     public static final String BASKET_DATA = "basket_data";
     public static final String SAMPLE_QTY = "sample_qty";
@@ -71,11 +74,11 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     FragmentManufacturingQualityOperationBinding binding;
     public ManufacturingQualityOperationViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
     public ManufacturingQualityOperationFragment() {
         // Required empty public constructor
@@ -173,6 +176,9 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
                     progressDialog.show();
                     break;
                 case ERROR:
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
                 case SUCCESS:
                     progressDialog.hide();
                     break;
@@ -447,7 +453,9 @@ public class ManufacturingQualityOperationFragment extends DaggerFragment implem
     private void initViewModel() {
 //        viewModel = ViewModelProvider.AndroidViewModelFactory
 //                .getInstance(getActivity().getApplication()).create(ManufacturingQualityViewModel.class);
-       viewModel = ViewModelProviders.of(this,provider).get(ManufacturingQualityOperationViewModel.class);
+//       viewModel = ViewModelProviders.of(this,provider).get(ManufacturingQualityOperationViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ManufacturingQualityOperationViewModel.class);
+
 
 
     }

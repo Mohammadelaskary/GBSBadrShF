@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestByID;
 import com.example.gbsbadrsf.Quality.manfacturing.Model.ApiResponseRejectionRequestTakeAction;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -18,17 +19,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ProductionRejectionRequestViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
     MutableLiveData<ApiResponseRejectionRequestTakeAction> rejectionRequestTakeActionLiveData;
     MutableLiveData<Status> status;
     MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestByID> getRejectionRequestById;
-    @Inject
-    Gson gson;
-    @Inject
-    public ProductionRejectionRequestViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ProductionRejectionRequestViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         rejectionRequestTakeActionLiveData = new MutableLiveData<>();
         status = new MutableLiveData<>();

@@ -11,7 +11,9 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Ppr;
@@ -52,17 +55,17 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ProductionSequence extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class ProductionSequence extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener,productionsequenceadapter.onCheckedChangedListener {
     public static final String PPR_KEY = "ppr";
     FragmentProductionSequenceBinding binding;
     public RecyclerView recyclerView;
     private BarcodeReader barcodeReader;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     CheckBox checkBox;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     productionsequenceadapter adapter;
     List<Ppr> productionsequenceresponse;
     ProductionsequenceViewModel viewModel;
@@ -78,8 +81,12 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProductionSequenceBinding.inflate(inflater, container, false);
-        viewModel = ViewModelProviders.of(this,provider).get(ProductionsequenceViewModel.class);
-        selectedLoadinsequenceinfoViewModel=ViewModelProviders.of(this,provider).get(SelectedLoadinsequenceinfoViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ProductionsequenceViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductionsequenceViewModel.class);
+
+//        selectedLoadinsequenceinfoViewModel=ViewModelProviders.of(this,provider).get(SelectedLoadinsequenceinfoViewModel.class);
+        selectedLoadinsequenceinfoViewModel = new ViewModelProvider(this).get(SelectedLoadinsequenceinfoViewModel.class);
+
         progressDialog = loadingProgressDialog(getContext());
         observeGettingProductionSequence();
         clearInputLayoutError(binding.jobOrderName);
@@ -200,8 +207,12 @@ public class ProductionSequence extends DaggerFragment implements BarcodeReader.
         viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
 //        selectedLoadinsequenceinfoViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
 //            if (status.equals(Status.LOADING))

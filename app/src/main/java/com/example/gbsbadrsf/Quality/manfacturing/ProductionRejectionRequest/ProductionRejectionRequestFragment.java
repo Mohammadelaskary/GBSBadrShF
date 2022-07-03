@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.manfacturing.ProductionRejectionRequest;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -11,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -28,11 +32,11 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ProductionRejectionRequestFragment extends DaggerFragment implements View.OnClickListener {
+public class ProductionRejectionRequestFragment extends Fragment implements View.OnClickListener {
     FragmentProductionscraprequestqcBinding binding;
     ProductionRejectionRequestViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     private BottomSheetBehavior defectsBottomSheet;
     public ProductionRejectionRequestFragment() {
     }
@@ -64,7 +68,9 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ProductionRejectionRequestViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ProductionRejectionRequestViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductionRejectionRequestViewModel.class);
+
     }
 
     @Override
@@ -117,8 +123,12 @@ public class ProductionRejectionRequestFragment extends DaggerFragment implement
         viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 

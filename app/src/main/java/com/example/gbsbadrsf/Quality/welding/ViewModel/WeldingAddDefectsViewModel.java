@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseAddManufacturingDefectedChi
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseAddWeldingDefectedChildToBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWeldingDefectedQtyByBasketCode;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -22,16 +23,17 @@ public class WeldingAddDefectsViewModel extends ViewModel {
     MutableLiveData<Status> defectsWeldingListStatus;
     MutableLiveData<ApiResponseAddWeldingDefectedChildToBasket> addWeldingDefectsToNewBasket;
     MutableLiveData<Status> addWeldingDefectsToNewBasketStatus;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
     String newBasketCode;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public WeldingAddDefectsViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public WeldingAddDefectsViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         defectsWeldingListLiveData = new MutableLiveData<>();
         defectsWeldingListStatus = new MutableLiveData<>();

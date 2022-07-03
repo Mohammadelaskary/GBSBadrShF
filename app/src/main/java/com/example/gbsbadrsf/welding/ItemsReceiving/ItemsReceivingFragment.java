@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.welding.ItemsReceiving;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import static com.example.gbsbadrsf.welding.ItemsReceiving.PprAdapter.JOB_ORDER;
 
@@ -9,6 +10,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,15 +35,15 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class ItemsReceivingFragment extends DaggerFragment implements JobOrdersAdapter.OnJobOrderItemClicked {
+public class ItemsReceivingFragment extends Fragment implements JobOrdersAdapter.OnJobOrderItemClicked {
 
     private ItemsReceivingViewModel viewModel;
     private ItemsReceivingFragmentBinding binding;
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
     public ItemsReceivingFragment() {
     }
@@ -59,7 +62,9 @@ public class ItemsReceivingFragment extends DaggerFragment implements JobOrdersA
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(ItemsReceivingViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ItemsReceivingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ItemsReceivingViewModel.class);
+
         progressDialog = MyMethods.loadingProgressDialog(getContext());
     }
 
@@ -81,9 +86,13 @@ public class ItemsReceivingFragment extends DaggerFragment implements JobOrdersA
         viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             switch (status){
                 case LOADING: progressDialog.show(); break;
-                case SUCCESS:
                 case ERROR:
-                    progressDialog.hide(); break;
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
+                case SUCCESS:
+                    progressDialog.hide();
+                    break;
             }
         });
     }
@@ -97,9 +106,9 @@ public class ItemsReceivingFragment extends DaggerFragment implements JobOrdersA
                     List<Ppr>      pprList      = apiResponseGetJobOrdersForIssue.getPpr();
                     adapter.setJobOrderWithPPRList(groupJobOrdersWithPprs(jobOrderList,pprList));
                 } else
-                    MyMethods.warningDialog(getContext(),statusMessage);
+                    warningDialog(getContext(),statusMessage);
             } else {
-                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }

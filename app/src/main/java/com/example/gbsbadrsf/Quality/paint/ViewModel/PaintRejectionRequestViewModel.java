@@ -12,6 +12,7 @@ import com.example.gbsbadrsf.Quality.paint.Model.ApiResponse.ApiResponseRejectio
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetBasketInfoForQuality_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseRejectionRequest_Welding;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -35,16 +36,17 @@ public class PaintRejectionRequestViewModel extends ViewModel {
 
     MutableLiveData<ApiResponseDefectsList<List<Defect>>> apiResponseDefectsListPerOperation;
     MutableLiveData<Status> apiResponseDefectsListPerOperationStatus;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public PaintRejectionRequestViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public PaintRejectionRequestViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         apiResponseDepartmentsListLiveData = new MutableLiveData<>();
         apiResponseDepartmentsListStatus = new MutableLiveData<>();

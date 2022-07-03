@@ -575,6 +575,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="fragment_welding_counting">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragment_welding_display_defect_details">
                     <value>
                       <LayoutPositions>
@@ -727,6 +739,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="handlingMainMenuFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="668" />
+                            <option name="y" value="11612" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -983,6 +1007,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_mainmenuFragment_to_handlingMainMenuFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_mainmenuFragment_to_planningMenuFragment">
                               <value>
                                 <LayoutPositions />
@@ -994,6 +1023,11 @@
                               </value>
                             </entry>
                             <entry key="action_mainmenuFragment_to_qualitymainmenuFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_mainmenuFragment_to_warehouseMainMenuFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -1782,8 +1816,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="988" />
-                            <option name="y" value="13785" />
+                            <option name="x" value="1051" />
+                            <option name="y" value="12901" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -1809,6 +1843,11 @@
                               </value>
                             </entry>
                             <entry key="action_signinFragment_to_change_ip">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_signinFragment_to_handlingMainMenuFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -1843,6 +1882,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_signinFragment_to_warehouseMainMenuFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -1867,6 +1911,18 @@
                           <Point>
                             <option name="x" value="2054" />
                             <option name="y" value="3573" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="warehouseMainMenuFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="890" />
+                            <option name="y" value="11026" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -1909,6 +1965,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_quality_welding_fragment_to_fragment_welding_counting">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_quality_welding_fragment_to_fragment_welding_rejection_request">
                               <value>
                                 <LayoutPositions />

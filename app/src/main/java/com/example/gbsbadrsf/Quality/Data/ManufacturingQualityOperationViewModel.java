@@ -10,6 +10,7 @@ import com.example.gbsbadrsf.Model.ApiResponseQualityPass;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -36,16 +37,17 @@ public class ManufacturingQualityOperationViewModel extends ViewModel {
     MutableLiveData<Status> status;
     MutableLiveData<ApiResponseDeleteManufacturingDefect> deleteManufacturingDefectResponse;
     LastMoveManufacturingBasket basketData;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ManufacturingQualityOperationViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ManufacturingQualityOperationViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         basketDataLiveData = new MutableLiveData<>();
         basketDataStatus = new MutableLiveData<>();
         disposable = new CompositeDisposable();

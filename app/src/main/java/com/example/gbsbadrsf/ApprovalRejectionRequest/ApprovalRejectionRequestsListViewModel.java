@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestList;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -15,21 +16,23 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ApprovalRejectionRequestsListViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
-    MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestList> getRejectionRequestListLiveData;
-    MutableLiveData<Status> getRejectionRequestListStatus;
+    private MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestList> getRejectionRequestListLiveData;
+    private MutableLiveData<Status> getRejectionRequestListStatus;
+    private MutableLiveData<Throwable> error;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ApprovalRejectionRequestsListViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ApprovalRejectionRequestsListViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         getRejectionRequestListLiveData = new MutableLiveData<>();
         getRejectionRequestListStatus   = new MutableLiveData<>();
-
+        error = new MutableLiveData<>();
     }
 
     public void getRejectionRequests(int userId,String deviceSerialNo){
@@ -42,6 +45,7 @@ public class ApprovalRejectionRequestsListViewModel extends ViewModel {
                             getRejectionRequestListStatus.postValue(Status.SUCCESS); },
                         throwable -> {
                             getRejectionRequestListStatus.postValue(Status.ERROR);
+                            error.postValue(throwable);
                         }
                 ));
     }
@@ -52,5 +56,9 @@ public class ApprovalRejectionRequestsListViewModel extends ViewModel {
 
     public MutableLiveData<Status> getGetRejectionRequestListStatus() {
         return getRejectionRequestListStatus;
+    }
+
+    public MutableLiveData<Throwable> getError() {
+        return error;
     }
 }

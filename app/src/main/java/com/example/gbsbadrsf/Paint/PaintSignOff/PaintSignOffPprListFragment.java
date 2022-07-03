@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Paint.PaintSignOff;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -9,31 +10,27 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.FragmentPaintSignOffPprListBinding;
-import com.google.gson.Gson;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
+import java.util.ArrayList;
 
 
-public class PaintSignOffPprListFragment extends DaggerFragment {
+public class PaintSignOffPprListFragment extends Fragment {
 
     public PaintSignOffPprListViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
 
     public PaintSignOffPprListFragment() {
@@ -48,7 +45,8 @@ public class PaintSignOffPprListFragment extends DaggerFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(PaintSignOffPprListViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintSignOffPprListViewModel.class);
+
         progressDialog = loadingProgressDialog(getContext());
     }
     private FragmentPaintSignOffPprListBinding binding;
@@ -63,9 +61,11 @@ public class PaintSignOffPprListFragment extends DaggerFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(PaintSignOffPprListViewModel.class);
+        setUpRecyclerView();
         observeGettingPprList();
         observeGettingPprListStatus();
-        setUpRecyclerView();
+
     }
 
     private void observeGettingPprListStatus() {
@@ -75,6 +75,9 @@ public class PaintSignOffPprListFragment extends DaggerFragment {
                     progressDialog.show();
                     break;
                 case ERROR:
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    progressDialog.dismiss();
+                    break;
                 case SUCCESS:
                     progressDialog.dismiss();
                     break;
@@ -94,15 +97,16 @@ public class PaintSignOffPprListFragment extends DaggerFragment {
                 if (apiResponseGetWIP_painting.getResponseStatus().getIsSuccess()){
                     adapter.setPprWipPaintList(apiResponseGetWIP_painting.getPprList());
                 } else
-                    MyMethods.warningDialog(getContext(),apiResponseGetWIP_painting.getResponseStatus().getStatusMessage());
+                    warningDialog(getContext(),apiResponseGetWIP_painting.getResponseStatus().getStatusMessage());
             } else
-                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        adapter.setPprWipPaintList(new ArrayList<>());
         viewModel.getPaintStationWIP(USER_ID,DEVICE_SERIAL_NO);
     }
 }

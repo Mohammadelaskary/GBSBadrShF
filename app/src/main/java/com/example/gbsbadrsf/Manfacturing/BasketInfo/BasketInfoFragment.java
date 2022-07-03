@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Manfacturing.BasketInfo;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -11,7 +12,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.StrictMode;
 import android.view.KeyEvent;
@@ -19,11 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.gbsbadrsf.Manfacturing.machineloading.ContinueLoadingViewModel;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.BasketInfoFragmentBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
@@ -31,13 +29,9 @@ import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+public class BasketInfoFragment extends Fragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     private BasketInfoViewModel viewModel;
     SetUpBarCodeReader barCodeReader;
 
@@ -65,7 +59,8 @@ public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this, providerFactory).get(BasketInfoViewModel.class);
+//        viewModel = ViewModelProviders.of(this, providerFactory).get(BasketInfoViewModel.class);
+        viewModel = new ViewModelProvider(this).get(BasketInfoViewModel.class);
         barCodeReader = new SetUpBarCodeReader(this,this);
         handleBasketCodeEditTextEdit();
         progressDialog = MyMethods.loadingProgressDialog(getContext());
@@ -77,8 +72,12 @@ public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.
         viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS))
                 progressDialog.dismiss();
+            else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -135,7 +134,7 @@ public class BasketInfoFragment extends DaggerFragment implements BarcodeReader.
                 }
             } else {
                 binding.dataLayout.setVisibility(View.VISIBLE);
-                MyMethods.warningDialog(getContext(), getString(R.string.check_your_connection));
+                warningDialog(getContext(), getString(R.string.check_your_connection));
             }
         });
     }

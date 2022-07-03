@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.data.ApiResponseGetWIP_Painting;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -17,16 +18,17 @@ import io.reactivex.schedulers.Schedulers;
 public class PaintSignOffPprListViewModel extends ViewModel {
     MutableLiveData<Status> status;
     MutableLiveData<ApiResponseGetWIP_Painting> paintStationWIP;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public PaintSignOffPprListViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public PaintSignOffPprListViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         paintStationWIP = new MutableLiveData<>();
         status = new MutableLiveData<>();

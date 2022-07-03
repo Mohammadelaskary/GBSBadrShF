@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.databinding.FragmentManfacturingmenuBinding;
 import com.example.gbsbadrsf.databinding.FragmentWeldingMenuBinding;
 
 
@@ -92,6 +91,6 @@ FragmentWeldingMenuBinding fragmentWeldingMenuBinding;
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Welding",(MainActivity)getActivity());
+        changeTitle(getString(R.string.welding),(MainActivity)getActivity());
     }
 }

@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.QualityDefectRepairViewModel;
@@ -42,7 +45,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class QualityDefectRepairFragment extends DaggerFragment implements SetOnRepairItemClicked, View.OnClickListener, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
+public class QualityDefectRepairFragment extends Fragment implements SetOnRepairItemClicked, View.OnClickListener, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
 
 
@@ -65,8 +68,8 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     private BottomSheetBehavior moveToBasketBottomSheet;
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     QualityDefectRepairViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     RepairQualityAdapter adapter;
     private SetUpBarCodeReader barCodeReader;
 
@@ -91,7 +94,7 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         viewModel.getDefectedQualityOk_Manufacturing().observe(getViewLifecycleOwner(),apiResponseDefectedQualityOk_manufacturing -> {
             if (apiResponseDefectedQualityOk_manufacturing!=null){
                 String statusMessage = apiResponseDefectedQualityOk_manufacturing.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Done successfully")){
+                if (apiResponseDefectedQualityOk_manufacturing.getResponseStatus().getIsSuccess()){
                     showSuccessAlerter(statusMessage,getActivity());
                     hideMoveToBasketBottomSheet();
                 }
@@ -154,7 +157,10 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
         viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -189,7 +195,9 @@ public class QualityDefectRepairFragment extends DaggerFragment implements SetOn
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, provider).get(QualityDefectRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this, provider).get(QualityDefectRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(QualityDefectRepairViewModel.class);
+
     }
 
     private void attachButtonToListener() {

@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.welding.Counting;
+package com.example.gbsbadrsf.Handling.WeldingCounting;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

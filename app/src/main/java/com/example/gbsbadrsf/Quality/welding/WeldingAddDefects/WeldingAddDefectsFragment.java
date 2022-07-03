@@ -2,6 +2,7 @@ package com.example.gbsbadrsf.Quality.welding.WeldingAddDefects;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.AlertDialog;
@@ -17,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -49,7 +52,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class WeldingAddDefectsFragment extends Fragment implements SetOnQtyDefectedQtyDefectsItemClicked, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMoveWeldingBasket basketData;
@@ -57,8 +60,8 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     String basketCode,deviceSerialNo = DEVICE_SERIAL_NO,newBasketCode;
 //    boolean newSample = false ;
     WeldingAddDefectsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;
     List<DefectsWelding> defectsWeldingList = new ArrayList<>();
@@ -91,8 +94,12 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
         viewModel.getAddWeldingDefectsToNewBasketStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -136,7 +143,10 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
         viewModel.getDefectsWeldingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -214,7 +224,9 @@ public class WeldingAddDefectsFragment extends DaggerFragment implements SetOnQt
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingAddDefectsViewModel.class);
+
     }
 
     private void fillData() {

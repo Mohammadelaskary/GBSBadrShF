@@ -7,6 +7,7 @@ import com.example.gbsbadrsf.data.response.ApiSavefirstloading;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.machineloading.typesosavedloading;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.repository.Productionsequencerepository;
 import com.example.gbsbadrsf.weldingsequence.StationSignIn;
@@ -18,8 +19,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiConsumer;
 
 public class SaveweldingViewModel extends ViewModel {
-    Gson gson;
-    @Inject
+//    Gson gson;
+//    @Inject
     ApiInterface apiInterface;
     private MutableLiveData<ResponseStatus> responseLiveData ;
     private MutableLiveData<Typesofsavewelding> typesosavedweldingloading;
@@ -27,9 +28,10 @@ public class SaveweldingViewModel extends ViewModel {
     private MutableLiveData<Status> status;
     private CompositeDisposable disposable = new CompositeDisposable();
     String pass;
-    @Inject
-    public SaveweldingViewModel( Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public SaveweldingViewModel( ) {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         disposable = new CompositeDisposable();
         typesosavedweldingloading = new MutableLiveData<>(Typesofsavewelding.global);

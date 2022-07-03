@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
@@ -32,8 +34,8 @@ public class ProductionRejectionRequestsListQualityFragment extends DaggerFragme
     FragmentProductionRejectionRequestsListQualityBinding binding;
     ProductionRejectionListAdapter adapter;
     ProductionRejectionRequestsListQualityViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
 
     @Override
@@ -60,13 +62,19 @@ public class ProductionRejectionRequestsListQualityFragment extends DaggerFragme
         viewModel.getRejectionRequestListStatus.observe(getViewLifecycleOwner(),status -> {
             if (status== Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ProductionRejectionRequestsListQualityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductionRejectionRequestsListQualityViewModel.class);
+
+//        viewModel = ViewModelProviders.of(this,provider).get(ProductionRejectionRequestsListQualityViewModel.class);
     }
 
     private void getRejectionRequestsList() {

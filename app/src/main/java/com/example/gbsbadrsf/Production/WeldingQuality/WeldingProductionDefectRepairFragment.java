@@ -10,7 +10,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,28 +20,22 @@ import android.view.ViewGroup;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
 import com.example.gbsbadrsf.Production.WeldingQuality.ViewModel.WeldingProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
-import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.Quality.welding.QualityRepair.SetOnWeldingRepairItemClicked;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.WeldingProductionDefectRepairFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class WeldingProductionDefectRepairFragment extends DaggerFragment implements SetOnWeldingRepairItemClicked, View.OnClickListener {
+public class WeldingProductionDefectRepairFragment extends Fragment implements SetOnWeldingRepairItemClicked, View.OnClickListener {
 
 
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     WeldingProductionDefectRepairViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public WeldingProductionDefectRepairFragment() {
         // Required empty public constructor
     }
@@ -83,7 +78,10 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
         viewModel.getAddWeldingRepairProductionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)){
+                warningDialog(getContext(),getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -108,7 +106,9 @@ public class WeldingProductionDefectRepairFragment extends DaggerFragment implem
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingProductionDefectRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingProductionDefectRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingProductionDefectRepairViewModel.class);
+
     }
 
     private void attachButtonToListener() {

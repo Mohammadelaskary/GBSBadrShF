@@ -5,6 +5,7 @@ import com.example.gbsbadrsf.MainActivity;
 public class Constant {
     //web service urls
     public static final String BASE_URL = "http://"+MainActivity.IP+"/api/GBSShopFloor/";
+//    public static final String BASE_URL = "http://www.google.com/";
     //Keys
     public static final String LANG = "LANGUAGE";
     public static final String SCREEN_MODE = "SCREEN_MODEL";

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -33,16 +34,17 @@ public class QualityDecisionViewModel extends ViewModel {
     MutableLiveData<Status> apiResponseSaveCheckListStatus;
     List<DefectsManufacturing> defectsManufacturingList;
     String basketCode = "";
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public QualityDecisionViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public QualityDecisionViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         defectsManufacturingListLiveData = new MutableLiveData<>();
         defectsManufacturingListStatus = new MutableLiveData<>();

@@ -11,6 +11,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionReque
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -33,16 +34,17 @@ public class ProductionRejectionViewModel extends ViewModel {
     MutableLiveData<Status> apiResponseSaveRejectionRequestStatus;
     MutableLiveData<ApiResponseDefectsList<List<Defect>>> defectsListMutableLiveData;
     MutableLiveData<Status> defectsListStatus;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ProductionRejectionViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ProductionRejectionViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         apiResponseDepartmentsListLiveData = new MutableLiveData<>();
         status = new MutableLiveData<>();

@@ -2,12 +2,18 @@ package com.example.gbsbadrsf.warhouse.warehouse;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Handler;
@@ -17,11 +23,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.FragmentWarehouseBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -34,33 +39,32 @@ import com.honeywell.aidc.UnsupportedPropertyException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class WarehouseFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class WarehouseFragment extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
 
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentWarehouseBinding binding;
     private BarcodeReader barcodeReader;
-    private WarehouseViewModel warehouseViewModel;
+    private WarehouseViewModel viewModel;
 
 
 
-
+    private ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentWarehouseBinding.inflate(inflater, container, false);
+        progressDialog = loadingProgressDialog(getContext());
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        warehouseViewModel = ViewModelProviders.of(this, providerFactory).get(WarehouseViewModel.class);
+//        viewModel = ViewModelProviders.of(this, providerFactory).get(WarehouseViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WarehouseViewModel.class);
+
         barcodeReader = MainActivity.getBarcodeObject();
         binding.barcodenewEdt.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -68,7 +72,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    warehouseViewModel.getrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodenewEdt.getText().toString());
+                    viewModel.getrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodenewEdt.getText().toString());
 
                     return true;
                 }
@@ -100,19 +104,32 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
             public void onClick(View v) {
                 String barcode = binding.barcodenewEdt.getText().toString().trim();
                 String qty     = binding.qty.getEditText().getText().toString().trim();
-                if (barcode.isEmpty()) {
+                boolean addedBefore = receivingQty!=0;
+                binding.saveBtn.setEnabled(false);
+                if (!barcode.isEmpty()){
+                    if (!qty.isEmpty()){
+                        if (containsOnlyDigits(qty)) {
+                            if (Integer.parseInt(qty)<=loadingQty-receivingQty) {
+                                if (!addedBefore) {
+                                    viewModel.setrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, barcode, qty);
+                                } else
+                                    warningDialog(getContext(), getString(R.string.please_contact_backoffice_to_update_qty));
+                            } else {
+                                binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
+                                binding.qty.getEditText().requestFocus();
+                            }
+                        } else {
+                            binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
+                            binding.qty.getEditText().requestFocus();
+                        }
+                    } else {
+                        binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
+                        binding.qty.getEditText().requestFocus();
+                    }
+                } else {
                     binding.barcodecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_barcode));
                     binding.barcodecodeEdt.getEditText().requestFocus();
                 }
-                if (qty.isEmpty()) {
-                    binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
-                    binding.qty.getEditText().requestFocus();
-                }
-                boolean addedBefore = receivingQty!=0;
-                if (addedBefore)
-                    warningDialog(getContext(),getString(R.string.please_contact_backoffice_to_update_qty));
-                if (!barcode.isEmpty()&&!qty.isEmpty()&&!addedBefore)
-                    warehouseViewModel.setrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, barcode, qty);
 
             }
         });
@@ -160,18 +177,19 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
 
         return binding.getRoot();
     }
-    int receivingQty;
+    int receivingQty,loadingQty;
     public void getdata() {
-        warehouseViewModel.getdataforrbarcode().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getdataforrbarcode().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 if (response.getResponseStatus().getIsSuccess()) {
+
                     binding.dataLayout.setVisibility(View.VISIBLE);
                     binding.locator.setText(response.getData().getLocatorDesc());
                     binding.parentdesc.setText(response.getData().getParentDescription());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
                     binding.totalSignOffQty.setText(response.getData().getTotalSignOutQty());
-                    binding.currentSignOutQty.setText(response.getData().getSignOutQty().toString());
+//                    binding.currentSignOutQty.setText(response.getData().getSignOutQty().toString());
                     binding.subInventory.setText(response.getData().getSubInventoryDesc());
                     binding.Joborderqtn.setText(response.getData().getJobOrderQty().toString());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
@@ -181,6 +199,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                         binding.handlingQty.setText("");
                     }
                     receivingQty = response.getData().getReceivingQty();
+                    loadingQty = response.getData().getLoadingQty();
                     if (!response.getData().getReceivingQty().equals(0)){
                         binding.qty.getEditText().setText(response.getData().getReceivingQty().toString());
                         binding.qty.getEditText().setEnabled(false);
@@ -205,7 +224,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
 
 
     private void subscribeRequest() {
-        warehouseViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
 //            switch (machinsignoffcases) {
 //                case Donesuccessfully:
 //                    Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
@@ -223,19 +242,35 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
             if (response!=null) {
                 String statusMessage = response.getStatusMessage();
                 if (response.getIsSuccess()) {
-                    showSuccessAlerter(statusMessage, getActivity());
-//                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-                    back(WarehouseFragment.this);
-                } else  {
-                    binding.barcodecodeEdt.setError(statusMessage);
-                    binding.barcodenewEdt.requestFocus();
-                }
-                }
-            else {
+                        showSuccessAlerter(statusMessage, getActivity());
+    //                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
+                        back(WarehouseFragment.this);
+                    } else  {
+                        binding.barcodecodeEdt.setError(statusMessage);
+                        binding.barcodenewEdt.requestFocus();
+                        binding.saveBtn.setEnabled(true);
+                    }
+
+                } else {
                 warningDialog(getContext(),getString(R.string.error_in_saving_data));
+                binding.saveBtn.setEnabled(true);
             }
         });
+        viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            switch (status){
+                case LOADING:
+                    progressDialog.show();
+                    break;
+                case ERROR:
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
+                case SUCCESS:
+                    progressDialog.hide();
+                    break;
 
+            }
+        });
     }
     @Override
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
@@ -244,7 +279,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
             @Override
             public void run() {
                 binding.barcodenewEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                warehouseViewModel.getrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodenewEdt.getText().toString());
+                viewModel.getrecivingbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodenewEdt.getText().toString());
 
 
             }
@@ -284,6 +319,7 @@ public class WarehouseFragment extends DaggerFragment implements BarcodeReader.B
                 e.printStackTrace();
             }
         }
+        changeTitle(getString(R.string.warehouse),(MainActivity) requireActivity());
     }
 
     @Override

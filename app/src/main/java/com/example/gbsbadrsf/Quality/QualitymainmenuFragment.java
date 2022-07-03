@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf.Quality;
 
+import static com.example.gbsbadrsf.MainActivity.userInfo;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 
 import android.os.Bundle;
@@ -11,13 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.gbsbadrsf.MainActivity;
+import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.databinding.FragmentQualitymainmenuBinding;
 
 
 public class QualitymainmenuFragment extends Fragment {
 
-    FragmentQualitymainmenuBinding fragmentQualitymainmenuBinding;
+    FragmentQualitymainmenuBinding binding;
 
 
     public QualitymainmenuFragment() {
@@ -40,19 +42,26 @@ public class QualitymainmenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentQualitymainmenuBinding = FragmentQualitymainmenuBinding.inflate(inflater,container,false);
+        binding = FragmentQualitymainmenuBinding.inflate(inflater,container,false);
         attachListeners();
-        return fragmentQualitymainmenuBinding.getRoot();
+        configureButtons();
+        return binding.getRoot();
+    }
+
+    private void configureButtons() {
+        binding.ManfacturingBtn.setEnabled(userInfo.getIsQcmanufaturing());
+        binding.weldingBtn.setEnabled(userInfo.getIsQcwelding());
+        binding.PaintBtn.setEnabled(userInfo.getIsQcpainting());
     }
 
     private void attachListeners() {
-        fragmentQualitymainmenuBinding.ManfacturingBtn.setOnClickListener(__ -> {
+        binding.ManfacturingBtn.setOnClickListener(__ -> {
             Navigation.findNavController(getView()).navigate(R.id.action_qualitymainmenuFragment_to_manfacturingqualityFragment);
         });
-        fragmentQualitymainmenuBinding.weldingBtn.setOnClickListener(__ -> {
+        binding.weldingBtn.setOnClickListener(__ -> {
             Navigation.findNavController(getView()).navigate(R.id.action_qualitymainmenuFragment_to_qualityweldingFragment);
         });
-        fragmentQualitymainmenuBinding.PaintBtn.setOnClickListener(__ -> {
+        binding.PaintBtn.setOnClickListener(__ -> {
             Navigation.findNavController(getView()).navigate(R.id.action_qualitymainmenuFragment_to_paintqualityFragment);
         });
       }

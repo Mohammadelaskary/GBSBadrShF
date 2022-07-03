@@ -31,14 +31,14 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class DisplayJobOrderDataFragment extends DaggerFragment {
+public class DisplayJobOrderDataFragment extends Fragment {
 
     private DisplayJobOrderDataViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
     public static DisplayJobOrderDataFragment newInstance() {
         return new DisplayJobOrderDataFragment();
@@ -54,7 +54,9 @@ public class DisplayJobOrderDataFragment extends DaggerFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(DisplayJobOrderDataViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(DisplayJobOrderDataViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DisplayJobOrderDataViewModel.class);
+
         progressDialog = loadingProgressDialog(getContext());
     }
 
@@ -78,9 +80,12 @@ public class DisplayJobOrderDataFragment extends DaggerFragment {
                 case LOADING:
                     progressDialog.show();
                     break;
-                case SUCCESS:
                 case ERROR:
                     progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
+                case SUCCESS:
+                    progressDialog.hide();
                     break;
             }
         });

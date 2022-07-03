@@ -11,6 +11,8 @@ public enum Usertype {
     Qcwelding ,
     Qcpainting,
     All,
+    WAREHOUSE_USER,
+    HANDLING_USER,
     wrongusernameorpassword,
     CONNECTION_ERROR
 }

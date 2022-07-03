@@ -22,6 +22,16 @@
             app:destination="@id/planningMenuFragment" />
         <action android:id="@+id/action_fragment_main_menu_to_fragment_change_base_url"
             app:destination="@id/changeIpFragment"/>
+        <action
+            android:id="@+id/action_mainmenuFragment_to_warehouseFragment"
+            app:destination="@id/warehouseFragment" />
+        <action
+            android:id="@+id/action_mainmenuFragment_to_handlingFragment"
+            app:destination="@id/countingFragment" />
+        <action
+            android:id="@+id/action_mainmenuFragment_to_fragment_manufacturing_basket_info"
+            app:destination="@id/fragment_manufacturing_basket_info" />
+
     </fragment>
 
     <fragment android:id="@+id/fragment_change_password"
@@ -63,12 +73,12 @@
         android:id="@+id/fragment_manufacturing_counting"
         android:label="fragment_manufacturing_counting"
         tools:layout="@layout/fragment_manufacturing_welding_counting"
-        android:name="com.example.gbsbadrsf.Manfacturing.Counting.ManufacturingCountingFragment"/>
+        android:name="com.example.gbsbadrsf.Handling.ManufacturingCounting.ManufacturingCountingFragment"/>
     <fragment
         android:id="@+id/fragment_welding_counting"
         android:label="fragment_welding_counting"
         tools:layout="@layout/fragment_manufacturing_welding_counting"
-        android:name="com.example.gbsbadrsf.welding.Counting.WeldingCountingFragment"/>
+        android:name="com.example.gbsbadrsf.Handling.WeldingCounting.WeldingCountingFragment"/>
     <fragment
         android:id="@+id/manfacturingmenuFragment"
         android:name="com.example.gbsbadrsf.Manfacturing.ManfacturingmenuFragment"
@@ -355,7 +365,16 @@
                 <action
                     android:id="@+id/action_signinFragment_to_planning"
                     app:destination="@id/planningMenuFragment" />
-
+<!--                <action-->
+<!--                    android:id="@+id/action_signinFragment_to_handlingMainMenuFragment"-->
+<!--                    app:destination="@id/handlingMainMenuFragment" />-->
+<!--                <action-->
+<!--                    android:id="@+id/action_signinFragment_to_warehouseMainMenuFragment"-->
+<!--                    app:destination="@id/warehouseMainMenuFragment" />-->
+                <action android:id="@+id/action_signinFragment_to_warehouseFragment"
+                    app:destination="@id/warehouseFragment"/>
+                <action android:id="@+id/action_signinFragment_to_countingFragment"
+                    app:destination="@id/countingFragment"/>
 
             </fragment>
     <fragment
@@ -938,7 +957,7 @@
     </fragment>
     <fragment
         android:id="@+id/countingFragment"
-        android:name="com.example.gbsbadrsf.warhouse.counting.CountingFragment"
+        android:name="com.example.gbsbadrsf.Handling.WarehouseCounting.CountingFragment"
         android:label="fragment_counting"
         tools:layout="@layout/fragment_counting" />
     <fragment
@@ -990,6 +1009,28 @@
         <action android:id="@+id/ppr_list_dialog_to_child_to_basket_fragment"
             app:destination="@id/child_to_basket_fragment"/>
     </dialog>
+    <fragment
+        android:id="@+id/warehouseMainMenuFragment"
+        android:name="com.example.gbsbadrsf.Warehouse.WarehouseMainMenuFragment"
+        android:label="fragment_warehouse_main_menu"
+        tools:layout="@layout/fragment_warehouse_main_menu" >
+        <action android:id="@+id/action_warehouseMainMenuFragment_to_items_receiving_fragment"
+            app:destination="@id/items_receiving_fragment"/>
+        <action android:id="@+id/action_warehouseMainMenuFragment_to_warehouseFragment"
+            app:destination="@id/warehouseFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/handlingMainMenuFragment"
+        android:name="com.example.gbsbadrsf.Handling.HandlingMainMenuFragment"
+        android:label="fragment_handling"
+        tools:layout="@layout/fragment_handling" >
+        <action android:id="@+id/action_warehouseMainMenuFragment_to_countingFragment"
+            app:destination="@id/countingFragment"/>
+        <action android:id="@+id/action_warehouseMainMenuFragment_to_fragment_manufacturing_counting"
+            app:destination="@id/fragment_manufacturing_counting"/>
+        <action android:id="@+id/action_warehouseMainMenuFragment_to_fragment_welding_counting"
+            app:destination="@id/fragment_welding_counting"/>
+    </fragment>
 </navigation>
 
 

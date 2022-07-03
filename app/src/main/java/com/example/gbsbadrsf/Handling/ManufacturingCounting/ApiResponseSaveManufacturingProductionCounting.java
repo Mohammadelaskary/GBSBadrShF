@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Manfacturing.Counting;
+package com.example.gbsbadrsf.Handling.ManufacturingCounting;
 
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.google.gson.annotations.Expose;

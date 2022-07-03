@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseSaveRandomQualityInception;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetInfoForQualityRandomInpection_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseSaveQualityRandomInpection_Welding;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -18,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class WeldingRandomQualityInceptionViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
     MutableLiveData<ApiResponseGetInfoForQualityRandomInpection_Welding> infoForQualityRandomInspectionLiveData;
@@ -27,11 +28,12 @@ public class WeldingRandomQualityInceptionViewModel extends ViewModel {
     MutableLiveData<ApiResponseSaveQualityRandomInpection_Welding> saveRandomQualityInceptionMutableLiveData;
     MutableLiveData<Status> saveRandomQualityInceptionMutableStatus;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public WeldingRandomQualityInceptionViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public WeldingRandomQualityInceptionViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         infoForQualityRandomInspectionLiveData = new MutableLiveData<>();
         infoForQualityRandomInspectionStatus = new MutableLiveData<>();

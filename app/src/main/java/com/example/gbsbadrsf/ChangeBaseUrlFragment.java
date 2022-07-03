@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityOperationViewModel;
@@ -51,17 +52,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class ChangeBaseUrlFragment extends DaggerFragment {
+public class ChangeBaseUrlFragment extends Fragment {
 
 
     private static final String MY_PREFS_NAME = "Database ip";
     public ChangeIpViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
     public ChangeBaseUrlFragment() {
         // Required empty public constructor
     }
@@ -195,7 +196,9 @@ public class ChangeBaseUrlFragment extends DaggerFragment {
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ChangeIpViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ChangeIpViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ChangeIpViewModel.class);
+
     }
 
 

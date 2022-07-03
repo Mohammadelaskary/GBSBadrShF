@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
@@ -24,7 +26,7 @@ import java.util.List;
 
 import dagger.android.support.DaggerFragment;
 
-public class PaintQualityDefectRepairFragment extends DaggerFragment implements SetOnPaintingRepairItemClicked, View.OnClickListener {
+public class PaintQualityDefectRepairFragment extends Fragment implements SetOnPaintingRepairItemClicked, View.OnClickListener {
 
 
 
@@ -73,7 +75,10 @@ public class PaintQualityDefectRepairFragment extends DaggerFragment implements 
         viewModel.getAddPaintingRepairQualityStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });

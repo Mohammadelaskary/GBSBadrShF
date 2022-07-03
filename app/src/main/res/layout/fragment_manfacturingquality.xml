@@ -31,75 +31,67 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="35dp">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/quality_operation_btn"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
+                style="@style/MenuButton"
                 android:backgroundTint="@color/appbarcolor"
                 android:text="@string/quality_operation"
                 app:cornerRadius="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/qualityrepair_btn"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/qualityrepair_btn"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
+                style="@style/MenuButton"
                 android:backgroundTint="@color/appbarcolor"
                 android:text="@string/quality_repair"
                 app:cornerRadius="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/rejection_request_btn"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/quality_operation_btn" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/productionscraprequest_btn"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
+                style="@style/MenuButton"
                 android:backgroundTint="@color/appbarcolor"
                 android:text="@string/assigned_rejection_requests"
                 app:cornerRadius="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/decline_rejection_request"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/random_quality_inspection" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/rejection_request_btn"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
+                style="@style/MenuButton"
                 android:backgroundTint="@color/appbarcolor"
                 android:text="@string/rejection_request"
                 app:cornerRadius="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/random_quality_inspection"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/qualityrepair_btn" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/random_quality_inspection"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
+                style="@style/MenuButton"
                 android:backgroundTint="@color/appbarcolor"
                 android:text="@string/random_quality_inspection"
                 app:cornerRadius="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/productionscraprequest_btn"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rejection_request_btn" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/decline_rejection_request"
-                style="@style/styleoftextinbtn"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
+                style="@style/MenuButton"
                 android:backgroundTint="@color/appbarcolor"
                 android:text="@string/committee_decision"
                 android:visibility="visible"

@@ -24,6 +24,7 @@ import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseQualityOk_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseQualityPass_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -50,16 +51,17 @@ public class PaintQualityOperationViewModel extends ViewModel {
     MutableLiveData<Status> status;
     MutableLiveData<ApiResponseDeletePaintingDefect> deleteWeldingDefectResponse;
     LastMovePaintingBasket basketData;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public PaintQualityOperationViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public PaintQualityOperationViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         basketDataLiveData = new MutableLiveData<>();
         basketDataStatus = new MutableLiveData<>();
         disposable = new CompositeDisposable();

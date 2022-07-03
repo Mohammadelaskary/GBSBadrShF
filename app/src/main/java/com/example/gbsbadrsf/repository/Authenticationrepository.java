@@ -10,11 +10,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class Authenticationrepository {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
-    @Inject
+//    @Inject
 
     public Authenticationrepository() {
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
     }
     public Single<APIResponseSignin<UserInfo>> Login(String username , String pass){
         return apiInterface.login(username, pass)

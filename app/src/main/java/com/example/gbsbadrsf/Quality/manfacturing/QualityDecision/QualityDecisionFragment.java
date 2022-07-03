@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -27,6 +29,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.Data.FinalQualityDecision;
 import com.example.gbsbadrsf.Quality.Data.GetCheck;
@@ -54,13 +57,13 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked, View.OnClickListener, BarcodeReader.BarcodeListener,
+public class QualityDecisionFragment extends Fragment implements SetOnQtyDefectedQtyDefectsItemClicked, View.OnClickListener, BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener,SetOnCheckItemChecked {
 
     FragmentQualityDesicionBinding binding;
     QualityDecisionViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     SetUpBarCodeReader setUpBarCodeReader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,8 +110,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseSaveCheckListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -116,8 +123,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseGetSavedCheckListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status==Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -125,8 +136,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseGetCheckListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
     ArrayList<GetCheck> checkList = new ArrayList<>();
@@ -148,8 +163,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getApiResponseGettingFinalQualityDecisionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status==Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -189,8 +208,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getSaveQualityOperationSignOffStatus().observe(getViewLifecycleOwner(),status -> {
             if (status==Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -237,8 +260,12 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getDefectsManufacturingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -248,7 +275,9 @@ public class QualityDecisionFragment extends DaggerFragment implements SetOnQtyD
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(QualityDecisionViewModel.class);
+        viewModel = new ViewModelProvider(this).get(QualityDecisionViewModel.class);
+
+//        viewModel = ViewModelProviders.of(this,provider).get(QualityDecisionViewModel.class);
     }
     int userId = USER_ID,operationId,childId,jobOrderId,lastMoveId,pprLoadingId,jobOrderQty;
     String deviceSerialNumber = DEVICE_SERIAL_NO,defectedQty;

@@ -9,6 +9,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.Model.Department;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.manfacturing.RejectionRequest.SaveRejectionRequestBody;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
@@ -48,11 +51,11 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class WeldingRejectionRequestFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener, WeldingDefectsListAdapter.SetOnItemClicked {
+public class WeldingRejectionRequestFragment extends Fragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener, WeldingDefectsListAdapter.SetOnItemClicked {
     private static final String GETTING_DATA_SUCCESSFULLY = "Data sent successfully";
     WeldingRejectionRequestViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public WeldingRejectionRequestFragment() {
         // Required empty public constructor
     }
@@ -121,8 +124,12 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         viewModel.getApiResponseSaveRejectionRequestStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -265,7 +272,10 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
         viewModel.getApiResponseDepartmentsListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -306,7 +316,9 @@ public class WeldingRejectionRequestFragment extends DaggerFragment implements V
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingRejectionRequestViewModel.class);
+
     }
     @Override
     public void onClick(View v) {

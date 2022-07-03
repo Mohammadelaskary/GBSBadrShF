@@ -9,8 +9,8 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -20,31 +20,24 @@ import android.widget.CheckBox;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.MachinesWIP;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentMainMachineWipBinding;
-import com.example.gbsbadrsf.productionsequence.SimpleDividerItemDecoration;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class MachineWipMainFragment extends DaggerFragment {
+public class MachineWipMainFragment extends Fragment {
     FragmentMainMachineWipBinding binding;
 
     public RecyclerView recyclerView;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     CheckBox checkBox;
 
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     MachinewipAdapter adapter;
     List<MachinesWIP> machinesWIPList;
     MachinewipViewModel viewModel;
@@ -59,7 +52,8 @@ public class MachineWipMainFragment extends DaggerFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMainMachineWipBinding.inflate(inflater, container, false);
-        viewModel = ViewModelProviders.of(this,provider).get(MachinewipViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(MachinewipViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MachinewipViewModel.class);
         viewModel.getmachinewip(USER_ID,DEVICE_SERIAL_NO);
         progressDialog = loadingProgressDialog(getContext());
         observeStatus();
@@ -74,8 +68,12 @@ public class MachineWipMainFragment extends DaggerFragment {
         viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS))
                 progressDialog.hide();
+            else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -108,6 +106,6 @@ public class MachineWipMainFragment extends DaggerFragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTitle("Manufacturing",(MainActivity) getActivity());
+        changeTitle(getString(R.string.manfacturing),(MainActivity) getActivity());
     }
 }

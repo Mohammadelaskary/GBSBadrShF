@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -20,7 +22,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
+import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsViewModel;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
 import com.example.gbsbadrsf.R;
@@ -41,7 +45,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ManufacturingAddDefectsFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked , BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class ManufacturingAddDefectsFragment extends Fragment implements SetOnQtyDefectedQtyDefectsItemClicked , BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     public static final String REMAINING_QTY = "remainingQty";
     public static final String NEW_BASKET_CODE = "basketCode";
     FragmentManufacturingAddDefectsBinding binding;
@@ -53,8 +57,8 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
     String basketCode;
 //    boolean newSample = false ;
     ManufacturingAddDefectsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;
     List<DefectsManufacturing> defectsManufacturingList = new ArrayList<>();
@@ -86,8 +90,12 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
         viewModel.getAddManufacturingDefectsToNewBasketStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -212,7 +220,9 @@ public class ManufacturingAddDefectsFragment extends DaggerFragment implements S
 
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ManufacturingAddDefectsViewModel.class);
+
+//        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsViewModel.class);
     }
 
     private void fillData() {

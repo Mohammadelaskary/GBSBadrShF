@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Model.ApiResponseGetJobOrderIssuedChilds;
 import com.example.gbsbadrsf.Model.ApiResponseTransferIssuedChildToBasket;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -16,7 +17,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ChildToBasketViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
     MutableLiveData<ApiResponseGetJobOrderIssuedChilds> jobOrdersIssuedChilds;
@@ -24,11 +25,12 @@ public class ChildToBasketViewModel extends ViewModel {
     MutableLiveData<Status> status;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ChildToBasketViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ChildToBasketViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         jobOrdersIssuedChilds = new MutableLiveData<>();
         transferIssuedChildToBasketResponse = new MutableLiveData<>();

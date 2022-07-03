@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Pprpaint;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -21,14 +22,15 @@ public class PaintstationViewModel extends ViewModel {
     MutableLiveData<List<Pprpaint>> paintsequenceResponse;
     MutableLiveData<Status> status;
 
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     private CompositeDisposable disposable;
-    @Inject
-    public PaintstationViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public PaintstationViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         paintsequenceResponse= new MutableLiveData<>();
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();

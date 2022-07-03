@@ -8,6 +8,8 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.Editable;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.WeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
@@ -40,14 +43,14 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class WeldingQualityRepairFragment extends DaggerFragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class WeldingQualityRepairFragment extends Fragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentWeldingQualityRepairBinding binding;
     List<WeldingDefect> defectsWeldingList = new ArrayList<>();
     WeldingQualityRepairQtyDefectsQtyAdapter adapter;
     public static WeldingQualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
     SetUpBarCodeReader barCodeReader;
     @Override
@@ -116,8 +119,12 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
         viewModel.getDefectsWeldingListStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
@@ -198,14 +205,19 @@ public class WeldingQualityRepairFragment extends DaggerFragment implements Barc
         viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, provider).get(WeldingQualityRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this, provider).get(WeldingQualityRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingQualityRepairViewModel.class);
+
     }
 
     LastMoveWeldingBasket basketData;

@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,6 +26,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.gbsbadrsf.Model.DefectsPerQty;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.AddManufacturingDefectData;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.Data.ManufacturingAddDefectsDetailsViewModel;
@@ -43,7 +46,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implements View.OnClickListener,SetOnManufacturingAddDefectDetailsButtonClicked {
+public class ManufacturingAddDefectDetailsFragment extends Fragment implements View.OnClickListener,SetOnManufacturingAddDefectDetailsButtonClicked {
 
 
 
@@ -66,8 +69,8 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     FragmentManufacturingAddDefectDetailsBinding binding;
     LastMoveManufacturingBasket basketData;
     ManufacturingAddDefectsDetailsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     List<Defect> allDefectsList = new ArrayList<>();
     DefectsListAdapter adapter;
@@ -141,7 +144,10 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         viewModel.getDefectsListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -154,7 +160,9 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsDetailsViewModel.class);;
+        viewModel = new ViewModelProvider(this).get(ManufacturingAddDefectsDetailsViewModel.class);
+
+//        viewModel = ViewModelProviders.of(this,provider).get(ManufacturingAddDefectsDetailsViewModel.class);;
     }
 
     private void fillData() {
@@ -280,7 +288,10 @@ public class ManufacturingAddDefectDetailsFragment extends DaggerFragment implem
         viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if ((status == Status.LOADING)) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });

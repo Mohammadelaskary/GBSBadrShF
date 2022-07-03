@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.paint.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
@@ -27,11 +30,11 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class PaintRejectionRequestDetailsFragment extends DaggerFragment implements View.OnClickListener {
+public class PaintRejectionRequestDetailsFragment extends Fragment implements View.OnClickListener {
     FragmentPaintRejectionRequestDetailsBinding binding;
     PaintRejectionRequestDetailsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     public PaintRejectionRequestDetailsFragment() {
     }
@@ -62,7 +65,9 @@ public class PaintRejectionRequestDetailsFragment extends DaggerFragment impleme
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(PaintRejectionRequestDetailsViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintRejectionRequestDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintRejectionRequestDetailsViewModel.class);
+
     }
 
     @Override
@@ -96,8 +101,12 @@ public class PaintRejectionRequestDetailsFragment extends DaggerFragment impleme
         viewModel.getRejectionRequestTakeActionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 

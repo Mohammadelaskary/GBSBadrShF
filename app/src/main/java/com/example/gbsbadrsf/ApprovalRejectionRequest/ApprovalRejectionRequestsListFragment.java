@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.ApprovalRejectionRequest;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -8,7 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -17,10 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.ApprovalRejectionRequestsListFragmentBinding;
-
-import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
@@ -28,8 +26,8 @@ public class ApprovalRejectionRequestsListFragment extends DaggerFragment implem
 
     public static final String REJECTION_REQUEST_ID = "rejection_request_id";
     private ApprovalRejectionRequestsListViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public static ApprovalRejectionRequestsListFragment newInstance() {
         return new ApprovalRejectionRequestsListFragment();
     }
@@ -44,7 +42,8 @@ public class ApprovalRejectionRequestsListFragment extends DaggerFragment implem
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(ApprovalRejectionRequestsListViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ApprovalRejectionRequestsListViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ApprovalRejectionRequestsListViewModel.class);
         progressDialog = MyMethods.loadingProgressDialog(getContext());
     }
 
@@ -55,10 +54,17 @@ public class ApprovalRejectionRequestsListFragment extends DaggerFragment implem
         viewModel.getRejectionRequests(USER_ID,DEVICE_SERIAL_NO);
         observeGettingRejectionRequestsList();
         observeGettingRejectionRequestsListStatus();
+        observeError();
+    }
+
+    private void observeError() {
+        viewModel.getError().observe(getViewLifecycleOwner(),throwable -> {
+            warningDialog(getContext(),getString(R.string.network_issue));
+        });
     }
 
     private void observeGettingRejectionRequestsListStatus() {
-        viewModel.getRejectionRequestListStatus.observe(getViewLifecycleOwner(),status -> {
+        viewModel.getGetRejectionRequestListStatus().observe(getViewLifecycleOwner(),status -> {
             switch (status){
                 case LOADING:
                     progressDialog.show();
@@ -72,16 +78,16 @@ public class ApprovalRejectionRequestsListFragment extends DaggerFragment implem
     }
 
     private void observeGettingRejectionRequestsList() {
-        viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestList -> {
+        viewModel.getGetRejectionRequestListLiveData().observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestList -> {
             if (apiResponseManufacturingRejectionRequestGetRejectionRequestList!=null){
                 String statusMessage = apiResponseManufacturingRejectionRequestGetRejectionRequestList.getResponseStatus().getStatusMessage();
                 if (apiResponseManufacturingRejectionRequestGetRejectionRequestList.getResponseStatus().getIsSuccess()){
                     adapter.setRejectionRequestList(apiResponseManufacturingRejectionRequestGetRejectionRequestList.getRejectionRequestList());
                 } else {
-                    MyMethods.warningDialog(getContext(),statusMessage);
+                    warningDialog(getContext(),statusMessage);
                 }
             } else
-                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 

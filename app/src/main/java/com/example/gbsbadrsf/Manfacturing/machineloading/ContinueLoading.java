@@ -3,7 +3,6 @@ package com.example.gbsbadrsf.Manfacturing.machineloading;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
-import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideKeyboard;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
@@ -13,8 +12,9 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentContinueLoadingBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
@@ -44,19 +43,15 @@ import com.honeywell.aidc.UnsupportedPropertyException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class ContinueLoading extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class ContinueLoading extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener{
 
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentContinueLoadingBinding binding;
     private BarcodeReader barcodeReader;
-    private ContinueLoadingViewModel continueLoadingViewModel;
+    private ContinueLoadingViewModel viewModel;
     ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +63,8 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
+//        continueLoadingViewModel = ViewModelProviders.of(this, providerFactory).get(ContinueLoadingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ContinueLoadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
         progressDialog = loadingProgressDialog(getContext());
        binding.basketcodeEdt.getEditText().setOnKeyListener(new View.OnKeyListener() {
@@ -81,7 +77,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                    if (basketCode.isEmpty())
                        binding.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                    else
-                       continueLoadingViewModel.getbasketedata(USER_ID, DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString());
+                       viewModel.getbasketedata(USER_ID, DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString());
                    return true;
                }
                return false;
@@ -142,7 +138,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                                 &&!(dieCode.isEmpty()&&requiredDieId!=0)
 //                        && !loadingQty.isEmpty()&&containsOnlyDigits(loadingQty)&&Integer.parseInt(loadingQty)<=qty&&Integer.parseInt(loadingQty)>0
                 )
-                continueLoadingViewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, basketCode, machineCode, dieCode,String.valueOf(qty));
+                viewModel.savecontinueloading(USER_ID,DEVICE_SERIAL_NO, basketCode, machineCode, dieCode,String.valueOf(qty));
 
             }
         });
@@ -189,7 +185,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
     }
 
     private void observeSavingData() {
-        continueLoadingViewModel.getResponseLiveData().observe(getViewLifecycleOwner(),responseStatus -> {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
             if (responseStatus!=null){
                 String statusMessage = responseStatus.getStatusMessage();
                 switch (statusMessage){
@@ -272,10 +268,13 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
     }
 
     private void observeGettingData() {
-        continueLoadingViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status.equals(Status.LOADING)) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -284,7 +283,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
     int qty;
     int requiredDieId = 0;
     public void getdata() {
-        continueLoadingViewModel.getLastmanfacturingbasketinfo().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getLastmanfacturingbasketinfo().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 if (response.getData()!=null) {
@@ -318,7 +317,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
         });
     }
     private void subscribeRequest() {
-        continueLoadingViewModel.getBasketcases().observe(getViewLifecycleOwner(), new Observer<Basketcases>() {
+        viewModel.getBasketcases().observe(getViewLifecycleOwner(), new Observer<Basketcases>() {
             @Override
             public void onChanged(Basketcases basketcases) {
                 switch (basketcases) {
@@ -384,7 +383,7 @@ public class ContinueLoading extends DaggerFragment implements BarcodeReader.Bar
                     if (scannedText.isEmpty())
                         binding.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     else
-                        continueLoadingViewModel.getbasketedata(USER_ID, DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString());
+                        viewModel.getbasketedata(USER_ID, DEVICE_SERIAL_NO, binding.basketcodeEdt.getEditText().getText().toString());
                 }
                 hideKeyboard(getActivity());
             }

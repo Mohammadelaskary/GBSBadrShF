@@ -7,6 +7,7 @@ import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.MachinesWIP;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -22,18 +23,18 @@ public class WeldingvieModel extends ViewModel {
     MutableLiveData<ApiResponseStationwip<List<StationsWIP>>> weldingwipResponse;
     MutableLiveData<Status> status;
 
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     private CompositeDisposable disposable;
-    @Inject
-    public WeldingvieModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public WeldingvieModel() {
+//        this.gson = gson;
         weldingwipResponse= new MutableLiveData<>();
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();
-
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
 
     }
 

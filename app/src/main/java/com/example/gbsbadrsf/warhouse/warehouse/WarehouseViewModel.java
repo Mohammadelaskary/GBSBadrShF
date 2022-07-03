@@ -10,6 +10,7 @@ import com.example.gbsbadrsf.data.response.CountingData;
 import com.example.gbsbadrsf.data.response.CountingDataRecivingdata;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -19,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiConsumer;
 
 public class WarehouseViewModel extends ViewModel {
-    Gson gson;
+//    Gson gson;
     private MutableLiveData<ResponseStatus> responseLiveData ;
     private MutableLiveData<ApiGetRecivingData<CountingDataRecivingdata>>countingDatafrombarcode;
 
@@ -27,12 +28,13 @@ public class WarehouseViewModel extends ViewModel {
 
 
     private MutableLiveData<Status> status;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable = new CompositeDisposable();
-    @Inject
-    public WarehouseViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public WarehouseViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         countingDatafrombarcode=new MutableLiveData<>();
         machinesignoffcases=new MutableLiveData<>(Machinsignoffcases.fake);

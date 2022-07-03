@@ -1,27 +1,20 @@
-package com.example.gbsbadrsf.warhouse.counting;
-
-import android.content.Context;
+package com.example.gbsbadrsf.Handling.WarehouseCounting;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.Machinsignoffcases;
 import com.example.gbsbadrsf.data.response.ApiGetCountingData;
-import com.example.gbsbadrsf.data.response.ApiSavePaintloading;
 import com.example.gbsbadrsf.data.response.CountingData;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
-import com.example.gbsbadrsf.welding.machineloadingwe.Typesofsavewelding;
-import com.google.gson.Gson;
-
-import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.BiConsumer;
 
 public class CountingViewModel extends ViewModel {
-    Gson gson;
+//    Gson gson;
     private MutableLiveData<ResponseStatus> responseLiveData ;
     private MutableLiveData<ApiGetCountingData<CountingData>>countingDatafrombarcode;
 
@@ -29,12 +22,13 @@ public class CountingViewModel extends ViewModel {
 
 
     private MutableLiveData<Status> status;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable = new CompositeDisposable();
-    @Inject
-    public CountingViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public CountingViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         countingDatafrombarcode=new MutableLiveData<>();
         machinesignoffcases=new MutableLiveData<>(Machinsignoffcases.fake);

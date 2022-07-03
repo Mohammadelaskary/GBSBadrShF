@@ -13,33 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.ProductionDefectRepairFragment;
-import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.QualityRepair.SetOnPaintingRepairItemClicked;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintProductionDefectRepairBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class PaintProductionDefectRepairFragment extends DaggerFragment implements SetOnPaintingRepairItemClicked, View.OnClickListener {
+public class PaintProductionDefectRepairFragment extends Fragment implements SetOnPaintingRepairItemClicked, View.OnClickListener {
 
 
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     PaintProductionDefectRepairViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public PaintProductionDefectRepairFragment() {
         // Required empty public constructor
     }
@@ -82,7 +77,10 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
         viewModel.getAddPaintingRepairProductionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)){
+                warningDialog(getContext(),getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -107,7 +105,9 @@ public class PaintProductionDefectRepairFragment extends DaggerFragment implemen
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(PaintProductionDefectRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintProductionDefectRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintProductionDefectRepairViewModel.class);
+
     }
 
     private void attachButtonToListener() {

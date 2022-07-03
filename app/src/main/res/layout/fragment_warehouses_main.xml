@@ -7,8 +7,7 @@
     tools:context=".warhouse.WarehousesMain">
     <com.google.android.material.button.MaterialButton
         android:id="@+id/counting_btn"
-        android:layout_width="240dp"
-        android:layout_height="70dp"
+        style="@style/MenuButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,21 +16,20 @@
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"
         android:text="@string/counting"
-        style="@style/styleoftextinbtn"
 
         />
     <com.google.android.material.button.MaterialButton
         android:id="@+id/warehousereciving_btn"
-        android:layout_width="240dp"
-        android:layout_height="70dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counting_btn"
+
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/appbarcolor"
         app:cornerRadius="25dp"
         android:text="@string/warehouse_receiving"
-        style="@style/styleoftextinbtn"
+        style="@style/MenuButton"
 
         />
 

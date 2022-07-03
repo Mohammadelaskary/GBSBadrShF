@@ -13,7 +13,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,18 +22,13 @@ import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.RejectionRequestClosingFragmentBinding;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class RejectionRequestClosingFragment extends DaggerFragment implements View.OnClickListener {
+public class RejectionRequestClosingFragment extends Fragment implements View.OnClickListener {
 
     private RejectionRequestClosingViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public static RejectionRequestClosingFragment newInstance() {
         return new RejectionRequestClosingFragment();
     }
@@ -47,7 +43,8 @@ public class RejectionRequestClosingFragment extends DaggerFragment implements V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(RejectionRequestClosingViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(RejectionRequestClosingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(RejectionRequestClosingViewModel.class);
         progressDialog = loadingProgressDialog(getContext());
     }
 
@@ -84,8 +81,11 @@ public class RejectionRequestClosingFragment extends DaggerFragment implements V
                 case LOADING:
                     progressDialog.show(); break;
                 case SUCCESS:
+                    progressDialog.hide();
+                    break;
                 case ERROR:
                     progressDialog.hide();
+                    warningDialog(getContext(),getString(R.string.network_issue));
                     break;
             }
         });

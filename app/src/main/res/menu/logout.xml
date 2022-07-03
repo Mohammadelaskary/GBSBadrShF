@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/logout"
-        android:title="Logout"
+        android:title="@string/logout"
         android:enabled="true"
         app:showAsAction="always"/>
     <item android:id="@+id/change_password"
-        android:title="Change password"
+        android:title="@string/change_password"
         android:enabled="true"
         app:showAsAction="never"/>
 </menu>

@@ -1,5 +1,6 @@
 package com.example.gbsbadrsf;
 
+import static com.example.gbsbadrsf.MainActivity.userInfo;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
 
 import android.os.Bundle;
@@ -11,12 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.gbsbadrsf.databinding.FragmentMainmenuBinding;
 import com.example.gbsbadrsf.databinding.FragmentProductionMenuBinding;
 
 
 public class ProductionMenuFragment extends Fragment {
- FragmentProductionMenuBinding fragmentProductionMenuBinding;
+ FragmentProductionMenuBinding binding;
 
     public ProductionMenuFragment() {
         // Required empty public constructor
@@ -37,29 +37,36 @@ public class ProductionMenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentProductionMenuBinding = FragmentProductionMenuBinding.inflate(inflater,container,false);
+        binding = FragmentProductionMenuBinding.inflate(inflater,container,false);
         attachListeners();
-        return fragmentProductionMenuBinding.getRoot();
+        configureButtons();
+        return binding.getRoot();
 
     }
 
+    private void configureButtons() {
+        binding.ManfacturingBtn.setEnabled(userInfo.getIsProductionManufaturing());
+        binding.weldingBtn.setEnabled(userInfo.getIsProductionWelding());
+        binding.PaintBtn.setEnabled(userInfo.getIsProductionPainting());
+    }
+
     private void attachListeners() {
-        fragmentProductionMenuBinding.ManfacturingBtn.setOnClickListener(__ -> {
+        binding.ManfacturingBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_productionMenuFragment_to_manfacturingmenuFragment);
 
         });
-        fragmentProductionMenuBinding.weldingBtn.setOnClickListener(__ -> {
+        binding.weldingBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_productionMenuFragment_to_weldingMenuFragment);
 
         });
-        fragmentProductionMenuBinding.PaintBtn.setOnClickListener(__ -> {
+        binding.PaintBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_productionMenuFragment_to_paintMenuFragment);
 
         });
-        fragmentProductionMenuBinding.WarehouseBtn.setOnClickListener(__ -> {
+        binding.WarehouseBtn.setOnClickListener(__ -> {
 
             Navigation.findNavController(getView()).navigate(R.id.action_productionMenuFragment_to_mainwarehousefragment);
 

@@ -20,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiConsumer;
 
 public class MachineloadingViewModel extends ViewModel {
-    Gson gson;
+//    Gson gson;
     Productionsequencerepository repository;
     private MutableLiveData<ResponseStatus> responseLiveData ;
     private MutableLiveData<typesosavedloading> typesosavedloading;
@@ -30,15 +30,15 @@ public class MachineloadingViewModel extends ViewModel {
 
     private CompositeDisposable disposable = new CompositeDisposable();
     String pass;
-    @Inject
-    public MachineloadingViewModel(Productionsequencerepository productionsequencerepository, Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public MachineloadingViewModel() {
+//        this.gson = gson;
         responseLiveData = new MutableLiveData<>();
         typesosavedloading = new MutableLiveData<>(com.example.gbsbadrsf.machineloading.typesosavedloading.test);
 
         status = new MutableLiveData<>(Status.IDLE);
 
-        this.repository=productionsequencerepository;
+        this.repository=new Productionsequencerepository();
     }
     void savefirstloading(int UserId,String DeviceSerialNo,int LoadingSequenceID,String MachineCode,String DieCode,String  LoadingQtyMobile){
         disposable.add(repository.SaveLoadingsequenceinfo(UserId,DeviceSerialNo,LoadingSequenceID,MachineCode,DieCode,LoadingQtyMobile)

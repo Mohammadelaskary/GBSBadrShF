@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.QualityRepair;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.EXISTING_BASKET_CODE;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
@@ -13,9 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
 import com.example.gbsbadrsf.Quality.paint.ViewModel.PaintQualityRepairViewModel;
@@ -37,14 +41,14 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class PaintQualityRepairFragment extends DaggerFragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class PaintQualityRepairFragment extends Fragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentWeldingQualityRepairBinding binding;
     List<PaintingDefect> defectsPaintingList = new ArrayList<>();
     PaintQualityRepairQtyDefectsQtyAdapter adapter;
     public static PaintQualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
     SetUpBarCodeReader barCodeReader;
     @Override
@@ -113,8 +117,12 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         viewModel.getDefectsPaintingListStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
@@ -193,14 +201,19 @@ public class PaintQualityRepairFragment extends DaggerFragment implements Barcod
         viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, provider).get(PaintQualityRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this, provider).get(PaintQualityRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintQualityRepairViewModel.class);
+
     }
 
     LastMovePaintingBasket basketData;

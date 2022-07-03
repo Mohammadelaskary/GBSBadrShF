@@ -1,5 +1,8 @@
 package com.example.gbsbadrsf.welding.weldingsignoff;
 
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
+
 import android.content.Context;
 
 import androidx.lifecycle.MutableLiveData;
@@ -13,6 +16,7 @@ import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Stationcodeloading;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.repository.WeldingSignoffrepository;
 import com.google.gson.Gson;
@@ -23,9 +27,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiConsumer;
 
 public class SignoffweViewModel extends ViewModel {
-    @Inject
-    Gson gson;
-@Inject
+//    @Inject
+//    Gson gson;
+//@Inject
     ApiInterface apiInterface;
     WeldingSignoffrepository repository;
 
@@ -39,9 +43,9 @@ public class SignoffweViewModel extends ViewModel {
 
 
     private CompositeDisposable disposable;
-    @Inject
-    public SignoffweViewModel(Gson gson,WeldingSignoffrepository weldingSignoffrepository) {
-        this.gson = gson;
+//    @Inject
+    public SignoffweViewModel() {
+//        this.gson = gson;
         stationcodeloadingMutableLiveData= new MutableLiveData<>();
         disposable = new CompositeDisposable();
         responseLiveData = new MutableLiveData<>();
@@ -50,7 +54,8 @@ public class SignoffweViewModel extends ViewModel {
         getStationData = new MutableLiveData<>();
         saveSignOffResponse = new MutableLiveData<>();
         checkBasketEmpty = new MutableLiveData<>();
-        this.repository=weldingSignoffrepository;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
+        this.repository=new WeldingSignoffrepository();
 
 
 
@@ -76,8 +81,8 @@ public class SignoffweViewModel extends ViewModel {
                 }));
 
     }
-    void checkBasketEmpty(String basketCode){
-        disposable.add(apiInterface.checkBasketStatus(basketCode)
+    void checkBasketEmpty(String basketCode,String parentId,String childId,String jobOrderId,String operationId){
+        disposable.add(apiInterface.checkBasketStatus(USER_ID,DEVICE_SERIAL_NO,basketCode,parentId,childId,jobOrderId,operationId)
                 .doOnSubscribe(__ -> status.postValue(Status.LOADING))
                 .subscribe((response, throwable) -> {
                     checkBasketEmpty.postValue(response.getResponseStatus());

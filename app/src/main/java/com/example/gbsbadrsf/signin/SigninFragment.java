@@ -1,44 +1,44 @@
 package com.example.gbsbadrsf.signin;
 
+import static com.example.gbsbadrsf.MainActivity.refreshUi;
+import static com.example.gbsbadrsf.MainActivity.userInfo;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.hideToolBar;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showToolBar;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
-import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.Util.LocaleHelper;
+import com.example.gbsbadrsf.data.response.APIResponseSignin;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.databinding.FragmentSigninBinding;
 
-import javax.inject.Inject;
+import java.util.Locale;
 
-import dagger.android.support.DaggerFragment;
-
-public class SigninFragment extends DaggerFragment {
+public class SigninFragment extends Fragment {
     FragmentSigninBinding fragmentSigninBinding;
-    @Inject
-    ViewModelProviderFactory providerFactory;
+//    @Inject
+//    ViewModelProviderFactory providerFactory;
     //private LoadingDialog dialog;
-    SignInViewModel signinviewmodel;
+    SignInViewModel viewModel;
     ProgressDialog progressDialog;
     public static int USER_ID = -1;
 
@@ -67,10 +67,11 @@ public class SigninFragment extends DaggerFragment {
         fragmentSigninBinding = FragmentSigninBinding.inflate(inflater, container, false);
 
         //attachListeners();
-        signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
+//        signinviewmodel = ViewModelProviders.of(this, providerFactory).get(SignInViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
         progressDialog = loadingProgressDialog(getContext());
         observeSignInStatus();
-        obderveUserId();
+//        obderveUserId();
         observereUserName();
         subscribeRequest();
         fragmentSigninBinding.loginBtn.setOnClickListener(v -> {
@@ -85,20 +86,51 @@ public class SigninFragment extends DaggerFragment {
                         && fragmentSigninBinding.passwordedittext.getText().toString().equals("admin")){
                     Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_change_ip);
                 } else {
-                    signinviewmodel.login(fragmentSigninBinding.UsernameNewedttxt.getText().toString(),
+                    viewModel.login(fragmentSigninBinding.UsernameNewedttxt.getText().toString(),
                             fragmentSigninBinding.passwordedittext.getText().toString());
                 }
             }
 
         });
+        currentLang = LocaleHelper.getLanguage(getContext());
+        defaultLanguage = Locale.getDefault().getLanguage();
+        fragmentSigninBinding.language.setOnClickListener(v->{
+            if (currentLang.equals("ar")) {
+                LocaleHelper.setLocale(getContext(),"en");
+                refreshUi((MainActivity) getActivity());
+            } else if (currentLang.equals("en")){
+                LocaleHelper.setLocale(getContext(),"ar");
+                refreshUi((MainActivity) getActivity());
+            }
+            refreshUi((MainActivity) getActivity());
+        });
         return fragmentSigninBinding.getRoot();
 
     }
-
+    private String defaultLanguage,currentLang;
+    private void handleLanguageButton() {
+        Log.d("language",currentLang+" lang");
+        if (defaultLanguage.equals("ar")) {
+            fragmentSigninBinding.language.setText("E");
+        } else if (currentLang.equals("en")){
+            fragmentSigninBinding.language.setText("ع");
+        }
+    }
     private void observereUserName() {
-        signinviewmodel.getUserName().observe(getViewLifecycleOwner(),userName->MainActivity.USER_NAME = userName);
+        viewModel.getUserName().observe(getViewLifecycleOwner(), userName->MainActivity.USER_NAME = userName);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        observeSignInError();
+    }
+
+    private void observeSignInError() {
+        viewModel.getSignInError().observe(getViewLifecycleOwner(),throwable -> {
+            warningDialog(getContext(),getString(R.string.network_issue));
+        });
+    }
 
     @Override
     public void onResume() {
@@ -107,7 +139,7 @@ public class SigninFragment extends DaggerFragment {
     }
 
     private void obderveUserId() {
-        signinviewmodel.getUserId().observe(getViewLifecycleOwner(),userId->USER_ID=userId);
+        viewModel.getUserId().observe(getViewLifecycleOwner(), userId->USER_ID=userId);
 
     }
 
@@ -120,52 +152,81 @@ public class SigninFragment extends DaggerFragment {
     }
 
     private void observeSignInStatus() {
-        signinviewmodel.getStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status.equals(Status.LOADING)) progressDialog.show();
-            else progressDialog.dismiss();
+            else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
     private void subscribeRequest() {
-        signinviewmodel.getUsertype().observe(getViewLifecycleOwner(), new Observer<Usertype>() {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), new Observer<APIResponseSignin<UserInfo>>() {
             @Override
-            public void onChanged(Usertype usertype) {
-                switch (usertype)
-                {
-                    case All:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
-                        break;
-                    case wrongusernameorpassword:
-                        warningDialog(getContext(),getString(R.string.wrong_username_or_password));
-                        break;
-                    case ProductionUser:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
-                        break;
-                    case QualityControlUser:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qc);
-                        break;
-                    case Qcmanufaturing:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcmanfacturing);
-                        break;
-                    case Qcwelding:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcwelding);
-                        break;
-                    case Qcpainting:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcpainting);
-                        break;
-                    case ProductionManufaturing:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionmanfacturing);
-                        break;
-                    case ProductionWelding:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionwelding);
-                        break;
-                    case ProductionPainting:
-                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionpainting);
-                        break;
-                    case CONNECTION_ERROR:
-                        warningDialog(getContext(),getString(R.string.error_in_getting_data));
-                        break;
+            public void onChanged(APIResponseSignin<UserInfo> responseSignin) {
+//                if (userInfo != Usertype.wrongusernameorpassword)
+//                    Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
+//                else {
+//                    warningDialog(getContext(),getString(R.string.wrong_username_or_password));
+//                }
+                if (responseSignin!=null){
+                    if (responseSignin.getResponseStatus().getIsSuccess()){
+                        showSuccessAlerter(responseSignin.getResponseStatus().getStatusMessage(),getActivity());
+                        MainActivity.userInfo = responseSignin.getData();
+                        USER_ID = userInfo.getUserId();
+                        Navigation.findNavController(requireView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
+                    } else {
+                        warningDialog(getContext(),responseSignin.getResponseStatus().getStatusMessage());
+                    }
+                } else {
+                    warningDialog(getContext(),getString(R.string.error_in_getting_data));
                 }
+
+//                switch (usertype)
+//                {
+//                    case All:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_mainmenuFragment);
+//                        break;
+//                    case wrongusernameorpassword:
+//                        warningDialog(getContext(),getString(R.string.wrong_username_or_password));
+//                        break;
+//                    case ProductionUser:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_production);
+//                        break;
+//                    case QualityControlUser:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qc);
+//                        break;
+//                    case Qcmanufaturing:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcmanfacturing);
+//                        break;
+//                    case Qcwelding:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcwelding);
+//                        break;
+//                    case Qcpainting:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_Qcpainting);
+//                        break;
+//                    case ProductionManufaturing:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionmanfacturing);
+//                        break;
+//                    case ProductionWelding:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionwelding);
+//                        break;
+//                    case ProductionPainting:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_productionpainting);
+//                        break;
+//                    case WAREHOUSE_USER:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_warehouseFragment);
+//                        break;
+//                    case HANDLING_USER:
+//                        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_countingFragment);
+//                        break;
+//                    case CONNECTION_ERROR:
+//                        warningDialog(getContext(),getString(R.string.error_in_getting_data));
+//                        break;
+//                }
             }
         });
     }

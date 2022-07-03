@@ -16,27 +16,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.PprWipPaint;
 import com.example.gbsbadrsf.databinding.FragmentPaintSignOffBinding;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-public class PaintSignOffFragment extends DaggerFragment {
+public class PaintSignOffFragment extends Fragment {
 
     private PaintSignOffViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     private ProgressDialog progressDialog;
 
     public static PaintSignOffFragment newInstance() {
@@ -53,7 +47,9 @@ public class PaintSignOffFragment extends DaggerFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(PaintSignOffViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintSignOffViewModel.class);
+
+
         progressDialog = loadingProgressDialog(getContext());
     }
 
@@ -62,6 +58,7 @@ public class PaintSignOffFragment extends DaggerFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(PaintSignOffViewModel.class);
         getReceivedDate();
         binding.signOff.setOnClickListener(v->viewModel.ProductionSignOff_Painting(USER_ID,DEVICE_SERIAL_NO,pprWipPaint.getLoadingSequenceID()));
         observeProductionSignOff();
@@ -75,6 +72,9 @@ public class PaintSignOffFragment extends DaggerFragment {
                     progressDialog.show();
                     break;
                 case ERROR:
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    progressDialog.dismiss();
+                    break;
                 case SUCCESS:
                     progressDialog.dismiss();
                     break;

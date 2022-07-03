@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionDefectRepairViewModel;
 import com.example.gbsbadrsf.Production.Data.SetOnRepairItemClicked;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
@@ -37,13 +40,13 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class ProductionDefectRepairFragment extends DaggerFragment implements SetOnRepairItemClicked, View.OnClickListener {
+public class ProductionDefectRepairFragment extends Fragment implements SetOnRepairItemClicked, View.OnClickListener {
 
 
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     ProductionDefectRepairViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public ProductionDefectRepairFragment() {
         // Required empty public constructor
     }
@@ -87,7 +90,10 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
         viewModel.getAddManufacturingRepairProductionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -121,7 +127,9 @@ public class ProductionDefectRepairFragment extends DaggerFragment implements Se
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ProductionDefectRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ProductionDefectRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductionDefectRepairViewModel.class);
+
     }
 
     private void attachButtonToListener() {

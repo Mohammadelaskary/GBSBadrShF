@@ -11,7 +11,9 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,17 +57,17 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class WeldingSequence extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class WeldingSequence extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener,WeldingsequenceAdapter.onWeldingCheckedChangedListener {
     private static final String PPR_WELDING = "welding_ppr";
     FragmentWeldingSequenceBinding binding;
     public RecyclerView recyclerView;
     private BarcodeReader barcodeReader;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     WeldingsequenceAdapter adapter;
     List<PprWelding> Weldingsequenceresponse;
     WeldingsequenceViewModel viewModel;
@@ -86,8 +88,11 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
             StrictMode.setThreadPolicy(policy);
         }
 
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingsequenceViewModel.class);
-        infoForSelectedStationViewModel = ViewModelProviders.of(this,provider).get(InfoForSelectedStationViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingsequenceViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingsequenceViewModel.class);
+        infoForSelectedStationViewModel = new ViewModelProvider(this).get(InfoForSelectedStationViewModel.class);
+
+//        infoForSelectedStationViewModel = ViewModelProviders.of(this,provider).get(InfoForSelectedStationViewModel.class);
         observeGettingData();
 
         barcodeReader = MainActivity.getBarcodeObject();
@@ -179,14 +184,22 @@ public class WeldingSequence extends DaggerFragment implements BarcodeReader.Bar
         viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
         infoForSelectedStationViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 

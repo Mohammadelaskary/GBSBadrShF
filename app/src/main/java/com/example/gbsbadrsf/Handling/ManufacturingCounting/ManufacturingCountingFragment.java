@@ -1,11 +1,18 @@
-package com.example.gbsbadrsf.welding.Counting;
+package com.example.gbsbadrsf.Handling.ManufacturingCounting;
 
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -13,37 +20,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
-
-import com.example.gbsbadrsf.Manfacturing.Counting.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.FragmentManufacturingWeldingCountingBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class WeldingCountingFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener,
+public class ManufacturingCountingFragment extends Fragment implements View.OnClickListener, BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     ProgressDialog progressDialog;
-    private WeldingCountingViewModel viewModel;
+    private ManufacturingCountingViewModel viewModel;
     private SetUpBarCodeReader barCodeReader;
 
-    public static WeldingCountingFragment newInstance() {
-        return new WeldingCountingFragment();
+    public static ManufacturingCountingFragment newInstance() {
+        return new ManufacturingCountingFragment();
     }
-    private FragmentManufacturingWeldingCountingBinding binding;
+    private com.example.gbsbadrsf.databinding.FragmentManufacturingWeldingCountingBinding binding;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -54,7 +51,8 @@ public class WeldingCountingFragment extends DaggerFragment implements View.OnCl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, providerFactory).get(WeldingCountingViewModel.class);
+//        viewModel = ViewModelProviders.of(this, providerFactory).get(ManufacturingCountingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ManufacturingCountingViewModel.class);
         barCodeReader = new SetUpBarCodeReader(this,this);
         progressDialog = MyMethods.loadingProgressDialog(getContext());
     }
@@ -78,7 +76,7 @@ public class WeldingCountingFragment extends DaggerFragment implements View.OnCl
                     if (!basketCode.isEmpty()){
                         viewModel.getBasketData(basketCode);
                     } else
-                        warningDialog(getContext(),getString(R.string.error_in_getting_data));
+                        warningDialog(getContext(),getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     return true;
                 }
                 return false;
@@ -91,12 +89,12 @@ public class WeldingCountingFragment extends DaggerFragment implements View.OnCl
     }
 
     private void observeSavingQty() {
-        viewModel.getSaveWeldingCount().observe(getViewLifecycleOwner(), apiResponseSaveManufacturingProductionCounting -> {
+        viewModel.getSaveManufacturingCount().observe(getViewLifecycleOwner(),apiResponseSaveManufacturingProductionCounting -> {
             if (apiResponseSaveManufacturingProductionCounting!=null){
                 String statusMessage = apiResponseSaveManufacturingProductionCounting.getResponseStatus().getStatusMessage();
                 if (apiResponseSaveManufacturingProductionCounting.getResponseStatus().getIsSuccess()){
                     showSuccessAlerter(statusMessage,getActivity());
-                    back(WeldingCountingFragment.this);
+                    back(ManufacturingCountingFragment.this);
                 } else {
                     warningDialog(getContext(),statusMessage);
                 }
@@ -149,7 +147,10 @@ public class WeldingCountingFragment extends DaggerFragment implements View.OnCl
                     progressDialog.show();
                     break;
                 case SUCCESS:
+                    progressDialog.dismiss();
+                    break;
                 case ERROR:
+                    warningDialog(getContext(),getString(R.string.network_issue));
                     progressDialog.dismiss();
                     break;
             }
@@ -161,7 +162,7 @@ public class WeldingCountingFragment extends DaggerFragment implements View.OnCl
             if (apiResponseGetBasketInfo_manufacturingProductionCounting!=null){
                 String statusMessage = apiResponseGetBasketInfo_manufacturingProductionCounting.getResponseStatus().getStatusMessage();
                 if (apiResponseGetBasketInfo_manufacturingProductionCounting.getResponseStatus().getIsSuccess()){
-                    fillBasketData(apiResponseGetBasketInfo_manufacturingProductionCounting.getLastMoveWeldingBasketInfo());
+                    fillBasketData(apiResponseGetBasketInfo_manufacturingProductionCounting.getLastMoveManufacturingBasketInfo());
                 } else {
                     binding.basketCode.setError(statusMessage);
                     binding.dataLayout.setVisibility(View.GONE);
@@ -173,12 +174,12 @@ public class WeldingCountingFragment extends DaggerFragment implements View.OnCl
         });
     }
 
-    private void fillBasketData(LastMoveWeldingBasketInfo lastMoveWeldingBasketInfo) {
+    private void fillBasketData(LastMoveManufacturingBasketInfo lastMoveManufacturingBasketInfo) {
         binding.dataLayout.setVisibility(View.VISIBLE);
-        binding.childDesc.setText(lastMoveWeldingBasketInfo.getParentDescription());
-        binding.jobordernum.setText(lastMoveWeldingBasketInfo.getJobOrderName());
-        binding.jobOrderQty.setText(lastMoveWeldingBasketInfo.getJobOrderQty().toString());
-        binding.currentSignOffQty.setText(lastMoveWeldingBasketInfo.getQty().toString());
+        binding.childDesc.setText(lastMoveManufacturingBasketInfo.getChildDescription());
+        binding.jobordernum.setText(lastMoveManufacturingBasketInfo.getJobOrderName());
+        binding.jobOrderQty.setText(lastMoveManufacturingBasketInfo.getJobOrderQty().toString());
+        binding.currentSignOffQty.setText(lastMoveManufacturingBasketInfo.getQty().toString());
     }
 
     @Override

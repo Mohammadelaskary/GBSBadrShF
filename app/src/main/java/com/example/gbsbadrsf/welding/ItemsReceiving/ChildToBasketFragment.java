@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.welding.ItemsReceiving;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -9,6 +10,7 @@ import static com.example.gbsbadrsf.welding.ItemsReceiving.PprAdapter.PPR;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,15 +45,15 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class ChildToBasketFragment extends DaggerFragment implements ChildAdapter.onChildItemClicked, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
+public class ChildToBasketFragment extends Fragment implements ChildAdapter.onChildItemClicked, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
     private ChildToBasketViewModel viewModel;
     private SetUpBarCodeReader barCodeReader;
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
     public ChildToBasketFragment() {
     }
@@ -67,11 +69,13 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
         binding = ChildToBasketFragmentBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
-
+    private ProgressDialog progressDialog;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(ChildToBasketViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ChildToBasketViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ChildToBasketViewModel.class);
+        progressDialog = loadingProgressDialog(getContext());
         barCodeReader = new SetUpBarCodeReader(this,this);
     }
 
@@ -85,6 +89,7 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
         fillData();
         setUpChildRecyclerView();
         observeGettingJobOrdersIssuedChilds();
+        observeStatus();
         observeAddingChildToBasket();
         binding.basketCode.getEditText().setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -105,6 +110,22 @@ public class ChildToBasketFragment extends DaggerFragment implements ChildAdapte
                     return true;
                 }
                 return false;
+            }
+        });
+    }
+
+    private void observeStatus() {
+        viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            switch (status){
+                case LOADING:
+                    progressDialog.show();
+                case ERROR:
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
+                case SUCCESS:
+                    progressDialog.hide();
+                    break;
             }
         });
     }

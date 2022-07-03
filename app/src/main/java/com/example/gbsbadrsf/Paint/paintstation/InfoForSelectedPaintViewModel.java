@@ -10,6 +10,7 @@ import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
 import com.example.gbsbadrsf.data.response.Pprpaintcontainbaskets;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.weldingsequence.Staustype;
 import com.google.gson.Gson;
@@ -22,8 +23,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiConsumer;
 
 public class InfoForSelectedPaintViewModel extends ViewModel {
-    Gson gson;
-    @Inject
+//    Gson gson;
+//    @Inject
     ApiInterface apiinterface;
     private MutableLiveData<ApiGetPaintingLoadingSequenceStartLoading<Pprpaintcontainbaskets>> responseLiveData ;
     private MutableLiveData<List<Basket>> baskets;
@@ -35,8 +36,9 @@ public class InfoForSelectedPaintViewModel extends ViewModel {
     private CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
-    public InfoForSelectedPaintViewModel( Gson gson) {
-        this.gson = gson;
+    public InfoForSelectedPaintViewModel( ) {
+//        this.gson = gson;
+        apiinterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         status = new MutableLiveData<>(Status.IDLE);
         baskets= new MutableLiveData<>();

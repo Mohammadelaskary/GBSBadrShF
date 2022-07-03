@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.signin;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class ChangePasswordFragment extends DaggerFragment implements View.OnClickListener {
+public class ChangePasswordFragment extends Fragment implements View.OnClickListener {
 
     private ChangePasswordViewModel viewModel;
 
@@ -43,12 +44,14 @@ public class ChangePasswordFragment extends DaggerFragment implements View.OnCli
         binding = ChangePasswordFragmentBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
-    @Inject
-    ViewModelProviderFactory providerFactory;
+//    @Inject
+//    ViewModelProviderFactory providerFactory;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, providerFactory).get(ChangePasswordViewModel.class);
+//        viewModel = ViewModelProviders.of(this, providerFactory).get(ChangePasswordViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ChangePasswordViewModel.class);
+
     }
 
     @Override
@@ -76,8 +79,12 @@ public class ChangePasswordFragment extends DaggerFragment implements View.OnCli
         viewModel.changePasswordStatus.observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -92,7 +99,7 @@ public class ChangePasswordFragment extends DaggerFragment implements View.OnCli
                 }else
                     binding.currentPassword.setError(statusMessage);
             } else
-                MyMethods.warningDialog(getContext(),getString(R.string.error_in_getting_data));
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
 

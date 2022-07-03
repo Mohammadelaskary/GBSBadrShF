@@ -11,7 +11,8 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
@@ -22,19 +23,15 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ListAdapter;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Paint.Basket;
 import com.example.gbsbadrsf.Paint.PaintSignInData;
 import com.example.gbsbadrsf.Paint.paintstation.InfoForSelectedPaintViewModel;
 import com.example.gbsbadrsf.Paint.paintstation.Paintdstation;
+import com.example.gbsbadrsf.PaintSignInBasketsDialog;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Pprpaint;
-import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentMachineloadingpaintBinding;
 import com.example.gbsbadrsf.welding.machineloadingwe.BasketCodesAdapter;
@@ -51,18 +48,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class MachineloadingpaintFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class MachineloadingpaintFragment extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
     FragmentMachineloadingpaintBinding binding;
+    private PaintSignInBasketsDialog dialog;
     private BarcodeReader barcodeReader;
 
-    @Inject
-    ViewModelProviderFactory providerFactory;
-    InfoForSelectedPaintViewModel infoForSelectedPaintViewModel;
+//    @Inject
+//    ViewModelProviderFactory providerFactory;
+    InfoForSelectedPaintViewModel viewModel;
     SavepaintViewModel savepaintViewModel;
     ProgressDialog progressDialog;
 
@@ -71,10 +65,12 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMachineloadingpaintBinding.inflate(inflater, container, false);
-        savepaintViewModel = ViewModelProviders.of(this, providerFactory).get(SavepaintViewModel.class);
+//        savepaintViewModel = ViewModelProviders.of(this, providerFactory).get(SavepaintViewModel.class);
+        savepaintViewModel = new ViewModelProvider(this).get(SavepaintViewModel.class);
+        viewModel = new ViewModelProvider(this).get(InfoForSelectedPaintViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
-
-        infoForSelectedPaintViewModel = Paintdstation.infoForSelectedPaintViewModel;
+        dialog = new PaintSignInBasketsDialog(getContext());
+        viewModel = Paintdstation.infoForSelectedPaintViewModel;
         progressDialog = loadingProgressDialog(getContext());
         binding.stationcodeEdt.getEditText().requestFocus();
         observeStatus();
@@ -134,6 +130,9 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
                         }
                         return false;
                     }
+                });
+                binding.signInBaskets.setOnClickListener(v->{
+                    dialog.show();
                 });
         getdata();
         if (barcodeReader != null) {
@@ -195,8 +194,12 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
         savepaintViewModel.getStatus().observe(getViewLifecycleOwner(),status ->{
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS))
                 progressDialog.hide();
+            else if (status.equals(Status.ERROR)){
+                progressDialog.dismiss();
+                warningDialog(getContext(),getString(R.string.network_issue));
+            }
         });
     }
 
@@ -219,9 +222,11 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
     List<String> basketsCodes = new ArrayList<>();
 
     public void getdata() {
-        infoForSelectedPaintViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             //fragmentMachineloadingweBinding.childcode.setText(cuisines.getJobOrderId());
             if (response!=null){
+                dialog.setBaskets(response.getBaskets());
+                binding.signInBaskets.setEnabled(true);
                 for (Basket basket: response.getBaskets()) {
                     basketsCodes.add(basket.getBasketCode());
                 }
@@ -278,8 +283,13 @@ public class MachineloadingpaintFragment extends DaggerFragment implements Barco
             @Override
             public void run() {
                 if (binding.stationcodeNewedttxt.isFocused()) {
-                    binding.stationcodeNewedttxt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                    binding.childbasketcodeEdt.getEditText().requestFocus();
+                    String scannedStationCode = barcodeReadEvent.getBarcodeData();
+                    if (scannedStationCode.equals(paintStationCode)) {
+                        binding.stationcodeNewedttxt.setText(barcodeReadEvent.getBarcodeData());
+                        binding.childbasketcodeEdt.getEditText().requestFocus();
+                    } else {
+                        binding.stationcodeEdt.setError(getString(R.string.wrong_station_code));
+                    }
                 }
                 else if (binding.childbasketcodeNewedttxt.isFocused()){
                     String basketCode = String.valueOf(barcodeReadEvent.getBarcodeData());

@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.data.response.Apigetbasketcode;
 import com.example.gbsbadrsf.data.response.LastMoveManufacturingBasketInfo;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -23,13 +24,14 @@ public class BasketInfoViewModel extends ViewModel {
 
 
 
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    @Inject
-    public BasketInfoViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public BasketInfoViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         apiResponseBasketsWIP = new MutableLiveData<>();
         status = new MutableLiveData<>(Status.IDLE);
     }

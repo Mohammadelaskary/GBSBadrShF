@@ -27,14 +27,14 @@ public class SelectedLoadinsequenceinfoViewModel extends ViewModel {
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    @Inject
-    public SelectedLoadinsequenceinfoViewModel(Productionsequencerepository productionsequencerepository, Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public SelectedLoadinsequenceinfoViewModel() {
+//        this.gson = gson;
         responseLiveData = new MutableLiveData<>();
         status = new MutableLiveData<>(Status.IDLE);
         loadingstatustype = new MutableLiveData<>(Loadingstatus.Loadingstatustets);
 
-        this.repository=productionsequencerepository;
+        this.repository=new Productionsequencerepository();
     }
     void getselectedloadingsequence(int UserID,String DeviceSerialNo,int LoadingSequenceID){
         disposable.add(repository.Loadingsequenceinfo(UserID,DeviceSerialNo,LoadingSequenceID)

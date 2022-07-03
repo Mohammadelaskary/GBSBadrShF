@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.welding.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
@@ -28,13 +31,13 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class WeldingRejectionRequestsListQualityFragment extends DaggerFragment implements OnClick {
+public class WeldingRejectionRequestsListQualityFragment extends Fragment implements OnClick {
 
     FragmentProductionRejectionRequestsListQualityBinding binding;
     WeldingRejectionListAdapter adapter;
     WeldingRejectionRequestsListQualityViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
 
     @Override
@@ -61,13 +64,19 @@ public class WeldingRejectionRequestsListQualityFragment extends DaggerFragment 
         viewModel.getRejectionRequestListStatus.observe(getViewLifecycleOwner(),status -> {
             if (status== Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestsListQualityViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingRejectionRequestsListQualityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingRejectionRequestsListQualityViewModel.class);
+
     }
     int userId = USER_ID;
     String deviceSerialNo = DEVICE_SERIAL_NO;

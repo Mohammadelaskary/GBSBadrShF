@@ -14,6 +14,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.Editable;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.example.gbsbadrsf.ApprovalRejectionRequest.RejectionRequestClosingViewModel;
 import com.example.gbsbadrsf.Model.Department;
 import com.example.gbsbadrsf.Quality.Data.RejectionReason;
 import com.example.gbsbadrsf.Quality.manfacturing.Model.RejectionRequest;
@@ -45,7 +48,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class DeclineRejectionRequestDecisionFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
+public class DeclineRejectionRequestDecisionFragment extends Fragment implements View.OnClickListener, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener {
 
     private DeclineRejectionRequestDecisionViewModel viewModel;
 
@@ -61,12 +64,13 @@ public class DeclineRejectionRequestDecisionFragment extends DaggerFragment impl
         binding = DeclineRejectionRequestDecisionFragmentBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(DeclineRejectionRequestDecisionViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(DeclineRejectionRequestDecisionViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DeclineRejectionRequestDecisionViewModel.class);
         barCodeReader = new SetUpBarCodeReader(this,this);
     }
     private int rejectionRequestId;

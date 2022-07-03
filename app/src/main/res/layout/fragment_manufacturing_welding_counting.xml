@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.gbsbadrsf.Manfacturing.Counting.ManufacturingCountingFragment"
+    tools:context="com.example.gbsbadrsf.Handling.ManufacturingCounting.ManufacturingCountingFragment"
     android:background="@drawable/background"
 
     >

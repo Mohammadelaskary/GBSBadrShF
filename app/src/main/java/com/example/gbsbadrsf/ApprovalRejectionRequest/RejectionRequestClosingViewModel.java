@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestByID;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -15,21 +16,24 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class RejectionRequestClosingViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
     MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestByID> getRejectionRequestData;
     MutableLiveData<ApiResponseManufacturingRejectionRequestCloseRequest> getCloseRejectionRequestResponse;
     MutableLiveData<Status> status;
+    private MutableLiveData<Throwable> error;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public RejectionRequestClosingViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public RejectionRequestClosingViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         getRejectionRequestData = new MutableLiveData<>();
         status = new MutableLiveData<>();
+        error = new MutableLiveData<>();
         getCloseRejectionRequestResponse = new MutableLiveData<>();
     }
 
@@ -44,6 +48,7 @@ public class RejectionRequestClosingViewModel extends ViewModel {
                             status.postValue(Status.SUCCESS); },
                         throwable -> {
                             status.postValue(Status.ERROR);
+
                         }
                 ));
     }

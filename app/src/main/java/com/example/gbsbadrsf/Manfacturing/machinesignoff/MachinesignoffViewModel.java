@@ -15,6 +15,7 @@ import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.MachineSignoffBody;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.repository.Productionsequencerepository;
 import com.google.gson.Gson;
@@ -27,6 +28,8 @@ import io.reactivex.functions.BiConsumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 public class MachinesignoffViewModel extends ViewModel {
     Gson gson;
@@ -38,19 +41,20 @@ public class MachinesignoffViewModel extends ViewModel {
     private MutableLiveData<ResponseStatus> checkBasketEmpty ;
 
     private MutableLiveData<Status> status;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable = new CompositeDisposable();
-    @Inject
-    public MachinesignoffViewModel(Productionsequencerepository productionsequencerepository,Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public MachinesignoffViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         apiResponseMachineLoadingData=new MutableLiveData<>();
         machinesignoffcases=new MutableLiveData<>(Machinsignoffcases.fake);
 
         status = new MutableLiveData<>(Status.IDLE);
         checkBasketEmpty = new MutableLiveData<>();
-        this.repository=productionsequencerepository;
+        this.repository=new Productionsequencerepository();
     }
     public void getmachinesignoff(MachineSignoffBody object, Context context){
 
@@ -112,8 +116,8 @@ public class MachinesignoffViewModel extends ViewModel {
                 }));
 
     }
-    void checkBasketEmpty(String basketCode){
-        disposable.add(apiInterface.checkBasketStatus(basketCode)
+    void checkBasketEmpty(String basketCode,String parentId,String childId,String jobOrderId,String operationId){
+        disposable.add(apiInterface.checkBasketStatus(USER_ID,DEVICE_SERIAL_NO,basketCode,parentId,childId,jobOrderId,operationId)
                 .doOnSubscribe(__ -> status.postValue(Status.LOADING))
                 .subscribe((response, throwable) -> {
                     checkBasketEmpty.postValue(response.getResponseStatus());

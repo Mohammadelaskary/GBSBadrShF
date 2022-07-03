@@ -7,6 +7,7 @@ import com.example.gbsbadrsf.data.response.ApiResponseweldingbyjoborder;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.PprWelding;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -22,14 +23,15 @@ public class WeldingsequenceViewModel extends ViewModel {
     MutableLiveData<ApiResponseweldingbyjoborder<List<PprWelding>>> weldingsequenceResponse;
     MutableLiveData<Status> status;
 
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     private CompositeDisposable disposable;
-    @Inject
-    public WeldingsequenceViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public WeldingsequenceViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         weldingsequenceResponse= new MutableLiveData<>();
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();

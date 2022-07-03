@@ -18,12 +18,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.QualityAddDefectChildsQtyDefectsQtyAdapter;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.SetOnQtyDefectedQtyDefectsItemClicked;
 import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
@@ -51,7 +54,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyDefectedQtyDefectsItemClicked, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class PaintAddDefectsFragment extends Fragment implements SetOnQtyDefectedQtyDefectsItemClicked, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     public static final String REMAINING_QTY = "remainingQty";
     FragmentWeldingAddDefectsBinding binding;
     LastMovePaintingBasket basketData;
@@ -59,8 +62,8 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     String basketCode,deviceSerialNo = DEVICE_SERIAL_NO;
 //    boolean newSample = false ;
     PaintAddDefectsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     QualityAddDefectChildsQtyDefectsQtyAdapter adapter;
     List<DefectsPainting> defectsPaintingList = new ArrayList<>();
@@ -93,8 +96,12 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getAddPaintingDefectsToNewBasketStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -138,7 +145,10 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
         viewModel.getDefectsPaintingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -216,7 +226,9 @@ public class PaintAddDefectsFragment extends DaggerFragment implements SetOnQtyD
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(PaintAddDefectsViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintAddDefectsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintAddDefectsViewModel.class);
+
     }
 
     private void fillData() {

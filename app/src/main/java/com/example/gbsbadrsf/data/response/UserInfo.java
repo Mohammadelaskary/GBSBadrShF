@@ -31,6 +31,9 @@ public class UserInfo {
     @SerializedName("isWarehouseUser")
     @Expose
     private Boolean isWarehouseUser;
+    @SerializedName("isHandlingUser")
+    @Expose
+    private Boolean isHandlingUser;
     @SerializedName("isProductionManufaturing")
     @Expose
     private Boolean isProductionManufaturing;
@@ -168,5 +171,13 @@ public class UserInfo {
 
     public void setIsQcpainting(Boolean isQcpainting) {
         this.isQcpainting = isQcpainting;
+    }
+
+    public Boolean getHandlingUser() {
+        return isHandlingUser;
+    }
+
+    public void setHandlingUser(Boolean handlingUser) {
+        isHandlingUser = handlingUser;
     }
 }

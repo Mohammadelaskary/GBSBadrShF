@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Manfacturing.Counting;
+package com.example.gbsbadrsf.Handling.ManufacturingCounting;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
@@ -7,17 +7,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
-import com.google.gson.Gson;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ManufacturingCountingViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
     private MutableLiveData<ApiResponseGetBasketInfo_ManufacturingProductionCounting> basketData;
@@ -26,11 +24,12 @@ public class ManufacturingCountingViewModel extends ViewModel {
     private MutableLiveData<ApiResponseSaveManufacturingProductionCounting> saveManufacturingCount;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ManufacturingCountingViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ManufacturingCountingViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         basketData = new MutableLiveData<>();
         status = new MutableLiveData<>();

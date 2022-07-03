@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -17,17 +18,18 @@ public class QualityDefectRepairViewModel extends ViewModel {
     MutableLiveData<ApiResponseAddingManufacturingRepairQualityProduction> addManufacturingRepairQuality;
     MutableLiveData<ApiResponseDefectedQualityOk_Manufacturing> DefectedQualityOk_Manufacturing;
     MutableLiveData<Status> status;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-
-    @Inject
-    public QualityDefectRepairViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//
+//    @Inject
+    public QualityDefectRepairViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         addManufacturingRepairQuality = new MutableLiveData<>();
         status = new MutableLiveData<>();

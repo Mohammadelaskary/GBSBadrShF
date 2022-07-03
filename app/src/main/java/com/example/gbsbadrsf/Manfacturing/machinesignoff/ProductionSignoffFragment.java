@@ -26,15 +26,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.gbsbadrsf.CustomChoiceDialog;
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
+import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.MachineSignoffBody;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentProductionSignoffBinding;
@@ -52,19 +53,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class ProductionSignoffFragment extends DaggerFragment implements  BarcodeReader.BarcodeListener,
+public class ProductionSignoffFragment extends Fragment implements  BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener, OnBasketRemoved {
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentProductionSignoffBinding binding;
     private BarcodeReader barcodeReader;
 
-    private MachinesignoffViewModel machinesignoffViewModel;
+    private MachinesignoffViewModel viewModel;
     List<Basketcodelst> basketList = new ArrayList<>();
     //String passedtext;
     ProgressDialog progressDialog;
@@ -83,7 +80,8 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        machinesignoffViewModel = ViewModelProviders.of(this, providerFactory).get(MachinesignoffViewModel.class);
+//        machinesignoffViewModel = ViewModelProviders.of(this, providerFactory).get(MachinesignoffViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MachinesignoffViewModel.class);
         bottomSheetBehavior = BottomSheetBehavior.from(binding.basketsBottomSheet.getRoot());
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.setDraggable(false);
@@ -103,7 +101,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     if (machineCode.isEmpty())
                         binding.machinecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_machine_code));
                     else
-                        machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, machineCode);
+                        viewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, machineCode);
                     return true;
                 }
                 return false;
@@ -180,7 +178,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
     }
 
     private void observeBasketStatus() {
-        machinesignoffViewModel.getCheckBasketEmpty().observe(getViewLifecycleOwner(),responseStatus -> {
+        viewModel.getCheckBasketEmpty().observe(getViewLifecycleOwner(), responseStatus -> {
             if (responseStatus != null){
                 String statusMessage= responseStatus.getStatusMessage();
                 if (responseStatus.getIsSuccess()) {
@@ -291,11 +289,11 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     if (Integer.parseInt(basketQty) <= Integer.parseInt(getRemaining()) && Integer.parseInt(basketQty) > 0) {
                         if (!basketCode.isEmpty()) {
                             if (basketList.isEmpty()) {
-                                machinesignoffViewModel.checkBasketEmpty(basketCode);
+                                viewModel.checkBasketEmpty(basketCode,"0",machineLoading.getChildId(),machineLoading.getJobOrderId(),machineLoading.getOperationId());
                                 progressDialog.show();
                             } else {
                                 if (!basketCodes.contains(basketCode))  {
-                                    machinesignoffViewModel.checkBasketEmpty(basketCode);
+                                    viewModel.checkBasketEmpty(basketCode,"0",machineLoading.getChildId(),machineLoading.getJobOrderId(),machineLoading.getOperationId());
                                     progressDialog.show();
                                 } else {
                                     binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
@@ -314,11 +312,11 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     if (!basketCode.isEmpty()) {
                         Basketcodelst basketcodelst = new Basketcodelst(basketCode, Integer.parseInt(basketQty));
                         if (basketList.isEmpty()) {
-                            machinesignoffViewModel.checkBasketEmpty(basketCode);
+                            viewModel.checkBasketEmpty(basketCode,"0",machineLoading.getChildId(),machineLoading.getJobOrderId(),machineLoading.getOperationId());
                             progressDialog.show();
                         } else {
                             if (!basketCodes.contains(basketCode)) {
-                                machinesignoffViewModel.checkBasketEmpty(basketCode);
+                                viewModel.checkBasketEmpty(basketCode,"0",machineLoading.getChildId(),machineLoading.getJobOrderId(),machineLoading.getOperationId());
                                 progressDialog.show();
                             } else {
                                 binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
@@ -477,21 +475,27 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
     }
 
     private void observeStatus() {
-        machinesignoffViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS))
                 progressDialog.dismiss();
+            else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
     String childDesc;
     int loadingQty;
+    private MachineLoading machineLoading;
     public void getdata() {
-        machinesignoffViewModel.getApiResponseMachineLoadingData().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getApiResponseMachineLoadingData().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 if(response.getData()!=null) {
+                    machineLoading = response.getData();
                     loadingQty = response.getData().getLoadingQty();
                     if (loadingQty!=0) {
                         binding.dataLayout.setVisibility(View.VISIBLE);
@@ -591,7 +595,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                     machineSignoffBody.setSignOutQty(String.valueOf(calculateTotalAddedQty(basketList)));
                     machineSignoffBody.setBasketLst(basketList);
                     machineSignoffBody.setIsBulkQty(isBulk);
-                    machinesignoffViewModel.getmachinesignoff(machineSignoffBody, getContext());
+                    viewModel.getmachinesignoff(machineSignoffBody, getContext());
                 }
 
             }
@@ -642,7 +646,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
         binding.basketsBottomSheet.totalAddedQtn.setText(String.valueOf(calculateTotalAddedQty(basketList)));
     }
     private void subscribeRequest() {
-        machinesignoffViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
             if (responseStatus != null) {
                 String statusMessage = responseStatus.getStatusMessage();
                 if (responseStatus.getIsSuccess()) {
@@ -673,7 +677,7 @@ public class ProductionSignoffFragment extends DaggerFragment implements  Barcod
                String scannedText = barcodeReadEvent.getBarcodeData().trim();
                if (!isExpanded) {
                    binding.machinecodeNewedttxt.setText(scannedText);
-                   machinesignoffViewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
+                   viewModel.getmachinecodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
                    MyMethods.hideKeyboard(getActivity());
                } else {
                    binding.basketsBottomSheet.basketcodeEdt.getEditText().setText(scannedText);

@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.data.response.ApiSavePaintloading;
 import com.example.gbsbadrsf.data.response.ApiSavefirstloading;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.welding.machineloadingwe.Typesofsavewelding;
 import com.google.gson.Gson;
@@ -19,7 +20,7 @@ import io.reactivex.functions.BiConsumer;
 
 public class SavepaintViewModel extends ViewModel {
     Gson gson;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private MutableLiveData<ApiSavePaintloading<ResponseStatus>> responseLiveData ;
     private MutableLiveData<Typesofsavewelding> typesosavedweldingloading;
@@ -28,8 +29,9 @@ public class SavepaintViewModel extends ViewModel {
     private CompositeDisposable disposable = new CompositeDisposable();
     String pass;
     @Inject
-    public SavepaintViewModel( Gson gson) {
-        this.gson = gson;
+    public SavepaintViewModel( ) {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         disposable = new CompositeDisposable();
         typesosavedweldingloading = new MutableLiveData<>(Typesofsavewelding.global);

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.data.response.ApiResponseStationwip;
 import com.example.gbsbadrsf.data.response.StationsWIP;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -21,14 +22,15 @@ public class PaintViewModel extends ViewModel {
     MutableLiveData<ApiResponseStationwip<List<StationsWIP>>> paintwipResponse;
     MutableLiveData<Status> status;
 
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     private CompositeDisposable disposable;
-    @Inject
-    public PaintViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public PaintViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         paintwipResponse= new MutableLiveData<>();
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();

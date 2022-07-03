@@ -17,12 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Production.Data.ProductionRepairViewModel;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.manfacturing.ManfacturingqualityFragment;
@@ -44,7 +47,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class ProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
+public class ProductionRepairFragment extends Fragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     FragmentProductionRepairBinding binding;
     List<ManufacturingDefect>  defectsManufacturingList = new ArrayList<>();
@@ -52,8 +55,8 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
     ProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
 
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
     SetUpBarCodeReader barCodeReader;
     @Override
@@ -115,8 +118,12 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         viewModel.getDefectsManufacturingListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
@@ -193,14 +200,19 @@ public class ProductionRepairFragment extends DaggerFragment implements BarcodeR
         viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(),status -> {
             if (status== Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(ProductionRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(ProductionRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ProductionRepairViewModel.class);
+
     }
     LastMoveManufacturingBasket basketData = new LastMoveManufacturingBasket();
     String childDesc,childCode = "",operationName,jobOrderName;

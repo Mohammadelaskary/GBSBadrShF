@@ -16,8 +16,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
@@ -28,19 +28,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.CustomChoiceDialog;
-import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.Basketcodelst;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.OnBasketRemoved;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.ProductionSignoffAdapter;
-import com.example.gbsbadrsf.Manfacturing.machinesignoff.Signoffitemsdialog;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Stationcodeloading;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
@@ -49,29 +44,20 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
-import com.honeywell.aidc.ScannerNotClaimedException;
-import com.honeywell.aidc.ScannerUnavailableException;
 import com.honeywell.aidc.TriggerStateChangeEvent;
-import com.honeywell.aidc.UnsupportedPropertyException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
 
 
-public class SignoffweFragment extends DaggerFragment implements Signoffweitemsdialog.OnInputSelected,BarcodeReader.BarcodeListener,
+public class SignoffweFragment extends Fragment implements Signoffweitemsdialog.OnInputSelected,BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener, OnBasketRemoved {
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentSignoffweBinding binding;
     private SetUpBarCodeReader barcodeReader;
 
-    private SignoffweViewModel signoffweViewModel;
+    private SignoffweViewModel viewModel;
     Stationcodeloading stationcodeloading;
     List<Basketcodelst> basketList = new ArrayList<>();
     //String passedtext;;
@@ -87,7 +73,9 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        signoffweViewModel = ViewModelProviders.of(this, providerFactory).get(SignoffweViewModel.class);
+//        signoffweViewModel = ViewModelProviders.of(this, providerFactory).get(SignoffweViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SignoffweViewModel.class);
+
         bottomSheetBehavior = BottomSheetBehavior.from(binding.basketsBottomSheet.getRoot());
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.setDraggable(false);
@@ -104,7 +92,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 {
                     String stationCode = binding.stationNewedt.getText().toString();
                     if (!stationCode.isEmpty())
-                        signoffweViewModel.getstationcodedata(USER_ID, DEVICE_SERIAL_NO, stationCode);
+                        viewModel.getstationcodedata(USER_ID, DEVICE_SERIAL_NO, stationCode);
                     else
                         binding.stationEdt.setError("Please scan or enter a valid station code!");
 
@@ -146,10 +134,10 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 
     }
     private void observeBasketStatus() {
-        signoffweViewModel.getCheckBasketEmpty().observe(getViewLifecycleOwner(),responseStatus -> {
+        viewModel.getCheckBasketEmpty().observe(getViewLifecycleOwner(), responseStatus -> {
             if (responseStatus != null){
                 String statusMessage= responseStatus.getStatusMessage();
-                if (statusMessage.equals("Basket is empty")) {
+                if (responseStatus.getIsSuccess()) {
                     if (isBulk)
                         addBasketIfBulk();
                     else
@@ -158,15 +146,19 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                     binding.basketsBottomSheet.basketcodeEdt.setError(statusMessage);
                 }
             } else
-                warningDialog(getContext(),"Error in getting data");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
         });
     }
     private void observeStatus() {
-        signoffweViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
-                progressDialog.hide();
+            else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
     private void handleButtonGroup() {
@@ -183,7 +175,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 isBulk = true;
                 setBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",true);
+                warningDialogWithChoice(getContext(), getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getString(R.string.are_you_sure_to_change_type),true);
             }
         });
         binding.basketsBottomSheet.diff.setOnClickListener(v->{
@@ -192,7 +184,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 isBulk = false;
                 setUnBulkViews();
             } else {
-                warningDialogWithChoice(getContext(), "Change baskets type will make you add baskets from the beginning.","Are you sure to change type?",false);
+                warningDialogWithChoice(getContext(), getString(R.string.change_baskets_type_will_make_you_add_baskets_from_the_beginning),getString(R.string.are_you_sure_to_change_type),false);
             }
         });
     }
@@ -260,22 +252,22 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                     if (Integer.parseInt(basketQty) <= Integer.parseInt(getRemaining()) && Integer.parseInt(basketQty) > 0) {
                         if (!basketCode.isEmpty()) {
                             if (basketList.isEmpty()) {
-                                signoffweViewModel.checkBasketEmpty(basketCode);
+                                viewModel.checkBasketEmpty(basketCode,stationcodeloading.getParentId(),"",stationcodeloading.getJobOrderId(),stationcodeloading.getOperationId());
                                 progressDialog.show();
                             } else {
                                 if (!basketCodes.contains(basketCode))  {
-                                    signoffweViewModel.checkBasketEmpty(basketCode);
+                                    viewModel.checkBasketEmpty(basketCode,stationcodeloading.getParentId(),"",stationcodeloading.getJobOrderId(),stationcodeloading.getOperationId());
                                     progressDialog.show();
                                 } else {
-                                    binding.basketsBottomSheet.basketcodeEdt.setError("Basket added previously!");
+                                    binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
                                 }
 
                             }
                         } else {
-                            binding.basketsBottomSheet.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                            binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                         }
                     } else {
-                        binding.basketsBottomSheet.basketQty.setError("Basket quantity must be equal or less than remaining quantity and more than 0!");
+                        binding.basketsBottomSheet.basketQty.setError(getString(R.string.basket_qty_must_be_equal_or_less_than_remaining_qty_and_more_than_0));
                         binding.basketsBottomSheet.basketcodeEdt.getEditText().setText("");
                     }
                 }
@@ -283,27 +275,27 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                     if (!basketCode.isEmpty()) {
                         Basketcodelst basketcodelst = new Basketcodelst(basketCode, Integer.parseInt(basketQty));
                         if (basketList.isEmpty()) {
-                            signoffweViewModel.checkBasketEmpty(basketCode);
+                            viewModel.checkBasketEmpty(basketCode,stationcodeloading.getParentId(),"0",stationcodeloading.getJobOrderId(),stationcodeloading.getOperationId());
                             progressDialog.show();
                         } else {
                             if (!basketCodes.contains(basketCode)) {
-                                signoffweViewModel.checkBasketEmpty(basketCode);
+                                viewModel.checkBasketEmpty(basketCode,stationcodeloading.getParentId(),"0",stationcodeloading.getJobOrderId(),stationcodeloading.getOperationId());
                                 progressDialog.show();
                             } else {
-                                binding.basketsBottomSheet.basketcodeEdt.setError("Basket added previously!");
+                                binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.basket_added_previously));
                             }
 
                         }
                     } else {
-                        binding.basketsBottomSheet.basketcodeEdt.setError("Please enter or scan a valid basket code!");
+                        binding.basketsBottomSheet.basketcodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_basket_code));
                     }
                 }
             } else {
-                binding.basketsBottomSheet.basketQty.setError("Basket quantity must contain only digits!");
+                binding.basketsBottomSheet.basketQty.setError(getString(R.string.basket_qty_must_contain_only_digits));
                 binding.basketsBottomSheet.basketcodeEdt.getEditText().setText("");
             }
         } else {
-            binding.basketsBottomSheet.basketQty.setError("Please enter basket quantity first and scan basket again!");
+            binding.basketsBottomSheet.basketQty.setError(getString(R.string.please_enter_basket_qty_first_and_scan_basket_again));
             binding.basketsBottomSheet.basketcodeEdt.getEditText().setText("");
         }
     }
@@ -359,7 +351,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 //                        barCodeReader.onPause();
 
                     } else {
-                        warningDialog(getContext(), "Please add all loading qty to baskets!");
+                        warningDialog(getContext(), getString(R.string.please_add_all_loading_qty_to_baskets));
                     }
                 } else {
 //                    onInputSelected.sendlist(basketList, true);
@@ -370,12 +362,12 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 //                    barCodeReader.onPause();
                 }
             } else {
-                warningDialog(getContext(),"Please add at least 1 basket!");
+                warningDialog(getContext(),getString(R.string.please_add_at_least_1_basket));
             }
         });
         binding.basketsBottomSheet.cancel.setOnClickListener(__->{
             if (!basketList.isEmpty()) {
-                CustomChoiceDialog choiceDialog = new CustomChoiceDialog(getContext(), "Cancel now will remove all added baskets!", "Are you sure to cancel?");
+                CustomChoiceDialog choiceDialog = new CustomChoiceDialog(getContext(), getString(R.string.cancel_now_will_remove_added_baskets), getString(R.string.are_you_sure_to_cancel));
                 choiceDialog.setOnOkClicked(() -> {
                     basketList.clear();
                     basketCodes.clear();
@@ -469,7 +461,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 //                        }
 //                    });
                 } else {
-                    binding.stationEdt.setError("Please scan or enter a valid machine code and press enter!");
+                    binding.stationEdt.setError(getString(R.string.please_scan_or_enter_a_valid_station_code));
                 }
             }
         });
@@ -478,9 +470,9 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
             public void onClick(View v) {
                 String stationCode = binding.stationEdt.getEditText().getText().toString().trim();
                 if (stationCode.isEmpty())
-                    binding.stationEdt.setError("Please scan or enter a valid station code!");
+                    binding.stationEdt.setError(getString(R.string.please_scan_or_enter_a_valid_station_code));
                 if (basketList.isEmpty())
-                    warningDialog(getContext(),"Please enter at least 1 basket code!");
+                    warningDialog(getContext(),getString(R.string.please_enter_at_least_1_basket_code));
                 if (!stationCode.isEmpty()&&!basketList.isEmpty()) {
                     WeldingSignoffBody weldingSignoffBody = new WeldingSignoffBody();
 
@@ -492,7 +484,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                     weldingSignoffBody.setIsBulkQty(isBulk);
                     weldingSignoffBody.setProductionStationCode(binding.stationEdt.getEditText().getText().toString().trim());
                     weldingSignoffBody.setSignOutQty(signOutQty);
-                    signoffweViewModel.getweldingsignoff(weldingSignoffBody, getContext());
+                    viewModel.getweldingsignoff(weldingSignoffBody, getContext());
                 }
 
             }
@@ -504,8 +496,9 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
     int signOutQty;
 //    int loadingQty;
     String parentDesc;
+    private Stationcodeloading stationData;
     private void subscribeRequest() {
-        signoffweViewModel.getSaveSignOffResponse().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getSaveSignOffResponse().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
                 switch (statusMessage) {
@@ -527,10 +520,11 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                 }
             }
         });
-        signoffweViewModel.getGetStationData().observe(getViewLifecycleOwner(),response ->{
+        viewModel.getGetStationData().observe(getViewLifecycleOwner(), response ->{
             if (response!=null){
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (response.getResponseStatus().getIsSuccess()){
+                    stationcodeloading = response.getData();
                     parentDesc = response.getData().getParentDescription();
                     signOutQty = response.getData().getSignOutQty();
 //                    loadingQty = response.getData().getLoadingQty();
@@ -555,7 +549,7 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
                     binding.stationEdt.setError(statusMessage);
                 }
             } else {
-                warningDialog(getContext(), "Error in getting data!");
+                warningDialog(getContext(), getString(R.string.error_in_getting_data));
                 binding.dataLayout.setVisibility(View.GONE);
             }
         });
@@ -583,11 +577,11 @@ public class SignoffweFragment extends DaggerFragment implements Signoffweitemsd
 //    }
 private void handleBasketsButtonColor(){
     if (basketList.isEmpty()){
-        binding.signoffitemsBtn.setText("Add baskets");
+        binding.signoffitemsBtn.setText(getString(R.string.add_baskets));
         binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.appbarcolor));
         binding.signoffitemsBtn.setIconResource(R.drawable.ic_add);
     } else {
-        binding.signoffitemsBtn.setText("Edit baskets");
+        binding.signoffitemsBtn.setText(getString(R.string.edit_baskets));
         binding.signoffitemsBtn.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.done));
         binding.signoffitemsBtn.setIconResource(R.drawable.ic_edit);
     }
@@ -606,7 +600,7 @@ private void handleBasketsButtonColor(){
         binding.basketsBottomSheet.basketQty.getEditText().setClickable(false);
         binding.basketsBottomSheet.totalAddedQtn.setText(String.valueOf(signOutQty));
         binding.basketsBottomSheet.basketQtyTxt.setVisibility(View.GONE);
-        binding.basketsBottomSheet.totalqtnTxt.setText("Total Qty");
+        binding.basketsBottomSheet.totalqtnTxt.setText(getString(R.string.total_qty));
         binding.basketsBottomSheet.basketcodeEdt.getEditText().requestFocus();
     }
     private void setUnBulkViews() {
@@ -615,7 +609,7 @@ private void handleBasketsButtonColor(){
         binding.basketsBottomSheet.basketQty.getEditText().setEnabled(true);
         binding.basketsBottomSheet.basketQty.getEditText().setClickable(true);
         binding.basketsBottomSheet.basketQtyTxt.setVisibility(View.VISIBLE);
-        binding.basketsBottomSheet.totalqtnTxt.setText("Total Added Qty");
+        binding.basketsBottomSheet.totalqtnTxt.setText(getString(R.string.total_added_qty));
         binding.basketsBottomSheet.basketcodeEdt.getEditText().requestFocus();
         updateViews();
     }
@@ -632,7 +626,7 @@ private void handleBasketsButtonColor(){
                 String scannedText = barcodeReadEvent.getBarcodeData().trim();
                 if (!isExpanded) {
                     binding.stationEdt.getEditText().setText(scannedText);
-                    signoffweViewModel.getstationcodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
+                    viewModel.getstationcodedata(USER_ID, DEVICE_SERIAL_NO, scannedText);
                     MyMethods.hideKeyboard(getActivity());
                 } else {
                     binding.basketsBottomSheet.basketcodeEdt.getEditText().setText(scannedText);

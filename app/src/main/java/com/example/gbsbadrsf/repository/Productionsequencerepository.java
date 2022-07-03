@@ -14,12 +14,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class Productionsequencerepository {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
 
-    @Inject
+//    @Inject
 
     public Productionsequencerepository() {
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
     }
 
     //    public Single<APIResponse<List<Ppr>>> Getproductionsequence(String userid, String deviceserialnumber){

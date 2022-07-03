@@ -1,4 +1,4 @@
-package com.example.gbsbadrsf.Manfacturing.Counting;
+package com.example.gbsbadrsf.Handling.ManufacturingCounting;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

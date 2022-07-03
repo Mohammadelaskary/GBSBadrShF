@@ -10,14 +10,13 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.StrictMode;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +25,10 @@ import android.widget.CheckBox;
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Paint.Basket;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Baskets;
 import com.example.gbsbadrsf.data.response.Pprpaint;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintdstationBinding;
-import com.example.gbsbadrsf.productionsequence.SimpleDividerItemDecoration;
-import com.example.gbsbadrsf.weldingsequence.Staustype;
-import com.google.gson.Gson;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
 import com.honeywell.aidc.BarcodeReader;
@@ -47,23 +42,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class Paintdstation extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class Paintdstation extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener, PaintStationAdapter.onCheckedChangedListener {
     public static final String PAINT_PPR_KEY = "paint_ppr";
     FragmentPaintdstationBinding binding;
     public RecyclerView recyclerView;
     private BarcodeReader barcodeReader;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     CheckBox checkBox;
 
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     PaintStationAdapter adapter;
     List<Pprpaint> Paintsequenceresponse;
     List<Baskets>basketlist;
@@ -84,8 +75,10 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
             StrictMode.setThreadPolicy(policy);
         }
 
-        viewModel = ViewModelProviders.of(this,provider).get(PaintstationViewModel.class);
-        infoForSelectedPaintViewModel=ViewModelProviders.of(this,provider).get(InfoForSelectedPaintViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintstationViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintstationViewModel.class);
+//        infoForSelectedPaintViewModel=ViewModelProviders.of(this,provider).get(InfoForSelectedPaintViewModel.class);
+       infoForSelectedPaintViewModel = new ViewModelProvider(this).get(InfoForSelectedPaintViewModel.class);
         progressDialog = loadingProgressDialog(getContext());
         addTextWatcher();
         barcodeReader = MainActivity.getBarcodeObject();
@@ -126,6 +119,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 //
 //            }
 //        });
+//        addDummyBaskets();
         setUpRecyclerView();
 
 
@@ -174,13 +168,26 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 
         return binding.getRoot();
     }
+    Basket basket;
+    private void addDummyBaskets() {
+        basket = new Basket();
+        basket.setBasketCode("001");
+        basket.setBasketMoveId(1);
+        basket.setDateSignIn("14/5/2022");
+        basket.setJobOrderId(1);
+        basket.setOperationId(5);
+    }
 
     private void observeStatus() {
         viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
             if (status.equals(Status.LOADING))
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS))
                 progressDialog.hide();
+            else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -192,7 +199,9 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
         infoForSelectedPaintViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                List<Basket> baskets = response.getBaskets();
+//                List<Basket> baskets = response.getBaskets();
+                List<Basket> baskets = new ArrayList<>();
+                baskets.add(basket);
                 if (response.getResponseStatus().getIsSuccess()) {
                     if (baskets != null&&!baskets.isEmpty()) {
 //                        bundle.putString("operationrname", clickedPprpaint.getOperationEnName());
@@ -251,7 +260,7 @@ public class Paintdstation extends DaggerFragment implements BarcodeReader.Barco
 //            adapter.getproductionsequencelist(productionsequenceresponse);
             if (cuisines!=null){
                 if (cuisines.isEmpty())
-                    binding.jobOrderName.setError(getString(R.string.no_ppr_list_for_this_job_order_name));
+                    warningDialog(getContext(),getString(R.string.no_ppr_list_for_this_job_order_name));
                 else
                     binding.jobOrderName.setError(null);
                 adapter.getpaintsequencelist(cuisines);// today 23/11

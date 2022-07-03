@@ -13,6 +13,7 @@ import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetWel
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseQualityOperationSignOff_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -39,16 +40,17 @@ public class WeldingQualityDecisionViewModel extends ViewModel {
     MutableLiveData<ApiResponseSaveCheckList> apiResponseSaveCheckListLiveData;
     MutableLiveData<Status> apiResponseSaveCheckListStatus;
     List<DefectsWelding> defectsWeldingList;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
-
-    @Inject
-    Gson gson;
-    @Inject
-    public WeldingQualityDecisionViewModel(Gson gson) {
-        this.gson = gson;
+//
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public WeldingQualityDecisionViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         defectsWeldingListLiveData = new MutableLiveData<>();
         defectsWeldingListStatus = new MutableLiveData<>();

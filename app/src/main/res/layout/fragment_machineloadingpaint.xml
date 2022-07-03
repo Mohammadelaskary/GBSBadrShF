@@ -199,6 +199,27 @@
                     android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_in_baskets"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_outline_info_24"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/disable"
+                android:enabled="true"
+                app:layout_constraintBottom_toBottomOf="@+id/childbasketcode_edt"
+                app:layout_constraintEnd_toEndOf="@+id/childbasketcode_edt"
+                app:layout_constraintTop_toTopOf="@+id/childbasketcode_edt" />
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/recycler_view_container"
                 android:layout_width="0dp"

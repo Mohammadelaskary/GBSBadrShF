@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseAddingManufacturingRepairQualityProduction;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -18,16 +19,17 @@ import io.reactivex.schedulers.Schedulers;
 public class ProductionDefectRepairViewModel extends ViewModel {
     MutableLiveData<ApiResponseAddingManufacturingRepairQualityProduction> addManufacturingRepairProduction ;
     MutableLiveData<Status> addManufacturingRepairProductionStatus;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ProductionDefectRepairViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ProductionDefectRepairViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         addManufacturingRepairProduction = new MutableLiveData<>();
         addManufacturingRepairProductionStatus = new MutableLiveData<>();

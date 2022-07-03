@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 import static com.example.gbsbadrsf.ApprovalRejectionRequest.ApprovalRejectionRequestsListFragment.REJECTION_REQUEST_ID;
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -12,7 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -22,18 +23,13 @@ import android.view.ViewGroup;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.databinding.DeclineRejectionRequestFragmentBinding;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class DeclineRejectionRequestFragment extends DaggerFragment implements RejectionRequestAdapter.OnRejectionRequestItemClicked {
+public class DeclineRejectionRequestFragment extends Fragment implements RejectionRequestAdapter.OnRejectionRequestItemClicked {
 
     private DeclineRejectionRequestViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     public static DeclineRejectionRequestFragment newInstance() {
         return new DeclineRejectionRequestFragment();
     }
@@ -48,7 +44,8 @@ public class DeclineRejectionRequestFragment extends DaggerFragment implements R
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(DeclineRejectionRequestViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(DeclineRejectionRequestViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DeclineRejectionRequestViewModel.class);
         progressDialog = loadingProgressDialog(getContext());
     }
 
@@ -68,8 +65,10 @@ public class DeclineRejectionRequestFragment extends DaggerFragment implements R
                     progressDialog.show();
                     break;
                 case SUCCESS:
+                    progressDialog.hide();
                 case ERROR:
                     progressDialog.hide();
+                    warningDialog(getContext(),getString(R.string.network_issue));
                     break;
             }
         });
@@ -79,7 +78,7 @@ public class DeclineRejectionRequestFragment extends DaggerFragment implements R
         viewModel.getRejectionRequestListLiveData.observe(getViewLifecycleOwner(),apiResponseManufacturingRejectionRequestGetRejectionRequestList -> {
             if (apiResponseManufacturingRejectionRequestGetRejectionRequestList!=null){
                 String statusMessage = apiResponseManufacturingRejectionRequestGetRejectionRequestList.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")){
+                if (apiResponseManufacturingRejectionRequestGetRejectionRequestList.getResponseStatus().getIsSuccess()){
                     adapter.setRejectionRequestList(apiResponseManufacturingRejectionRequestGetRejectionRequestList.getRejectionRequest());
                     Log.d(TAG, "observeGettingRejectionRequestsList: "+adapter.getItemCount());
                 } else {

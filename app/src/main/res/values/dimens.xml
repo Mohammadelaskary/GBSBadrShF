@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="appbar_text_size">20sp</dimen>
+    <dimen name="menu_button_text_size">17sp</dimen>
     <dimen name="black_text_size">20sp</dimen>
     <dimen name="text_size">15sp</dimen>
 

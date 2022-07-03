@@ -1,7 +1,9 @@
-package com.example.gbsbadrsf.warhouse.counting;
+package com.example.gbsbadrsf.Handling.WarehouseCounting;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.changeTitle;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
@@ -10,8 +12,8 @@ import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -20,13 +22,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
-import com.example.gbsbadrsf.Manfacturing.machinesignoff.Machinsignoffcases;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
-import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentCountingBinding;
 import com.honeywell.aidc.BarcodeFailureEvent;
 import com.honeywell.aidc.BarcodeReadEvent;
@@ -39,19 +37,15 @@ import com.honeywell.aidc.UnsupportedPropertyException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-public class CountingFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class CountingFragment extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
-    @Inject
-    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
+//    @Inject
+//    ViewModelProviderFactory providerFactory;// to connect between injection in viewmodel
     FragmentCountingBinding binding;
     private BarcodeReader barcodeReader;
     ProgressDialog progressDialog;
-    private CountingViewModel countingViewModel;
+    private CountingViewModel viewModel;
 
 
     @Override
@@ -62,7 +56,9 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        countingViewModel = ViewModelProviders.of(this, providerFactory).get(CountingViewModel.class);
+//        viewModel = ViewModelProviders.of(this, providerFactory).get(CountingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CountingViewModel.class);
+
         progressDialog = loadingProgressDialog(getContext());
         barcodeReader = MainActivity.getBarcodeObject();
         binding.barcodenewEdt.setOnKeyListener(new View.OnKeyListener() {
@@ -71,7 +67,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
                 {
-                    countingViewModel.getbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodecodeEdt.getEditText().getText().toString());
+                    viewModel.getbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodecodeEdt.getEditText().getText().toString());
                     return true;
                 }
                 return false;
@@ -107,15 +103,28 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
             public void onClick(View v) {
                 String barcode = binding.barcodecodeEdt.getEditText().getText().toString().trim();
                 String qty     = binding.qty.getEditText().getText().toString().trim();
-                if (barcode.isEmpty()){
-                    binding.barcodecodeEdt.setError("Please scan or enter a valid barcode!");
-                }
-                if (qty.isEmpty()){
-                    binding.qty.setError("Please scan or enter a valid quantity!!");
-                }
 
-                   if (!barcode.isEmpty()&&!qty.isEmpty())
-                    countingViewModel.setbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, barcode, qty);
+                if (!barcode.isEmpty()){
+                    if (!qty.isEmpty()){
+                        if (containsOnlyDigits(qty)) {
+                            if (Integer.parseInt(qty)<=loadingQty-countingQty) {
+                                viewModel.setbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, barcode, qty);
+                            } else {
+                                binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
+                                binding.qty.getEditText().requestFocus();
+                            }
+                        } else {
+                            binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
+                            binding.qty.getEditText().requestFocus();
+                        }
+                    } else {
+                        binding.qty.setError(getString(R.string.please_enter_a_valid_qty));
+                        binding.qty.getEditText().requestFocus();
+                    }
+                } else {
+                    binding.barcodecodeEdt.setError(getString(R.string.please_scan_or_enter_a_valid_barcode));
+                    binding.barcodecodeEdt.getEditText().requestFocus();
+                }
 
             }
         });
@@ -164,36 +173,46 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
     }
 
     private void observeStatus() {
-        countingViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
-            if (status.equals(Status.LOADING))
-                progressDialog.show();
-            else
-                progressDialog.hide();
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case LOADING:
+                    progressDialog.show();
+                    break;
+                case SUCCESS:
+                    progressDialog.hide();
+                    break;
+                case ERROR:
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    progressDialog.dismiss();
+                    break;
+            }
         });
     }
-    int warehouseQty;
+    int countingQty,loadingQty;
     public void getdata() {
-        countingViewModel.getdataforrbarcode().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getdataforrbarcode().observe(getViewLifecycleOwner(), response -> {
             if (response!=null) {
                 String statusMessage = response.getResponseStatus().getStatusMessage();
-                if (statusMessage.equals("Getting data successfully")) {
+                if (response.getResponseStatus().getIsSuccess()) {
                     binding.parentdesc.setText(response.getData().getParentDescription());
                     binding.jobordernum.setText(response.getData().getJobOrderName());
                     binding.totalPaintSignOffQty.setText(response.getData().getTotalSignOutQty().toString());
-                    binding.currentSignOffQty.setText(response.getData().getSignOutQty().toString());
+//                    binding.currentSignOffQty.setText(response.getData().getSignOutQty().toString());
                     binding.jobOrderQty.setText(response.getData().getJobOrderQty().toString());
                     if (response.getData().getCountingQty().equals(0))
                         binding.qty.getEditText().setText("");
                     else
                         binding.qty.getEditText().setText(response.getData().getCountingQty().toString());
                     binding.dataLayout.setVisibility(View.VISIBLE);
+                    loadingQty = response.getData().getLoadingQty();
+                    countingQty = response.getData().getCountingQty();
                 } else {
                     binding.dataLayout.setVisibility(View.GONE);
                     binding.barcodecodeEdt.setError(statusMessage);
                 }
             } else {
                 binding.dataLayout.setVisibility(View.GONE);
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
     }
@@ -242,7 +261,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
 //    }
 
     private void subscribeRequest() {
-        countingViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
 //            switch (machinsignoffcases) {
 //                case Donesuccessfully:
 //                    Toast.makeText(getContext(), "Done successfully", Toast.LENGTH_SHORT).show();//da bt3 elbusy ana hana 3akst
@@ -261,19 +280,16 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
 //            }
             if (response!=null){
                 String statusMessage = response.getStatusMessage();
-                switch (statusMessage){
-                    case "Done successfully":
-                    case "Updated successfully":
-                        showSuccessAlerter(statusMessage,getActivity());
+                if (response.getIsSuccess()) {
+
+                    showSuccessAlerter(statusMessage, getActivity());
 //                        Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
-                        back(CountingFragment.this);
-                        break;
-                    case "Wrong Barcode or No data found!":
+                    back(CountingFragment.this);
+
+                } else
                         binding.barcodecodeEdt.setError(statusMessage);
-                        break;
-                }
             } else {
-                warningDialog(getContext(),"Error in getting data!");
+                warningDialog(getContext(),getString(R.string.error_in_getting_data));
             }
         });
 
@@ -287,7 +303,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
             @Override
             public void run() {
                 binding.barcodenewEdt.setText(String.valueOf(barcodeReadEvent.getBarcodeData()));
-                countingViewModel.getbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodenewEdt.getText().toString());
+                viewModel.getbarcodecodedata(USER_ID, DEVICE_SERIAL_NO, binding.barcodenewEdt.getText().toString());
 
 
             }
@@ -327,6 +343,7 @@ public class CountingFragment extends DaggerFragment implements BarcodeReader.Ba
                 e.printStackTrace();
             }
         }
+        changeTitle(getString(R.string.handling),(MainActivity) requireActivity());
     }
 
     @Override

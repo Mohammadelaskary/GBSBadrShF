@@ -10,7 +10,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".signin.SigninFragment">
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/language"
+        style="@style/LanguageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="10dp"
+        android:text="@string/language_letter"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <ImageView
         android:id="@+id/Gabour_logo"
         android:layout_width="200dp"

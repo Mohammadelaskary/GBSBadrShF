@@ -4,9 +4,9 @@ import com.example.gbsbadrsf.ApiResponseTestConnectivity;
 import com.example.gbsbadrsf.ApprovalRejectionRequest.ApiResponseManufacturingRejectionRequestCloseRequest;
 import com.example.gbsbadrsf.DeclineRejectionRequest.ApiResponseManufacturingRejectionRequestCloseDeclinedRequest;
 import com.example.gbsbadrsf.Manfacturing.BasketInfo.ApiResponseBasketsWIP;
-import com.example.gbsbadrsf.Manfacturing.Counting.ApiResponseGetBasketInfo_ManufacturingProductionCounting;
-import com.example.gbsbadrsf.Manfacturing.Counting.ApiResponseSaveManufacturingProductionCounting;
-import com.example.gbsbadrsf.welding.Counting.ApiResponseGetBasketInfo_WeldingProductionCounting;
+import com.example.gbsbadrsf.Handling.ManufacturingCounting.ApiResponseGetBasketInfo_ManufacturingProductionCounting;
+import com.example.gbsbadrsf.Handling.ManufacturingCounting.ApiResponseSaveManufacturingProductionCounting;
+import com.example.gbsbadrsf.Handling.WeldingCounting.ApiResponseGetBasketInfo_WeldingProductionCounting;
 import com.example.gbsbadrsf.Model.ApiResponseBasketTransfer;
 import com.example.gbsbadrsf.Model.ApiResponseDefectsManufacturing;
 import com.example.gbsbadrsf.Model.ApiResponseDepartmentsList;
@@ -123,7 +123,7 @@ import com.example.gbsbadrsf.data.response.UserInfo;
 import com.example.gbsbadrsf.data.response.WeldingSignoffBody;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponse.ApiResponseGetRejectionRequestList;
 import com.example.gbsbadrsf.signin.ApiResponseChangePassword;
-import com.example.gbsbadrsf.welding.Counting.ApiResponseSaveWeldingProductionCounting;
+import com.example.gbsbadrsf.Handling.WeldingCounting.ApiResponseSaveWeldingProductionCounting;
 import com.example.gbsbadrsf.weldingsequence.StationSignIn;
 
 import java.util.List;
@@ -846,7 +846,13 @@ public interface ApiInterface {
   );
   @GET("CheckBasketEmpty")
   Single<ApiResponseChangePassword> checkBasketStatus(
-          @Query("BasketCode") String BasketCode
+          @Query("UserID") int UserID,
+          @Query("DeviceSerialNo") String DeviceSerialNo,
+          @Query("BasketCode") String BasketCode,
+          @Query("ParentId") String ParentId,
+          @Query("ChildId") String ChildId,
+          @Query("JobOrderId") String JobOrderId,
+          @Query("OperationID") String OperationID
   );
   @GET("BasketTransfer")
   Single<ApiResponseBasketTransfer> BasketTransfer(

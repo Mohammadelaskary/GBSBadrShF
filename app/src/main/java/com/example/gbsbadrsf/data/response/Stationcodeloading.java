@@ -28,6 +28,15 @@ public class Stationcodeloading {
     @SerializedName("basketCode")
     @Expose
     private String basketCode;
+    @SerializedName("jobOrderId")
+    @Expose
+    private String jobOrderId;
+    @SerializedName("parentId")
+    @Expose
+    private String parentId;
+    @SerializedName("operationId")
+    @Expose
+    private String operationId;
 
     public String getParentCode() {
         return parentCode;
@@ -91,5 +100,29 @@ public class Stationcodeloading {
 
     public void setJobOrderQty(Integer jobOrderQty) {
         this.jobOrderQty = jobOrderQty;
+    }
+
+    public String getJobOrderId() {
+        return jobOrderId;
+    }
+
+    public void setJobOrderId(String jobOrderId) {
+        this.jobOrderId = jobOrderId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 }

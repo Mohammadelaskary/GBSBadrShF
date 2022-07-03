@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseFullInspection;
 import com.example.gbsbadrsf.Quality.Data.FullInspectionData;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -16,17 +17,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class SignOffBasketsViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
     private MutableLiveData<Status> status;
     private MutableLiveData<ApiResponseFullInspection> fullInspectionResponse;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public SignOffBasketsViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public SignOffBasketsViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();
         fullInspectionResponse = new MutableLiveData<>();

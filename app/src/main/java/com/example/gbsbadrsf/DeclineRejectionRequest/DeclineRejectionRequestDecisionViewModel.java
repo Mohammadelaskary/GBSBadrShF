@@ -11,6 +11,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionReque
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestByID;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -29,22 +30,23 @@ public class DeclineRejectionRequestDecisionViewModel extends ViewModel {
     MutableLiveData<ApiResponseGetRejectionReasonsList> apiResponseReasonsList;
     MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestByID> getRejectionRequestData;
     MutableLiveData<ApiResponseManufacturingRejectionRequestCloseDeclinedRequest> saveCommitteeDecision;
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public DeclineRejectionRequestDecisionViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public DeclineRejectionRequestDecisionViewModel() {
+//        this.gson = gson;
         disposable = new CompositeDisposable();
         apiResponseDepartmentsListLiveData = new MutableLiveData<>();
         status = new MutableLiveData<>();
         apiResponseReasonsList = new MutableLiveData<>();
         getRejectionRequestData = new MutableLiveData<>();
         saveCommitteeDecision = new MutableLiveData<>();
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
     }
 
     public void getDepartmentsList(int userId){

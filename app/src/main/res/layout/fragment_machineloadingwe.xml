@@ -251,6 +251,26 @@
                     android:singleLine="true"
                     android:textColor="@color/colorPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_in_baskets"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_outline_info_24"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/disable"
+                android:enabled="true"
+                app:layout_constraintBottom_toBottomOf="@+id/childbasketcode_edt"
+                app:layout_constraintEnd_toEndOf="@+id/childbasketcode_edt"
+                app:layout_constraintTop_toTopOf="@+id/childbasketcode_edt" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/baskets"
                 android:layout_width="0dp"
@@ -274,15 +294,13 @@
 
             <TextView
                 android:id="@+id/childqtn"
+                style="@style/styleoftext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                style="@style/styleoftext"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toTopOf="@id/childqtn_txt"
+                android:text=""
                 app:layout_constraintStart_toEndOf="@id/childqtn_txt"
-                />
+                app:layout_constraintTop_toTopOf="@+id/childbasketcode_edt" />
 
 
 

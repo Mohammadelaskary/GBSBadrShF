@@ -21,7 +21,7 @@ import com.honeywell.aidc.TriggerStateChangeEvent;
 
 import dagger.android.support.DaggerFragment;
 
-public class WeldingContinueLoadingFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class WeldingContinueLoadingFragment extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
 
 

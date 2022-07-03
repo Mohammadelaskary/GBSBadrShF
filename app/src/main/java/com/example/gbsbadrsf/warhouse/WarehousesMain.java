@@ -54,6 +54,6 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
     @Override
     public void onResume() {
         super.onResume();
-        MyMethods.changeTitle("Warehouse",(MainActivity) getActivity());
+        MyMethods.changeTitle(getString(R.string.warehouse),(MainActivity) getActivity());
     }
 }

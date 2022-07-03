@@ -1,11 +1,13 @@
 package com.example.gbsbadrsf.Quality.welding.QualityRepair;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -33,7 +35,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class WeldingQualityDefectRepairFragment extends DaggerFragment implements SetOnWeldingRepairItemClicked, View.OnClickListener {
+public class WeldingQualityDefectRepairFragment extends Fragment implements SetOnWeldingRepairItemClicked, View.OnClickListener {
 
 
 
@@ -54,8 +56,8 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
     WeldingQualityDefectRepairFragmentBinding binding;
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     WeldingQualityRepairViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     WeldingRepairQualityAdapter adapter;
 
 
@@ -84,7 +86,10 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
         viewModel.getAddWeldingRepairQualityStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -98,7 +103,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
                 MyMethods.showSuccessAlerter(statusMessage,getActivity());
                 binding.approvedQty.getEditText().setText("");
             } else
-                MyMethods.warningDialog(getContext(),statusMessage);
+                warningDialog(getContext(),statusMessage);
 //            Toast.makeText(getContext(), statusMessage, Toast.LENGTH_SHORT).show();
         });
     }
@@ -146,7 +151,7 @@ public class WeldingQualityDefectRepairFragment extends DaggerFragment implement
 
 
     int userId = USER_ID, defectsWeldingDetailsId =-1,defectStatus;
-    String notes="df", deviceSerialNumber=DEVICE_SERIAL_NO,approvedQty;
+    String notes="", deviceSerialNumber=DEVICE_SERIAL_NO,approvedQty;
 
     @Override
     public void onClick(View v) {

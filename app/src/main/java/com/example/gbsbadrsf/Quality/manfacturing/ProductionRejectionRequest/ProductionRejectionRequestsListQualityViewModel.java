@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseGetRejectionRequestList;
 import com.example.gbsbadrsf.Quality.Data.ApiResponseManufacturingRejectionRequestGetRejectionRequestList;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -16,17 +17,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ProductionRejectionRequestsListQualityViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private final CompositeDisposable disposable;
     MutableLiveData<ApiResponseManufacturingRejectionRequestGetRejectionRequestList> getRejectionRequestListLiveData;
     MutableLiveData<Status> getRejectionRequestListStatus;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ProductionRejectionRequestsListQualityViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ProductionRejectionRequestsListQualityViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         getRejectionRequestListLiveData = new MutableLiveData<>();
         getRejectionRequestListStatus   = new MutableLiveData<>();

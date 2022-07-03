@@ -14,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePainting;
 import com.example.gbsbadrsf.Quality.welding.ViewModel.WeldingRandomQualityInceptionViewModel;
 import com.example.gbsbadrsf.R;
@@ -37,12 +40,12 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class WeldingRandomQualityInceptionFragment extends DaggerFragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class WeldingRandomQualityInceptionFragment extends Fragment implements View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     private static final String GOT_DATA_SUCCESSFULLY = "Getting data successfully";
     private static final String SAVED_SUCCESSFULLY = "Saved successfully";
     WeldingRandomQualityInceptionViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     public WeldingRandomQualityInceptionFragment() {
         // Required empty public constructor
@@ -144,8 +147,12 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
         viewModel.getSaveRandomQualityInceptionMutableStatus().observe(getViewLifecycleOwner(),status -> {
             if (status==Status.LOADING){
                 progressDialog.show();
-            } else
+            } else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -174,7 +181,10 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
         viewModel.getInfoForQualityRandomInspectionStatus().observe(getViewLifecycleOwner(),status -> {
             if (status== Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -260,7 +270,9 @@ public class WeldingRandomQualityInceptionFragment extends DaggerFragment implem
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingRandomQualityInceptionViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingRandomQualityInceptionViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingRandomQualityInceptionViewModel.class);
+
     }
 
     @Override

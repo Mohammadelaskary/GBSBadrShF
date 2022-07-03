@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -51,7 +53,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class WeldingQualityOperationFragment extends DaggerFragment implements  View.OnClickListener, WeldingDefectsPerQtyAdapter.SetOnDefectsPerQtyItemClicked, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener, WeldingDefectsPerQtyAdapter.SetOnDeleteButtonClicked {
+public class WeldingQualityOperationFragment extends Fragment implements  View.OnClickListener, WeldingDefectsPerQtyAdapter.SetOnDefectsPerQtyItemClicked, BarcodeReader.BarcodeListener,BarcodeReader.TriggerListener, WeldingDefectsPerQtyAdapter.SetOnDeleteButtonClicked {
 
     public static final String BASKET_DATA = "basket_data";
     public static final String SAMPLE_QTY = "sample_qty";
@@ -63,11 +65,11 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     FragmentWeldingQualityOperationBinding binding;
     public WeldingQualityOperationViewModel viewModel;
     public static final String EXISTING_BASKET_CODE  = "Data sent successfully";
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Injt
+//    ViewMoecdelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
     public WeldingQualityOperationFragment() {
         // Required empty public constructor
@@ -165,6 +167,9 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
                     progressDialog.show();
                     break;
                 case ERROR:
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
                 case SUCCESS:
                     progressDialog.hide();
                     break;
@@ -424,7 +429,8 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
     private void initViewModel() {
 //        viewModel = ViewModelProvider.AndroidViewModelFactory
 //                .getInstance(getActivity().getApplication()).create(ManufacturingQualityViewModel.class);
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityOperationViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingQualityOperationViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WeldingQualityOperationViewModel.class);
 
 
     }
@@ -436,7 +442,10 @@ public class WeldingQualityOperationFragment extends DaggerFragment implements  
         viewModel.getBasketDataStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            }else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });

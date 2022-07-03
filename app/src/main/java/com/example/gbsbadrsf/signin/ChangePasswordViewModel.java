@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -16,16 +17,13 @@ import io.reactivex.schedulers.Schedulers;
 public class ChangePasswordViewModel extends ViewModel {
     MutableLiveData<ApiResponseChangePassword> changePasswordResponse;
     MutableLiveData<Status> changePasswordStatus;
-    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ChangePasswordViewModel(Gson gson) {
-        this.gson = gson;
+
+    public ChangePasswordViewModel() {
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
 
         changePasswordResponse = new MutableLiveData<>();

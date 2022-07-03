@@ -68,11 +68,11 @@ public class WeldingsequenceAdapter extends RecyclerView.Adapter<Weldingsequence
             deactivateItem(holder.itemView);
         holder.itemView.setOnClickListener(v->{
             selectedSequenceNo = pprList.get(position).getLoadingSequenceNumber();
-            if (selectedSequenceNo==1) {
+//            if (selectedSequenceNo==1) {
                 onWeldingCheckedChangedListener.onWeldingCheckedChanged(pprList.get(position).getLoadingSequenceID());
                 notifyDataSetChanged();
-            } else
-                warningDialog(v.getContext(), context.getString(R.string.you_must_select_the_ppr_with_sequence_number_equal_1));
+//            } else
+//                warningDialog(v.getContext(), context.getString(R.string.you_must_select_the_ppr_with_sequence_number_equal_1));
         });
     }
 

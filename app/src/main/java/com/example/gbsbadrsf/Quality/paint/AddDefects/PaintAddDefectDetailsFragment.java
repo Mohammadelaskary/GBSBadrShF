@@ -17,12 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.gbsbadrsf.Model.DefectsPerQty;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.Defect;
 import com.example.gbsbadrsf.Quality.paint.Model.AddPaintingDefectData;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
@@ -47,7 +50,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class PaintAddDefectDetailsFragment extends DaggerFragment implements View.OnClickListener, SetOnWeldingAddDefectDetailsButtonClicked {
+public class PaintAddDefectDetailsFragment extends Fragment implements View.OnClickListener, SetOnWeldingAddDefectDetailsButtonClicked {
 
 
 
@@ -68,8 +71,8 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     FragmentPaintAddDefectDetailsBinding binding;
     LastMovePaintingBasket basketData;
     PaintAddDefectsDetailsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     List<Defect> allDefectsList = new ArrayList<>();
     WeldingDefectsListAdapter adapter;
@@ -139,11 +142,14 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
 
     private void observeGettingDefectsListStatus() {
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         viewModel.getDefectsListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -156,7 +162,9 @@ public class PaintAddDefectDetailsFragment extends DaggerFragment implements Vie
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(PaintAddDefectsDetailsViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintAddDefectsDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintAddDefectsDetailsViewModel.class);
+
     }
 
     private void fillData() {

@@ -3,32 +3,19 @@ package com.example.gbsbadrsf.weldingsequence;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.gbsbadrsf.data.response.APIResponseLoadingsequenceinfo;
 import com.example.gbsbadrsf.data.response.ApiGetweldingloadingstartloading;
-import com.example.gbsbadrsf.data.response.Apigetinfoforselectedstation;
 import com.example.gbsbadrsf.data.response.Baskets;
-import com.example.gbsbadrsf.data.response.LoadingSequenceInfo;
-import com.example.gbsbadrsf.data.response.MachineLoading;
 import com.example.gbsbadrsf.data.response.PprWelding;
-import com.example.gbsbadrsf.data.response.Pprcontainbaskets;
-import com.example.gbsbadrsf.data.response.StationLoading;
 import com.example.gbsbadrsf.data.response.Status;
-import com.example.gbsbadrsf.productionsequence.Loadingstatus;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
-import com.example.gbsbadrsf.repository.Productionsequencerepository;
-import com.google.gson.Gson;
 
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class InfoForSelectedStationViewModel extends ViewModel {
-    Gson gson;
-    @Inject
-    ApiInterface apiinterface;
+//    Gson gson;
+//    @Inject
+    ApiInterface apiInterface;
     private MutableLiveData<ApiGetweldingloadingstartloading<PprWelding>> responseLiveData ;
     private MutableLiveData<Baskets> baskets;
 
@@ -38,16 +25,17 @@ public class InfoForSelectedStationViewModel extends ViewModel {
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    @Inject
-    public InfoForSelectedStationViewModel( Gson gson) {
-        this.gson = gson;
+//    @Inject
+    public InfoForSelectedStationViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         responseLiveData = new MutableLiveData<>();
         status = new MutableLiveData<>(Status.IDLE);
         baskets= new MutableLiveData<>();
         statustype = new MutableLiveData<>(Staustype.global);
     }
     void getselectedweldingsequence(int UserID,String DeviceSerialNo,String loadingsequenceid){
-        disposable.add(apiinterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid)
+        disposable.add(apiInterface.getweldingloadingsequence(UserID,DeviceSerialNo,loadingsequenceid)
                 .doOnSubscribe(__ -> status.postValue(Status.LOADING))
                 .subscribe((getinfoforselectedstationloading, throwable) -> {
 //            if (getinfoforselectedstationloading.getResponseStatus().getStatusMessage().equals("Data sent successfully")&&getinfoforselectedstationloading.getBaskets().getBasketCode()!=null)

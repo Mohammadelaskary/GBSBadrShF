@@ -1,6 +1,7 @@
 package com.example.gbsbadrsf.Quality.paint.RejectionRequestsList;
 
 import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
 import android.app.ProgressDialog;
@@ -9,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.paint.Model.RejectionRequest;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.Util.OnClick;
@@ -28,13 +32,13 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class PaintRejectionRequestsListQualityFragment extends DaggerFragment implements OnClick {
+public class PaintRejectionRequestsListQualityFragment extends Fragment implements OnClick {
 
     FragmentPaintRejectionRequestsListBinding binding;
     PaintRejectionListAdapter adapter;
     PaintRejectionRequestsListQualityViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
 
     @Override
@@ -53,7 +57,7 @@ public class PaintRejectionRequestsListQualityFragment extends DaggerFragment im
     ProgressDialog progressDialog;
     private void setUpProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading_3dots));
         progressDialog.setCancelable(false);
     }
 
@@ -61,13 +65,19 @@ public class PaintRejectionRequestsListQualityFragment extends DaggerFragment im
         viewModel.getRejectionRequestListStatus.observe(getViewLifecycleOwner(),status -> {
             if (status== Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(PaintRejectionRequestsListQualityViewModel.class);
+//        viewModel = ViewModelProviders.of(this,provider).get(PaintRejectionRequestsListQualityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintRejectionRequestsListQualityViewModel.class);
+
     }
     int userId = USER_ID;
     String deviceSerialNo = DEVICE_SERIAL_NO;
@@ -80,7 +90,7 @@ public class PaintRejectionRequestsListQualityFragment extends DaggerFragment im
                 adapter.setRejectionRequests(rejectionRequestsList);
                 adapter.notifyDataSetChanged();
             } else {
-                MyMethods.warningDialog(getContext(),statusMessage);
+                warningDialog(getContext(),statusMessage);
             }
         });
     }

@@ -11,12 +11,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class WeldingSignoffrepository {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
 
-    @Inject
+//    @Inject
 
     public WeldingSignoffrepository() {
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
     }
     public Single<ApiWeldingsignoff<ResponseStatus>> Weldingsignoff(WeldingSignoffBody body){
         return apiInterface.weldingsignoff(body)

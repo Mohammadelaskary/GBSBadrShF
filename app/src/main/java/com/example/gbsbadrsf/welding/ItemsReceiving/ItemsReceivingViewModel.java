@@ -9,6 +9,7 @@ import com.example.gbsbadrsf.Quality.Data.ApiResponseDefectsList;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseAddingWeldingDefect;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseUpdateWeldingDefects;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -19,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ItemsReceivingViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
     private MutableLiveData<ApiResponseGetJobOrdersForIssue> jobOrdersForIssue;
@@ -27,11 +28,12 @@ public class ItemsReceivingViewModel extends ViewModel {
     private MutableLiveData<Status> status;
 
 
-    @Inject
-    Gson gson;
-    @Inject
-    public ItemsReceivingViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public ItemsReceivingViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         jobOrdersForIssue = new MutableLiveData<>();
         status = new MutableLiveData<>();

@@ -14,23 +14,19 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.R;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
@@ -46,21 +42,16 @@ import com.honeywell.aidc.UnsupportedPropertyException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
 
-import dagger.android.support.DaggerFragment;
-
-
-
-public class MachineLoadingFragment extends DaggerFragment implements BarcodeReader.BarcodeListener,
+public class MachineLoadingFragment extends Fragment implements BarcodeReader.BarcodeListener,
         BarcodeReader.TriggerListener {
 
     FragmentMachineLoadingBinding binding;
      private BarcodeReader barcodeReader;
 
-    @Inject
-    ViewModelProviderFactory providerFactory;
-    MachineloadingViewModel machineloadingViewModel;
+//    @Inject
+//    ViewModelProviderFactory providerFactory;
+    MachineloadingViewModel viewModel;
     private ResponseStatus responseStatus;
     ProgressDialog progressDialog;
 
@@ -72,7 +63,8 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
 
         binding = FragmentMachineLoadingBinding.inflate(inflater, container, false);
         progressDialog = loadingProgressDialog(getContext());
-        machineloadingViewModel = ViewModelProviders.of(this, providerFactory).get(MachineloadingViewModel.class);
+//        machineloadingViewModel = ViewModelProviders.of(this, providerFactory).get(MachineloadingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MachineloadingViewModel.class);
         barcodeReader = MainActivity.getBarcodeObject();
 
         responseStatus = new ResponseStatus();
@@ -116,7 +108,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
                         Integer.parseInt(loadingQty)<=remainQty&&
                         Integer.parseInt(loadingQty)>0
                 ) {
-                    machineloadingViewModel.savefirstloading(USER_ID, DEVICE_SERIAL_NO,loadingSequenceId , machineCode, dieCode, loadingQty);
+                    viewModel.savefirstloading(USER_ID, DEVICE_SERIAL_NO,loadingSequenceId , machineCode, dieCode, loadingQty);
                 }
             }
         });
@@ -224,10 +216,13 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
     }
 
     private void observeSavingData() {
-        machineloadingViewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if ((status.equals(Status.LOADING))) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)) {
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -259,7 +254,7 @@ public class MachineLoadingFragment extends DaggerFragment implements BarcodeRea
         }
     }
     private void subscribeRequest() {
-        machineloadingViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
+        viewModel.getResponseLiveData().observe(getViewLifecycleOwner(), responseStatus -> {
             String statusMessage = responseStatus.getStatusMessage();
             switch (statusMessage)
             {

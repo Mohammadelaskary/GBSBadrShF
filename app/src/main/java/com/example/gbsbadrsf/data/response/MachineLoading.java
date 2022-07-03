@@ -23,6 +23,16 @@ public class MachineLoading  {
     @Expose
     private String operationEnName;
 
+    @SerializedName("jobOrderId")
+    @Expose
+    private String jobOrderId;
+    @SerializedName("childId")
+    @Expose
+    private String childId;
+    @SerializedName("operationId")
+    @Expose
+    private String operationId;
+
     public String getChildCode() {
         return childCode;
     }
@@ -69,5 +79,29 @@ public class MachineLoading  {
 
     public void setJobOrderQty(Integer jobOrderQty) {
         this.jobOrderQty = jobOrderQty;
+    }
+
+    public String getJobOrderId() {
+        return jobOrderId;
+    }
+
+    public void setJobOrderId(String jobOrderId) {
+        this.jobOrderId = jobOrderId;
+    }
+
+    public String getChildId() {
+        return childId;
+    }
+
+    public void setChildId(String childId) {
+        this.childId = childId;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 }

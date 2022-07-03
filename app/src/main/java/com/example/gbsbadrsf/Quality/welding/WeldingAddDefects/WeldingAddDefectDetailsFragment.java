@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -44,7 +46,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class WeldingAddDefectDetailsFragment extends DaggerFragment implements View.OnClickListener, SetOnWeldingAddDefectDetailsButtonClicked {
+public class WeldingAddDefectDetailsFragment extends Fragment implements View.OnClickListener, SetOnWeldingAddDefectDetailsButtonClicked {
 
 
 
@@ -67,8 +69,8 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     FragmentWeldingAddDefectDetailsBinding binding;
     LastMoveWeldingBasket basketData;
     WeldingAddDefectsDetailsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
 
     List<Defect> allDefectsList = new ArrayList<>();
     WeldingDefectsListAdapter adapter;
@@ -142,7 +144,10 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
         viewModel.getDefectsListStatus().observe(getViewLifecycleOwner(),status -> {
             if (status == Status.LOADING){
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
@@ -155,7 +160,9 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsDetailsViewModel.class);;
+//        viewModel = ViewModelProviders.of(this,provider).get(WeldingAddDefectsDetailsViewModel.class);;
+        viewModel = new ViewModelProvider(this).get(WeldingAddDefectsDetailsViewModel.class);
+
     }
 
     private void fillData() {
@@ -280,7 +287,10 @@ public class WeldingAddDefectDetailsFragment extends DaggerFragment implements V
         viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
             if ((status == Status.LOADING)) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });

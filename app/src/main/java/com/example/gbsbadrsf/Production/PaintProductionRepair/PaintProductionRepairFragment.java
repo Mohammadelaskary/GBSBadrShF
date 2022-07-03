@@ -13,20 +13,16 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
 import com.example.gbsbadrsf.Production.PaintProductionRepair.ViewModel.PaintProductionRepairViewModel;
-import com.example.gbsbadrsf.Quality.paint.Model.DefectsPainting;
 import com.example.gbsbadrsf.Quality.paint.Model.LastMovePaintingBasket;
 import com.example.gbsbadrsf.Quality.paint.Model.PaintingDefect;
-import com.example.gbsbadrsf.Quality.welding.Model.DefectsWelding;
-import com.example.gbsbadrsf.Quality.welding.Model.LastMoveWeldingBasket;
 import com.example.gbsbadrsf.R;
 import com.example.gbsbadrsf.SetUpBarCodeReader;
-import com.example.gbsbadrsf.Util.ViewModelProviderFactory;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.databinding.FragmentPaintProductionRepairBinding;
@@ -36,14 +32,9 @@ import com.honeywell.aidc.BarcodeReader;
 import com.honeywell.aidc.TriggerStateChangeEvent;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-public class PaintProductionRepairFragment extends DaggerFragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
+public class PaintProductionRepairFragment extends Fragment implements BarcodeReader.TriggerListener, BarcodeReader.BarcodeListener {
 
     FragmentPaintProductionRepairBinding binding;
     List<PaintingDefect> defectsPaintingList = new ArrayList<>();
@@ -51,8 +42,8 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
     PaintProductionRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
 
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
     SetUpBarCodeReader barCodeReader;
 
@@ -200,14 +191,19 @@ public class PaintProductionRepairFragment extends DaggerFragment implements Bar
         viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)){
+                warningDialog(getContext(),getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, provider).get(PaintProductionRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this, provider).get(PaintProductionRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PaintProductionRepairViewModel.class);
+
     }
 
     LastMovePaintingBasket basketData;

@@ -13,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.Model.ManufacturingDefect;
 import com.example.gbsbadrsf.Model.QtyDefectsQtyDefected;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.DefectsManufacturing;
 import com.example.gbsbadrsf.Quality.manfacturing.ManufacturingAddDefects.QualityRepairViewModel;
 import com.example.gbsbadrsf.R;
@@ -39,14 +42,14 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class QualityRepairFragment extends DaggerFragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class QualityRepairFragment extends Fragment implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
     FragmentQualityRepairBinding binding;
     List<ManufacturingDefect> defectsManufacturingList = new ArrayList<>();
     QualityRepairChildsQtyDefectsQtyAdapter adapter;
     public static QualityRepairViewModel viewModel;
     private static final String SUCCESS = "Data sent successfully";
-    @Inject
-    ViewModelProviderFactory provider;
+//    @Inject
+//    ViewModelProviderFactory provider;
     ProgressDialog progressDialog;
     SetUpBarCodeReader barCodeReader;
     @Override
@@ -109,8 +112,12 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         viewModel.getDefectsManufacturingListStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING)
                 progressDialog.show();
-            else
+            else if (status.equals(Status.SUCCESS)){
                 progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
+                progressDialog.dismiss();
+            }
         });
     }
     List<QtyDefectsQtyDefected> qtyDefectsQtyDefectedList = new ArrayList<>();
@@ -191,14 +198,19 @@ public class QualityRepairFragment extends DaggerFragment implements BarcodeRead
         viewModel.getApiResponseBasketDataStatus().observe(getViewLifecycleOwner(), status -> {
             if (status == Status.LOADING) {
                 progressDialog.show();
-            } else {
+            } else if (status.equals(Status.SUCCESS)){
+                progressDialog.dismiss();
+            } else if (status.equals(Status.ERROR)) {
+                warningDialog(getContext(), getString(R.string.network_issue));
                 progressDialog.dismiss();
             }
         });
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, provider).get(QualityRepairViewModel.class);
+//        viewModel = ViewModelProviders.of(this, provider).get(QualityRepairViewModel.class);
+        viewModel = new ViewModelProvider(this).get(QualityRepairViewModel.class);
+
     }
 
     LastMoveManufacturingBasket basketData;

@@ -12,6 +12,7 @@ import com.example.gbsbadrsf.data.response.Ppr;
 import com.example.gbsbadrsf.data.response.ResponseStatus;
 import com.example.gbsbadrsf.data.response.Status;
 import com.example.gbsbadrsf.data.response.UserInfo;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.example.gbsbadrsf.signin.Usertype;
 import com.google.gson.Gson;
@@ -30,14 +31,15 @@ public class ProductionsequenceViewModel extends ViewModel {
     MutableLiveData<APIResponse<List<Ppr>>> productionsequenceResponse;
     MutableLiveData<Status> status;
 
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
-    @Inject
-    Gson gson;
+//    @Inject
+//    Gson gson;
     private CompositeDisposable disposable;
     @Inject
-    public ProductionsequenceViewModel(Gson gson) {
-        this.gson = gson;
+    public ProductionsequenceViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         productionsequenceResponse= new MutableLiveData<>();
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();

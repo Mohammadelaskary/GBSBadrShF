@@ -4,17 +4,22 @@ import static com.example.gbsbadrsf.MainActivity.DEVICE_SERIAL_NO;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.back;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.clearInputLayoutError;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.containsOnlyDigits;
+import static com.example.gbsbadrsf.MyMethods.MyMethods.loadingProgressDialog;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.showSuccessAlerter;
 import static com.example.gbsbadrsf.MyMethods.MyMethods.warningDialog;
 import static com.example.gbsbadrsf.Quality.manfacturing.ManufacturingQualityOperationFragment.BASKET_DATA;
 import static com.example.gbsbadrsf.Util.Constant.tolerance;
 import static com.example.gbsbadrsf.signin.SigninFragment.USER_ID;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.tv.TvContract;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +37,7 @@ import com.example.gbsbadrsf.MainActivity;
 import com.example.gbsbadrsf.Manfacturing.machinesignoff.OnBasketRemoved;
 import com.example.gbsbadrsf.Model.LastMoveManufacturingBasket;
 import com.example.gbsbadrsf.MyMethods.MyMethods;
+import com.example.gbsbadrsf.Paint.PaintSignOff.PaintSignOffPprListViewModel;
 import com.example.gbsbadrsf.Quality.Data.FullInspectionData;
 import com.example.gbsbadrsf.Quality.Data.OkBasketLst;
 import com.example.gbsbadrsf.R;
@@ -52,14 +58,14 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRemoved, View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
+public class SignOffBasketsFragment extends Fragment implements OnBasketRemoved, View.OnClickListener, BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
 
     private SignOffBasketsViewModel viewModel;
-    @Inject
-    ViewModelProviderFactory provider;
-
-    @Inject
-    Gson gson;
+//    @Inject
+//    ViewModelProviderFactory provider;
+//
+//    @Inject
+//    Gson gson;
 
     public static SignOffBasketsFragment newInstance() {
         return new SignOffBasketsFragment();
@@ -74,12 +80,15 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
     }
     private LastMoveManufacturingBasket basketData;
     private BottomSheetBehavior addDefectedRejectedBasketBottomSheet,addOkBasketsBottomSheet;
-
+    private ProgressDialog progressDialog;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this,provider).get(SignOffBasketsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SignOffBasketsViewModel.class);
+
+//        viewModel = ViewModelProviders.of(this,provider).get(SignOffBasketsViewModel.class);
         barCodeReader = new SetUpBarCodeReader(this,this);
+        progressDialog = loadingProgressDialog(getContext());
     }
 
     @Override
@@ -95,6 +104,24 @@ public class SignOffBasketsFragment extends DaggerFragment implements OnBasketRe
         attachButtonToListener();
         setUpOkBasketsBottomSheet();
         observeSavingFullInspectionData();
+        observeStatus();
+    }
+
+    private void observeStatus() {
+        viewModel.getStatus().observe(getViewLifecycleOwner(),status -> {
+            switch (status){
+                case LOADING:
+                    progressDialog.show();
+                    break;
+                case SUCCESS:
+                    progressDialog.dismiss();
+                    break;
+                case ERROR:
+                    progressDialog.dismiss();
+                    warningDialog(getContext(),getString(R.string.network_issue));
+                    break;
+            }
+        });
     }
 
     private void observeSavingFullInspectionData() {

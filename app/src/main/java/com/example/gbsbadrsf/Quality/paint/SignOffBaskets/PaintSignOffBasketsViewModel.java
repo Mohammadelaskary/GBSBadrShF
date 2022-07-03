@@ -8,6 +8,7 @@ import com.example.gbsbadrsf.Quality.paint.Model.FullInspectionData_Painting;
 import com.example.gbsbadrsf.Quality.welding.Model.ApiResponseFullInspection_Welding;
 import com.example.gbsbadrsf.Quality.welding.Model.FullInspectionData_Welding;
 import com.example.gbsbadrsf.data.response.Status;
+import com.example.gbsbadrsf.repository.ApiFactory;
 import com.example.gbsbadrsf.repository.ApiInterface;
 import com.google.gson.Gson;
 
@@ -18,17 +19,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PaintSignOffBasketsViewModel extends ViewModel {
-    @Inject
+//    @Inject
     ApiInterface apiInterface;
     private CompositeDisposable disposable;
     private MutableLiveData<Status> status;
     private MutableLiveData<ApiResponseFullInspection_Painting> fullInspectionResponse;
 
-    @Inject
-    Gson gson;
-    @Inject
-    public PaintSignOffBasketsViewModel(Gson gson) {
-        this.gson = gson;
+//    @Inject
+//    Gson gson;
+//    @Inject
+    public PaintSignOffBasketsViewModel() {
+//        this.gson = gson;
+        apiInterface = ApiFactory.getClient().create(ApiInterface.class);
         disposable = new CompositeDisposable();
         status = new MutableLiveData<>();
         fullInspectionResponse = new MutableLiveData<>();
