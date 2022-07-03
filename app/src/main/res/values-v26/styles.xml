@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MenuButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingVertical">20dp</item>
+        <item name="android:layout_marginHorizontal">30dp</item>
+        <item name="android:textSize">@dimen/menu_button_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+</resources>
